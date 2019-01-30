@@ -2,5 +2,11 @@
     <string name="app_name">Carpooling</string>
     <string name="title_activity_maps">Map</string>
     <string name="google_maps_key">AIzaSyBGfK-jnFMa247Bm80UM5quqL15i-0hnjI</string>
+    <string name="accedi">ACCEDI</string>
+    <string name="registrati">REGISTRATI</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="azienda">Azienda</string>
 
 </resources>
