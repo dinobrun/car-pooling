@@ -68,7 +68,14 @@ public class LoginActivity extends Activity
 
         });
 
-
+        Button mapButton = findViewById(R.id.mapButton);
+        mapButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mapIntent = new Intent(LoginActivity.this, MapsActivity.class);
+                startActivity(mapIntent);
+            }
+        });
 
     }
 }
