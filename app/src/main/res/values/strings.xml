@@ -8,5 +8,12 @@
     <string name="email">Email</string>
     <string name="username">Username</string>
     <string name="azienda">Azienda</string>
+    <string name="indirizzo">Indirizzo</string>
+    <string name="telefono">Telefono</string>
+    <string name="avanti">Avanti</string>
+    <string name="nome">Nome</string>
+    <string name="cognome">Cognome</string>
+    <string name="male">M</string>
+    <string name="female">F</string>
 
 </resources>

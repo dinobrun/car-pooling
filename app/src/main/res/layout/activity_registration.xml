@@ -4,16 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistrationActivity">
+    tools:context=".RegistrationActivity"
+    tools:layout_editor_absoluteY="81dp">
 
     <EditText
         android:id="@+id/usernameText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="95dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="10dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="@string/username"
+        app:layout_constraintBottom_toTopOf="@+id/passwordText2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,21 +25,115 @@
         android:id="@+id/passwordText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="59dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="@string/password"
+        app:layout_constraintBottom_toTopOf="@+id/addressText"
         app:layout_constraintStart_toStartOf="@+id/usernameText2"
         app:layout_constraintTop_toBottomOf="@+id/usernameText2" />
 
-    <Button
-        android:id="@+id/registerButton2"
+    <EditText
+        android:id="@+id/addressText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="125dp"
-        android:text="@string/registrati"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/indirizzo"
+        app:layout_constraintBottom_toTopOf="@+id/telText"
+        app:layout_constraintStart_toStartOf="@+id/passwordText2"
+        app:layout_constraintTop_toBottomOf="@+id/passwordText2" />@+id/passwordText2" />
+
+    <EditText
+        android:id="@+id/telText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/telefono"
+        app:layout_constraintBottom_toTopOf="@+id/nomeText"
+        app:layout_constraintStart_toStartOf="@+id/addressText"
+        app:layout_constraintTop_toBottomOf="@+id/addressText" />
+
+    <Button
+        android:id="@+id/avantiButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="11dp"
+        android:text="@string/avanti"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioSex" />
+
+    <EditText
+        android:id="@+id/emailText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/email"
+        app:layout_constraintBottom_toTopOf="@+id/radioSex"
+        app:layout_constraintStart_toStartOf="@+id/cognomeText"
+        app:layout_constraintTop_toBottomOf="@+id/cognomeText" />
+
+    <RadioButton
+        android:id="@+id/radioM"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="31dp"
+        android:layout_marginEnd="47dp"
+        android:layout_marginBottom="11dp"
+        android:text="@string/male"
+        app:layout_constraintBottom_toBottomOf="@+id/radioSex"
+        app:layout_constraintEnd_toStartOf="@+id/radioF"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/nomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/nome"
+        app:layout_constraintBottom_toTopOf="@+id/cognomeText"
+        app:layout_constraintStart_toStartOf="@+id/telText"
+        app:layout_constraintTop_toBottomOf="@+id/telText" />
+
+    <EditText
+        android:id="@+id/cognomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="1dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/cognome"
+        app:layout_constraintBottom_toTopOf="@+id/emailText"
+        app:layout_constraintEnd_toEndOf="@+id/nomeText"
+        app:layout_constraintTop_toBottomOf="@+id/nomeText" />
+
+    <RadioGroup
+        android:id="@+id/radioSex"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="38dp"
+        app:layout_constraintBottom_toTopOf="@+id/avantiButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailText" />
+
+    <RadioButton
+        android:id="@+id/radioF"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="51dp"
+        android:layout_marginBottom="11dp"
+        android:text="@string/female"
+        app:layout_constraintBottom_toBottomOf="@+id/radioSex"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/radioM" />
 </android.support.constraint.ConstraintLayout>

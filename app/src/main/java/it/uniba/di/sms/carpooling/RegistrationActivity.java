@@ -17,29 +17,28 @@ public class RegistrationActivity extends AppCompatActivity {
 
         final EditText txtUserName = findViewById(R.id.usernameText2);
         final EditText txtPassword = findViewById(R.id.passwordText2);
-        Button btnRegister = findViewById(R.id.registerButton2);
+        final EditText txtAddress = findViewById(R.id.addressText);
+        final EditText txtTelephone = findViewById(R.id.telText);
+        Button btnAvanti = findViewById(R.id.avantiButton);
 
-        btnRegister.setOnClickListener(new View.OnClickListener(){
+        btnAvanti.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
                 String username = txtUserName.getText().toString();
                 String password = txtPassword.getText().toString();
+                String address=txtAddress.getText().toString();
+                String telephone= txtTelephone.getText().toString();
                 try{
-                    if(username.length() > 0 && password.length() >0)
+                    if(username.length() > 0 && password.length() >0 && address.length()>0 && telephone.length()>0)
                     {
-                        DBUser dbUser = new DBUser(RegistrationActivity.this);
-                        dbUser.open();
-
-                        dbUser.AddUser(username,password);
-                        Toast.makeText(RegistrationActivity.this,"Successfully Registered", Toast.LENGTH_LONG).show();
-
-                        dbUser.close();
-
-                        Intent login=new Intent(RegistrationActivity.this,LoginActivity.class);
-                        startActivity(login);
+                        Intent moveTo= new Intent(RegistrationActivity.this, AziendaActivity.class);
+                        moveTo.putExtra("Username", username);
+                        moveTo.putExtra("Password", password);
+                        moveTo.putExtra("Address", address);
+                        moveTo.putExtra("Telephone", telephone);
+                        startActivity(moveTo);
                     }
-
                 }catch(Exception e)
                 {
                     Toast.makeText(RegistrationActivity.this,e.getMessage(), Toast.LENGTH_LONG).show();

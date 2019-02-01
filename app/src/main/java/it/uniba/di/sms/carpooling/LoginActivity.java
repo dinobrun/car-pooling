@@ -3,6 +3,7 @@ package it.uniba.di.sms.carpooling;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -35,6 +36,8 @@ public class LoginActivity extends Activity
                         if(dbUser.Login(username, password))
                         {
                             Toast.makeText(LoginActivity.this,"Successfully Logged In", Toast.LENGTH_LONG).show();
+                            Intent moveTo=new Intent(LoginActivity.this, HomeActivity.class);
+                            startActivity(moveTo);
                         }else{
                             Toast.makeText(LoginActivity.this,"Invalid Username/Password", Toast.LENGTH_LONG).show();
                         }
