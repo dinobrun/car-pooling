@@ -25,6 +25,7 @@ public class RegistrationActivity extends AppCompatActivity {
     EditText txtNome;
     EditText txtCognome;
     EditText txtEmail;
+    EditText txtDataNascita;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class RegistrationActivity extends AppCompatActivity {
         txtNome = findViewById(R.id.nomeText);
         txtCognome = findViewById(R.id.cognomeText);
         txtEmail = findViewById(R.id.emailText);
+        txtDataNascita = findViewById(R.id.dataNascitaText);
 
 
         Button btnAvanti = findViewById(R.id.avantiButton);
@@ -60,6 +62,7 @@ public class RegistrationActivity extends AppCompatActivity {
             final String nome = txtNome.getText().toString().trim();
             final String cognome = txtCognome.getText().toString().trim();
             final String email = txtEmail.getText().toString().trim();
+            final String dataNascita = txtDataNascita.getText().toString().trim();
             final String sesso = "m";
 
             //first we will do the validations
@@ -102,10 +105,11 @@ public class RegistrationActivity extends AppCompatActivity {
                     //creating request parameters
                     HashMap<String, String> params = new HashMap<>();
                     params.put("Username", username);
-                    params.put("Password", email);
+                    params.put("Password", password);
                     params.put("Nome", nome);
                     params.put("Cognome", cognome);
                     params.put("Sesso", sesso);
+                    params.put("DataNascita", dataNascita);
                     params.put("Indirizzo", indirizzo);
                     params.put("Email", email);
                     params.put("Telefono", telefono);
@@ -157,10 +161,9 @@ public class RegistrationActivity extends AppCompatActivity {
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
 
                             //starting the profile activity
-                            finish();
                             Toast.makeText(getApplicationContext(), "tutto apposto", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(getApplicationContext(), "Some error occurred", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

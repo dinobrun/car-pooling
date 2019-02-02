@@ -2,80 +2,143 @@ package it.uniba.di.sms.carpooling;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class LoginActivity extends Activity
-{
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
+public class LoginActivity extends Activity {
+
+    EditText txtUserName;
+    EditText txtPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        final EditText txtUserName = findViewById(R.id.usernameText);
-        final EditText txtPassword = findViewById(R.id.passwordText);
-        Button btnLogin = findViewById(R.id.signInButton);
-        Button btnRegister = findViewById(R.id.registerButton);
-        btnLogin.setOnClickListener(new OnClickListener(){
+        txtUserName = findViewById(R.id.usernameText);
+        txtPassword = findViewById(R.id.passwordText);
 
-            @Override
-            public void onClick(View v) {
-                String username = txtUserName.getText().toString();
-                String password = txtPassword.getText().toString();
-                try{
-                    if(username.length() > 0 && password.length() >0)
-                    {
-                        DBUser dbUser = new DBUser(LoginActivity.this);
-                        dbUser.open();
-
-                        if(dbUser.Login(username, password))
-                        {
-                            Toast.makeText(LoginActivity.this,"Successfully Logged In", Toast.LENGTH_LONG).show();
-                            Intent moveTo=new Intent(LoginActivity.this, HomeActivity.class);
-                            startActivity(moveTo);
-                        }else{
-                            Toast.makeText(LoginActivity.this,"Invalid Username/Password", Toast.LENGTH_LONG).show();
-                        }
-                        dbUser.close();
-                    }
-
-                }catch(Exception e)
-                {
-                    Toast.makeText(LoginActivity.this,e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-
-        });
-
-        btnRegister.setOnClickListener(new OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                try{
-                    Intent register=new Intent(LoginActivity.this,RegistrationActivity.class);
-                    startActivity(register);
-
-                }catch(Exception e)
-                {
-                    Toast.makeText(LoginActivity.this,e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-
-        });
-
-        Button mapButton = findViewById(R.id.mapButton);
-        mapButton.setOnClickListener(new OnClickListener() {
+        //if user presses on login
+        //calling the method login
+        findViewById(R.id.signInButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mapIntent = new Intent(LoginActivity.this, MapsActivity.class);
-                startActivity(mapIntent);
+                userLogin();
             }
         });
 
+        //if user presses on not registered
+        findViewById(R.id.registerButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //open register screen
+                finish();
+                startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
+            }
+        });
+    }
+
+    private void userLogin() {
+        //first getting the values
+        final String username = txtUserName.getText().toString();
+        final String password = txtPassword.getText().toString();
+
+        //validating inputs
+        if (TextUtils.isEmpty(username)) {
+            txtUserName.setError("Please enter your username");
+            txtUserName.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            txtPassword.setError("Please enter your password");
+            txtPassword.requestFocus();
+            return;
+        }
+
+        //if everything is fine
+
+        class UserLogin extends AsyncTask<Void, Void, String> {
+
+          //  ProgressBar progressBar;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                //progressBar = (ProgressBar) findViewById(R.id.progressBar);
+               // progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                //progressBar.setVisibility(View.GONE);
+
+
+                try {
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
+
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                        //getting the user from the response
+                        JSONObject userJson = obj.getJSONObject("user");
+
+                        //creating a new user object
+                        Utente user = new Utente(
+                                userJson.getString("username"),
+                                userJson.getString("nome"),
+                                userJson.getString("cognome"),
+                                userJson.getString("sesso"),
+                                userJson.getString("indirizzo"),
+                                userJson.getString("email"),
+                                userJson.getString("telefono"),
+                                userJson.getString("dataNascita")
+                        );
+
+                        //storing the user in shared preferences
+                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
+
+                        finish();
+                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("Username", username);
+                params.put("Password", password);
+
+                //returing the response
+                return requestHandler.sendPostRequest(URLs.URL_LOGIN, params);
+            }
+        }
+
+        UserLogin ul = new UserLogin();
+        ul.execute();
     }
 }
