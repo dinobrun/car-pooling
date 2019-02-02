@@ -15,5 +15,8 @@
     <string name="cognome">Cognome</string>
     <string name="male">M</string>
     <string name="female">F</string>
+    <string name="newStep">Crea nuovo passaggio</string>
+    <string name="findStep">Cerca passaggio</string>
+    <string name="insertDate">Inserisci data</string>
 
 </resources>
