@@ -86,7 +86,6 @@ public class LoginActivity extends Activity {
                 super.onPostExecute(s);
                 //progressBar.setVisibility(View.GONE);
 
-
                 try {
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);

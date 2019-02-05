@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,14 +57,10 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
-
-        List<String> labels = new ArrayList<String>();
-        labels.add("ciao");
-        labels.add("miao");
-        labels.add("bau");
+        List<String> labels = getCompanies();
 
         //spinner
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        Spinner spinner = findViewById(R.id.spinner);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, labels);
@@ -190,8 +187,77 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
                 }
             }
+
+
+
             //executing the async task
             RegisterUser ru = new RegisterUser();
             ru.execute();
+        }
+
+
+
+
+        private ArrayList<String> getCompanies(){
+
+            final ArrayList<String> aziende = new ArrayList<>();
+
+            //classe per prendere le aziende
+            class Companies extends AsyncTask<Void, Void, String> {
+
+
+                @Override
+                protected String doInBackground(Void... voids) {
+
+                    //creating request handler object
+                    RequestHandler requestHandler = new RequestHandler();
+                    return requestHandler.sendGetRequest(URLs.URL_GETCOMPANIES);
+                }
+
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                }
+
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+
+                    try {
+
+                        //converting response to json object
+                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+
+
+                        JSONObject obj = new JSONObject(s);
+
+
+                        //if no error in response
+                        if (!obj.getBoolean("error")) {
+
+                            JSONArray companyJson = obj.getJSONArray("azienda");
+
+                            for(int i=0; i<companyJson.length(); i++){
+                                JSONObject temp = companyJson.getJSONObject(i);
+                                aziende.add(temp.getString("nome"));
+                            }
+
+                            //starting the profile activity
+                            Toast.makeText(getApplicationContext(), "tutto apposto", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            }
+
+            Companies companies = new Companies();
+            companies.execute();
+
+            return aziende;
         }
 }

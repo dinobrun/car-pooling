@@ -118,7 +118,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 View v = getLayoutInflater().inflate(R.layout.info_window, null);
 
-
                 @Override
                 public View getInfoWindow(Marker marker) {
                     return null;
@@ -126,7 +125,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 @Override
                 public View getInfoContents(Marker marker) {
-
 
                     TextView tAddress = v.findViewById(R.id.indirizzo);
                     TextView tCar = v.findViewById(R.id.auto);
@@ -163,8 +161,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                     });
 
-
-
                     return v;
                 }
             });
@@ -193,7 +189,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrLocationMarker.getPosition(), (float) 14));
-
 
                 //Marker di un amico attraverso Geocoder
                 MarkerOptions amico = new MarkerOptions();
