@@ -2,6 +2,7 @@ package it.uniba.di.sms.carpooling;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,9 +16,12 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +40,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,7 +51,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationRequest mLocationRequest;
     Location mLastLocation;
     Marker mCurrLocationMarker;
+    Marker prova1;
+    Marker prova2;
+    Utente utente1;
+    Utente utente2;
     FusedLocationProviderClient mFusedLocationClient;
+    ArrayList<Marker> arrayPassaggi = new ArrayList<>();
+    private RelativeLayout parentLinearLayout;
 
     Marker casaDino;
 
@@ -71,12 +82,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        parentLinearLayout = (RelativeLayout) findViewById(R.id.mParent_prova);
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFrag.getMapAsync(this);
 
-
+        utente1 = new Utente("ciccio", "cappuccio");
+        utente2 = new Utente("Romano", "Fusco");
 
     }
 
@@ -89,6 +103,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLocationRequest.setInterval(120000); // two minute interval
         mLocationRequest.setFastestInterval(120000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+
+        //Richiedi tutti i passaggi presenti
+        //per ogni passaggio deve essere creato un marker
+        MarkerOptions markerOptions_0 = new MarkerOptions();
+        markerOptions_0.position(new LatLng(40.8204373,16.4238106));
+        markerOptions_0.title("Prova1");
+        markerOptions_0.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        prova1 = mGoogleMap.addMarker(markerOptions_0);
+        MarkerOptions markerOptions_1 = new MarkerOptions();
+        markerOptions_1.position(new LatLng(40.8189117,16.4276242));
+        markerOptions_1.title("Prova2");
+        markerOptions_1.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        prova2 = mGoogleMap.addMarker(markerOptions_1);
+        prova1.setTag(utente1);
+        prova2.setTag(utente2);
+
+        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                displayInfo(parentLinearLayout, marker);
+                return true;
+            }
+        });
 
 
 
@@ -111,7 +148,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         //prova inutile
-        if(googleMap != null) {
+       /* if(googleMap != null) {
 
 
             mGoogleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
@@ -164,7 +201,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     return v;
                 }
             });
-        }
+        }*/
 
     }
 
@@ -278,6 +315,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    public void displayInfo(View v, Marker marker) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View rowView = inflater.inflate(R.layout.info_window, null);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        TextView txtNome = (TextView) rowView.findViewById(R.id.txtNome);
+        TextView txtCognome = (TextView) rowView.findViewById(R.id.txtCognome);
+
+        Utente user = (Utente) marker.getTag();
+        txtNome.setText(user.getNome());
+        txtCognome.setText(user.getCognome());
+        // Add the new row before the add field button.
+        parentLinearLayout.addView(rowView, params);
+    }
 
 
 

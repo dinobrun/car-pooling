@@ -6,6 +6,11 @@ import java.util.Date;
 public class Utente {
     private String username, nome, cognome, sesso, dataNascita, indirizzo, email, telefono;
 
+    public Utente(String nome, String cognome) {
+        this.nome = nome;
+        this.cognome = cognome;
+    }
+
 
     public String getUsername() {
         return username;
