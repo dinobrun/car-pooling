@@ -48,6 +48,15 @@ public class LoginActivity extends Activity {
                 startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
             }
         });
+
+        findViewById(R.id.mapButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //open register screen
+                finish();
+                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+            }
+        });
     }
 
     private void userLogin() {
