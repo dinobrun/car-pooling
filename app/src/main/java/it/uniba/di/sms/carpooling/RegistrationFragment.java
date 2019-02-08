@@ -1,10 +1,13 @@
 package it.uniba.di.sms.carpooling;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -14,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -25,7 +28,7 @@ import android.widget.TextView;
  * Use the {@link RegistrationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RegistrationFragment extends Fragment implements CompanyFragment.OnFragmentInteractionListener {
+public class RegistrationFragment extends Fragment {
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -36,7 +39,6 @@ public class RegistrationFragment extends Fragment implements CompanyFragment.On
 
 
     private Button avantiButton2;
-
 
 
     private EditText txtNome;
@@ -96,12 +98,11 @@ public class RegistrationFragment extends Fragment implements CompanyFragment.On
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_registration, container, false);
 
-
-
+        view.setBackgroundColor(Color.WHITE);
 
         txtNome = view.findViewById(R.id.nomeText);
         txtCognome = view.findViewById(R.id.cognomeText);
@@ -112,33 +113,30 @@ public class RegistrationFragment extends Fragment implements CompanyFragment.On
         //fragment
         companyFragment = view.findViewById(R.id.company_fragment);
 
-        //avantiButton2 = view.findViewById(R.id.avantiButton2);
+        avantiButton2 = view.findViewById(R.id.avantiButton2);
 
-        /*avantiButton2.setOnClickListener(new View.OnClickListener() {
+        avantiButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 secondRegistrationPart();
             }
-        });*/
-
+        });
 
         // Inflate the layout for this fragment
         return view;
     }
 
-    public void openFragment2(String nome, String cognome, String indirizzo, String telefono,String dataNascita) {
 
-        CompanyFragment fragment = CompanyFragment.newInstance(nome, cognome, indirizzo, telefono, dataNascita);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+    public void openFragment(String username, String password, String email, String nome, String cognome, String indirizzo,
+                             String telefono, String dataNascita) {
+        CompanyFragment companyFrag=CompanyFragment.newInstance(username, password,email,nome,cognome,indirizzo,telefono,dataNascita);
+        FragmentManager manager=getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
-        transaction.addToBackStack(null);
-        transaction.add(R.id.company_fragment, fragment, "BLANK_FRAGMENT").commit();
-
+        transaction.add(R.id.company_fragment, companyFrag, companyFrag.getTag()).commit();
     }
 
 
-    /////////////////////
     private void secondRegistrationPart() {
 
         final String nome = txtNome.getText().toString().trim();
@@ -146,7 +144,6 @@ public class RegistrationFragment extends Fragment implements CompanyFragment.On
         final String indirizzo = txtIndirizzo.getText().toString().trim();
         final String telefono = txtTelefono.getText().toString().trim();
         final String dataNascita = txtDataNascita.getText().toString().trim();
-        final String sesso = "m";
 
 
         //first we will do the validations
@@ -181,9 +178,7 @@ public class RegistrationFragment extends Fragment implements CompanyFragment.On
             return;
         }
 
-
-        openFragment2(nome, cognome, indirizzo, telefono, dataNascita);
-
+        openFragment(usernameParam,passwordParam,emailParam,nome,cognome,indirizzo,telefono,dataNascita);
 
     }
 
@@ -212,10 +207,7 @@ public class RegistrationFragment extends Fragment implements CompanyFragment.On
         mListener = null;
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
-    }
 
     /**
      * This interface must be implemented by activities that contain this

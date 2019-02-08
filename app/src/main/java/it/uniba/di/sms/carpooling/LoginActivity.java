@@ -102,7 +102,6 @@ public class LoginActivity extends Activity {
                                 userJson.getString("username"),
                                 userJson.getString("nome"),
                                 userJson.getString("cognome"),
-                                userJson.getString("sesso"),
                                 userJson.getString("indirizzo"),
                                 userJson.getString("email"),
                                 userJson.getString("telefono"),

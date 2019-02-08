@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Utente {
-    private String username, nome, cognome, sesso, dataNascita, indirizzo, email, telefono;
-
+    private String username, nome, cognome, dataNascita, indirizzo, email, telefono;
+    private int azienda;
 
     public String getUsername() {
         return username;
@@ -17,10 +17,6 @@ public class Utente {
 
     public String getCognome() {
         return cognome;
-    }
-
-    public String getSesso() {
-        return sesso;
     }
 
     public String getIndirizzo() {
@@ -39,15 +35,15 @@ public class Utente {
         return dataNascita;
     }
 
-    public Utente(String username, String nome, String cognome, String sesso, String indirizzo, String email, String telefono, String dataNascita) {
+    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, String dataNascita) {
         this.username = username;
         this.nome = nome;
         this.cognome = cognome;
-        this.sesso = sesso;
         this.indirizzo = indirizzo;
         this.email = email;
         this.telefono = telefono;
         this.dataNascita = dataNascita;
     }
+
 
 }
