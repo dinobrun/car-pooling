@@ -19,7 +19,6 @@ public class Utente {
         return cognome;
     }
 
-
     public String getIndirizzo() {
         return indirizzo;
     }
@@ -36,15 +35,21 @@ public class Utente {
         return dataNascita;
     }
 
-    public Utente(String username, String nome, String cognome, String sesso, String indirizzo, String email, String telefono, String dataNascita) {
+    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, String dataNascita) {
         this.username = username;
         this.nome = nome;
         this.cognome = cognome;
-        this.sesso = sesso;
         this.indirizzo = indirizzo;
         this.email = email;
         this.telefono = telefono;
         this.dataNascita = dataNascita;
     }
+
+
+    public Utente(String nome, String cognome) {
+        this.nome = nome;
+        this.cognome = cognome;
+    }
+
 
 }
