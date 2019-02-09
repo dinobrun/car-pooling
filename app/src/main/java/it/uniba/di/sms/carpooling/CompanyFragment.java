@@ -214,7 +214,7 @@ public class CompanyFragment extends Fragment {
                             aziende.add(temp.getString("nome"));
                         }
 
-                        
+
                     } else {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }

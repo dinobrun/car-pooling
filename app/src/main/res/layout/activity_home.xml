@@ -7,39 +7,55 @@
     tools:context=".HomeActivity"
     tools:layout_editor_absoluteY="81dp">
 
-    <Button
-        android:id="@+id/insertButton"
-        android:layout_width="186dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="102dp"
-        android:layout_marginBottom="89dp"
-        android:text="@string/newStep"
-        app:layout_constraintBottom_toTopOf="@+id/findButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
-    <Button
-        android:id="@+id/findButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/findStep"
-        app:layout_constraintBottom_toTopOf="@+id/tvDate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/insertButton" />
+        <Button
+            android:id="@+id/creaPassaggio"
+            android:layout_width="186dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="102dp"
+            android:layout_marginBottom="89dp"
+            android:text="@string/newStep"
+            app:layout_constraintBottom_toTopOf="@+id/cercaPassaggio"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvDate"
-        android:layout_width="181dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="128dp"
-        android:text="@string/insertDate"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/findButton" />
+        <Button
+            android:id="@+id/cercaPassaggio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="@string/findStep"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/creaPassaggio" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="181dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="128dp"
+            android:text="@string/insertDate"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cercaPassaggio" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/crea_passaggio_frag">
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

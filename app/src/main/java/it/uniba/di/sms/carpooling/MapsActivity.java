@@ -82,7 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        parentLinearLayout = (RelativeLayout) findViewById(R.id.mParent_prova);
+        parentLinearLayout = findViewById(R.id.mParentProva);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -315,6 +315,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    //crea un riquadro in cui inserisce le info del marker
     public void displayInfo(View v, Marker marker) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.info_window, null);
@@ -330,6 +331,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         txtCognome.setText(user.getCognome());
         // Add the new row before the add field button.
         parentLinearLayout.addView(rowView, params);
+    }
+
+
+    //funzione che come parametri ha una mappa e un utente e gli assegna un marker con le informazioni
+    private void setMarker(GoogleMap map, Utente utente) throws IOException {
+        MarkerOptions markerOptions = new MarkerOptions();
+        Marker marker;
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        Address address = geocoder.getFromLocationName(utente.getIndirizzo(), 1).get(0);
+        markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
+        markerOptions.title(utente.getNome());
+        marker = map.addMarker(markerOptions);
+        marker.setTag(utente);
     }
 
 
