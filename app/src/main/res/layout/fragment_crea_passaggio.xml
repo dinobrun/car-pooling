@@ -11,8 +11,8 @@
 
     <TimePicker
         android:id="@+id/time_picker"
-        android:layout_width="250dp"
-        android:layout_height="150dp"
+        android:layout_width="248dp"
+        android:layout_height="114dp"
         android:layout_marginTop="8dp"
         android:layout_weight="4"
         android:timePickerMode="spinner"
@@ -23,12 +23,14 @@
 
     <DatePicker
         android:id="@+id/date_picker"
-        android:layout_width="250dp"
-        android:layout_height="150dp"
+        android:layout_width="231dp"
+        android:layout_height="91dp"
         android:layout_marginTop="36dp"
+        android:layout_marginBottom="248dp"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
         android:foregroundGravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +49,58 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/time_picker"
-        app:layout_constraintVertical_bias="0.088" />
+        app:layout_constraintVertical_bias="0.052" />
+
+    <Spinner
+        android:id="@+id/spinnerAuto"
+        android:layout_width="209dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="332dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.114"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerPostiAuto"
+        android:layout_width="112dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="332dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.852"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="46dp"
+        android:layout_marginBottom="265dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/mostra"
+        app:layout_constraintTop_toBottomOf="@+id/date_picker">
+
+        <RadioButton
+            android:id="@+id/radioButtonAndata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Andata"
+            tools:layout_editor_absoluteX="28dp"
+            tools:layout_editor_absoluteY="434dp" />
+        <RadioButton
+            android:id="@+id/radioButtonRitorno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ritorno"
+            tools:layout_editor_absoluteX="28dp"
+            tools:layout_editor_absoluteY="434dp" />
+
+    </RadioGroup>
 
 
 </android.support.constraint.ConstraintLayout>

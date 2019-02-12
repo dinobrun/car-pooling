@@ -58,4 +58,10 @@
         android:id="@+id/crea_passaggio_frag">
     </FrameLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/add_auto_frag">
+    </FrameLayout>
+
 </android.support.constraint.ConstraintLayout>

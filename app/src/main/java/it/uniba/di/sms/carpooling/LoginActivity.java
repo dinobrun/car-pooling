@@ -57,6 +57,10 @@ public class LoginActivity extends Activity {
                 startActivity(new Intent(getApplicationContext(), MapsActivity.class));
             }
         });
+
+      
+
+
     }
 
     private void userLogin() {
@@ -81,13 +85,13 @@ public class LoginActivity extends Activity {
 
         class UserLogin extends AsyncTask<Void, Void, String> {
 
-          //  ProgressBar progressBar;
+          ProgressBar progressBar;
 
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                //progressBar = (ProgressBar) findViewById(R.id.progressBar);
-               // progressBar.setVisibility(View.VISIBLE);
+                progressBar = (ProgressBar) findViewById(R.id.progressBar);
+               progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -106,16 +110,33 @@ public class LoginActivity extends Activity {
                         //getting the user from the response
                         JSONObject userJson = obj.getJSONObject("user");
 
-                        //creating a new user object
-                        Utente user = new Utente(
-                                userJson.getString("username"),
-                                userJson.getString("nome"),
-                                userJson.getString("cognome"),
-                                userJson.getString("indirizzo"),
-                                userJson.getString("email"),
-                                userJson.getString("telefono"),
-                                userJson.getString("dataNascita")
-                        );
+                        Utente user;
+
+                        if(userJson.getString("azienda")!=null){
+                            //creating a new user object with company
+                            user = new Utente(
+                                    userJson.getString("username"),
+                                    userJson.getString("nome"),
+                                    userJson.getString("cognome"),
+                                    userJson.getString("indirizzo"),
+                                    userJson.getString("email"),
+                                    userJson.getString("telefono"),
+                                    userJson.getString("dataNascita"),
+                                    userJson.getString("azienda")
+                            );
+                        }
+                        else{
+                            //creating a new user object without company
+                            user = new Utente(
+                                    userJson.getString("username"),
+                                    userJson.getString("nome"),
+                                    userJson.getString("cognome"),
+                                    userJson.getString("indirizzo"),
+                                    userJson.getString("email"),
+                                    userJson.getString("telefono"),
+                                    userJson.getString("dataNascita")
+                            );
+                        }
 
                         //storing the user in shared preferences
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);

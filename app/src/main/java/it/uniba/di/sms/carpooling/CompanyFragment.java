@@ -300,6 +300,11 @@ public class CompanyFragment extends Fragment {
                                 userJson.getString("dataNascita")
                         );
 
+                        if(userJson.getString("azienda")!=""){
+                            user.addAzienda(userJson.getString("azienda"));
+                        }
+
+
                         //storing the user in shared preferences
                         SharedPrefManager.getInstance(getActivity()).userLogin(user);
 
