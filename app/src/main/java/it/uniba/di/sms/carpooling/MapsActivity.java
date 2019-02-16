@@ -135,7 +135,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                displayInfo(parentLinearLayout, marker);
+                displayInfo(marker);
                 return true;
             }
         });
@@ -274,7 +274,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     //crea un riquadro in cui inserisce le info del marker
-    public void displayInfo(View v, Marker marker) {
+    public void displayInfo(Marker marker) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.info_window, null);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -284,9 +284,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         TextView txtNome = (TextView) rowView.findViewById(R.id.txtNome);
         TextView txtCognome = (TextView) rowView.findViewById(R.id.txtCognome);
 
-        Utente user = (Utente) marker.getTag();
-        txtNome.setText(user.getNome());
-        txtCognome.setText(user.getCognome());
+        Passaggio passaggio = (Passaggio) marker.getTag();
+        txtNome.setText(passaggio.getAutista());
+        txtCognome.setText(passaggio.getIndirizzo());
         // Add the new row before the add field button.
         parentLinearLayout.addView(rowView, params);
     }
@@ -301,7 +301,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
         markerOptions.title(passaggio.getAutista());
         marker = map.addMarker(markerOptions);
-        //marker.setTag(passaggio);
+        marker.setTag(passaggio);
     }
 
 
