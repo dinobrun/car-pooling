@@ -68,6 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     private String data, azienda, direzione;
+    private ArrayList<Passaggio> passaggi;
 
     Marker casaDino;
 
@@ -101,10 +102,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFrag.getMapAsync(this);
 
 
-        Bundle datipassati = getIntent().getExtras();
-        data = datipassati.getString("Data");
-        azienda = datipassati.getString("Azienda");
-        direzione = datipassati.getString("Direzione");
+        passaggi = (ArrayList<Passaggio>) getIntent().getSerializableExtra("Passaggi");
+
+        Toast.makeText(MapsActivity.this, passaggi.get(0).getIndirizzo(),Toast.LENGTH_SHORT).show();
 
 
 
@@ -123,7 +123,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
 
-        getPassaggi();
+        //getPassaggi();
+        try {
+            for(Passaggio p : passaggi)
+                setMarker(mGoogleMap, p);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
@@ -296,103 +303,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         marker = map.addMarker(markerOptions);
         //marker.setTag(passaggio);
     }
-
-
-
-
-
-    //METODO CHE RESTITUISCE I PASSAGGI
-    private void getPassaggi() {
-
-        //if it passes all the validations
-        class GetPassaggio extends AsyncTask<Void, Void, String> {
-
-            //private ProgressBar progressBar;
-            final ArrayList<Passaggio> listaPassaggi = new ArrayList<>();
-
-            @Override
-            protected String doInBackground(Void... voids) {
-                //creating request handler object
-                RequestHandler requestHandler = new RequestHandler();
-
-                //creating request parameters
-                HashMap<String, String> params = new HashMap<>();
-                params.put("Data", data);
-                params.put("Azienda", azienda);
-                params.put("Direzione", direzione);
-
-                //returing the response
-                return requestHandler.sendPostRequest(URLs.URL_GETPASSAGGI, params);
-            }
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                //displaying the progress bar while user registers on the server
-                // progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                // progressBar.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                //hiding the progressbar after completion
-                // progressBar.setVisibility(View.GONE);
-
-                //converting response to json object
-                Toast.makeText(MapsActivity.this, s, Toast.LENGTH_SHORT).show();
-
-                try{
-
-                    //converting response to json object
-                    JSONObject obj = new JSONObject(s);
-
-                    //if no error in response
-                    if (!obj.getBoolean("error")) {
-                        //if list is not empty
-                        if(!obj.getBoolean("empty_list")){
-                            JSONArray passaggiJson = obj.getJSONArray("passaggio");
-                            for(int i=0; i<passaggiJson.length(); i++){
-                                JSONObject temp = passaggiJson.getJSONObject(i);
-                                listaPassaggi.add(new Passaggio(
-                                        Integer.parseInt(temp.getString("id")),
-                                        temp.getString("nome"),
-                                        temp.getString("indirizzo"),
-                                        temp.getString("data"),
-                                        temp.getString("automobile"),
-                                        azienda,
-                                        temp.getString("direzione"),
-                                        Integer.parseInt(temp.getString("num_posti"))
-                                ));
-                                //Toast.makeText(getActivity(), Integer.parseInt(temp.getString("id")), Toast.LENGTH_SHORT).show();
-                            }
-
-                            setMarker(mGoogleMap,listaPassaggi.get(0));
-
-                        }
-                        else{
-                            Toast.makeText(MapsActivity.this, "Lista vuota scemo", Toast.LENGTH_SHORT).show();
-                        }
-
-                    } else {
-                        Toast.makeText(MapsActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
-                    }
-
-
-
-
-
-                } catch (JSONException | IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
-
-        GetPassaggio pg = new GetPassaggio();
-        pg.execute();
-    }
-
 
 
 

@@ -1,6 +1,8 @@
 package it.uniba.di.sms.carpooling;
 
-public class Passaggio {
+import java.io.Serializable;
+
+public class Passaggio implements Serializable {
 
     private String autista, data, automobile, azienda, direzione, indirizzo;
     private int id, numPosti;

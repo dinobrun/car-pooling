@@ -108,12 +108,12 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
                         timePicker.getMinute());
 
                 time = calendar.getTime();
-                //openCercaPassaggioFragment();
-                Intent mapIntent = new Intent(HomeActivity.this, MapsActivity.class);
+                openCercaPassaggioFragment();
+                /*Intent mapIntent = new Intent(HomeActivity.this, MapsActivity.class);
                 mapIntent.putExtra("Data",new java.sql.Timestamp(time.getTime()).toString());
                 mapIntent.putExtra("Direzione",direzioneSelected);
                 mapIntent.putExtra("Azienda",aziendaUtente);
-                startActivity(mapIntent);
+                startActivity(mapIntent);*/
             }
         });
 

@@ -3,6 +3,7 @@ package it.uniba.di.sms.carpooling;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -31,7 +34,7 @@ import java.util.HashMap;
  * Use the {@link CercaPassaggioFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CercaPassaggioFragment extends Fragment {
+public class CercaPassaggioFragment extends Fragment implements Serializable {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String DATA = "data";
@@ -132,13 +135,15 @@ public class CercaPassaggioFragment extends Fragment {
 
 
 
+
+    //METODO CHE RESTITUISCE I PASSAGGI
     private void getPassaggi() {
 
         //if it passes all the validations
         class GetPassaggio extends AsyncTask<Void, Void, String> {
 
             //private ProgressBar progressBar;
-           final ArrayList<Passaggio> listaPassaggi = new ArrayList<>();
+            final ArrayList<Passaggio> listaPassaggi = new ArrayList<>();
 
             @Override
             protected String doInBackground(Void... voids) {
@@ -169,54 +174,56 @@ public class CercaPassaggioFragment extends Fragment {
                 //hiding the progressbar after completion
                 // progressBar.setVisibility(View.GONE);
 
-                    //converting response to json object
-                    Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+                //converting response to json object
+                Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
 
                 try{
 
-                //converting response to json object
-                JSONObject obj = new JSONObject(s);
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
 
-                //if no error in response
-                if (!obj.getBoolean("error")) {
-                    //if list is not empty
-                    if(!obj.getBoolean("empty_list")){
-                        JSONArray passaggiJson = obj.getJSONArray("passaggio");
-                        for(int i=0; i<passaggiJson.length(); i++){
-                            JSONObject temp = passaggiJson.getJSONObject(i);
-                            listaPassaggi.add(new Passaggio(
-                                    Integer.parseInt(temp.getString("id")),
-                                    temp.getString("nome"),
-                                    temp.getString("indirizzo"),
-                                    temp.getString("data"),
-                                    temp.getString("automobile"),
-                                    aziendaParam,
-                                    temp.getString("direzione"),
-                                    Integer.parseInt(temp.getString("num_posti"))
-                            ));
-                            //Toast.makeText(getActivity(), Integer.parseInt(temp.getString("id")), Toast.LENGTH_SHORT).show();
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+                        //if list is not empty
+                        if(!obj.getBoolean("empty_list")){
+                            JSONArray passaggiJson = obj.getJSONArray("passaggio");
+                            for(int i=0; i<passaggiJson.length(); i++){
+                                JSONObject temp = passaggiJson.getJSONObject(i);
+                                listaPassaggi.add(new Passaggio(
+                                        Integer.parseInt(temp.getString("id")),
+                                        temp.getString("nome"),
+                                        temp.getString("indirizzo"),
+                                        temp.getString("data"),
+                                        temp.getString("automobile"),
+                                        aziendaParam,
+                                        temp.getString("direzione"),
+                                        Integer.parseInt(temp.getString("num_posti"))
+                                ));
+
+                                //Toast.makeText(getActivity(), Integer.parseInt(temp.getString("id")), Toast.LENGTH_SHORT).show();
+
+                                Intent mapIntent = new Intent(getActivity(), MapsActivity.class);
+                                mapIntent.putExtra("Passaggi",listaPassaggi);
+                                startActivity(mapIntent);
+                            }
+
+
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "Lista vuota scemo", Toast.LENGTH_SHORT).show();
                         }
 
-
-                        //Toast.makeText(getActivity(), listaPassaggi.get(0).getAutista(), Toast.LENGTH_SHORT).show();
-                        provaStampa(listaPassaggi);
-
-                    }
-                    else{
-                        Toast.makeText(getActivity(), "Lista vuota scemo", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
 
-                } else {
-                    Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
             }
         }
