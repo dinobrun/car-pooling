@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegistrationActivity"
+    android:background="#fefce2"
     tools:layout_editor_absoluteY="81dp"
     >
 
@@ -13,12 +14,13 @@
         android:id="@+id/usernameText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="105dp"
-        android:layout_marginBottom="514dp"
-
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="436dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="@string/username" />
@@ -27,112 +29,55 @@
         android:id="@+id/passwordText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="106dp"
-        android:layout_marginBottom="454dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="369dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/password"
-        app:layout_constraintStart_toStartOf="@+id/usernameText2"
-        app:layout_constraintTop_toBottomOf="@+id/usernameText2" />
-
+        android:text="@string/password" />
 
 
     <EditText
         android:id="@+id/emailText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="1dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="297dp"
-        android:layout_marginEnd="107dp"
-        android:layout_marginBottom="390dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="307dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/email"
-        app:layout_constraintBottom_toTopOf="@+id/radioSex"
-        app:layout_constraintStart_toStartOf="@+id/cognomeText"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/email" />
 
-    <RadioButton
-        android:id="@+id/radioM"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="31dp"
-        android:layout_marginEnd="47dp"
-        android:layout_marginBottom="11dp"
-        android:text="@string/male"
-        app:layout_constraintBottom_toBottomOf="@+id/radioSex"
-        app:layout_constraintEnd_toStartOf="@+id/radioF"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <RadioGroup
-        android:id="@+id/radioSex"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="343dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/dataNascitaText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-    </RadioGroup>
-
-    <RadioButton
-        android:id="@+id/radioF"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="51dp"
-        android:layout_marginBottom="11dp"
-        android:text="@string/female"
-        app:layout_constraintBottom_toBottomOf="@+id/radioSex"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/radioM" />
-
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-        <Button
-            android:id="@+id/avantiButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/avanti"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.569"
-            tools:layout_conversion_absoluteHeight="48dp"
-            tools:layout_conversion_absoluteWidth="246dp" />
-
-    </android.support.constraint.ConstraintLayout>
+    <ImageButton
+        android:id="@+id/avantiButton"
+        android:layout_width="72dp"
+        android:layout_height="66dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="102dp"
+        android:layout_marginEnd="237dp"
+        android:layout_marginBottom="186dp"
+        android:background="null"
+        android:src="@android:drawable/ic_menu_send" />
 
 
     <FrameLayout
         android:id="@+id/registration_frag_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp" >
+    </FrameLayout>
 
 
 </RelativeLayout>
