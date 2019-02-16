@@ -268,7 +268,7 @@ public class CreaPassaggioFragment extends Fragment {
                 params.put("Direzione",value);
 
                 //returing the response
-                return requestHandler.sendPostRequest(URLs.URL_GETPASSAGGI, params);
+                return requestHandler.sendPostRequest(URLs.URL_ADDPASSAGGIO, params);
             }
         }
 

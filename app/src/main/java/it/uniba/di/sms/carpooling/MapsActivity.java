@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -185,18 +186,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrLocationMarker.getPosition(), (float) 14));
 
-                //Marker di un amico attraverso Geocoder
-                MarkerOptions amico = new MarkerOptions();
-                LatLng positionAmico = new LatLng(1.2,3.4);
-
-                try {
-                    positionAmico = coordsFromAddress();
-                    amico.position(positionAmico);
-                    amico.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-                    casaDino = mGoogleMap.addMarker(amico);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
 
             }
@@ -283,14 +272,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
         TextView txtNome = (TextView) rowView.findViewById(R.id.txtNome);
         TextView txtCognome = (TextView) rowView.findViewById(R.id.txtCognome);
+        Button btnRequest = (Button) rowView.findViewById(R.id.btnRequest);
 
-        Passaggio passaggio = (Passaggio) marker.getTag();
+        final Passaggio passaggio = (Passaggio) marker.getTag();
         txtNome.setText(passaggio.getAutista());
         txtCognome.setText(passaggio.getIndirizzo());
+        btnRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestPassaggio(passaggio.getId());
+            }
+        });
         // Add the new row before the add field button.
         parentLinearLayout.addView(rowView, params);
     }
-
 
     //funzione che come parametri ha una mappa e un utente e gli assegna un marker con le informazioni
     private void setMarker(GoogleMap map, Passaggio passaggio) throws IOException {
@@ -303,6 +298,66 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         marker = map.addMarker(markerOptions);
         marker.setTag(passaggio);
     }
+
+
+    //funzione che prenota il passaggio selezionato
+    private void requestPassaggio(final int id_passaggio){
+            final String username = SharedPrefManager.getInstance(MapsActivity.this).getUser().getUsername();
+
+
+            //if it passes all the validations
+            class RequestPassaggio extends AsyncTask<Void, Void, String> {
+
+                @Override
+                protected String doInBackground(Void... voids) {
+                    //creating request handler object
+                    RequestHandler requestHandler = new RequestHandler();
+
+                    //creating request parameters
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put("Username", username);
+                    params.put("ID", Integer.toString(id_passaggio));
+
+                    //returning the response
+                    return requestHandler.sendPostRequest(URLs.URL_REQUESTPASSAGGIO, params);
+                }
+
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    //displaying the progress bar while user registers on the server
+                    // progressBar = (ProgressBar) findViewById(R.id.progressBar);
+                    // progressBar.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                    //hiding the progressbar after completion
+                    // progressBar.setVisibility(View.GONE);
+
+                    try {
+                        //converting response to json object
+                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                        JSONObject obj = new JSONObject(s);
+
+                        //if no error in response
+                        if (!obj.getBoolean("error")) {
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            //executing the async task
+            RequestPassaggio rp = new RequestPassaggio();
+            rp.execute();
+        }
 
 
 
