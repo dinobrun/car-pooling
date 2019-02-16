@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
@@ -39,10 +40,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback  {
 
@@ -59,7 +66,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ArrayList<Marker> arrayPassaggi = new ArrayList<>();
     private RelativeLayout parentLinearLayout;
 
+
+    private String data, azienda, direzione;
+
     Marker casaDino;
+
 
     //GEOCODING from ADDRESS
     public LatLng coordsFromAddress() throws IOException {
@@ -89,8 +100,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFrag.getMapAsync(this);
 
-        utente1 = new Utente("ciccio", "cappuccio");
-        utente2 = new Utente("Romano", "Fusco");
+
+        Bundle datipassati = getIntent().getExtras();
+        data = datipassati.getString("Data");
+        azienda = datipassati.getString("Azienda");
+        direzione = datipassati.getString("Direzione");
+
+
+
+
 
     }
 
@@ -104,20 +122,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLocationRequest.setFastestInterval(120000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-        //Richiedi tutti i passaggi presenti
-        //per ogni passaggio deve essere creato un marker
-        MarkerOptions markerOptions_0 = new MarkerOptions();
-        markerOptions_0.position(new LatLng(40.8204373,16.4238106));
-        markerOptions_0.title("Prova1");
-        markerOptions_0.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-        prova1 = mGoogleMap.addMarker(markerOptions_0);
-        MarkerOptions markerOptions_1 = new MarkerOptions();
-        markerOptions_1.position(new LatLng(40.8189117,16.4276242));
-        markerOptions_1.title("Prova2");
-        markerOptions_1.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        prova2 = mGoogleMap.addMarker(markerOptions_1);
-        prova1.setTag(utente1);
-        prova2.setTag(utente2);
+
+        getPassaggi();
 
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
@@ -147,61 +153,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mGoogleMap.setMyLocationEnabled(true);
         }
 
-        //prova inutile
-       /* if(googleMap != null) {
-
-
-            mGoogleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-
-                View v = getLayoutInflater().inflate(R.layout.info_window, null);
-
-                @Override
-                public View getInfoWindow(Marker marker) {
-                    return null;
-                }
-
-                @Override
-                public View getInfoContents(Marker marker) {
-
-                    TextView tAddress = v.findViewById(R.id.indirizzo);
-                    TextView tCar = v.findViewById(R.id.auto);
-                    TextView tPosti = v.findViewById(R.id.postiauto);
-                    TextView tAutista = v.findViewById(R.id.autista);
-
-                    Button buttonPrenota = v.findViewById(R.id.button_prenota);
-                    ImageView mInfo = v.findViewById(R.id.imm);
-                    final TextView tRisposta = v.findViewById(R.id.risposta);
-
-                    googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                        @Override
-                        public boolean onMarkerClick(Marker marker) {
-                            marker.hideInfoWindow();
-                            return true;
-                        }
-                    });
-
-                    try {
-                        tAddress.setText(addressFromCoords().getAddressLine(0).toString());
-                        tCar.setText("Auto: Tesla");
-                        tPosti.setText("Posti: 4");
-                        tAutista.setText("Autista: Umberto");
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    buttonPrenota.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent mapIntent = new Intent(MapsActivity.this, LoginActivity.class);
-                            startActivity(mapIntent);
-                        }
-                    });
-
-                    return v;
-                }
-            });
-        }*/
 
     }
 
@@ -335,15 +286,111 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     //funzione che come parametri ha una mappa e un utente e gli assegna un marker con le informazioni
-    private void setMarker(GoogleMap map, Utente utente) throws IOException {
+    private void setMarker(GoogleMap map, Passaggio passaggio) throws IOException {
         MarkerOptions markerOptions = new MarkerOptions();
         Marker marker;
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        Address address = geocoder.getFromLocationName(utente.getIndirizzo(), 1).get(0);
+        Address address = geocoder.getFromLocationName(passaggio.getIndirizzo(), 1).get(0);
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
-        markerOptions.title(utente.getNome());
+        markerOptions.title(passaggio.getAutista());
         marker = map.addMarker(markerOptions);
-        marker.setTag(utente);
+        //marker.setTag(passaggio);
+    }
+
+
+
+
+
+    //METODO CHE RESTITUISCE I PASSAGGI
+    private void getPassaggi() {
+
+        //if it passes all the validations
+        class GetPassaggio extends AsyncTask<Void, Void, String> {
+
+            //private ProgressBar progressBar;
+            final ArrayList<Passaggio> listaPassaggi = new ArrayList<>();
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("Data", data);
+                params.put("Azienda", azienda);
+                params.put("Direzione", direzione);
+
+                //returing the response
+                return requestHandler.sendPostRequest(URLs.URL_GETPASSAGGI, params);
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                //displaying the progress bar while user registers on the server
+                // progressBar = (ProgressBar) findViewById(R.id.progressBar);
+                // progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                //hiding the progressbar after completion
+                // progressBar.setVisibility(View.GONE);
+
+                //converting response to json object
+                Toast.makeText(MapsActivity.this, s, Toast.LENGTH_SHORT).show();
+
+                try{
+
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
+
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+                        //if list is not empty
+                        if(!obj.getBoolean("empty_list")){
+                            JSONArray passaggiJson = obj.getJSONArray("passaggio");
+                            for(int i=0; i<passaggiJson.length(); i++){
+                                JSONObject temp = passaggiJson.getJSONObject(i);
+                                listaPassaggi.add(new Passaggio(
+                                        Integer.parseInt(temp.getString("id")),
+                                        temp.getString("nome"),
+                                        temp.getString("indirizzo"),
+                                        temp.getString("data"),
+                                        temp.getString("automobile"),
+                                        azienda,
+                                        temp.getString("direzione"),
+                                        Integer.parseInt(temp.getString("num_posti"))
+                                ));
+                                //Toast.makeText(getActivity(), Integer.parseInt(temp.getString("id")), Toast.LENGTH_SHORT).show();
+                            }
+
+                            setMarker(mGoogleMap,listaPassaggi.get(0));
+
+                        }
+                        else{
+                            Toast.makeText(MapsActivity.this, "Lista vuota scemo", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else {
+                        Toast.makeText(MapsActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+
+
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
+        GetPassaggio pg = new GetPassaggio();
+        pg.execute();
     }
 
 

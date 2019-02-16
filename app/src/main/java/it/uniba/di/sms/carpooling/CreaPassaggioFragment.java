@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -69,6 +70,7 @@ public class CreaPassaggioFragment extends Fragment {
 
     private Integer selectionPostoAuto;
 
+
     public CreaPassaggioFragment() {
         // Required empty public constructor
     }
@@ -114,57 +116,23 @@ public class CreaPassaggioFragment extends Fragment {
 
                 time = calendar.getTime();
 
-
-                //Toast.makeText(getActivity(), time.toString(),Toast.LENGTH_SHORT).show();
-
                 addPassaggio();
 
             }
         });
 
-//spinner nomi auto
+        //spinner nomi auto
         final Spinner spinnerAuto = v.findViewById(R.id.spinnerAuto);
-
         // Create an ArrayAdapter using the string array and a default spinner layout
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), simple_list_item_1, autoParam);
-
-
-// Specify the layout to use when the list of choices appears
+        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
+        // Apply the adapter to the spinner
         spinnerAuto.setAdapter(adapter);
-
-
         spinnerAuto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 selectionAuto = adapter.getItem(i);
-                if(selectionAuto.equals("Aggiungi auto")){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle("Inserisci il nome dell'auto");
-
-// Set up the input
-                    final EditText input = new EditText(getActivity());
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                    input.setInputType(InputType.TYPE_CLASS_TEXT);
-                    builder.setView(input);
-
-// Set up the buttons
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            inputNameAuto = input.getText().toString();
-                            adapter.add(inputNameAuto);
-                        }
-                    });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    builder.show();
-                }
             }
 
             @Override
@@ -172,28 +140,12 @@ public class CreaPassaggioFragment extends Fragment {
             }
         });
 
-        adapter.add("Aggiungi auto");
-
-
-
-
-
 
         //Spinner posti auto
-        //spinner
         final Spinner spinnerPostiAuto = v.findViewById(R.id.spinnerPostiAuto);
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
         final ArrayAdapter<String> adapterPostiAuto = new ArrayAdapter<String>(this.getActivity(), simple_list_item_1, getResources().getStringArray(R.array.spinnerItems));
-
-// Specify the layout to use when the list of choices appears
         adapterPostiAuto.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-// Apply the adapter to the spinner
         spinnerPostiAuto.setAdapter(adapterPostiAuto);
-
-        //adapterPostiAuto.add("Seleziona la tua azienda");
-
         spinnerPostiAuto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -206,6 +158,7 @@ public class CreaPassaggioFragment extends Fragment {
 
             }
         });
+
 
         RadioGroup rg = v.findViewById(R.id.radioGroup);
         rg.check(R.id.radioButtonAndata);
@@ -273,21 +226,15 @@ public class CreaPassaggioFragment extends Fragment {
 
         class Passaggio extends AsyncTask<Void, Void, String> {
 
-            //  ProgressBar progressBar;
-
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                //progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                // progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 //progressBar.setVisibility(View.GONE);
-
-                Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
 
                 try {
                     //converting response to json object
@@ -321,7 +268,7 @@ public class CreaPassaggioFragment extends Fragment {
                 params.put("Direzione",value);
 
                 //returing the response
-                return requestHandler.sendPostRequest(URLs.URL_ADDPASSAGGIO, params);
+                return requestHandler.sendPostRequest(URLs.URL_GETPASSAGGI, params);
             }
         }
 

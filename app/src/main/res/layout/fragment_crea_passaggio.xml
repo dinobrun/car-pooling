@@ -54,7 +54,7 @@
     <Spinner
         android:id="@+id/spinnerAuto"
         android:layout_width="209dp"
-        android:layout_height="52dp"
+        android:layout_height="49dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="332dp"
         android:layout_marginEnd="8dp"
@@ -92,6 +92,7 @@
             android:text="Andata"
             tools:layout_editor_absoluteX="28dp"
             tools:layout_editor_absoluteY="434dp" />
+
         <RadioButton
             android:id="@+id/radioButtonRitorno"
             android:layout_width="wrap_content"
@@ -101,6 +102,7 @@
             tools:layout_editor_absoluteY="434dp" />
 
     </RadioGroup>
+
 
 
 </android.support.constraint.ConstraintLayout>

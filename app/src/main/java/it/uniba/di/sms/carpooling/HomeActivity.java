@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -22,7 +23,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -31,29 +36,46 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-public class HomeActivity extends FragmentActivity implements CreaPassaggioFragment.OnFragmentInteractionListener, AddAutoFragment.OnFragmentInteractionListener {
+public class HomeActivity extends FragmentActivity implements CreaPassaggioFragment.OnFragmentInteractionListener, CercaPassaggioFragment.OnFragmentInteractionListener {
 
     String response;
     final String user = SharedPrefManager.getInstance(HomeActivity.this).getUser().getUsername();
 
     private static final String TAG = "MainActivity";
 
-    private TextView mDisplayDate;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     private Button creaPassaggioBtn;
+    private Button cercaPassaggioBtn;
 
     private FrameLayout creaPassaggioContainer;
 
-    private String m_Text = "";
+    private String autoName = "";
+
+
+    private String direzioneSelected;
+
+    private String usernameUtente;
+    private String aziendaUtente;
+
+    private Date time;
+
+    RadioButton rd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        mDisplayDate = findViewById(R.id.tvDate);
+
+
+        usernameUtente = SharedPrefManager.getInstance(HomeActivity.this).getUser().getUsername();
+        aziendaUtente = SharedPrefManager.getInstance(HomeActivity.this).getUser().getAzienda();
+
 
         creaPassaggioContainer = findViewById(R.id.crea_passaggio_frag);
 
@@ -69,35 +91,46 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
             }
         });
 
-        //Seleziona la data desiderata
-        mDisplayDate.setOnClickListener(new View.OnClickListener() {
+        final TimePicker timePicker =  findViewById(R.id.time_picker);
+
+        final DatePicker datePicker = findViewById(R.id.date_picker);
+
+        final Calendar calendar = new GregorianCalendar();
+
+        cercaPassaggioBtn = findViewById(R.id.cercaPassaggio);
+        cercaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
+                calendar.set(datePicker.getYear(),
+                        datePicker.getMonth(),
+                        datePicker.getDayOfMonth(),
+                        timePicker.getHour(),
+                        timePicker.getMinute());
 
-                DatePickerDialog dialog = new DatePickerDialog(
-                        HomeActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        mDateSetListener,
-                        year,day,month);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
+                time = calendar.getTime();
+                //openCercaPassaggioFragment();
+                Intent mapIntent = new Intent(HomeActivity.this, MapsActivity.class);
+                mapIntent.putExtra("Data",new java.sql.Timestamp(time.getTime()).toString());
+                mapIntent.putExtra("Direzione",direzioneSelected);
+                mapIntent.putExtra("Azienda",aziendaUtente);
+                startActivity(mapIntent);
             }
         });
 
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-                Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
 
-                String date = month + "/" + day + "/" + year;
-                mDisplayDate.setText(date);
+
+        //Radio group andata/ritorno
+        RadioGroup rg = findViewById(R.id.radioGroup);
+        rg.check(R.id.radioButtonAndata);
+        rd = findViewById(R.id.radioButtonAndata);
+        direzioneSelected=rd.getText().toString();
+
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                rd = findViewById(checkedId);
+                direzioneSelected=rd.getText().toString();
             }
-        };
+        });
     }
 
 
@@ -112,23 +145,21 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
         transaction.add(R.id.crea_passaggio_frag, fragment, "BLANK_FRAGMENT").commit();
     }
 
-    //Apre AddAutoFragment
-    public void openAddAutoFragment() {
-        AddAutoFragment fragment = new AddAutoFragment();
+
+    //Apre CercaPassaggioFragment
+    public void openCercaPassaggioFragment() {
+        CercaPassaggioFragment fragment = CercaPassaggioFragment.newInstance(new java.sql.Timestamp(time.getTime()).toString(),direzioneSelected,aziendaUtente);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
         transaction.addToBackStack(null);
-        transaction.add(R.id.add_auto_frag, fragment, "BLANK_FRAGMENT").commit();
+        transaction.add(R.id.crea_passaggio_frag, fragment, "BLANK_FRAGMENT").commit();
     }
-
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
-
-
 
 
     private void getAuto(){
@@ -235,17 +266,20 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
         final EditText input = new EditText(HomeActivity.this);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         builder.setView(input);
 
         // Set up the buttons
         builder.setPositiveButton("Avanti", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                m_Text = input.getText().toString();
-                automobili.add(m_Text);
+                autoName = input.getText().toString();
+                addAuto();
+                automobili.add(autoName);
                 openCreaPassaggioFragment(automobili);
             }
         });
+
         builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -254,6 +288,64 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
         });
         builder.show();
 
+    }
+
+
+
+    private void addAuto() {
+
+        class Auto extends AsyncTask<Void, Void, String> {
+
+            private ProgressBar progressBar;
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("Username", user);
+                params.put("Nome", autoName);
+
+                //returing the response
+                return requestHandler.sendPostRequest(URLs.URL_ADDAUTO, params);
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                //displaying the progress bar while user registers on the server
+                // progressBar = (ProgressBar) findViewById(R.id.progressBar);
+                // progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                //hiding the progressbar after completion
+                // progressBar.setVisibility(View.GONE);
+
+                try {
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
+
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+                        Toast.makeText(HomeActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Toast.makeText(HomeActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //executing the async task
+        Auto a = new Auto();
+        a.execute();
     }
 
 
