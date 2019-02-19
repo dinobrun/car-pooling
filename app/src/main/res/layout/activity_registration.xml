@@ -62,11 +62,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="102dp"
-        android:layout_marginEnd="237dp"
-        android:layout_marginBottom="186dp"
-        android:background="null"
-        android:src="@android:drawable/ic_menu_send" />
+        android:layout_marginStart="127dp"
+        android:layout_marginEnd="212dp"
+        android:layout_marginBottom="182dp" />
 
 
     <FrameLayout
@@ -76,8 +74,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp" >
-    </FrameLayout>
+        android:layout_marginTop="0dp"/>
 
 
 </RelativeLayout>

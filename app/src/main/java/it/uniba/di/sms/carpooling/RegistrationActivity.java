@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -47,7 +48,7 @@ public class RegistrationActivity extends FragmentActivity implements Registrati
         txtPassword = findViewById(R.id.passwordText2);
         txtEmail = findViewById(R.id.emailText);
 
-        btnAvanti = findViewById(R.id.avantiButton);
+        ImageButton btnAvanti= findViewById(R.id.avantiButton);
 
         btnAvanti.setOnClickListener(new View.OnClickListener() {
 
