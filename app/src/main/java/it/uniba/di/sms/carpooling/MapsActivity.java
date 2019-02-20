@@ -59,19 +59,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationRequest mLocationRequest;
     Location mLastLocation;
     Marker mCurrLocationMarker;
-    Marker prova1;
-    Marker prova2;
-    Utente utente1;
-    Utente utente2;
     FusedLocationProviderClient mFusedLocationClient;
-    ArrayList<Marker> arrayPassaggi = new ArrayList<>();
     private RelativeLayout parentLinearLayout;
-
-
-    private String data, azienda, direzione;
     private ArrayList<Passaggio> passaggi;
+    private ArrayList<String> passaggi_utente;
 
-    Marker casaDino;
 
 
     //GEOCODING from ADDRESS
@@ -102,14 +94,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFrag.getMapAsync(this);
 
-
+        //lista di passaggi completa
         passaggi = (ArrayList<Passaggio>) getIntent().getSerializableExtra("Passaggi");
 
-        Toast.makeText(MapsActivity.this, passaggi.get(0).getIndirizzo(),Toast.LENGTH_SHORT).show();
-
-
-
-
+        //lista di ID di passaggi già richiesti
+        passaggi_utente = (ArrayList<String>) getIntent().getSerializableExtra("Passaggi_utente");
 
     }
 
@@ -127,7 +116,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //getPassaggi();
         try {
             for(Passaggio p : passaggi)
-                setMarker(mGoogleMap, p);
+                if(passaggi_utente.contains(Integer.toString(p.getId()))){
+                    setMarker(mGoogleMap, p, true);
+                }else{
+                    setMarker(mGoogleMap, p, false);
+                }
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -288,12 +282,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     //funzione che come parametri ha una mappa e un utente e gli assegna un marker con le informazioni
-    private void setMarker(GoogleMap map, Passaggio passaggio) throws IOException {
+    private void setMarker(GoogleMap map, Passaggio passaggio, Boolean richiesto) throws IOException {
         MarkerOptions markerOptions = new MarkerOptions();
         Marker marker;
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         Address address = geocoder.getFromLocationName(passaggio.getIndirizzo(), 1).get(0);
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
+        if(richiesto){
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        }
         markerOptions.title(passaggio.getAutista());
         marker = map.addMarker(markerOptions);
         marker.setTag(passaggio);
@@ -358,7 +355,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             RequestPassaggio rp = new RequestPassaggio();
             rp.execute();
         }
-
-
-
 }

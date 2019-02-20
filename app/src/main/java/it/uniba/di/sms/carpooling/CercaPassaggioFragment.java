@@ -72,9 +72,10 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
             direzioneParam = getArguments().getString(DIREZIONE);
             aziendaParam = getArguments().getString(AZIENDA);
         }
+        getPassaggi();
     }
 
-    @Override
+   /* @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_cerca_passaggio, container, false);
@@ -91,7 +92,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
         getPassaggi();
 
         return v;
-    }
+    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -152,6 +153,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
 
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
+                params.put("Username", SharedPrefManager.getInstance(getContext()).getUser().getUsername());
                 params.put("Data", dataParam);
                 params.put("Azienda", aziendaParam);
                 params.put("Direzione", direzioneParam);
@@ -174,8 +176,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                 //hiding the progressbar after completion
                 // progressBar.setVisibility(View.GONE);
 
-                //converting response to json object
-                Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
 
                 try{
 
@@ -199,14 +200,22 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                                         temp.getString("direzione"),
                                         Integer.parseInt(temp.getString("num_posti"))
                                 ));
-
                                 //Toast.makeText(getActivity(), Integer.parseInt(temp.getString("id")), Toast.LENGTH_SHORT).show();
-
-                                Intent mapIntent = new Intent(getActivity(), MapsActivity.class);
-                                mapIntent.putExtra("Passaggi",listaPassaggi);
-                                startActivity(mapIntent);
+                            }
+                            //lista di passaggi già richiesti
+                            JSONArray passaggi_richiesti = obj.getJSONArray("passaggio_utente");
+                            ArrayList<String> passaggi_ID = new ArrayList<>();
+                            for(int i=0; i<passaggi_richiesti.length(); i++){
+                                JSONObject temp = passaggi_richiesti.getJSONObject(i);
+                                passaggi_ID.add(temp.getString("ID"));
                             }
 
+
+                            //passa all'activity mappa inserendo due liste
+                            Intent mapIntent = new Intent(getActivity(), MapsActivity.class);
+                            mapIntent.putExtra("Passaggi",listaPassaggi);
+                            mapIntent.putExtra("Passaggi_utente", passaggi_ID);
+                            startActivity(mapIntent);
 
                         }
                         else{
