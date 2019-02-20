@@ -65,23 +65,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<String> passaggi_utente;
 
 
-
-    //GEOCODING from ADDRESS
-    public LatLng coordsFromAddress() throws IOException {
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses = geocoder.getFromLocationName("Via Bari Altamura", 1);
-        Address address = addresses.get(0);
-        LatLng coords = new LatLng(address.getLatitude(),address.getLongitude());
-        return coords;
-    }
-
-    //GEOCODING from COORDS
-    public Address addressFromCoords() throws IOException {
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses = geocoder.getFromLocation(coordsFromAddress().latitude,coordsFromAddress().longitude,1);
-        return addresses.get(0);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +82,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //lista di ID di passaggi già richiesti
         passaggi_utente = (ArrayList<String>) getIntent().getSerializableExtra("Passaggi_utente");
-
     }
 
     @Override
@@ -112,14 +94,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLocationRequest.setFastestInterval(120000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-
-        //getPassaggi();
         try {
             for(Passaggio p : passaggi)
                 if(passaggi_utente.contains(Integer.toString(p.getId()))){
-                    setMarker(mGoogleMap, p, true);
+                    p.setRichiesto(true);
+                    setMarker(mGoogleMap, p);
                 }else{
-                    setMarker(mGoogleMap, p, false);
+                    setMarker(mGoogleMap, p);
                 }
 
 
@@ -179,14 +160,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrLocationMarker.getPosition(), (float) 14));
-
-
-
             }
         }
     };
-
-
 
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -256,6 +232,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+
     //crea un riquadro in cui inserisce le info del marker
     public void displayInfo(Marker marker) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -271,24 +248,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final Passaggio passaggio = (Passaggio) marker.getTag();
         txtNome.setText(passaggio.getAutista());
         txtCognome.setText(passaggio.getIndirizzo());
-        btnRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requestPassaggio(passaggio.getId());
-            }
-        });
-        // Add the new row before the add field button.
+
+        //se è stato già richiesto il tasto diventa non cliccabile
+        if(passaggio.isRichiesto()){
+            btnRequest.setClickable(false);
+        }else{
+            btnRequest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    requestPassaggio(passaggio.getId());
+                }
+            });
+        }
+        // Aggiunge la finestra con le informazioni al layout
         parentLinearLayout.addView(rowView, params);
     }
 
     //funzione che come parametri ha una mappa e un utente e gli assegna un marker con le informazioni
-    private void setMarker(GoogleMap map, Passaggio passaggio, Boolean richiesto) throws IOException {
+    private void setMarker(GoogleMap map, Passaggio passaggio) throws IOException {
         MarkerOptions markerOptions = new MarkerOptions();
         Marker marker;
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         Address address = geocoder.getFromLocationName(passaggio.getIndirizzo(), 1).get(0);
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
-        if(richiesto){
+        if(passaggio.isRichiesto()){
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         }
         markerOptions.title(passaggio.getAutista());
