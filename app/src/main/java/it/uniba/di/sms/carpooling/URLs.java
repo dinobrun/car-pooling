@@ -12,6 +12,7 @@ public class URLs {
     public static final String URL_ADDAUTO= ROOT_URL + "addAuto";
     public static final String URL_GETPASSAGGI= ROOT_URL + "getPassaggio";
     public static final String URL_REQUESTPASSAGGIO= ROOT_URL + "requestPassaggio";
+    public static final String URL_GET_LIST_PASSAGES = ROOT_URL + "getListRequestedPassaggio";
 
 
 }
