@@ -115,8 +115,6 @@ public class PassaggiOffertiFragment extends Fragment {
 
                 try{
 
-                    Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
-
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
 
