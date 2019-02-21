@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -16,17 +15,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -40,17 +36,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback  {
 
@@ -71,9 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         parentLinearLayout = findViewById(R.id.mParentProva);
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFrag.getMapAsync(this);
 
@@ -82,6 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //lista di ID di passaggi già richiesti
         passaggi_utente = (ArrayList<String>) getIntent().getSerializableExtra("Passaggi_utente");
+
     }
 
     @Override
@@ -94,13 +85,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLocationRequest.setFastestInterval(120000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
+        //getPassaggi();
         try {
             for(Passaggio p : passaggi)
                 if(passaggi_utente.contains(Integer.toString(p.getId()))){
-                    p.setRichiesto(true);
-                    setMarker(mGoogleMap, p);
+                    setMarker(mGoogleMap, p, true);
                 }else{
-                    setMarker(mGoogleMap, p);
+                    setMarker(mGoogleMap, p, false);
                 }
 
 
@@ -160,9 +151,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrLocationMarker.getPosition(), (float) 14));
+
+
+
             }
         }
     };
+
+
 
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -232,15 +228,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-
     //crea un riquadro in cui inserisce le info del marker
     public void displayInfo(Marker marker) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.info_window, null);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
         params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+
         TextView txtNome = (TextView) rowView.findViewById(R.id.txtNome);
         TextView txtCognome = (TextView) rowView.findViewById(R.id.txtCognome);
         Button btnRequest = (Button) rowView.findViewById(R.id.btnRequest);
@@ -248,30 +244,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final Passaggio passaggio = (Passaggio) marker.getTag();
         txtNome.setText(passaggio.getAutista());
         txtCognome.setText(passaggio.getIndirizzo());
-
-        //se è stato già richiesto il tasto diventa non cliccabile
-        if(passaggio.isRichiesto()){
-            btnRequest.setClickable(false);
-        }else{
-            btnRequest.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    requestPassaggio(passaggio.getId());
-                }
-            });
-        }
-        // Aggiunge la finestra con le informazioni al layout
+        btnRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestPassaggio(passaggio.getId());
+            }
+        });
+        // Add the new row before the add field button.
         parentLinearLayout.addView(rowView, params);
     }
 
     //funzione che come parametri ha una mappa e un utente e gli assegna un marker con le informazioni
-    private void setMarker(GoogleMap map, Passaggio passaggio) throws IOException {
+    private void setMarker(GoogleMap map, Passaggio passaggio, Boolean richiesto) throws IOException {
         MarkerOptions markerOptions = new MarkerOptions();
         Marker marker;
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         Address address = geocoder.getFromLocationName(passaggio.getIndirizzo(), 1).get(0);
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
-        if(passaggio.isRichiesto()){
+        if(richiesto){
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         }
         markerOptions.title(passaggio.getAutista());

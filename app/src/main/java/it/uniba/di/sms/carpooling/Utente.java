@@ -1,8 +1,5 @@
 package it.uniba.di.sms.carpooling;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 public class Utente {
     private String username, nome, cognome, sesso, dataNascita, indirizzo, email, telefono;
     private String azienda = null;

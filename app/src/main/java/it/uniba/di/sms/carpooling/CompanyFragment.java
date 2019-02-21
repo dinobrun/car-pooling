@@ -1,15 +1,12 @@
 package it.uniba.di.sms.carpooling;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,15 +16,11 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
 
 public class CompanyFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -51,12 +44,8 @@ public class CompanyFragment extends Fragment {
     private String indirizzoParam;
     private String telefonoParam;
     private String dataNascitaParam;
-
     private String company = null;
-
     private ArrayList<String> companies;
-
-
 
     //Costruttore
     public CompanyFragment() {
@@ -77,9 +66,6 @@ public class CompanyFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,10 +98,7 @@ public class CompanyFragment extends Fragment {
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, companies){
             @Override
             public boolean isEnabled(int position) {
-                if(position==0){
-                    return false;
-                }
-                return true;
+                return position != 0;
             }
 
             @Override
@@ -132,13 +115,9 @@ public class CompanyFragment extends Fragment {
             }
         };
 
-// Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
         spinner.setAdapter(adapter);
-
         adapter.add("Seleziona la tua azienda");
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -147,10 +126,8 @@ public class CompanyFragment extends Fragment {
                     Toast.makeText(getActivity(), company, Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 
@@ -162,13 +139,9 @@ public class CompanyFragment extends Fragment {
             }
         });
 
-        // Inflate the layout for this fragment
         return v;
 
     }
-
-
-
 
     private ArrayList<String> getCompanies(){
 
@@ -181,9 +154,8 @@ public class CompanyFragment extends Fragment {
             @Override
             protected String doInBackground(Void... voids) {
 
-                //creating request handler object
                 RequestHandler requestHandler = new RequestHandler();
-                return requestHandler.sendGetRequest(URLs.URL_GETCOMPANIES);
+                return requestHandler.sendGetRequest();
             }
 
             @Override
@@ -196,15 +168,9 @@ public class CompanyFragment extends Fragment {
                 super.onPostExecute(s);
 
                 try {
-
-                    //converting response to json object
                     Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
-
-
                     JSONObject obj = new JSONObject(s);
 
-
-                    //if no error in response
                     if (!obj.getBoolean("error")) {
 
                         JSONArray companyJson = obj.getJSONArray("azienda");
@@ -213,8 +179,6 @@ public class CompanyFragment extends Fragment {
                             JSONObject temp = companyJson.getJSONObject(i);
                             aziende.add(temp.getString("nome"));
                         }
-
-
                     } else {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
@@ -222,20 +186,15 @@ public class CompanyFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
-
-
         }
 
         Companies companies = new Companies();
         companies.execute();
-
         return aziende;
     }
 
 
     private void registerUser() {
-
-        //if it passes all the validations
 
         class RegisterUser extends AsyncTask<Void, Void, String> {
 
@@ -277,19 +236,13 @@ public class CompanyFragment extends Fragment {
                 // progressBar.setVisibility(View.GONE);
 
                 try {
-                    //converting response to json object
                     Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
                     JSONObject obj = new JSONObject(s);
 
-
-                    //if no error in response
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
-                        //getting the user from the response
                         JSONObject userJson = obj.getJSONObject("user");
 
-                        //creating a new user object
                         Utente user = new Utente(
                                 userJson.getString("username"),
                                 userJson.getString("nome"),
@@ -300,15 +253,10 @@ public class CompanyFragment extends Fragment {
                                 userJson.getString("dataNascita")
                         );
 
-                        if(userJson.getString("azienda")!=""){
+                        if(!userJson.getString("azienda").equals("")){
                             user.addAzienda(userJson.getString("azienda"));
                         }
-
-
-                        //storing the user in shared preferences
                         SharedPrefManager.getInstance(getActivity()).userLogin(user);
-
-                        //starting the profile activity
                         Toast.makeText(getActivity(), "tutto apposto", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -318,8 +266,6 @@ public class CompanyFragment extends Fragment {
                 }
             }
         }
-
-        //executing the async task
         RegisterUser ru = new RegisterUser();
         ru.execute();
     }
