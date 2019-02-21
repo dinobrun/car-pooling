@@ -2,12 +2,14 @@ package it.uniba.di.sms.carpooling;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
@@ -74,6 +76,8 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
             }
         });
 
+
+
         Button creaPassaggioBtn = findViewById(R.id.creaPassaggio);
         creaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +91,10 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
         btnMyPassages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openMieiPassaggiFragment(SharedPrefManager.getInstance(HomeActivity.this).getUser().getUsername());
+                //openMieiPassaggiFragment(SharedPrefManager.getInstance(HomeActivity.this).getUser().getUsername());
+                Intent openPassaggi = new Intent(HomeActivity.this,PassaggiActivity.class);
+                startActivity(openPassaggi);
+
             }
         });
 
@@ -116,7 +123,7 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
 
     //Apre MieiPassaggiFragment
     public void openMieiPassaggiFragment(String username) {
-        MyPassagesFragment fragment = MyPassagesFragment.newInstance(username);
+        MyPassagesFragment fragment = new MyPassagesFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
