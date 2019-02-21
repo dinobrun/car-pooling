@@ -1,14 +1,5 @@
 package it.uniba.di.sms.carpooling;
 
-import android.os.AsyncTask;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-
 public class Automobile {
 
     private int numPosti;

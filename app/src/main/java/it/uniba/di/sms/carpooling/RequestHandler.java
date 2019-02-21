@@ -78,12 +78,12 @@ public class RequestHandler {
         return result.toString();
     }
 
-    public String sendGetRequest(String requestURL) {
+    String sendGetRequest() {
         URL url;
 
         StringBuilder sb = new StringBuilder();
         try {
-            url = new URL(requestURL);
+            url = new URL(URLs.URL_GETCOMPANIES);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(15000);
             conn.setConnectTimeout(15000);

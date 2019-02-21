@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -16,17 +15,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -40,17 +36,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback  {
 
@@ -59,36 +51,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationRequest mLocationRequest;
     Location mLastLocation;
     Marker mCurrLocationMarker;
-    Marker prova1;
-    Marker prova2;
-    Utente utente1;
-    Utente utente2;
     FusedLocationProviderClient mFusedLocationClient;
-    ArrayList<Marker> arrayPassaggi = new ArrayList<>();
     private RelativeLayout parentLinearLayout;
-
-
-    private String data, azienda, direzione;
     private ArrayList<Passaggio> passaggi;
+    private ArrayList<String> passaggi_utente;
 
-    Marker casaDino;
-
-
-    //GEOCODING from ADDRESS
-    public LatLng coordsFromAddress() throws IOException {
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses = geocoder.getFromLocationName("Via Bari Altamura", 1);
-        Address address = addresses.get(0);
-        LatLng coords = new LatLng(address.getLatitude(),address.getLongitude());
-        return coords;
-    }
-
-    //GEOCODING from COORDS
-    public Address addressFromCoords() throws IOException {
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses = geocoder.getFromLocation(coordsFromAddress().latitude,coordsFromAddress().longitude,1);
-        return addresses.get(0);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,20 +63,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         parentLinearLayout = findViewById(R.id.mParentProva);
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFrag.getMapAsync(this);
 
-
+        //lista di passaggi completa
         passaggi = (ArrayList<Passaggio>) getIntent().getSerializableExtra("Passaggi");
 
-        Toast.makeText(MapsActivity.this, passaggi.get(0).getIndirizzo(),Toast.LENGTH_SHORT).show();
-
-
-
-
+        //lista di ID di passaggi già richiesti
+        passaggi_utente = (ArrayList<String>) getIntent().getSerializableExtra("Passaggi_utente");
 
     }
 
@@ -123,11 +85,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLocationRequest.setFastestInterval(120000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-
         //getPassaggi();
         try {
             for(Passaggio p : passaggi)
-                setMarker(mGoogleMap, p);
+                if(passaggi_utente.contains(Integer.toString(p.getId()))){
+                    setMarker(mGoogleMap, p, true);
+                }else{
+                    setMarker(mGoogleMap, p, false);
+                }
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -266,10 +232,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void displayInfo(Marker marker) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.info_window, null);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
         params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+
         TextView txtNome = (TextView) rowView.findViewById(R.id.txtNome);
         TextView txtCognome = (TextView) rowView.findViewById(R.id.txtCognome);
         Button btnRequest = (Button) rowView.findViewById(R.id.btnRequest);
@@ -288,12 +255,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     //funzione che come parametri ha una mappa e un utente e gli assegna un marker con le informazioni
-    private void setMarker(GoogleMap map, Passaggio passaggio) throws IOException {
+    private void setMarker(GoogleMap map, Passaggio passaggio, Boolean richiesto) throws IOException {
         MarkerOptions markerOptions = new MarkerOptions();
         Marker marker;
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         Address address = geocoder.getFromLocationName(passaggio.getIndirizzo(), 1).get(0);
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
+        if(richiesto){
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        }
         markerOptions.title(passaggio.getAutista());
         marker = map.addMarker(markerOptions);
         marker.setTag(passaggio);
@@ -358,7 +328,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             RequestPassaggio rp = new RequestPassaggio();
             rp.execute();
         }
-
-
-
 }

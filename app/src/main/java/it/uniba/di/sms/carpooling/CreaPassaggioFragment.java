@@ -1,44 +1,30 @@
 package it.uniba.di.sms.carpooling;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.InputType;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-
 import static android.R.layout.simple_list_item_1;
 
 
@@ -53,23 +39,13 @@ import static android.R.layout.simple_list_item_1;
 public class CreaPassaggioFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-
     private static final String AUTO = "auto";
-
     private ArrayList<String> autoParam;
-
     private Date time;
-
     String value = "";
-
-    String inputNameAuto = "";
-
     Button mostra;
-
     private String selectionAuto = null;
-
     private Integer selectionPostoAuto;
-
 
     public CreaPassaggioFragment() {
         // Required empty public constructor
@@ -93,18 +69,15 @@ public class CreaPassaggioFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+
         final View v = inflater.inflate(R.layout.fragment_crea_passaggio, container, false);
 
         final TimePicker timePicker =  v.findViewById(R.id.time_picker);
-
         final DatePicker datePicker = v.findViewById(R.id.date_picker);
-
         final Calendar calendar = new GregorianCalendar();
 
         mostra = v.findViewById(R.id.mostra);
-
         mostra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,25 +94,19 @@ public class CreaPassaggioFragment extends Fragment {
             }
         });
 
-        //spinner nomi auto
         final Spinner spinnerAuto = v.findViewById(R.id.spinnerAuto);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), simple_list_item_1, autoParam);
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         spinnerAuto.setAdapter(adapter);
         spinnerAuto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 selectionAuto = adapter.getItem(i);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-
 
         //Spinner posti auto
         final Spinner spinnerPostiAuto = v.findViewById(R.id.spinnerPostiAuto);
@@ -152,13 +119,11 @@ public class CreaPassaggioFragment extends Fragment {
                 selectionPostoAuto = Integer.parseInt(adapterPostiAuto.getItem(i));
                 Toast.makeText(getActivity(), adapterPostiAuto.getItem(i),Toast.LENGTH_SHORT ).show();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
-
 
         RadioGroup rg = v.findViewById(R.id.radioGroup);
         rg.check(R.id.radioButtonAndata);
@@ -170,9 +135,6 @@ public class CreaPassaggioFragment extends Fragment {
             }
         });
 
-
-
-        // Inflate the layout for this fragment
         return v;
     }
 
@@ -215,10 +177,6 @@ public class CreaPassaggioFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-
-
-
-
     ////INVIA AL SERVER LE INFO SUL PASSAGGIO
     private void addPassaggio() {
 
@@ -240,7 +198,6 @@ public class CreaPassaggioFragment extends Fragment {
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
 
-                    //if no error in response
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         Intent goToHomeActivity = new Intent(getActivity(),HomeActivity.class);

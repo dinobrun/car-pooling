@@ -9,18 +9,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-
+import android.widget.ImageButton;
 import android.widget.Toast;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -42,19 +37,16 @@ public class RegistrationActivity extends FragmentActivity implements Registrati
         //fragment
         fragmentContainer = findViewById(R.id.registration_frag_layout);
 
-
         txtUserName = findViewById(R.id.usernameText2);
         txtPassword = findViewById(R.id.passwordText2);
         txtEmail = findViewById(R.id.emailText);
 
-        btnAvanti = findViewById(R.id.avantiButton);
+        ImageButton btnAvanti= findViewById(R.id.avantiButton);
 
         btnAvanti.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                //registerUser();
-
                 firstRegistrationPart();
 
             }

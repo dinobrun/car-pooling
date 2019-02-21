@@ -1,39 +1,25 @@
 package it.uniba.di.sms.carpooling;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.PopupWindow;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,82 +28,19 @@ import java.util.HashMap;
 
 public class HomeActivity extends FragmentActivity implements CreaPassaggioFragment.OnFragmentInteractionListener, CercaPassaggioFragment.OnFragmentInteractionListener {
 
-    String response;
     final String user = SharedPrefManager.getInstance(HomeActivity.this).getUser().getUsername();
-
-    private static final String TAG = "MainActivity";
-
-    private DatePickerDialog.OnDateSetListener mDateSetListener;
-
-    private Button creaPassaggioBtn;
-    private Button cercaPassaggioBtn;
-
-    private FrameLayout creaPassaggioContainer;
-
     private String autoName = "";
-
-
     private String direzioneSelected;
-
-    private String usernameUtente;
     private String aziendaUtente;
-
     private Date time;
-
     RadioButton rd;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
-        usernameUtente = SharedPrefManager.getInstance(HomeActivity.this).getUser().getUsername();
         aziendaUtente = SharedPrefManager.getInstance(HomeActivity.this).getUser().getAzienda();
-
-
-        creaPassaggioContainer = findViewById(R.id.crea_passaggio_frag);
-
-        creaPassaggioBtn = findViewById(R.id.creaPassaggio);
-        creaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                //Controlla se l'utente ha almeno una auto. Se sì, avvia il fragment successivo,
-                // altrimenti apre il popup per aggiungerne una.
-                getAuto();
-
-            }
-        });
-
-        final TimePicker timePicker =  findViewById(R.id.time_picker);
-
-        final DatePicker datePicker = findViewById(R.id.date_picker);
-
-        final Calendar calendar = new GregorianCalendar();
-
-        cercaPassaggioBtn = findViewById(R.id.cercaPassaggio);
-        cercaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                calendar.set(datePicker.getYear(),
-                        datePicker.getMonth(),
-                        datePicker.getDayOfMonth(),
-                        timePicker.getHour(),
-                        timePicker.getMinute());
-
-                time = calendar.getTime();
-                openCercaPassaggioFragment();
-                /*Intent mapIntent = new Intent(HomeActivity.this, MapsActivity.class);
-                mapIntent.putExtra("Data",new java.sql.Timestamp(time.getTime()).toString());
-                mapIntent.putExtra("Direzione",direzioneSelected);
-                mapIntent.putExtra("Azienda",aziendaUtente);
-                startActivity(mapIntent);*/
-            }
-        });
-
-
 
         //Radio group andata/ritorno
         RadioGroup rg = findViewById(R.id.radioGroup);
@@ -131,9 +54,45 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
                 direzioneSelected=rd.getText().toString();
             }
         });
+
+        final TimePicker timePicker =  findViewById(R.id.time_picker);
+        final DatePicker datePicker = findViewById(R.id.date_picker);
+        final Calendar calendar = new GregorianCalendar();
+
+        Button cercaPassaggioBtn = findViewById(R.id.cercaPassaggio);
+        cercaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calendar.set(datePicker.getYear(),
+                        datePicker.getMonth(),
+                        datePicker.getDayOfMonth(),
+                        timePicker.getHour(),
+                        timePicker.getMinute());
+
+                time = calendar.getTime();
+                openCercaPassaggioFragment();
+            }
+        });
+
+        Button creaPassaggioBtn = findViewById(R.id.creaPassaggio);
+        creaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getAuto();
+            }
+        });
+
+
+        Button btnMyPassages= findViewById(R.id.buttonMyPassages);
+        btnMyPassages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openMieiPassaggiFragment(SharedPrefManager.getInstance(HomeActivity.this).getUser().getUsername());
+            }
+        });
+
+
     }
-
-
 
     //Apre CreaPassaggioFragment
     public void openCreaPassaggioFragment(ArrayList<String> automobili) {
@@ -142,9 +101,8 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
         transaction.addToBackStack(null);
-        transaction.add(R.id.crea_passaggio_frag, fragment, "BLANK_FRAGMENT").commit();
+        transaction.add(R.id.open_frag, fragment, "BLANK_FRAGMENT").commit();
     }
-
 
     //Apre CercaPassaggioFragment
     public void openCercaPassaggioFragment() {
@@ -153,15 +111,23 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
         transaction.addToBackStack(null);
-        transaction.add(R.id.crea_passaggio_frag, fragment, "BLANK_FRAGMENT").commit();
+        transaction.add(R.id.open_frag, fragment, "BLANK_FRAGMENT").commit();
+    }
+
+    //Apre MieiPassaggiFragment
+    public void openMieiPassaggiFragment(String username) {
+        MyPassagesFragment fragment = MyPassagesFragment.newInstance(username);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.addToBackStack(null);
+        transaction.add(R.id.passages_frag, fragment, "BLANK_FRAGMENT").commit();
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
-
-
     private void getAuto(){
 
         final ArrayList<String> automobili = new ArrayList<>();
@@ -296,7 +262,6 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
 
         class Auto extends AsyncTask<Void, Void, String> {
 
-            private ProgressBar progressBar;
 
             @Override
             protected String doInBackground(Void... voids) {
