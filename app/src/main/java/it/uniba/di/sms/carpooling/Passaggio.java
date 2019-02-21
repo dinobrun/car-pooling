@@ -7,7 +7,7 @@ public class Passaggio implements Serializable {
     private String autista, data, automobile, azienda, direzione, indirizzo;
     private int id, numPosti;
 
-    public Passaggio(int id, String autista,String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti) {
+    public Passaggio(int id, String autista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti) {
         this.id=id;
         this.autista = autista;
         this.data = data;
@@ -72,5 +72,13 @@ public class Passaggio implements Serializable {
 
     public void setNumPosti(int numPosti) {
         this.numPosti = numPosti;
+    }
+
+
+    //costruttore temporaneo
+    public Passaggio(String autista, String automobile, String direzione) {
+        this.autista = autista;
+        this.automobile = automobile;
+        this.direzione = direzione;
     }
 }
