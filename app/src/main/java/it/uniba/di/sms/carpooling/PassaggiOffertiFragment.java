@@ -1,23 +1,15 @@
 package it.uniba.di.sms.carpooling;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -28,20 +20,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class MyPassagesFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+public class PassaggiOffertiFragment extends Fragment {
 
-    // TODO: Rename and change types of parameters
-
-
-    private static final String USERNAME = "username";
-    private String usernameParam;
     //the recyclerview
     RecyclerView recyclerView;
-    
 
-    public MyPassagesFragment() {
+    String user = SharedPrefManager.getInstance(getActivity()).getUser().getUsername();
+
+
+    public PassaggiOffertiFragment() {
         // Required empty public constructor
     }
 
@@ -49,20 +36,20 @@ public class MyPassagesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            usernameParam = getArguments().getString(USERNAME);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View v = inflater.inflate(R.layout.fragment_my_passages, container, false);
+        final View v = inflater.inflate(R.layout.fragment_passaggi_offerti, container, false);
+
+
 
 
 //getting the recyclerview from xml
-        recyclerView = v.findViewById(R.id.recycler);
+        recyclerView = v.findViewById(R.id.recyclerOfferti);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -104,14 +91,12 @@ public class MyPassagesFragment extends Fragment {
                 //creating request handler object
                 RequestHandler requestHandler = new RequestHandler();
 
-                String user = SharedPrefManager.getInstance(getActivity()).getUser().getUsername();
-
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("Username", user);
 
                 //returning the response
-                return requestHandler.sendPostRequest(URLs.URL_GET_LIST_PASSAGES, params);
+                return requestHandler.sendPostRequest(URLs.URL_GET_OFFERED_PASSAGES, params);
             }
 
             @Override
@@ -145,7 +130,7 @@ public class MyPassagesFragment extends Fragment {
                                 JSONObject temp = passaggiJson.getJSONObject(i);
                                 listaPassaggi.add(new Passaggio(
                                         Integer.parseInt(temp.getString("id")),
-                                        temp.getString("autista"),
+                                        user,
                                         temp.getString("indirizzo"),
                                         temp.getString("data"),
                                         temp.getString("automobile"),
@@ -155,7 +140,6 @@ public class MyPassagesFragment extends Fragment {
                                 ));
                                 //Toast.makeText(getActivity(), Integer.parseInt(temp.getString("id")), Toast.LENGTH_SHORT).show();
                             }
-
 
                             //creating recyclerview adapter
                             PassaggioAdapter adapter = new PassaggioAdapter(getActivity(), listaPassaggi);

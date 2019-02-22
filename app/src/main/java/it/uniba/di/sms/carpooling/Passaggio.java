@@ -6,24 +6,7 @@ public class Passaggio implements Serializable {
 
     private String autista, data, automobile, azienda, direzione, indirizzo;
     private int id, numPosti;
-    private boolean richiesto = false;
-    private boolean confermato = false;
 
-    //costruttore con in più il confermato o meno
-    public Passaggio(String autista, String data, String automobile, String azienda, String direzione, String indirizzo, int id, int numPosti, boolean confermato) {
-        this.autista = autista;
-        this.data = data;
-        this.automobile = automobile;
-        this.azienda = azienda;
-        this.direzione = direzione;
-        this.indirizzo = indirizzo;
-        this.id = id;
-        this.numPosti = numPosti;
-        this.confermato = confermato;
-    }
-
-
-    //costruttore normale
     public Passaggio(int id, String autista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti) {
         this.id=id;
         this.autista = autista;
@@ -33,14 +16,6 @@ public class Passaggio implements Serializable {
         this.direzione = direzione;
         this.numPosti = numPosti;
         this.indirizzo=indirizzo;
-    }
-
-    public void setRichiesto(boolean richiesto) {
-        this.richiesto = richiesto;
-    }
-
-    public boolean isRichiesto() {
-        return richiesto;
     }
 
     public String getIndirizzo(){
@@ -97,5 +72,13 @@ public class Passaggio implements Serializable {
 
     public void setNumPosti(int numPosti) {
         this.numPosti = numPosti;
+    }
+
+
+    //costruttore temporaneo
+    public Passaggio(String autista, String automobile, String direzione) {
+        this.autista = autista;
+        this.automobile = automobile;
+        this.direzione = direzione;
     }
 }

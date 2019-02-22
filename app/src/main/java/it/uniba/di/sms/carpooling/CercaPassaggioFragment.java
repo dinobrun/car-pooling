@@ -214,9 +214,6 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                     }
 
 
-
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
