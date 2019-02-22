@@ -164,8 +164,6 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                 //hiding the progressbar after completion
                 // progressBar.setVisibility(View.GONE);
 
-                //Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
-
                 try{
 
                     //converting response to json object
@@ -188,16 +186,17 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                                         temp.getString("direzione"),
                                         Integer.parseInt(temp.getString("num_posti"))
                                 ));
-                                //Toast.makeText(getActivity(), Integer.parseInt(temp.getString("id")), Toast.LENGTH_SHORT).show();
+
                             }
                             //lista di passaggi già richiesti
-                            JSONArray passaggi_richiesti = obj.getJSONArray("passaggio_utente");
                             ArrayList<String> passaggi_ID = new ArrayList<>();
-                            for(int i=0; i<passaggi_richiesti.length(); i++){
-                                JSONObject temp = passaggi_richiesti.getJSONObject(i);
-                                passaggi_ID.add(temp.getString("ID"));
+                            if(obj.getString("passaggio_utente") != "null"){
+                            JSONArray passaggi_richiesti = obj.getJSONArray("passaggio_utente");
+                                for(int i=0; i<passaggi_richiesti.length(); i++){
+                                    JSONObject temp = passaggi_richiesti.getJSONObject(i);
+                                    passaggi_ID.add(temp.getString("ID"));
+                                }
                             }
-
 
                             //passa all'activity mappa inserendo due liste
                             Intent mapIntent = new Intent(getActivity(), MapsActivity.class);

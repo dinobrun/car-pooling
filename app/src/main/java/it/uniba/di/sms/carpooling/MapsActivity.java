@@ -89,9 +89,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             for(Passaggio p : passaggi)
                 if(passaggi_utente.contains(Integer.toString(p.getId()))){
-                    setMarker(mGoogleMap, p, true);
+                    p.setRichiesto(true);
+                    setMarker(mGoogleMap, p);
                 }else{
-                    setMarker(mGoogleMap, p, false);
+                    setMarker(mGoogleMap, p);
                 }
 
 
@@ -244,24 +245,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final Passaggio passaggio = (Passaggio) marker.getTag();
         txtNome.setText(passaggio.getAutista());
         txtCognome.setText(passaggio.getIndirizzo());
-        btnRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requestPassaggio(passaggio.getId());
-            }
-        });
+        if(passaggio.isRichiesto()){
+            btnRequest.setClickable(false);
+        }else{
+            btnRequest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    requestPassaggio(passaggio.getId());
+                }
+            });
+        }
+
         // Add the new row before the add field button.
         parentLinearLayout.addView(rowView, params);
     }
 
     //funzione che come parametri ha una mappa e un utente e gli assegna un marker con le informazioni
-    private void setMarker(GoogleMap map, Passaggio passaggio, Boolean richiesto) throws IOException {
+    private void setMarker(GoogleMap map, Passaggio passaggio) throws IOException {
         MarkerOptions markerOptions = new MarkerOptions();
         Marker marker;
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         Address address = geocoder.getFromLocationName(passaggio.getIndirizzo(), 1).get(0);
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
-        if(richiesto){
+        if(passaggio.isRichiesto()){
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         }
         markerOptions.title(passaggio.getAutista());

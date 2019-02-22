@@ -6,6 +6,24 @@ public class Passaggio implements Serializable {
 
     private String autista, data, automobile, azienda, direzione, indirizzo;
     private int id, numPosti;
+    private boolean richiesto = false;
+    private boolean confermato = false;
+
+    public boolean isRichiesto() {
+        return richiesto;
+    }
+
+    public void setRichiesto(boolean richiesto) {
+        this.richiesto = richiesto;
+    }
+
+    public boolean isConfermato() {
+        return confermato;
+    }
+
+    public void setConfermato(boolean confermato) {
+        this.confermato = confermato;
+    }
 
     public Passaggio(int id, String autista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti) {
         this.id=id;
