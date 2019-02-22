@@ -36,6 +36,22 @@ public class Passaggio implements Serializable {
         this.indirizzo=indirizzo;
     }
 
+    public Passaggio(int id, String autista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti, boolean confermato) {
+        this.id=id;
+        this.autista = autista;
+        this.data = data;
+        this.automobile = automobile;
+        this.azienda = azienda;
+        this.direzione = direzione;
+        this.numPosti = numPosti;
+        this.indirizzo=indirizzo;
+        this.confermato=confermato;
+    }
+
+    public boolean getConfermato(){
+        return confermato;
+    }
+
     public String getIndirizzo(){
         return indirizzo;
     }
@@ -91,6 +107,7 @@ public class Passaggio implements Serializable {
     public void setNumPosti(int numPosti) {
         this.numPosti = numPosti;
     }
+
 
 
     //costruttore temporaneo

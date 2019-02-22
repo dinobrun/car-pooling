@@ -9,6 +9,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -61,10 +63,12 @@ public class MyPassagesFragment extends Fragment {
         final View v = inflater.inflate(R.layout.fragment_my_passages, container, false);
 
 
-//getting the recyclerview from xml
+        //getting the recyclerview from xml
         recyclerView = v.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
 
 
         getListPassages();
@@ -149,9 +153,9 @@ public class MyPassagesFragment extends Fragment {
                                         temp.getString("automobile"),
                                         aziendaParam,
                                         temp.getString("direzione"),
-                                        Integer.parseInt(temp.getString("num_posti"))
+                                        Integer.parseInt(temp.getString("num_posti")),
+                                        Boolean.parseBoolean(temp.getString("confermato"))
                                 ));
-                                //Toast.makeText(getActivity(), Integer.parseInt(temp.getString("id")), Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -160,6 +164,25 @@ public class MyPassagesFragment extends Fragment {
 
                             //setting adapter to recyclerview
                             recyclerView.setAdapter(adapter);
+
+                            recyclerView.addOnItemTouchListener(
+                                    new RecyclerItemClickListener(getActivity(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                                        @Override public void onItemClick(View view, int position) {
+
+                                            InfoPassaggioFragment fragment = InfoPassaggioFragment.newInstance(listaPassaggi.get(position));
+                                            FragmentManager fragmentManager = getFragmentManager();
+                                            FragmentTransaction transaction = fragmentManager.beginTransaction();
+                                            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+                                            transaction.addToBackStack(null);
+                                            transaction.add(R.id.open_frag, fragment, "BLANK_FRAGMENT").commit();
+
+                                        }
+
+                                        @Override public void onLongItemClick(View view, int position) {
+                                            // do whatever
+                                        }
+                                    })
+                            );
 
 
                         }
@@ -182,4 +205,7 @@ public class MyPassagesFragment extends Fragment {
         ListPassages lp = new ListPassages();
         lp.execute();
     }
+
+
+
 }
