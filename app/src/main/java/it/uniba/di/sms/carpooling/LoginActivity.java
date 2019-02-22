@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -17,14 +18,15 @@ import java.util.HashMap;
 public class LoginActivity extends Activity {
 
     EditText txtUserName;
-    EditText txtPassword;
+    TextInputEditText txtPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        txtUserName = findViewById(R.id.usernameText);
-        txtPassword = findViewById(R.id.passwordText);
+        txtUserName = findViewById(R.id.usernameLogin);
+        txtPassword = findViewById(R.id.passwordLogin);
+
 
         //if user presses on login
         //calling the method login
@@ -44,17 +46,6 @@ public class LoginActivity extends Activity {
                 startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
             }
         });
-
-        findViewById(R.id.mapButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //open register screen
-                finish();
-                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
-            }
-        });
-
-      
 
 
     }

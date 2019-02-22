@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fefce2"
     tools:context=".HomeActivity"
     tools:layout_editor_absoluteY="81dp">
 
@@ -16,55 +17,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
-
         <Button
             android:id="@+id/creaPassaggio"
             android:layout_width="186dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="102dp"
-            android:layout_marginBottom="89dp"
+            android:layout_marginTop="140dp"
             android:text="@string/newStep"
-            app:layout_constraintBottom_toTopOf="@+id/cercaPassaggio"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.511"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/cercaPassaggio"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="256dp"
             android:text="@string/findStep"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/creaPassaggio" />
-
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="181dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="128dp"
-            android:text="@string/insertDate"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cercaPassaggio" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/buttonMyPassages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="428dp"
             android:text="I MIEI PASSAGGI"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.851" />
+            app:layout_constraintVertical_bias="0.512" />
 
 
     </android.support.constraint.ConstraintLayout>
@@ -72,21 +57,27 @@
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout2">
+        android:layout_width="249dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.081"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout2">
 
 
         <RadioButton
             android:id="@+id/radioButtonAndata"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="Andata" />
 
         <RadioButton
             android:id="@+id/radioButtonRitorno"
-            android:layout_width="wrap_content"
+            android:layout_width="123dp"
             android:layout_height="wrap_content"
             android:text="Ritorno" />
 
@@ -94,33 +85,31 @@
     </RadioGroup>
 
 
-
-
     <TimePicker
         android:id="@+id/time_picker"
-        android:layout_width="315dp"
-        android:layout_height="156dp"
+        android:layout_width="242dp"
+        android:layout_height="88dp"
         android:foregroundGravity="center"
         android:timePickerMode="spinner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.636"/>
+        app:layout_constraintVertical_bias="0.652" />
 
     <DatePicker
         android:id="@+id/date_picker"
-        android:layout_width="303dp"
-        android:layout_height="152dp"
+        android:layout_width="238dp"
+        android:layout_height="85dp"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.922">
+        app:layout_constraintVertical_bias="0.833">
 
     </DatePicker>
 

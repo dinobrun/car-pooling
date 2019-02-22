@@ -3,6 +3,7 @@ package it.uniba.di.sms.carpooling;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 public class RegistrationActivity extends FragmentActivity implements RegistrationFragment.OnFragmentInteractionListener {
 
     private EditText txtUserName;
-    private EditText txtPassword;
+    private TextInputEditText txtPassword;
     private EditText txtEmail;
 
     @Override
