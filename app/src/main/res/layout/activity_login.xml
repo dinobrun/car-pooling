@@ -8,40 +8,52 @@
     tools:context=".LoginActivity"
     tools:layout_editor_absoluteY="81dp">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="206dp"
+        android:layout_height="166dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="58dp"
+        android:src="@drawable/ee" />
+
     <EditText
-        android:id="@+id/usernameText"
+        android:id="@+id/usernameLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="287dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="290dp"
+        android:layout_marginEnd="80dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/blank"
+        android:text="Username"
         android:hint="@string/username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/passwordText"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="354dp"
-        android:layout_marginEnd="100dp"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPersonName"
-        android:text="@string/blank"
-        app:layout_constraintEnd_toEndOf="@+id/usernameText"
-        app:layout_constraintTop_toBottomOf="@+id/usernameText" />
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="80dp"
+        app:passwordToggleEnabled="true"
+        android:layout_marginTop="350dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/passwordLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:text="Password"
+            android:hint="@string/password" />
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/signInButton"
@@ -50,9 +62,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="120dp"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="120dp"
+        android:layout_marginEnd="80dp"
         android:layout_marginBottom="127dp"
         android:background="@drawable/rectangle_button"
         android:text="@string/accedi"
@@ -66,8 +78,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="120dp"
-        android:layout_marginEnd="120dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="80dp"
         android:layout_marginBottom="66dp"
         android:background="@drawable/rectangle_button"
         android:text="@string/registrati"
@@ -78,30 +90,11 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/mapButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="310dp"
-        android:layout_marginBottom="18dp"
-        android:text="mappa"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.67" />
-
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/mapButton"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="170dp"
@@ -111,16 +104,6 @@
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordText" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="206dp"
-        android:layout_height="166dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp"
-        android:src="@drawable/ee" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </RelativeLayout>
