@@ -11,10 +11,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-
+import android.widget.ImageButton;
 
 
 /**
@@ -33,9 +32,6 @@ public class RegistrationFragment extends Fragment {
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
     private static final String EMAIL = "email";
-
-
-    private Button avantiButton2;
 
 
     private EditText txtNome;
@@ -110,7 +106,7 @@ public class RegistrationFragment extends Fragment {
         //fragment
         companyFragment = view.findViewById(R.id.company_fragment);
 
-        avantiButton2 = view.findViewById(R.id.avantiButton2);
+        ImageButton avantiButton2 = view.findViewById(R.id.avantiButton2);
 
         avantiButton2.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -25,21 +25,14 @@ public class RegistrationActivity extends FragmentActivity implements Registrati
     private EditText txtPassword;
     private EditText txtEmail;
 
-    private FrameLayout fragmentContainer;
-
-    private Button btnAvanti;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        //fragment
-        fragmentContainer = findViewById(R.id.registration_frag_layout);
-
-        txtUserName = findViewById(R.id.usernameText2);
-        txtPassword = findViewById(R.id.passwordText2);
-        txtEmail = findViewById(R.id.emailText);
+        txtUserName = findViewById(R.id.usernameRegistration);
+        txtPassword = findViewById(R.id.passwordRegistration);
+        txtEmail = findViewById(R.id.emailRegistration);
 
         ImageButton btnAvanti= findViewById(R.id.avantiButton);
 
@@ -51,8 +44,6 @@ public class RegistrationActivity extends FragmentActivity implements Registrati
 
             }
         });
-
-
 
 
     }

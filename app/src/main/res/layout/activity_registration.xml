@@ -11,7 +11,7 @@
 
 
     <EditText
-        android:id="@+id/usernameText2"
+        android:id="@+id/usernameRegistration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -20,13 +20,14 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="100dp"
-        android:layout_marginBottom="436dp"
+        android:layout_marginBottom="440dp"
         android:ems="10"
+        android:hint="@string/username"
         android:inputType="textPersonName"
-        android:text="@string/username" />
+        android:text="@string/blank" />
 
     <EditText
-        android:id="@+id/passwordText2"
+        android:id="@+id/passwordRegistration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -34,14 +35,15 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
-        android:layout_marginBottom="369dp"
+        android:layout_marginBottom="380dp"
         android:ems="10"
+        android:hint="@string/password"
         android:inputType="textPersonName"
-        android:text="@string/password" />
+        android:text="@string/blank" />
 
 
     <EditText
-        android:id="@+id/emailText"
+        android:id="@+id/emailRegistration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -50,22 +52,24 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="297dp"
         android:layout_marginEnd="100dp"
-        android:layout_marginBottom="307dp"
+        android:layout_marginBottom="320dp"
         android:ems="10"
+        android:hint="@string/email"
         android:inputType="textPersonName"
-        android:text="@string/email" />
+        android:text="@string/blank" />
+
 
     <ImageButton
         android:id="@+id/avantiButton"
-        android:layout_width="72dp"
-        android:layout_height="66dp"
-        android:layout_alignParentStart="true"
+        android:layout_width="52dp"
+        android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="127dp"
-        android:layout_marginEnd="212dp"
-        android:layout_marginBottom="182dp" />
-
+        android:layout_marginEnd="98dp"
+        android:layout_marginBottom="239dp"
+        android:tint="#0413b2"
+        android:background="@android:color/transparent"
+        android:src="@android:drawable/ic_menu_send" />
 
     <FrameLayout
         android:id="@+id/registration_frag_layout"
@@ -74,7 +78,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"/>
+        android:layout_marginTop="0dp">
+
+    </FrameLayout>
 
 
 </RelativeLayout>

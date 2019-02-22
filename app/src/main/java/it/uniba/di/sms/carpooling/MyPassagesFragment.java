@@ -39,7 +39,7 @@ public class MyPassagesFragment extends Fragment {
     private String usernameParam;
     //the recyclerview
     RecyclerView recyclerView;
-    
+
 
     public MyPassagesFragment() {
         // Required empty public constructor
@@ -129,8 +129,6 @@ public class MyPassagesFragment extends Fragment {
                 // progressBar.setVisibility(View.GONE);
 
                 try{
-
-                    Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
 
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
