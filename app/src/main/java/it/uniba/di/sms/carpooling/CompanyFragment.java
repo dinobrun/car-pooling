@@ -1,12 +1,16 @@
 package it.uniba.di.sms.carpooling;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +25,8 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -224,10 +230,20 @@ public class CompanyFragment extends Fragment {
 
             private ProgressBar progressBar;
 
+            //Converte l'imageview in un bitmap
+            BitmapDrawable imageDrawable=  (BitmapDrawable) profilePhoto.getDrawable();
+            Bitmap imageBitmap=imageDrawable.getBitmap();
+
             @Override
             protected String doInBackground(Void... voids) {
                 //creating request handler object
                 RequestHandler requestHandler = new RequestHandler();
+
+                //Converte il bitmap in una stringa
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
@@ -240,6 +256,7 @@ public class CompanyFragment extends Fragment {
                 params.put("Email", emailParam);
                 params.put("Telefono", telefonoParam);
                 params.put("Azienda",company);
+                params.put("Immagine", encodedImage);
 
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_REGISTER, params);
