@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -69,9 +71,6 @@ public class InfoPassaggioFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_info_passaggio, container, false);
 
-        //Toast.makeText(getActivity(), passaggioParam.getAutista(), Toast.LENGTH_SHORT).show();
-
-
         mMapView = v.findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
@@ -84,7 +83,6 @@ public class InfoPassaggioFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
-
 
                 MarkerOptions markerOptions = new MarkerOptions();
                 Marker marker;
@@ -108,12 +106,27 @@ public class InfoPassaggioFragment extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-
-
             }
         });
 
+        TextView autistaText = v.findViewById(R.id.autista);
+        TextView autoText = v.findViewById(R.id.auto);
+        TextView dataText = v.findViewById(R.id.data);
+        TextView direzioneText = v.findViewById(R.id.direzione);
+
+        Button annullaPassaggio = v.findViewById(R.id.annullaPassaggio);
+
+        autistaText.append(" " + passaggioParam.getAutista());
+        autoText.append(" " + passaggioParam.getAutomobile());
+        dataText.append(" " + passaggioParam.getData());
+        direzioneText.append(" " + passaggioParam.getDirezione());
+
+        annullaPassaggio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Aggiungi codice quando si annulla la richiesta di un passaggio
+            }
+        });
 
 
 
