@@ -1,17 +1,23 @@
 package it.uniba.di.sms.carpooling;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,12 +25,19 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static android.app.Activity.RESULT_OK;
 
 public class CompanyFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+    private static final int IMAGE_PICK_CODE=1000;
+    ImageView profilePhoto;
 
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
@@ -130,6 +143,16 @@ public class CompanyFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+        profilePhoto= v.findViewById(R.id.imageProfile);
+        Button takePhoto=v.findViewById(R.id.takePhotoButton);
+        takePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent pickPhoto = new Intent(Intent.ACTION_PICK);
+                pickPhoto.setType("image/*");
+                startActivityForResult(pickPhoto , IMAGE_PICK_CODE);//one can be replaced with any action code
+            }
+        });
 
         Button registratiBtn = v.findViewById(R.id.registrati);
         registratiBtn.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +164,13 @@ public class CompanyFragment extends Fragment {
 
         return v;
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode==RESULT_OK && requestCode==IMAGE_PICK_CODE){
+            profilePhoto.setImageURI(data.getData());
+        }
     }
 
     private ArrayList<String> getCompanies(){
@@ -200,10 +230,20 @@ public class CompanyFragment extends Fragment {
 
             private ProgressBar progressBar;
 
+            //Converte l'imageview in un bitmap
+            BitmapDrawable imageDrawable=  (BitmapDrawable) profilePhoto.getDrawable();
+            Bitmap imageBitmap=imageDrawable.getBitmap();
+
             @Override
             protected String doInBackground(Void... voids) {
                 //creating request handler object
                 RequestHandler requestHandler = new RequestHandler();
+
+                //Converte il bitmap in una stringa
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
@@ -216,6 +256,7 @@ public class CompanyFragment extends Fragment {
                 params.put("Email", emailParam);
                 params.put("Telefono", telefonoParam);
                 params.put("Azienda",company);
+                params.put("Immagine", encodedImage);
 
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_REGISTER, params);
