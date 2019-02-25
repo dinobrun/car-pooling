@@ -1,25 +1,16 @@
 package it.uniba.di.sms.carpooling;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -30,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class MyPassagesFragment extends Fragment {
+public class PassaggiRichiestiFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -43,7 +34,7 @@ public class MyPassagesFragment extends Fragment {
     RecyclerView recyclerView;
 
 
-    public MyPassagesFragment() {
+    public PassaggiRichiestiFragment() {
         // Required empty public constructor
     }
 
@@ -60,7 +51,7 @@ public class MyPassagesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View v = inflater.inflate(R.layout.fragment_my_passages, container, false);
+        final View v = inflater.inflate(R.layout.fragment_passaggi_richiesti, container, false);
 
 
         //getting the recyclerview from xml
@@ -169,7 +160,7 @@ public class MyPassagesFragment extends Fragment {
                                     new RecyclerItemClickListener(getActivity(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                                         @Override public void onItemClick(View view, int position) {
 
-                                            InfoPassaggioFragment fragment = InfoPassaggioFragment.newInstance(listaPassaggi.get(position));
+                                            InfoPassaggioRichiestoFragment fragment = InfoPassaggioRichiestoFragment.newInstance(listaPassaggi.get(position));
                                             FragmentManager fragmentManager = getFragmentManager();
                                             FragmentTransaction transaction = fragmentManager.beginTransaction();
                                             transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);

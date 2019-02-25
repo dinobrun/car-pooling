@@ -40,22 +40,25 @@ public class CreaPassaggioFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private static final String AUTO = "auto";
-    private ArrayList<String> autoParam;
+    private ArrayList<Automobile> autoParam;
     private Date time;
     String value = "";
     Button mostra;
     private String selectionAuto = null;
     private Integer selectionPostoAuto;
 
+
+
+
     public CreaPassaggioFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static CreaPassaggioFragment newInstance(ArrayList<String> automobiles) {
+    public static CreaPassaggioFragment newInstance(ArrayList<Automobile> automobiles) {
         CreaPassaggioFragment fragment = new CreaPassaggioFragment();
         Bundle args = new Bundle();
-        args.putStringArrayList(AUTO,automobiles);
+        args.putSerializable(AUTO,automobiles);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,7 +67,7 @@ public class CreaPassaggioFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            autoParam = getArguments().getStringArrayList(AUTO);
+            autoParam = (ArrayList<Automobile>) getArguments().get(AUTO);
         }
     }
 
@@ -94,14 +97,19 @@ public class CreaPassaggioFragment extends Fragment {
             }
         });
 
+        ArrayList<String> nomiAuto = new ArrayList<>();
+        for(Automobile a : autoParam)
+            nomiAuto.add(a.getNome());
+
         final Spinner spinnerAuto = v.findViewById(R.id.spinnerAuto);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), simple_list_item_1, autoParam);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), simple_list_item_1, nomiAuto);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerAuto.setAdapter(adapter);
         spinnerAuto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 selectionAuto = adapter.getItem(i);
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -110,7 +118,7 @@ public class CreaPassaggioFragment extends Fragment {
 
         //Spinner posti auto
         final Spinner spinnerPostiAuto = v.findViewById(R.id.spinnerPostiAuto);
-        final ArrayAdapter<String> adapterPostiAuto = new ArrayAdapter<String>(this.getActivity(), simple_list_item_1, getResources().getStringArray(R.array.spinnerItems));
+        final ArrayAdapter<String> adapterPostiAuto = new ArrayAdapter<>(this.getActivity(), simple_list_item_1, getResources().getStringArray(R.array.spinnerItems));
         adapterPostiAuto.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPostiAuto.setAdapter(adapterPostiAuto);
         spinnerPostiAuto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -121,6 +129,7 @@ public class CreaPassaggioFragment extends Fragment {
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
 
             }
         });

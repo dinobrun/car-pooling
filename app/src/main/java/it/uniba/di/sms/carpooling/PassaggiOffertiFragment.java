@@ -1,10 +1,11 @@
 package it.uniba.di.sms.carpooling;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -49,7 +50,7 @@ public class PassaggiOffertiFragment extends Fragment {
 
 
 //getting the recyclerview from xml
-        recyclerView = v.findViewById(R.id.recyclerOfferti);
+        recyclerView = v.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -145,6 +146,20 @@ public class PassaggiOffertiFragment extends Fragment {
                             //setting adapter to recyclerview
                             recyclerView.setAdapter(adapter);
 
+                            recyclerView.addOnItemTouchListener(
+                                    new RecyclerItemClickListener(getActivity(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                                        @Override public void onItemClick(View view, int position) {
+
+                                            getUtentiPassages(listaPassaggi.get(position));
+
+                                        }
+
+                                        @Override public void onLongItemClick(View view, int position) {
+                                            // do whatever
+                                        }
+                                    })
+                            );
+
 
                         }
                         else{
@@ -165,5 +180,99 @@ public class PassaggiOffertiFragment extends Fragment {
         //executing the async task
         ListPassages lp = new ListPassages();
         lp.execute();
+    }
+
+
+
+
+    //Metodo asincrono che prende la lista di utenti che hanno richiesto il passaggio
+    private void getUtentiPassages(final Passaggio passaggio) {
+
+        //if it passes all the validations
+        class UtentiPassages extends AsyncTask<Void, Void, String> {
+
+            ArrayList<Utente> listaUtentiPassages = new ArrayList<>();
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("ID", Integer.toString(passaggio.getId()));
+
+                //returning the response
+                return requestHandler.sendPostRequest(URLs.URL_GET_LIST_USER_REQUESTED, params);
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+
+                try{
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
+
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+
+
+                        //if list is not empty
+                        if(!obj.getBoolean("empty_list")){
+
+
+
+                            JSONArray utentiJson = obj.getJSONArray("utente");
+
+
+                            for(int i=0; i<utentiJson.length(); i++){
+                                JSONObject temp = utentiJson.getJSONObject(i);
+                                listaUtentiPassages.add(new Utente(
+                                        temp.getString("username"),
+                                        temp.getString("nome"),
+                                        temp.getString("cognome"),
+                                        temp.getString("indirizzo"),
+                                        temp.getString("email"),
+                                        temp.getString("telefono"),
+                                        (1 == Integer.parseInt(temp.getString("confermato")))
+                                ));
+                            }
+
+
+                            //Apre il fragment InfoPassaggioOffertoFragment
+                            InfoPassaggioOffertoFragment fragment = InfoPassaggioOffertoFragment.newInstance(passaggio, listaUtentiPassages);
+                            FragmentManager fragmentManager = getFragmentManager();
+                            FragmentTransaction transaction = fragmentManager.beginTransaction();
+                            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+                            transaction.addToBackStack(null);
+                            transaction.add(R.id.open_frag, fragment, "BLANK_FRAGMENT").commit();
+
+
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "errore", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else {
+                        Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //executing the async task
+        UtentiPassages up = new UtentiPassages();
+        up.execute();
     }
 }

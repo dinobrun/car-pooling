@@ -1,11 +1,8 @@
 package it.uniba.di.sms.carpooling;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +26,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 
-public class InfoPassaggioFragment extends Fragment {
+public class InfoPassaggioRichiestoFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PASSAGGIO = "passaggio";
@@ -43,14 +40,14 @@ public class InfoPassaggioFragment extends Fragment {
     private GoogleMap googleMap;
 
 
-    public InfoPassaggioFragment() {
+    public InfoPassaggioRichiestoFragment() {
         // Required empty public constructor
     }
 
 
     // TODO: Rename and change types and number of parameters
-    public static InfoPassaggioFragment newInstance(Passaggio passaggioParam) {
-        InfoPassaggioFragment fragment = new InfoPassaggioFragment();
+    public static InfoPassaggioRichiestoFragment newInstance(Passaggio passaggioParam) {
+        InfoPassaggioRichiestoFragment fragment = new InfoPassaggioRichiestoFragment();
         Bundle args = new Bundle();
         args.putSerializable(PASSAGGIO, passaggioParam);
         fragment.setArguments(args);
@@ -69,7 +66,9 @@ public class InfoPassaggioFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_info_passaggio, container, false);
+        View v = inflater.inflate(R.layout.fragment_info_passaggio_richiesto, container, false);
+
+        Toast.makeText(getActivity(),"richiesto",Toast.LENGTH_SHORT).show();
 
         mMapView = v.findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
@@ -127,10 +126,10 @@ public class InfoPassaggioFragment extends Fragment {
                 //Aggiungi codice quando si annulla la richiesta di un passaggio
             }
         });
-
-
-
         return v;
     }
+
+
+
 
 }

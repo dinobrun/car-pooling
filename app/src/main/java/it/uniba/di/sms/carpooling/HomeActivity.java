@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
@@ -102,7 +101,7 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
     }
 
     //Apre CreaPassaggioFragment
-    public void openCreaPassaggioFragment(ArrayList<String> automobili) {
+    public void openCreaPassaggioFragment(ArrayList<Automobile> automobili) {
         CreaPassaggioFragment fragment = CreaPassaggioFragment.newInstance(automobili);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -123,7 +122,7 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
 
     //Apre MieiPassaggiFragment
     public void openMieiPassaggiFragment(String username) {
-        MyPassagesFragment fragment = new MyPassagesFragment();
+        PassaggiRichiestiFragment fragment = new PassaggiRichiestiFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
@@ -133,11 +132,13 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
     }
+
+
+    //metodo che restituisce la lista di auto dell'utente prima di creare un passaggio
     private void getAuto(){
 
-        final ArrayList<String> automobili = new ArrayList<>();
+        final ArrayList<Automobile> automobili = new ArrayList<>();
 
         //classe per prendere le aziende
         class AutoDB extends AsyncTask<Void, Void, String> {
@@ -178,13 +179,15 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
                         JSONArray companyJson = obj.getJSONArray("automobile");
                             for(int i=0; i<companyJson.length(); i++){
                             JSONObject temp = companyJson.getJSONObject(i);
-                            automobili.add(temp.getString("nome"));
+                            automobili.add(new Automobile(
+                                    temp.getString("nome"),
+                                    Integer.parseInt(temp.getString("num_posti")),
+                                    temp.getString("id_utente")
+                            ));
                         }
-
                     } else {
                         Toast.makeText(HomeActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
-
 
                     //Se l'utente non ha auto aggiunte
                     if(automobili.isEmpty()){
@@ -229,6 +232,7 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
 
     public void showAddAutoPopup(){
 
+        /*
         final ArrayList<String> automobili = new ArrayList<>();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
@@ -260,7 +264,7 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
             }
         });
         builder.show();
-
+*/
     }
 
 

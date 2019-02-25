@@ -14,5 +14,6 @@ public class URLs {
     public static final String URL_REQUESTPASSAGGIO= ROOT_URL + "requestPassaggio";
     public static final String URL_GET_LIST_PASSAGES = ROOT_URL + "getListRequestedPassaggio";
     public static final String URL_GET_OFFERED_PASSAGES = ROOT_URL + "getListOfferedPassaggio";
+    public static final String URL_GET_LIST_USER_REQUESTED = ROOT_URL + "getListUserRequested";
 
 }

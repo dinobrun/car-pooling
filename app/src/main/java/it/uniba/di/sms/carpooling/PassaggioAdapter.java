@@ -94,6 +94,8 @@ public class PassaggioAdapter extends RecyclerView.Adapter<PassaggioAdapter.Prod
 
 
 
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -102,7 +104,7 @@ public class PassaggioAdapter extends RecyclerView.Adapter<PassaggioAdapter.Prod
                     /*
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
 
-                    InfoPassaggioFragment fragment = new InfoPassaggioFragment();
+                    InfoPassaggioOffertoFragment fragment = new InfoPassaggioOffertoFragment();
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
