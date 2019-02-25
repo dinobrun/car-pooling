@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,9 +24,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.app.Activity.RESULT_OK;
+
 public class CompanyFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+    private static final int IMAGE_PICK_CODE=1000;
+    ImageView profilePhoto;
 
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
@@ -131,13 +137,14 @@ public class CompanyFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-
+        profilePhoto= v.findViewById(R.id.imageProfile);
         Button takePhoto=v.findViewById(R.id.takePhotoButton);
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(pickPhoto , 1);//one can be replaced with any action code
+                Intent pickPhoto = new Intent(Intent.ACTION_PICK);
+                pickPhoto.setType("image/*");
+                startActivityForResult(pickPhoto , IMAGE_PICK_CODE);//one can be replaced with any action code
             }
         });
 
@@ -151,6 +158,13 @@ public class CompanyFragment extends Fragment {
 
         return v;
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode==RESULT_OK && requestCode==IMAGE_PICK_CODE){
+            profilePhoto.setImageURI(data.getData());
+        }
     }
 
     private ArrayList<String> getCompanies(){
