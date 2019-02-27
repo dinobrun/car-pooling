@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -38,6 +39,7 @@ public class CompanyFragment extends Fragment {
 
     private static final int IMAGE_PICK_CODE=1000;
     ImageView profilePhoto;
+    Uri selectedImageUri;
 
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
@@ -166,10 +168,13 @@ public class CompanyFragment extends Fragment {
 
     }
 
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode==RESULT_OK && requestCode==IMAGE_PICK_CODE){
             profilePhoto.setImageURI(data.getData());
+            selectedImageUri=data.getData();
         }
     }
 
@@ -243,7 +248,7 @@ public class CompanyFragment extends Fragment {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageBytes = baos.toByteArray();
-                String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                String encodedImage = selectedImageUri.toString();
 
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
