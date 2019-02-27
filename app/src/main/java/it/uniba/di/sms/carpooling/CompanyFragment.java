@@ -1,5 +1,7 @@
 package it.uniba.di.sms.carpooling;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,7 +32,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -41,7 +43,6 @@ public class CompanyFragment extends Fragment {
 
     private static final int IMAGE_PICK_CODE=1000;
     ImageView profilePhoto;
-    Bitmap bitPhoto;
 
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
@@ -170,14 +171,14 @@ public class CompanyFragment extends Fragment {
 
     }
 
-
+    Bitmap bitmap;
+    Uri imageUri;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode==RESULT_OK && requestCode==IMAGE_PICK_CODE){
-            profilePhoto.setImageURI(data.getData());
-            bitPhoto = BitmapFactory.decodeFile(data.getData().getPath());
-            profilePhoto.setImageBitmap(bitPhoto);
+            imageUri = data.getData();
+            profilePhoto.setImageURI(imageUri);
         }
     }
 
@@ -239,18 +240,18 @@ public class CompanyFragment extends Fragment {
             private ProgressBar progressBar;
 
             //Converte l'imageview in un bitmap
+            BitmapDrawable imageDrawable=  (BitmapDrawable) profilePhoto.getDrawable();
+            Bitmap imageBitmap=imageDrawable.getBitmap();
 
-            //BitmapDrawable imageDrawable=  (BitmapDrawable) profilePhoto();
-            //Bitmap imageBitmap=imageDrawable.getBitmap();
 
             @Override
             protected String doInBackground(Void... voids) {
                 //creating request handler object
                 RequestHandler requestHandler = new RequestHandler();
-
+                bitmap = BitmapFactory.decodeFile(imageUri.getPath());
                 //Converte il bitmap in una stringa
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitPhoto.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageBytes = baos.toByteArray();
                 String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
