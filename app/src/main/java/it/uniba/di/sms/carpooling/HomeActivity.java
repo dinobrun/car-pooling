@@ -85,6 +85,16 @@ public class HomeActivity extends FragmentActivity implements CreaPassaggioFragm
             }
         });
 
+        Button logout = findViewById(R.id.logout_button);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPrefManager.getInstance(HomeActivity.this).logout();
+                Intent openLogin = new Intent(HomeActivity.this, LoginActivity.class);
+                startActivity(openLogin);
+            }
+        });
+
 
         Button btnMyPassages= findViewById(R.id.buttonMyPassages);
         btnMyPassages.setOnClickListener(new View.OnClickListener() {
