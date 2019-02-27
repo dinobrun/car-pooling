@@ -49,8 +49,8 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        /*
-        drawerLayout = findViewById(R.id.drawer_layout);
+
+       /* drawerLayout = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
@@ -64,8 +64,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
-                        Intent openPassaggi = new Intent(HomeActivity.this,PassaggiActivity.class);
-                        startActivity(openPassaggi);
+
 
                         return true;
                     }
