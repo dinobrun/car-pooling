@@ -2,6 +2,7 @@ package it.uniba.di.sms.carpooling;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -28,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -39,7 +41,7 @@ public class CompanyFragment extends Fragment {
 
     private static final int IMAGE_PICK_CODE=1000;
     ImageView profilePhoto;
-    Uri selectedImageUri;
+    Bitmap bitPhoto;
 
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
@@ -174,7 +176,8 @@ public class CompanyFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode==RESULT_OK && requestCode==IMAGE_PICK_CODE){
             profilePhoto.setImageURI(data.getData());
-            selectedImageUri=data.getData();
+            bitPhoto = BitmapFactory.decodeFile(data.getData().getPath());
+            profilePhoto.setImageBitmap(bitPhoto);
         }
     }
 
@@ -236,8 +239,9 @@ public class CompanyFragment extends Fragment {
             private ProgressBar progressBar;
 
             //Converte l'imageview in un bitmap
-            BitmapDrawable imageDrawable=  (BitmapDrawable) profilePhoto.getDrawable();
-            Bitmap imageBitmap=imageDrawable.getBitmap();
+
+            //BitmapDrawable imageDrawable=  (BitmapDrawable) profilePhoto();
+            //Bitmap imageBitmap=imageDrawable.getBitmap();
 
             @Override
             protected String doInBackground(Void... voids) {
@@ -246,9 +250,9 @@ public class CompanyFragment extends Fragment {
 
                 //Converte il bitmap in una stringa
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                bitPhoto.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageBytes = baos.toByteArray();
-                String encodedImage = selectedImageUri.toString();
+                String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
