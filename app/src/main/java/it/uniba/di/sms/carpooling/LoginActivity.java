@@ -34,7 +34,9 @@ public class LoginActivity extends Activity {
         // Check if UserResponse is Already Logged In
         if(SharedPrefManager.getInstance(LoginActivity.this).isLoggedIn()) {
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            finish();
         } else {
             loginForm.setVisibility(View.VISIBLE);
         }

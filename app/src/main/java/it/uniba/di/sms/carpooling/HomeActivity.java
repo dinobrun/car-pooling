@@ -1,26 +1,23 @@
 package it.uniba.di.sms.carpooling;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TimePicker;
@@ -50,7 +47,14 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         setContentView(R.layout.activity_home);
 
 
-       /* drawerLayout = findViewById(R.id.drawer_layout);
+       drawerLayout = findViewById(R.id.drawer_layout);
+
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
@@ -64,17 +68,14 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
+                        Intent openPassaggi = new Intent(HomeActivity.this,PassaggiActivity.class);
+                        startActivity(openPassaggi);
 
 
                         return true;
                     }
-                });*/
+                });
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        android.support.v7.app.ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
 
 
@@ -129,7 +130,10 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
             public void onClick(View v) {
                 SharedPrefManager.getInstance(HomeActivity.this).logout();
                 Intent openLogin = new Intent(HomeActivity.this, LoginActivity.class);
+                openLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                openLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(openLogin);
+                finish();
             }
         });
 
