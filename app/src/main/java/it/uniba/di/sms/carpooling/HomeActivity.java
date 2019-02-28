@@ -49,7 +49,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
        /* drawerLayout = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -75,8 +74,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         android.support.v7.app.ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-
-
 
 
         aziendaUtente = SharedPrefManager.getInstance(HomeActivity.this).getUser().getAzienda();
@@ -144,8 +141,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
             }
         });
-
-
     }
 
     @Override
