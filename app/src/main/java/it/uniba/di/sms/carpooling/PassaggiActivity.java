@@ -20,8 +20,6 @@ public class PassaggiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passaggi);
         Log.d(TAG, "onCreate: Starting.");
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
 
         mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
 

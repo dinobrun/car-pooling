@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fefce2"
     tools:context=".HomeActivity"
+    android:id="@+id/drawer_layout"
     tools:layout_editor_absoluteY="81dp">
+
+    <RelativeLayout
+        android:id="@+id/open_frag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -17,146 +29,146 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
         <Button
             android:id="@+id/logout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="18dp"
             android:layout_marginBottom="17dp"
-            android:text="logout"
-            app:layout_constraintBottom_toTopOf="@+id/creaPassaggio"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:stateListAnimator="@null"
+            android:text="logout" />
 
 
         <Button
             android:id="@+id/creaPassaggio"
             android:layout_width="186dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="140dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="417dp"
+            android:layout_marginEnd="96dp"
             android:text="@string/newStep"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.511"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:stateListAnimator="@null"/>
 
         <Button
             android:id="@+id/cercaPassaggio"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_marginTop="256dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="314dp"
+            android:layout_marginEnd="114dp"
             android:text="@string/findStep"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:stateListAnimator="@null"/>
 
         <Button
             android:id="@+id/buttonMyPassages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="428dp"
+            android:layout_marginEnd="91dp"
+            android:layout_marginBottom="16dp"
             android:text="I MIEI PASSAGGI"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.512" />
+            app:layout_constraintVertical_bias="0.512"
+            android:stateListAnimator="@null"/>
 
 
-    </android.support.constraint.ConstraintLayout>
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="249dp"
+            android:layout_height="37dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="76dp"
+            android:layout_marginTop="375dp"
+            android:layout_marginEnd="59dp"
+            android:layout_marginBottom="40dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.081"
+            >
 
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="249dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="40dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.081"
-        app:layout_constraintStart_toStartOf="@+id/constraintLayout2">
+            <RadioButton
+                android:id="@+id/radioButtonAndata"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/radioGroup"
+                android:text="Andata" />
+
+            <RadioButton
+                android:id="@+id/radioButtonRitorno"
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/radioGroup"
+                android:text="Ritorno" />
 
 
-        <RadioButton
-            android:id="@+id/radioButtonAndata"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:text="Andata" />
-
-        <RadioButton
-            android:id="@+id/radioButtonRitorno"
-            android:layout_width="123dp"
-            android:layout_height="wrap_content"
-            android:text="Ritorno" />
+        </RadioGroup>
 
 
-    </RadioGroup>
+        <TimePicker
+            android:id="@+id/time_picker"
+            android:layout_width="225dp"
+            android:layout_height="80dp"
+            android:layout_alignStart="@+id/radioGroup"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="89dp"
+            android:foregroundGravity="center"
+            android:timePickerMode="spinner"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.652" />
 
+        <DatePicker
+            android:id="@+id/date_picker"
+            android:layout_width="221dp"
+            android:layout_height="120dp"
+            android:layout_alignStart="@+id/radioGroup"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="6dp"
+            android:layout_marginBottom="271dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.833">
 
-    <TimePicker
-        android:id="@+id/time_picker"
-        android:layout_width="242dp"
-        android:layout_height="88dp"
-        android:foregroundGravity="center"
-        android:timePickerMode="spinner"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.652" />
+        </DatePicker>
 
-    <DatePicker
-        android:id="@+id/date_picker"
-        android:layout_width="238dp"
-        android:layout_height="85dp"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.833">
+    </RelativeLayout>
 
-    </DatePicker>
-
-    <FrameLayout
-        android:id="@+id/open_frag"
-        android:layout_width="match_parent"
+    <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
-    </FrameLayout>
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_view"/>
 
-    <FrameLayout
-        android:id="@+id/passages_frag"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
-
-
-    </FrameLayout>
-
-</android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.DrawerLayout>
