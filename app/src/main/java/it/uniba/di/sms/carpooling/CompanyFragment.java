@@ -1,12 +1,17 @@
 package it.uniba.di.sms.carpooling;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -166,10 +171,14 @@ public class CompanyFragment extends Fragment {
 
     }
 
+    Bitmap bitmap;
+    Uri imageUri;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode==RESULT_OK && requestCode==IMAGE_PICK_CODE){
-            profilePhoto.setImageURI(data.getData());
+            imageUri = data.getData();
+            profilePhoto.setImageURI(imageUri);
         }
     }
 
@@ -234,14 +243,15 @@ public class CompanyFragment extends Fragment {
             BitmapDrawable imageDrawable=  (BitmapDrawable) profilePhoto.getDrawable();
             Bitmap imageBitmap=imageDrawable.getBitmap();
 
+
             @Override
             protected String doInBackground(Void... voids) {
                 //creating request handler object
                 RequestHandler requestHandler = new RequestHandler();
-
+                bitmap = BitmapFactory.decodeFile(imageUri.getPath());
                 //Converte il bitmap in una stringa
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageBytes = baos.toByteArray();
                 String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 

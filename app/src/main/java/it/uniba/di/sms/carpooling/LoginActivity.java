@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,6 +20,7 @@ public class LoginActivity extends Activity {
 
     EditText txtUserName;
     TextInputEditText txtPassword;
+    RelativeLayout loginForm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,16 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         txtUserName = findViewById(R.id.usernameLogin);
         txtPassword = findViewById(R.id.passwordLogin);
+
+        loginForm = findViewById(R.id.form_login);
+
+        // Check if UserResponse is Already Logged In
+        if(SharedPrefManager.getInstance(LoginActivity.this).isLoggedIn()) {
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+        } else {
+            loginForm.setVisibility(View.VISIBLE);
+        }
 
 
         //if user presses on login
