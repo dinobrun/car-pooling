@@ -27,6 +27,7 @@ public class PassaggiOffertiFragment extends Fragment {
     RecyclerView recyclerView;
 
     String user = SharedPrefManager.getInstance(getActivity()).getUser().getUsername();
+    Uri c;
 
 
     public PassaggiOffertiFragment() {
@@ -81,8 +82,11 @@ public class PassaggiOffertiFragment extends Fragment {
 
     private void getListPassages() {
 
+
         //if it passes all the validations
         class ListPassages extends AsyncTask<Void, Void, String> {
+
+
 
             ArrayList<Passaggio> listaPassaggi = new ArrayList<>();
             String aziendaParam = SharedPrefManager.getInstance(getContext()).getUser().getUsername();
@@ -188,6 +192,7 @@ public class PassaggiOffertiFragment extends Fragment {
     //Metodo asincrono che prende la lista di utenti che hanno richiesto il passaggio
     private void getUtentiPassages(final Passaggio passaggio) {
 
+
         //if it passes all the validations
         class UtentiPassages extends AsyncTask<Void, Void, String> {
 
@@ -214,7 +219,6 @@ public class PassaggiOffertiFragment extends Fragment {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-
 
                 try{
                     //converting response to json object
@@ -246,13 +250,15 @@ public class PassaggiOffertiFragment extends Fragment {
                             }
 
 
+
+
                             //Apre il fragment InfoPassaggioOffertoFragment
                             InfoPassaggioOffertoFragment fragment = InfoPassaggioOffertoFragment.newInstance(passaggio, listaUtentiPassages);
                             FragmentManager fragmentManager = getFragmentManager();
                             FragmentTransaction transaction = fragmentManager.beginTransaction();
                             transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
                             transaction.addToBackStack(null);
-                            transaction.add(R.id.open_frag, fragment, "BLANK_FRAGMENT").commit();
+                            transaction.replace(R.id.open_passaggi_offerti, fragment, "BLANK_FRAGMENT").commit();
 
 
                         }

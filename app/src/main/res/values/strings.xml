@@ -26,7 +26,7 @@
     <string name="blank" />
 
 
-    <string-array name="spinnerItems">
+    <string-array name="postiAutoList">
         <item>1</item>
         <item>2</item>
         <item>3</item>
