@@ -1,11 +1,17 @@
 package it.uniba.di.sms.carpooling;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,26 +22,21 @@ import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import static android.R.layout.simple_list_item_1;
+import static android.R.layout.simple_list_item_2;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CreaPassaggioFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CreaPassaggioFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CreaPassaggioFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
@@ -47,7 +48,15 @@ public class CreaPassaggioFragment extends Fragment {
     private String selectionAuto = null;
     private Integer selectionPostoAuto;
 
+    int year, month, day, hour, minute;
 
+    Spinner spinnerAuto;
+    Spinner spinnerPostiAuto;
+
+    DatePickerDialog.OnDateSetListener mDateSetListener = null;
+    TimePickerDialog.OnTimeSetListener mTimeSetListener = null;
+
+    Calendar cal = Calendar.getInstance();
 
 
     public CreaPassaggioFragment() {
@@ -71,37 +80,106 @@ public class CreaPassaggioFragment extends Fragment {
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
         final View v = inflater.inflate(R.layout.fragment_crea_passaggio, container, false);
 
-        final TimePicker timePicker =  v.findViewById(R.id.time_picker);
-        final DatePicker datePicker = v.findViewById(R.id.date_picker);
         final Calendar calendar = new GregorianCalendar();
+
+
+
+        //Inserimento data
+        final TextView dataText = v.findViewById(R.id.dataText);
+        final TextView orarioText = v.findViewById(R.id.orarioText);
+        dataText.setText("Inserisci data");
+        orarioText.setText("Inserisci ora");
+
+
+        //Set current date
+        year = cal.get(Calendar.YEAR);
+        month = cal.get(Calendar.MONTH);
+        day = cal.get(Calendar.DAY_OF_MONTH);
+        hour = cal.get(Calendar.HOUR);
+        minute = cal.get(Calendar.MINUTE);
+        dataText.setText(day + "/" + (month+1) + "/" + year);
+        orarioText.setText(cal.get(Calendar.HOUR) + " : " + cal.get(Calendar.MINUTE));
+
+
+        dataText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                year = cal.get(Calendar.YEAR);
+                month = cal.get(Calendar.MONTH);
+                day = cal.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog dialog = new DatePickerDialog(getActivity(),android.R.style.Theme_Holo_Dialog, mDateSetListener, year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int yearParam, int monthParam, int dayParam) {
+                year = yearParam;
+                month=monthParam;
+                day=dayParam;
+                String date = day + "/" + (month+1) + "/" + year;
+                dataText.setText(date);
+
+            }
+        };
+
+        orarioText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hour=cal.get(Calendar.HOUR);
+                minute=cal.get(Calendar.MINUTE);
+                TimePickerDialog dialog = new TimePickerDialog(getActivity(),android.R.style.Theme_Holo_Dialog,mTimeSetListener,hour,minute,true);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hourParam, int minuteParam) {
+                hour=hourParam;
+                minute=minuteParam;
+                String time = hour + " : " + minute;
+                orarioText.setText(time);
+            }
+        };
+
+
 
         mostra = v.findViewById(R.id.mostra);
         mostra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendar.set(datePicker.getYear(),
-                        datePicker.getMonth(),
-                        datePicker.getDayOfMonth(),
-                        timePicker.getHour(),
-                        timePicker.getMinute());
+                calendar.set(year,
+                        month,
+                        day,
+                        hour,
+                        minute);
 
                 time = calendar.getTime();
+                Toast.makeText(getActivity(),time.toString(),Toast.LENGTH_SHORT).show();
 
-                addPassaggio();
+                //addPassaggio();
 
             }
         });
 
+        //Contiene i nomi delle auto
         ArrayList<String> nomiAuto = new ArrayList<>();
         for(Automobile a : autoParam)
             nomiAuto.add(a.getNome());
 
-        final Spinner spinnerAuto = v.findViewById(R.id.spinnerAuto);
+
+        //Spinner lista auto
+        spinnerAuto = v.findViewById(R.id.spinnerAuto);
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), simple_list_item_1, nomiAuto);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerAuto.setAdapter(adapter);
@@ -109,33 +187,35 @@ public class CreaPassaggioFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 selectionAuto = adapter.getItem(i);
-
+                spinnerPostiAuto.setSelection(autoParam.get(i).getNumPosti()-2);
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
 
+
         //Spinner posti auto
-        final Spinner spinnerPostiAuto = v.findViewById(R.id.spinnerPostiAuto);
-        final ArrayAdapter<String> adapterPostiAuto = new ArrayAdapter<>(this.getActivity(), simple_list_item_1, getResources().getStringArray(R.array.spinnerItems));
+        spinnerPostiAuto = v.findViewById(R.id.spinnerPostiAuto);
+        final ArrayAdapter<String> adapterPostiAuto = new ArrayAdapter<>(this.getActivity(), simple_list_item_1, getResources().getStringArray(R.array.postiAutoList));
         adapterPostiAuto.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPostiAuto.setAdapter(adapterPostiAuto);
         spinnerPostiAuto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 selectionPostoAuto = Integer.parseInt(adapterPostiAuto.getItem(i));
-                Toast.makeText(getActivity(), adapterPostiAuto.getItem(i),Toast.LENGTH_SHORT ).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
-
             }
         });
 
+
+        //Inizializzo il radio group con il check su "Andata"
         RadioGroup rg = v.findViewById(R.id.radioGroup);
         rg.check(R.id.radioButtonAndata);
+        RadioButton rd = v.findViewById(R.id.radioButtonAndata);
+        value=rd.getText().toString();
 
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -143,6 +223,7 @@ public class CreaPassaggioFragment extends Fragment {
                 value=rd.getText().toString();
             }
         });
+
 
         return v;
     }
@@ -210,7 +291,7 @@ public class CreaPassaggioFragment extends Fragment {
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         Intent goToHomeActivity = new Intent(getActivity(),HomeActivity.class);
-                        startActivity(goToHomeActivity);
+                        //startActivity(goToHomeActivity);
                     } else {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
