@@ -41,20 +41,23 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
     RadioButton rd;
     private DrawerLayout drawerLayout;
 
+    Toolbar myToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
 
-       drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
 
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
@@ -70,7 +73,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                         // For example, swap UI fragments here
                         Intent openPassaggi = new Intent(HomeActivity.this,PassaggiActivity.class);
                         startActivity(openPassaggi);
-
 
                         return true;
                     }
@@ -151,6 +153,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -357,6 +360,8 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                 // progressBar = (ProgressBar) findViewById(R.id.progressBar);
                 // progressBar.setVisibility(View.VISIBLE);
             }
+
+
 
             @Override
             protected void onPostExecute(String s) {

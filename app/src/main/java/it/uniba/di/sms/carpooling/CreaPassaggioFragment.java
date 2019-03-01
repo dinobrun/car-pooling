@@ -1,5 +1,6 @@
 package it.uniba.di.sms.carpooling;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -11,8 +12,14 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -53,6 +60,10 @@ public class CreaPassaggioFragment extends Fragment {
     Spinner spinnerAuto;
     Spinner spinnerPostiAuto;
 
+    Calendar calendar = new GregorianCalendar();
+
+
+
     DatePickerDialog.OnDateSetListener mDateSetListener = null;
     TimePickerDialog.OnTimeSetListener mTimeSetListener = null;
 
@@ -80,22 +91,55 @@ public class CreaPassaggioFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_scrolling, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.addPassaggio:
+
+                calendar.set(year,
+                        month,
+                        day,
+                        hour,
+                        minute);
+
+                time = calendar.getTime();
+
+                //Aggiunge il passaggio al DB
+                addPassaggio();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
         final View v = inflater.inflate(R.layout.fragment_crea_passaggio, container, false);
 
-        final Calendar calendar = new GregorianCalendar();
+        Toolbar toolbar = v.findViewById(R.id.my_toolbar);
 
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
 
+        setHasOptionsMenu(true);
 
         //Inserimento data
         final TextView dataText = v.findViewById(R.id.dataText);
         final TextView orarioText = v.findViewById(R.id.orarioText);
-        dataText.setText("Inserisci data");
-        orarioText.setText("Inserisci ora");
-
 
         //Set current date
         year = cal.get(Calendar.YEAR);
@@ -154,24 +198,6 @@ public class CreaPassaggioFragment extends Fragment {
 
 
 
-        mostra = v.findViewById(R.id.mostra);
-        mostra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                calendar.set(year,
-                        month,
-                        day,
-                        hour,
-                        minute);
-
-                time = calendar.getTime();
-                Toast.makeText(getActivity(),time.toString(),Toast.LENGTH_SHORT).show();
-
-                //addPassaggio();
-
-            }
-        });
-
         //Contiene i nomi delle auto
         ArrayList<String> nomiAuto = new ArrayList<>();
         for(Automobile a : autoParam)
@@ -227,6 +253,10 @@ public class CreaPassaggioFragment extends Fragment {
 
         return v;
     }
+
+
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -289,9 +319,8 @@ public class CreaPassaggioFragment extends Fragment {
                     JSONObject obj = new JSONObject(s);
 
                     if (!obj.getBoolean("error")) {
-                        Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                        Intent goToHomeActivity = new Intent(getActivity(),HomeActivity.class);
-                        //startActivity(goToHomeActivity);
+                        Toast.makeText(getActivity(),obj.getString("message"),Toast.LENGTH_SHORT).show();
+                        getActivity().onBackPressed();
                     } else {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
