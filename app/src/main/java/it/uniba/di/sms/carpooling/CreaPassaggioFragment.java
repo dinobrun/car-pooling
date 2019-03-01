@@ -63,7 +63,6 @@ public class CreaPassaggioFragment extends Fragment {
     Calendar calendar = new GregorianCalendar();
 
 
-
     DatePickerDialog.OnDateSetListener mDateSetListener = null;
     TimePickerDialog.OnTimeSetListener mTimeSetListener = null;
 

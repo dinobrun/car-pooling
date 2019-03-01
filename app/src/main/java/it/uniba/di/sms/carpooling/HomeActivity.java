@@ -1,10 +1,15 @@
 package it.uniba.di.sms.carpooling;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,6 +25,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import org.json.JSONArray;
@@ -43,6 +49,13 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
     Toolbar myToolbar;
 
+    //Inizializzazione variabili Inserimento data
+    int year, month, day, hour, minute;
+    Calendar calendar = new GregorianCalendar();
+    DatePickerDialog.OnDateSetListener mDateSetListener = null;
+    TimePickerDialog.OnTimeSetListener mTimeSetListener = null;
+    Calendar cal = Calendar.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,20 +77,102 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                        switch (menuItem.getItemId()) {
+                            case R.id.nav_camera:
+                                Intent openPassaggi = new Intent(HomeActivity.this,PassaggiActivity.class);
+                                startActivity(openPassaggi);
+                                break;
+
+                            case R.id.auto_section:
+                                break;
+
+                            case R.id.logout_section:
+                                SharedPrefManager.getInstance(HomeActivity.this).logout();
+                                Intent openLogin = new Intent(HomeActivity.this, LoginActivity.class);
+                                openLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                openLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(openLogin);
+                                finish();
+                                break;
+
+                        }
+
                         // set item as selected to persist highlight
                         menuItem.setChecked(true);
+
                         // close drawer when item is tapped
                         drawerLayout.closeDrawers();
-
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
-                        Intent openPassaggi = new Intent(HomeActivity.this,PassaggiActivity.class);
-                        startActivity(openPassaggi);
 
                         return true;
                     }
                 });
 
+
+
+
+        ///////////////
+
+        //Inserimento data
+        final TextView dataText = findViewById(R.id.dataTextHome);
+        final TextView orarioText = findViewById(R.id.orarioTextHome);
+
+        //Set current date
+        year = cal.get(Calendar.YEAR);
+        month = cal.get(Calendar.MONTH);
+        day = cal.get(Calendar.DAY_OF_MONTH);
+        hour = cal.get(Calendar.HOUR);
+        minute = cal.get(Calendar.MINUTE);
+        dataText.setText(day + "/" + (month+1) + "/" + year);
+        orarioText.setText(cal.get(Calendar.HOUR) + " : " + cal.get(Calendar.MINUTE));
+
+
+        dataText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                year = cal.get(Calendar.YEAR);
+                month = cal.get(Calendar.MONTH);
+                day = cal.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog dialog = new DatePickerDialog(HomeActivity.this,android.R.style.Theme_Holo_Dialog, mDateSetListener, year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int yearParam, int monthParam, int dayParam) {
+                year = yearParam;
+                month=monthParam;
+                day=dayParam;
+                String date = day + "/" + (month+1) + "/" + year;
+                dataText.setText(date);
+
+            }
+        };
+
+        orarioText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hour=cal.get(Calendar.HOUR);
+                minute=cal.get(Calendar.MINUTE);
+                TimePickerDialog dialog = new TimePickerDialog(HomeActivity.this,android.R.style.Theme_Holo_Dialog,mTimeSetListener,hour,minute,true);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hourParam, int minuteParam) {
+                hour=hourParam;
+                minute=minuteParam;
+                String time = hour + " : " + minute;
+                orarioText.setText(time);
+            }
+        };
+
+        /////////////////
 
 
 
@@ -97,19 +192,17 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
             }
         });
 
-        final TimePicker timePicker =  findViewById(R.id.time_picker);
-        final DatePicker datePicker = findViewById(R.id.date_picker);
-        final Calendar calendar = new GregorianCalendar();
+
 
         Button cercaPassaggioBtn = findViewById(R.id.cercaPassaggio);
         cercaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendar.set(datePicker.getYear(),
-                        datePicker.getMonth(),
-                        datePicker.getDayOfMonth(),
-                        timePicker.getHour(),
-                        timePicker.getMinute());
+                calendar.set(year,
+                        month,
+                        day,
+                        hour,
+                        minute);
 
                 time = calendar.getTime();
                 openCercaPassaggioFragment();
@@ -123,31 +216,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
             @Override
             public void onClick(View view) {
                 getAuto();
-            }
-        });
-
-        Button logout = findViewById(R.id.logout_button);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPrefManager.getInstance(HomeActivity.this).logout();
-                Intent openLogin = new Intent(HomeActivity.this, LoginActivity.class);
-                openLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                openLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(openLogin);
-                finish();
-            }
-        });
-
-
-        Button btnMyPassages= findViewById(R.id.buttonMyPassages);
-        btnMyPassages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //openMieiPassaggiFragment(SharedPrefManager.getInstance(HomeActivity.this).getUser().getUsername());
-                Intent openPassaggi = new Intent(HomeActivity.this,PassaggiActivity.class);
-                startActivity(openPassaggi);
-
             }
         });
 
