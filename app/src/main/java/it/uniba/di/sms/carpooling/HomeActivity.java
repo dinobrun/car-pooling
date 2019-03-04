@@ -327,6 +327,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                             for(int i=0; i<companyJson.length(); i++){
                                 JSONObject temp = companyJson.getJSONObject(i);
                                 automobili.add(new Automobile(
+                                        Integer.parseInt(temp.getString("id")),
                                         temp.getString("nome"),
                                         Integer.parseInt(temp.getString("num_posti")),
                                         user

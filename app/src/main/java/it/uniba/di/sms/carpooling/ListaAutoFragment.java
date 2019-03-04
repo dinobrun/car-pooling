@@ -37,6 +37,7 @@ public class ListaAutoFragment extends Fragment {
     int numPostiInput;
     String username;
     RecyclerView recyclerView;
+    AutoAdapter adapter;
 
     public ListaAutoFragment() {
         // Required empty public constructor
@@ -104,7 +105,7 @@ public class ListaAutoFragment extends Fragment {
 
 
         //Restituisce le auto
-        getAuto();
+        final ArrayList<Automobile> listaAutomobiliUltima = getAuto();
 
 
 
@@ -118,7 +119,11 @@ public class ListaAutoFragment extends Fragment {
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override
                             public void onClick(int pos) {
-                                // TODO: onDelete
+                                deleteAuto(listaAutomobiliUltima.get(pos));
+                                listaAutomobiliUltima.remove(pos);
+                                adapter.notifyItemRemoved(pos);
+                                adapter.notifyItemRangeChanged(pos, listaAutomobiliUltima.size());
+                                adapter.notifyDataSetChanged();
                             }
                         }
                 ));
@@ -254,7 +259,7 @@ public class ListaAutoFragment extends Fragment {
 
 
     //metodo che restituisce la lista di auto dell'utente
-    private void getAuto(){
+    private ArrayList<Automobile> getAuto(){
 
         final ArrayList<Automobile> automobili = new ArrayList<>();
 
@@ -296,6 +301,7 @@ public class ListaAutoFragment extends Fragment {
                             for(int i=0; i<companyJson.length(); i++){
                                 JSONObject temp = companyJson.getJSONObject(i);
                                 automobili.add(new Automobile(
+                                        Integer.parseInt(temp.getString("id")),
                                         temp.getString("nome"),
                                         Integer.parseInt(temp.getString("num_posti")),
                                         username
@@ -303,24 +309,69 @@ public class ListaAutoFragment extends Fragment {
                             }
                         }
 
-
-
                         //creating recyclerview adapter
-                        AutoAdapter adapter = new AutoAdapter(getActivity(), automobili);
+                        adapter = new AutoAdapter(getActivity(), automobili);
 
                         //setting adapter to recyclerview
                         recyclerView.setAdapter(adapter);
 
-
-
-
-
-
-
-
                     } else {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        AutoDB autoDB = new AutoDB();
+        autoDB.execute();
+        return automobili;
+    }
+
+
+    //metodo che restituisce la lista di auto dell'utente
+    private void deleteAuto(final Automobile auto) {
+
+        //classe per prendere le aziende
+        class AutoDB extends AsyncTask<Void, Void, String> {
+
+            @Override
+            protected String doInBackground(Void... voids) {
+
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("id", Integer.toString(auto.getId()));
+
+                //returning the response
+                return requestHandler.sendPostRequest(URLs.URL_DELETE_AUTO, params);
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                try {
+                        //converting response to json object
+                        JSONObject obj = new JSONObject(s);
+
+                        //if no error in response
+                        if (!obj.getBoolean("error")) {
+
+                            Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
 
 
                 } catch (JSONException e) {

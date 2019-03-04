@@ -2,10 +2,11 @@ package it.uniba.di.sms.carpooling;
 
 public class Automobile {
 
-    private int numPosti;
+    private int id, numPosti;
     private String nome, idUtente;
 
-    public Automobile(String nome, int numPosti, String idUtente) {
+    public Automobile(int id, String nome, int numPosti, String idUtente) {
+        this.id = id;
         this.numPosti = numPosti;
         this.nome = nome;
         this.idUtente = idUtente;
@@ -18,10 +19,6 @@ public class Automobile {
         return numPosti;
     }
 
-    public void setNumPosti(int numPosti) {
-        this.numPosti = numPosti;
-    }
-
     public String getNome() {
         return nome;
     }
@@ -30,12 +27,9 @@ public class Automobile {
         this.nome = nome;
     }
 
-    public String getIdUtente() {
-        return idUtente;
+    public int getId() {
+        return id;
     }
 
-    public void setIdUtente(String idUtente) {
-        this.idUtente = idUtente;
-    }
 
 }
