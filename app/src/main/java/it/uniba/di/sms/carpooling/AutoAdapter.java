@@ -1,10 +1,6 @@
 package it.uniba.di.sms.carpooling;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -12,45 +8,41 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 
-public class PassaggioAdapter extends RecyclerView.Adapter<PassaggioAdapter.ProductViewHolder> implements RecyclerView.OnItemTouchListener {
+public class AutoAdapter extends RecyclerView.Adapter<AutoAdapter.ProductViewHolder> implements RecyclerView.OnItemTouchListener {
 
 
     //this context we will use to inflate the layout
     private Context mCtx;
 
     //we are storing all the products in a list
-    private List<Passaggio> passaggioList;
+    private List<Automobile> autoList;
 
     //getting the context and product list with constructor
-    public PassaggioAdapter(Context mCtx, List<Passaggio> passaggioList) {
+    public AutoAdapter(Context mCtx, List<Automobile> autoListParam) {
         this.mCtx = mCtx;
-        this.passaggioList = passaggioList;
+        this.autoList = autoListParam;
     }
 
     @Override
     public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.list_layout, null);
+        View view = inflater.inflate(R.layout.list_layout_auto, null);
         return new ProductViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ProductViewHolder holder, int position) {
         //getting the product of the specified position
-        Passaggio passaggio = passaggioList.get(position);
+        Automobile automobile = autoList.get(position);
 
         //binding the data with the viewholder views
-        holder.textViewTitle.setText(passaggio.getAutista());
-        holder.textViewShortDesc.setText(passaggio.getAutomobile());
-        holder.textViewRating.setText(passaggio.getDirezione());
-
-
+        holder.textViewTitle.setText(automobile.getNome());
+        holder.textViewShortDesc.setText(Integer.toString(automobile.getNumPosti()));
 
     }
 
@@ -58,7 +50,7 @@ public class PassaggioAdapter extends RecyclerView.Adapter<PassaggioAdapter.Prod
 
     @Override
     public int getItemCount() {
-        return passaggioList.size();
+        return autoList.size();
     }
 
     @Override

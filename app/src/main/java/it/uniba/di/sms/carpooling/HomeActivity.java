@@ -39,13 +39,14 @@ import java.util.HashMap;
 
 public class HomeActivity extends AppCompatActivity implements CreaPassaggioFragment.OnFragmentInteractionListener, CercaPassaggioFragment.OnFragmentInteractionListener {
 
-    final String user = SharedPrefManager.getInstance(HomeActivity.this).getUser().getUsername();
+    private String user;
     private String autoName = "";
     private String direzioneSelected;
     private String aziendaUtente;
     private Date time;
     RadioButton rd;
     private DrawerLayout drawerLayout;
+
 
     Toolbar myToolbar;
 
@@ -60,6 +61,9 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        //user conterrà l'username dell'utente in sessione
+        user = SharedPrefManager.getInstance(getApplicationContext()).getUser().getUsername();
 
 
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -217,6 +221,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
             @Override
             public void onClick(View view) {
                 getAuto();
+
             }
         });
 
@@ -279,7 +284,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
     }
 
 
-    //metodo che restituisce la lista di auto dell'utente prima di creare un passaggio
+    //metodo che restituisce la lista di auto dell'utente
     private void getAuto(){
 
         final ArrayList<Automobile> automobili = new ArrayList<>();
@@ -289,9 +294,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
             @Override
             protected String doInBackground(Void... voids) {
-
-                //user conterrà l'username dell'utente in sessione
-                String user = SharedPrefManager.getInstance(getApplicationContext()).getUser().getUsername();
 
                 //creating request handler object
                 RequestHandler requestHandler = new RequestHandler();
@@ -320,45 +322,30 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                     //if no error in response
                     if (!obj.getBoolean("error")) {
 
-                        JSONArray companyJson = obj.getJSONArray("automobile");
+                        if(!obj.getBoolean("empy_list")){
+                            JSONArray companyJson = obj.getJSONArray("automobile");
                             for(int i=0; i<companyJson.length(); i++){
-                            JSONObject temp = companyJson.getJSONObject(i);
-                            automobili.add(new Automobile(
-                                    temp.getString("nome"),
-                                    Integer.parseInt(temp.getString("num_posti")),
-                                    temp.getString("id_utente")
-                            ));
+                                JSONObject temp = companyJson.getJSONObject(i);
+                                automobili.add(new Automobile(
+                                        temp.getString("nome"),
+                                        Integer.parseInt(temp.getString("num_posti")),
+                                        user
+                                ));
+                            }
                         }
+                        else {
+                            //Apre popup per aggiungere auto
+                        }
+
                     } else {
                         Toast.makeText(HomeActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
-
                     //Se l'utente non ha auto aggiunte
                     if(automobili.isEmpty()){
-                        //Popup per aggiungere una auto
-                        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-                        builder.setCancelable(true);
-                        builder.setTitle("Aspetta!");
-                        builder.setMessage("Non hai aggiunto ancora automobili. Non puoi offrire un passaggio. Vuoi aggiungerne una?");
-                        builder.setPositiveButton("Aggiungi",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                            //Aprire fragment per aggiungere una auto
-                                        //openAddAutoFragment();
-                                        //showAddAutoPopup();
-                                    }
-                                });
-                        builder.setNegativeButton("Non ora", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
+                        //
                     }
                     //Se l'utente possiede almeno una auto
-                    else{
+                    else {
                         //Toast.makeText(HomeActivity.this, automobili.get(0).getNome(), Toast.LENGTH_SHORT).show();
                         openCreaPassaggioFragment(automobili);
                     }
@@ -372,70 +359,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         autoDB.execute();
 
     }
-
-
-
-
-
-
-    private void addAuto() {
-
-        class Auto extends AsyncTask<Void, Void, String> {
-
-
-            @Override
-            protected String doInBackground(Void... voids) {
-                //creating request handler object
-                RequestHandler requestHandler = new RequestHandler();
-
-                //creating request parameters
-                HashMap<String, String> params = new HashMap<>();
-                params.put("Username", user);
-                params.put("Nome", autoName);
-
-                //returing the response
-                return requestHandler.sendPostRequest(URLs.URL_ADDAUTO, params);
-            }
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                //displaying the progress bar while user registers on the server
-                // progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                // progressBar.setVisibility(View.VISIBLE);
-            }
-
-
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                //hiding the progressbar after completion
-                // progressBar.setVisibility(View.GONE);
-
-                try {
-                    //converting response to json object
-                    JSONObject obj = new JSONObject(s);
-
-                    //if no error in response
-                    if (!obj.getBoolean("error")) {
-                        Toast.makeText(HomeActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
-
-                    } else {
-                        Toast.makeText(HomeActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        //executing the async task
-        Auto a = new Auto();
-        a.execute();
-    }
-
-
 
 }
 
