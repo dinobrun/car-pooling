@@ -85,6 +85,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                                 break;
 
                             case R.id.auto_section:
+                                openListaAutoFragment();
                                 break;
 
                             case R.id.logout_section:
@@ -253,6 +254,16 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         transaction.add(R.id.open_frag, fragment, "BLANK_FRAGMENT").commit();
     }
 
+    //Apre ListaAutoFragment
+    public void openListaAutoFragment() {
+        ListaAutoFragment fragment = new ListaAutoFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.addToBackStack(null);
+        transaction.add(R.id.open_frag, fragment, "BLANK_FRAGMENT").commit();
+    }
+
     //Apre MieiPassaggiFragment
     public void openMieiPassaggiFragment(String username) {
         PassaggiRichiestiFragment fragment = new PassaggiRichiestiFragment();
@@ -335,7 +346,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                                     public void onClick(DialogInterface dialog, int which) {
                                             //Aprire fragment per aggiungere una auto
                                         //openAddAutoFragment();
-                                        showAddAutoPopup();
+                                        //showAddAutoPopup();
                                     }
                                 });
                         builder.setNegativeButton("Non ora", new DialogInterface.OnClickListener() {
@@ -363,42 +374,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
     }
 
 
-    public void showAddAutoPopup(){
 
-        /*
-        final ArrayList<String> automobili = new ArrayList<>();
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-        builder.setTitle("Aggiungi una auto");
-        builder.setMessage("Inserisci il nome dell'auto da aggiungere");
-
-        // Set up the input
-        final EditText input = new EditText(HomeActivity.this);
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-        builder.setView(input);
-
-        // Set up the buttons
-        builder.setPositiveButton("Avanti", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                autoName = input.getText().toString();
-                addAuto();
-                automobili.add(autoName);
-                openCreaPassaggioFragment(automobili);
-            }
-        });
-
-        builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        builder.show();
-*/
-    }
 
 
 
