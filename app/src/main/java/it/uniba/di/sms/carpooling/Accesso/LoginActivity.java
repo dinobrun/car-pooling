@@ -1,4 +1,4 @@
-package it.uniba.di.sms.carpooling;
+package it.uniba.di.sms.carpooling.Accesso;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,6 +15,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+
+import it.uniba.di.sms.carpooling.HomeActivity;
+import it.uniba.di.sms.carpooling.R;
+import it.uniba.di.sms.carpooling.RequestHandler;
+import it.uniba.di.sms.carpooling.SharedPrefManager;
+import it.uniba.di.sms.carpooling.URLs;
+import it.uniba.di.sms.carpooling.Utente;
 
 public class LoginActivity extends Activity {
 

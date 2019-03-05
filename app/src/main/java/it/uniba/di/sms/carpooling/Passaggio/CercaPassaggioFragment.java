@@ -1,4 +1,4 @@
-package it.uniba.di.sms.carpooling;
+package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,11 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import it.uniba.di.sms.carpooling.MapsActivity;
+import it.uniba.di.sms.carpooling.RequestHandler;
+import it.uniba.di.sms.carpooling.SharedPrefManager;
+import it.uniba.di.sms.carpooling.URLs;
 
 /**
  * A simple {@link Fragment} subclass.

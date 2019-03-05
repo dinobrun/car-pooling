@@ -1,15 +1,12 @@
 package it.uniba.di.sms.carpooling;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -36,6 +33,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+
+import it.uniba.di.sms.carpooling.Accesso.LoginActivity;
+import it.uniba.di.sms.carpooling.Automobile.Automobile;
+import it.uniba.di.sms.carpooling.Automobile.ListaAutoFragment;
+import it.uniba.di.sms.carpooling.Passaggio.CercaPassaggioFragment;
+import it.uniba.di.sms.carpooling.Passaggio.CreaPassaggioFragment;
+import it.uniba.di.sms.carpooling.Passaggio.PassaggiActivity;
+import it.uniba.di.sms.carpooling.Passaggio.PassaggiRichiestiFragment;
 
 public class HomeActivity extends AppCompatActivity implements CreaPassaggioFragment.OnFragmentInteractionListener, CercaPassaggioFragment.OnFragmentInteractionListener {
 

@@ -1,4 +1,4 @@
-package it.uniba.di.sms.carpooling;
+package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.location.Address;
 import android.location.Geocoder;
@@ -24,6 +24,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.Locale;
+
+import it.uniba.di.sms.carpooling.R;
 
 
 public class InfoPassaggioRichiestoFragment extends Fragment {

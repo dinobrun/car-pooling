@@ -1,21 +1,16 @@
-package it.uniba.di.sms.carpooling;
+package it.uniba.di.sms.carpooling.Passaggio;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,14 +30,20 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+
+import it.uniba.di.sms.carpooling.Automobile.Automobile;
+import it.uniba.di.sms.carpooling.R;
+import it.uniba.di.sms.carpooling.RequestHandler;
+import it.uniba.di.sms.carpooling.SharedPrefManager;
+import it.uniba.di.sms.carpooling.URLs;
+import it.uniba.di.sms.carpooling.Utente;
+
 import static android.R.layout.simple_list_item_1;
-import static android.R.layout.simple_list_item_2;
 
 public class CreaPassaggioFragment extends Fragment {
 

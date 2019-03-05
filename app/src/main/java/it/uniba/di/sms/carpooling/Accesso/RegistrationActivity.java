@@ -1,4 +1,4 @@
-package it.uniba.di.sms.carpooling;
+package it.uniba.di.sms.carpooling.Accesso;
 
 
 import android.net.Uri;
@@ -10,14 +10,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
+
+import it.uniba.di.sms.carpooling.R;
+import it.uniba.di.sms.carpooling.RequestHandler;
+import it.uniba.di.sms.carpooling.URLs;
 
 
 public class RegistrationActivity extends FragmentActivity implements RegistrationFragment.OnFragmentInteractionListener {

@@ -78,7 +78,7 @@ public class RequestHandler {
         return result.toString();
     }
 
-    String sendGetRequest() {
+    public String sendGetRequest() {
         URL url;
 
         StringBuilder sb = new StringBuilder();
