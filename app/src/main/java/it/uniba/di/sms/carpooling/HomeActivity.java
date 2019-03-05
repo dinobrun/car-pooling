@@ -1,15 +1,12 @@
 package it.uniba.di.sms.carpooling;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -37,7 +34,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-public class HomeActivity extends AppCompatActivity implements CreaPassaggioFragment.OnFragmentInteractionListener, CercaPassaggioFragment.OnFragmentInteractionListener {
+public class HomeActivity extends AppCompatActivity implements CreaPassaggioFragment.OnFragmentInteractionListener {
 
     private String user;
     private String autoName = "";
@@ -208,6 +205,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                         minute);
 
                 time = calendar.getTime();
+                //openCercaPassaggioFragment();
                 openCercaPassaggioFragment();
             }
         });
@@ -247,9 +245,10 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         transaction.add(R.id.open_frag, fragment, "BLANK_FRAGMENT").commit();
     }
 
+
     //Apre CercaPassaggioFragment
     public void openCercaPassaggioFragment() {
-        CercaPassaggioFragment fragment = CercaPassaggioFragment.newInstance(new java.sql.Timestamp(time.getTime()).toString(),direzioneSelected,aziendaUtente);
+        CercaPassaggioFragment fragment = new CercaPassaggioFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
@@ -341,11 +340,11 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                     }
                     //Se l'utente non ha auto aggiunte
                     if(automobili.isEmpty()){
-                        //
+                        Toast.makeText(HomeActivity.this, "Aggiungi prima una automobile.", Toast.LENGTH_SHORT).show();
                     }
                     //Se l'utente possiede almeno una auto
                     else {
-                        //Toast.makeText(HomeActivity.this, automobili.get(0).getNome(), Toast.LENGTH_SHORT).show();
+
                         openCreaPassaggioFragment(automobili);
                     }
 
