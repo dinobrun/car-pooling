@@ -3,12 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/registration_frag_layout"
     android:layout_height="match_parent"
     tools:context=".Accesso.RegistrationActivity"
     android:background="#fefce2"
     tools:layout_editor_absoluteY="81dp"
     >
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar_2"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:stateListAnimator="@null"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <EditText
         android:id="@+id/usernameRegistration"
@@ -76,16 +86,6 @@
         android:background="@android:color/transparent"
         android:src="@android:drawable/ic_menu_send" />
 
-    <FrameLayout
-        android:id="@+id/registration_frag_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp">
-
-    </FrameLayout>
 
 
 </RelativeLayout>
