@@ -160,9 +160,11 @@ public class ListaAutoFragment extends Fragment {
                 AlertDialog.Builder builderPostiAuto = new AlertDialog.Builder(getActivity());
                 builderPostiAuto.setTitle("Numero di posti");
                 builderPostiAuto.setMessage("Inserisci il numero di posti dell'auto disponibili");
+                
 
                 // Set up the input
                 final EditText input = new EditText(getActivity());
+
                 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
                 builderPostiAuto.setView(input);
