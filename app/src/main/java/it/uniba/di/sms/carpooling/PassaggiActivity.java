@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 public class PassaggiActivity extends AppCompatActivity {
 
@@ -20,6 +21,19 @@ public class PassaggiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passaggi);
         Log.d(TAG, "onCreate: Starting.");
+
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+
+        (PassaggiActivity.this).setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PassaggiActivity.this.onBackPressed();
+            }
+        });
+
+
 
         mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
 

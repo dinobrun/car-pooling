@@ -49,12 +49,9 @@ public class PassaggioAdapter extends RecyclerView.Adapter<PassaggioAdapter.Prod
         holder.textViewTitle.setText(passaggio.getAutista());
         holder.textViewShortDesc.setText(passaggio.getAutomobile());
         holder.textViewRating.setText(passaggio.getDirezione());
-
-
+        holder.textViewPrice.setText(passaggio.getData());
 
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -75,7 +72,6 @@ public class PassaggioAdapter extends RecyclerView.Adapter<PassaggioAdapter.Prod
     public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
     }
-
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 

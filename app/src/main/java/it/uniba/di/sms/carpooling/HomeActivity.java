@@ -114,8 +114,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                 });
 
 
-
-
         ///////////////
 
         //Inserimento data
@@ -322,7 +320,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                     //if no error in response
                     if (!obj.getBoolean("error")) {
 
-                        if(!obj.getBoolean("empy_list")){
+                        if(!obj.getBoolean("empty_list")){
                             JSONArray companyJson = obj.getJSONArray("automobile");
                             for(int i=0; i<companyJson.length(); i++){
                                 JSONObject temp = companyJson.getJSONObject(i);
