@@ -66,7 +66,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         txtPassword = findViewById(R.id.passwordRegistration);
         txtEmail = findViewById(R.id.emailRegistration);
 
-        toolbar = findViewById(R.id.my_toolbar_2);
+        toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         android.support.v7.app.ActionBar actionbar = getSupportActionBar();
         toolbar.setNavigationIcon(R.drawable.back_icon);
@@ -90,7 +90,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
         transaction.addToBackStack(null);
-        transaction.add(R.id.registration_frag_layout, fragment, "BLANK_FRAGMENT").commitAllowingStateLoss();
+        transaction.replace(R.id.registration_frag_layout, fragment, "BLANK_FRAGMENT").commitAllowingStateLoss();
 
     }
 
