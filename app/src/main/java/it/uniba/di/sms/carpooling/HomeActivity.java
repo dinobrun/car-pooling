@@ -111,16 +111,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                     }
                 });
 
-
-
-
-
-
-
         aziendaUtente = SharedPrefManager.getInstance(HomeActivity.this).getUser().getAzienda();
-
-
-
 
         Button cercaPassaggioBtn = findViewById(R.id.cercaPassaggio);
         cercaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
@@ -130,8 +121,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
             }
         });
 
-
-
+        
         Button creaPassaggioBtn = findViewById(R.id.creaPassaggio);
         creaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
             @Override
