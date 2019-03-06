@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/common_google_signin_btn_text_dark_default"
     android:clickable="true"
-    tools:context=".CreaPassaggioFragment">
+    tools:context=".Passaggio.CreaPassaggioFragment">
 
 
     <Spinner

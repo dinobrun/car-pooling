@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import it.uniba.di.sms.carpooling.Accesso.LoginActivity;
+
 public class SharedPrefManager {
 
     //the constants

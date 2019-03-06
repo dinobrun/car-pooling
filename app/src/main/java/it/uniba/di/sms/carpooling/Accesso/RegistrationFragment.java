@@ -1,4 +1,4 @@
-package it.uniba.di.sms.carpooling;
+package it.uniba.di.sms.carpooling.Accesso;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+
+import it.uniba.di.sms.carpooling.R;
 
 
 /**

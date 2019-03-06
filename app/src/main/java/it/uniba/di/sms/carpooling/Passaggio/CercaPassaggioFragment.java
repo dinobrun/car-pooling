@@ -33,6 +33,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
+import it.uniba.di.sms.carpooling.Passaggio.Passaggio;
+
 
 public class CercaPassaggioFragment extends Fragment implements Serializable {
 

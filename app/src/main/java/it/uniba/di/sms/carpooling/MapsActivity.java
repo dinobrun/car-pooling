@@ -41,8 +41,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
+
+import it.uniba.di.sms.carpooling.Passaggio.Passaggio;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback  {
 

@@ -34,7 +34,19 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
+<<<<<<< HEAD
 public class HomeActivity extends AppCompatActivity implements CreaPassaggioFragment.OnFragmentInteractionListener {
+=======
+import it.uniba.di.sms.carpooling.Accesso.LoginActivity;
+import it.uniba.di.sms.carpooling.Automobile.Automobile;
+import it.uniba.di.sms.carpooling.Automobile.ListaAutoFragment;
+import it.uniba.di.sms.carpooling.Passaggio.CercaPassaggioFragment;
+import it.uniba.di.sms.carpooling.Passaggio.CreaPassaggioFragment;
+import it.uniba.di.sms.carpooling.Passaggio.PassaggiActivity;
+import it.uniba.di.sms.carpooling.Passaggio.PassaggiRichiestiFragment;
+
+public class HomeActivity extends AppCompatActivity implements CreaPassaggioFragment.OnFragmentInteractionListener, CercaPassaggioFragment.OnFragmentInteractionListener {
+>>>>>>> origin/master
 
     private String user;
     private String autoName = "";

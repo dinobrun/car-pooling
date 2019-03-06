@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/cardview_light_background"
     android:clickable="true"
-    tools:context=".InfoPassaggioOffertoFragment">
+    tools:context=".Passaggio.InfoPassaggioOffertoFragment">
 
 
     <TextView
