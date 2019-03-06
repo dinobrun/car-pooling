@@ -15,6 +15,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +64,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MapsActivity.this.onBackPressed();
+            }
+        });
 
         parentLinearLayout = findViewById(R.id.mParentProva);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -274,13 +285,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.title(passaggio.getAutista());
         marker = map.addMarker(markerOptions);
         marker.setTag(passaggio);
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), (float) 14));
     }
 
 
     //funzione che prenota il passaggio selezionato
     private void requestPassaggio(final int id_passaggio){
             final String username = SharedPrefManager.getInstance(MapsActivity.this).getUser().getUsername();
-
 
             //if it passes all the validations
             class RequestPassaggio extends AsyncTask<Void, Void, String> {

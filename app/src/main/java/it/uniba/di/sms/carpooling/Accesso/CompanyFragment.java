@@ -241,21 +241,24 @@ public class CompanyFragment extends Fragment {
 
             private ProgressBar progressBar;
 
+            /*
             //Converte l'imageview in un bitmap
             BitmapDrawable imageDrawable=  (BitmapDrawable) profilePhoto.getDrawable();
             Bitmap imageBitmap=imageDrawable.getBitmap();
-
+*/
 
             @Override
             protected String doInBackground(Void... voids) {
                 //creating request handler object
                 RequestHandler requestHandler = new RequestHandler();
-                bitmap = BitmapFactory.decodeFile(imageUri.getPath());
+
+                /*bitmap = BitmapFactory.decodeFile(imageUri.getPath());
                 //Converte il bitmap in una stringa
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageBytes = baos.toByteArray();
                 String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                */
 
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
@@ -268,7 +271,7 @@ public class CompanyFragment extends Fragment {
                 params.put("Email", emailParam);
                 params.put("Telefono", telefonoParam);
                 params.put("Azienda",company);
-                params.put("Immagine", encodedImage);
+                //params.put("Immagine", encodedImage);
 
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_REGISTER, params);

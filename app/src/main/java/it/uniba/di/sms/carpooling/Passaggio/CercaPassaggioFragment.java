@@ -1,58 +1,77 @@
 package it.uniba.di.sms.carpooling.Passaggio;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.CursorAdapter;
+import android.widget.DatePicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
+import it.uniba.di.sms.carpooling.Automobile.AutoAdapter;
 import it.uniba.di.sms.carpooling.MapsActivity;
+import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.RequestHandler;
 import it.uniba.di.sms.carpooling.SharedPrefManager;
 import it.uniba.di.sms.carpooling.URLs;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CercaPassaggioFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CercaPassaggioFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class CercaPassaggioFragment extends Fragment implements Serializable {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String DATA = "data";
-    private static final String DIREZIONE = "direzione";
-    private static final String AZIENDA = "user";
 
-    // TODO: Rename and change types of parameters
-    private String dataParam;
-    private String direzioneParam;
-    private String aziendaParam;
 
-    private OnFragmentInteractionListener mListener;
+    private String aziendaUtente;
+    private String direzioneSelected;
+    private Date time;
+    RadioButton rd;
+    private String autistaSearch = "";
+    SearchView sw;
 
+    //Inizializzazione variabili Inserimento data
+    int year, month, day, hour, minute;
+    Calendar calendar = new GregorianCalendar();
+    DatePickerDialog.OnDateSetListener mDateSetListener = null;
+    TimePickerDialog.OnTimeSetListener mTimeSetListener = null;
+    Calendar cal = Calendar.getInstance();
 
     public CercaPassaggioFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static CercaPassaggioFragment newInstance(String data, String direzione, String azienda) {
+    public static CercaPassaggioFragment newInstance() {
         CercaPassaggioFragment fragment = new CercaPassaggioFragment();
         Bundle args = new Bundle();
-        args.putString(DATA, data);
-        args.putString(DIREZIONE, direzione);
-        args.putString(AZIENDA, azienda);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,70 +79,169 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            dataParam = getArguments().getString(DATA);
-            direzioneParam = getArguments().getString(DIREZIONE);
-            aziendaParam = getArguments().getString(AZIENDA);
-        }
-        getPassaggi();
     }
 
-   /* @Override
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_cerca_passaggio, container, false);
-        TextView textView = new TextView(getActivity());
-        textView.setText(R.string.hello_blank_fragment);
+
+        Toolbar toolbar = v.findViewById(R.id.my_toolbar);
+       ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+       toolbar.setNavigationIcon(R.drawable.back_icon);
+       toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               getActivity().onBackPressed();
+           }
+       });
+
+       //Barra di ricerca
+       sw = v.findViewById(R.id.search);
+       //sw.onActionViewExpanded();
+       sw.setQueryHint("Inserisci un autista");
+       sw.setIconifiedByDefault(false);
+       sw.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
 
 
-        Toast.makeText(getActivity(),dataParam,Toast.LENGTH_SHORT).show();
-        Toast.makeText(getActivity(),direzioneParam,Toast.LENGTH_SHORT).show();
-        Toast.makeText(getActivity(),aziendaParam,Toast.LENGTH_SHORT).show();
+       sw.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+           @Override
+           public boolean onQueryTextSubmit(String s) {
+
+               //nasconde la tastiera
+               if (v != null) {
+                   InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                   imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+               }
+
+               autistaSearch = s;
+               return true;
+           }
+
+           @Override
+           public boolean onQueryTextChange(String s) {
+               autistaSearch = s;
+               return true;
+           }
+       });
 
 
-        getPassaggi();
 
-        return v;
-    }*/
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+
+
+       //Inserimento data
+       final TextView dataText = v.findViewById(R.id.dataText);
+       final TextView orarioText = v.findViewById(R.id.orarioText);
+
+
+       //Set current date
+       year = cal.get(Calendar.YEAR);
+       month = cal.get(Calendar.MONTH);
+       day = cal.get(Calendar.DAY_OF_MONTH);
+       hour = cal.get(Calendar.HOUR);
+       minute = cal.get(Calendar.MINUTE);
+       dataText.setText(day + "/" + (month+1) + "/" + year);
+       orarioText.setText(cal.get(Calendar.HOUR) + " : " + cal.get(Calendar.MINUTE));
+
+
+
+
+       dataText.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               year = cal.get(Calendar.YEAR);
+               month = cal.get(Calendar.MONTH);
+               day = cal.get(Calendar.DAY_OF_MONTH);
+               DatePickerDialog dialog = new DatePickerDialog(getActivity(),android.R.style.Theme_Holo_Dialog, mDateSetListener, year,month,day);
+               dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+               dialog.show();
+           }
+       });
+
+       mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+           @Override
+           public void onDateSet(DatePicker datePicker, int yearParam, int monthParam, int dayParam) {
+               year = yearParam;
+               month=monthParam;
+               day=dayParam;
+               String date = day + "/" + (month+1) + "/" + year;
+               dataText.setText(date);
+
+           }
+       };
+
+       orarioText.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               hour=cal.get(Calendar.HOUR);
+               minute=cal.get(Calendar.MINUTE);
+               TimePickerDialog dialog = new TimePickerDialog(getActivity(),android.R.style.Theme_Holo_Dialog,mTimeSetListener,hour,minute,true);
+               dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+               dialog.show();
+           }
+       });
+
+       mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+           @Override
+           public void onTimeSet(TimePicker timePicker, int hourParam, int minuteParam) {
+               hour=hourParam;
+               minute=minuteParam;
+               String time = hour + " : " + minute;
+               orarioText.setText(time);
+           }
+       };
+
+       /////////////////
+
+
+
+
+       aziendaUtente = SharedPrefManager.getInstance(getActivity()).getUser().getAzienda();
+
+       //Radio group andata/ritorno
+       RadioGroup rg = v.findViewById(R.id.radioGroup);
+       rg.check(R.id.radioButtonAndata);
+       rd = v.findViewById(R.id.radioButtonAndata);
+       direzioneSelected=rd.getText().toString();
+
+       rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+           public void onCheckedChanged(RadioGroup group, int checkedId) {
+               rd = v.findViewById(checkedId);
+               direzioneSelected=rd.getText().toString();
+           }
+       });
+
+
+
+       Button cercaPassaggioBtn = v.findViewById(R.id.cercaPassaggio);
+       cercaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               calendar.set(year,
+                       month,
+                       day,
+                       hour,
+                       minute);
+
+               time = calendar.getTime();
+               //openCercaPassaggioFragment();
+               getPassaggi();
+           }
+       });
+
+
+       return v;
     }
 
 
@@ -147,9 +265,15 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("Username", SharedPrefManager.getInstance(getContext()).getUser().getUsername());
-                params.put("Data", dataParam);
-                params.put("Azienda", aziendaParam);
-                params.put("Direzione", direzioneParam);
+                params.put("Data", new java.sql.Timestamp(time.getTime()).toString());
+                params.put("Azienda", aziendaUtente);
+                params.put("Direzione", direzioneSelected);
+
+                if(!autistaSearch.equals("")){
+                    params.put("Autista",autistaSearch);
+                }
+
+
 
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_GETPASSAGGI, params);
@@ -173,6 +297,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
 
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
+                    Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
                     //if no error in response
                     if (!obj.getBoolean("error")) {
@@ -187,11 +312,10 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                                         temp.getString("indirizzo"),
                                         temp.getString("data"),
                                         temp.getString("automobile"),
-                                        aziendaParam,
+                                        aziendaUtente,
                                         temp.getString("direzione"),
                                         Integer.parseInt(temp.getString("num_posti"))
                                 ));
-
                             }
                             //lista di passaggi già richiesti
                             ArrayList<String> passaggi_ID = new ArrayList<>();
@@ -203,6 +327,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                                 }
                             }
 
+
                             //passa all'activity mappa inserendo due liste
                             Intent mapIntent = new Intent(getActivity(), MapsActivity.class);
                             mapIntent.putExtra("Passaggi",listaPassaggi);
@@ -211,7 +336,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
 
                         }
                         else{
-                            Toast.makeText(getActivity(), "Lista vuota scemo", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Nessun passaggio disponibile", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {
@@ -231,9 +356,8 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
     }
 
 
-    public void provaStampa(ArrayList<Passaggio> lista){
-        Toast.makeText(getActivity(), lista.get(0).getIndirizzo(), Toast.LENGTH_SHORT).show();
-    }
+
+
 
 
 }
