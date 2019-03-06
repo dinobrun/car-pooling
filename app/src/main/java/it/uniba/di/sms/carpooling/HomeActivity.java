@@ -34,9 +34,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-<<<<<<< HEAD
-public class HomeActivity extends AppCompatActivity implements CreaPassaggioFragment.OnFragmentInteractionListener {
-=======
 import it.uniba.di.sms.carpooling.Accesso.LoginActivity;
 import it.uniba.di.sms.carpooling.Automobile.Automobile;
 import it.uniba.di.sms.carpooling.Automobile.ListaAutoFragment;
@@ -45,26 +42,18 @@ import it.uniba.di.sms.carpooling.Passaggio.CreaPassaggioFragment;
 import it.uniba.di.sms.carpooling.Passaggio.PassaggiActivity;
 import it.uniba.di.sms.carpooling.Passaggio.PassaggiRichiestiFragment;
 
-public class HomeActivity extends AppCompatActivity implements CreaPassaggioFragment.OnFragmentInteractionListener, CercaPassaggioFragment.OnFragmentInteractionListener {
->>>>>>> origin/master
+public class HomeActivity extends AppCompatActivity implements CreaPassaggioFragment.OnFragmentInteractionListener{
+
 
     private String user;
-    private String autoName = "";
     private String direzioneSelected;
     private String aziendaUtente;
-    private Date time;
     RadioButton rd;
     private DrawerLayout drawerLayout;
 
 
     Toolbar myToolbar;
 
-    //Inizializzazione variabili Inserimento data
-    int year, month, day, hour, minute;
-    Calendar calendar = new GregorianCalendar();
-    DatePickerDialog.OnDateSetListener mDateSetListener = null;
-    TimePickerDialog.OnTimeSetListener mTimeSetListener = null;
-    Calendar cal = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +82,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
                         switch (menuItem.getItemId()) {
                             case R.id.nav_camera:
-                                Intent openPassaggi = new Intent(HomeActivity.this,PassaggiActivity.class);
+                                Intent openPassaggi = new Intent(HomeActivity.this, PassaggiActivity.class);
                                 startActivity(openPassaggi);
                                 break;
 
@@ -123,86 +112,13 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                 });
 
 
-        ///////////////
 
-        //Inserimento data
-        final TextView dataText = findViewById(R.id.dataTextHome);
-        final TextView orarioText = findViewById(R.id.orarioTextHome);
-
-        //Set current date
-        year = cal.get(Calendar.YEAR);
-        month = cal.get(Calendar.MONTH);
-        day = cal.get(Calendar.DAY_OF_MONTH);
-        hour = cal.get(Calendar.HOUR);
-        minute = cal.get(Calendar.MINUTE);
-        dataText.setText(day + "/" + (month+1) + "/" + year);
-        orarioText.setText(cal.get(Calendar.HOUR) + " : " + cal.get(Calendar.MINUTE));
-
-
-        dataText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                year = cal.get(Calendar.YEAR);
-                month = cal.get(Calendar.MONTH);
-                day = cal.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog dialog = new DatePickerDialog(HomeActivity.this,android.R.style.Theme_Holo_Dialog, mDateSetListener, year,month,day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-            }
-        });
-
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int yearParam, int monthParam, int dayParam) {
-                year = yearParam;
-                month=monthParam;
-                day=dayParam;
-                String date = day + "/" + (month+1) + "/" + year;
-                dataText.setText(date);
-
-            }
-        };
-
-        orarioText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                hour=cal.get(Calendar.HOUR);
-                minute=cal.get(Calendar.MINUTE);
-                TimePickerDialog dialog = new TimePickerDialog(HomeActivity.this,android.R.style.Theme_Holo_Dialog,mTimeSetListener,hour,minute,true);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-            }
-        });
-
-        mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int hourParam, int minuteParam) {
-                hour=hourParam;
-                minute=minuteParam;
-                String time = hour + " : " + minute;
-                orarioText.setText(time);
-            }
-        };
-
-        /////////////////
 
 
 
 
         aziendaUtente = SharedPrefManager.getInstance(HomeActivity.this).getUser().getAzienda();
 
-        //Radio group andata/ritorno
-        RadioGroup rg = findViewById(R.id.radioGroup);
-        rg.check(R.id.radioButtonAndata);
-        rd = findViewById(R.id.radioButtonAndata);
-        direzioneSelected=rd.getText().toString();
-
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                rd = findViewById(checkedId);
-                direzioneSelected=rd.getText().toString();
-            }
-        });
 
 
 
@@ -210,14 +126,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         cercaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendar.set(year,
-                        month,
-                        day,
-                        hour,
-                        minute);
-
-                time = calendar.getTime();
-                //openCercaPassaggioFragment();
                 openCercaPassaggioFragment();
             }
         });
@@ -271,16 +179,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
     //Apre ListaAutoFragment
     public void openListaAutoFragment() {
         ListaAutoFragment fragment = new ListaAutoFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
-        transaction.addToBackStack(null);
-        transaction.add(R.id.open_frag, fragment, "BLANK_FRAGMENT").commit();
-    }
-
-    //Apre MieiPassaggiFragment
-    public void openMieiPassaggiFragment(String username) {
-        PassaggiRichiestiFragment fragment = new PassaggiRichiestiFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);

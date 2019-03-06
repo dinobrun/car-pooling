@@ -21,47 +21,6 @@
         app:layout_constraintVertical_bias="1.0">
 
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="40dp"
-            android:layout_height="34dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="112dp"
-            android:src="@drawable/calendar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/dataTextHome"
-            android:layout_width="111dp"
-            android:layout_height="31dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="124dp"
-            android:text="TextView"
-            android:textAppearance="@android:style/TextAppearance.Holo.Medium"
-            app:layout_constraintStart_toEndOf="@+id/imageView4"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/orarioTextHome"
-            android:layout_width="115dp"
-            android:layout_height="35dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="124dp"
-            android:layout_marginEnd="8dp"
-            android:text="TextView"
-            android:textAppearance="@android:style/TextAppearance.Holo.Medium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/dataTextHome"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -118,6 +77,7 @@
             android:layout_marginEnd="120dp"
             android:stateListAnimator="@null"
             android:text="@string/findStep"
+            android:background="@drawable/rectangle_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -125,38 +85,6 @@
 
 
 
-
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="249dp"
-            android:layout_height="37dp"
-            android:layout_below="@+id/dataTextHome"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dataTextHome">
-
-
-            <RadioButton
-                android:id="@+id/radioButtonAndata"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/radioGroup"
-                android:text="Andata" />
-
-            <RadioButton
-                android:id="@+id/radioButtonRitorno"
-                android:layout_width="123dp"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/radioGroup"
-                android:text="Ritorno" />
-
-
-        </RadioGroup>
 
 
     </android.support.constraint.ConstraintLayout>

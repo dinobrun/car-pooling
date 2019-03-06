@@ -1,8 +1,10 @@
-package it.uniba.di.sms.carpooling;
+package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -10,10 +12,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -33,7 +40,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-import it.uniba.di.sms.carpooling.Passaggio.Passaggio;
+import it.uniba.di.sms.carpooling.Automobile.AutoAdapter;
+import it.uniba.di.sms.carpooling.MapsActivity;
+import it.uniba.di.sms.carpooling.R;
+import it.uniba.di.sms.carpooling.RequestHandler;
+import it.uniba.di.sms.carpooling.SharedPrefManager;
+import it.uniba.di.sms.carpooling.URLs;
 
 
 public class CercaPassaggioFragment extends Fragment implements Serializable {
@@ -43,6 +55,8 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
     private String direzioneSelected;
     private Date time;
     RadioButton rd;
+    private String autistaSearch = "";
+    SearchView sw;
 
     //Inizializzazione variabili Inserimento data
     int year, month, day, hour, minute;
@@ -55,7 +69,6 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static CercaPassaggioFragment newInstance() {
         CercaPassaggioFragment fragment = new CercaPassaggioFragment();
         Bundle args = new Bundle();
@@ -68,13 +81,18 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
         super.onCreate(savedInstanceState);
     }
 
-   @Override
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_cerca_passaggio, container, false);
 
-       Toolbar toolbar = v.findViewById(R.id.my_toolbar);
-
+        Toolbar toolbar = v.findViewById(R.id.my_toolbar);
        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
        toolbar.setNavigationIcon(R.drawable.back_icon);
        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -83,6 +101,43 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                getActivity().onBackPressed();
            }
        });
+
+       //Barra di ricerca
+       sw = v.findViewById(R.id.search);
+       //sw.onActionViewExpanded();
+       sw.setQueryHint("Inserisci un autista");
+       sw.setIconifiedByDefault(false);
+       sw.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+
+
+
+       sw.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+           @Override
+           public boolean onQueryTextSubmit(String s) {
+
+               //nasconde la tastiera
+               if (v != null) {
+                   InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                   imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+               }
+
+               autistaSearch = s;
+               return true;
+           }
+
+           @Override
+           public boolean onQueryTextChange(String s) {
+               autistaSearch = s;
+               return true;
+           }
+       });
+
+
+
+
+
+
+
 
 
        //Inserimento data
@@ -214,6 +269,12 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                 params.put("Azienda", aziendaUtente);
                 params.put("Direzione", direzioneSelected);
 
+                if(!autistaSearch.equals("")){
+                    params.put("Autista",autistaSearch);
+                }
+
+
+
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_GETPASSAGGI, params);
             }
@@ -236,6 +297,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
 
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
+                    Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
                     //if no error in response
                     if (!obj.getBoolean("error")) {
