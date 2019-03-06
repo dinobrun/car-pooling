@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -62,6 +63,11 @@ public class CreaPassaggioFragment extends Fragment {
     Spinner spinnerPostiAuto;
 
     Calendar calendar = new GregorianCalendar();
+
+    //Inizializza checkbox ciclica
+    CheckBox chkCiclico;
+    public static final String YES_CYCLIC = "1";
+    public static final String NO_CYCLIC = "0";
 
 
     DatePickerDialog.OnDateSetListener mDateSetListener = null;
@@ -196,7 +202,8 @@ public class CreaPassaggioFragment extends Fragment {
             }
         };
 
-
+        //Assegno la checkbox ciclica
+        chkCiclico=v.findViewById(R.id.checkBoxCiclo);
 
         //Contiene i nomi delle auto
         ArrayList<String> nomiAuto = new ArrayList<>();
@@ -336,12 +343,24 @@ public class CreaPassaggioFragment extends Fragment {
 
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
-                params.put("Autista", utente.getUsername());
-                params.put("Data", new java.sql.Timestamp(time.getTime()).toString());
-                params.put("Automobile",selectionAuto);
-                params.put("Azienda",utente.getAzienda());
-                params.put("Num_Posti",selectionPostoAuto.toString());
-                params.put("Direzione",value);
+                if(chkCiclico.isChecked()){
+                    params.put("Autista", utente.getUsername());
+                    params.put("Data", new java.sql.Timestamp(time.getTime()).toString());
+                    params.put("Automobile",selectionAuto);
+                    params.put("Azienda",utente.getAzienda());
+                    params.put("Num_Posti",selectionPostoAuto.toString());
+                    params.put("Direzione",value);
+                    params.put("Ciclico", YES_CYCLIC);
+                }else{
+                    params.put("Autista", utente.getUsername());
+                    params.put("Data", new java.sql.Timestamp(time.getTime()).toString());
+                    params.put("Automobile",selectionAuto);
+                    params.put("Azienda",utente.getAzienda());
+                    params.put("Num_Posti",selectionPostoAuto.toString());
+                    params.put("Direzione",value);
+                    params.put("Ciclico", NO_CYCLIC);
+                }
+
 
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_ADDPASSAGGIO, params);
