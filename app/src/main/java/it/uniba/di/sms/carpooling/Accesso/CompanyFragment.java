@@ -350,8 +350,6 @@ public class CompanyFragment extends Fragment {
         ru.execute();
     }
 
-
-
 }
 
 

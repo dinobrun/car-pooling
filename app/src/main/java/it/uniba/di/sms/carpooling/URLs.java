@@ -16,5 +16,6 @@ public class URLs {
     public static final String URL_GET_OFFERED_PASSAGES = ROOT_URL + "getListOfferedPassaggio";
     public static final String URL_GET_LIST_USER_REQUESTED = ROOT_URL + "getListUserRequested";
     public static final String URL_DELETE_AUTO = ROOT_URL + "deleteAuto";
+    public static final String URL_GET_PROFILE_PICTURE = ROOT_URL + "getProfilePicture";
 
 }
