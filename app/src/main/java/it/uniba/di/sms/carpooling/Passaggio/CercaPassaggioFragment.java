@@ -16,6 +16,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -83,8 +84,29 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
+        inflater.inflate(R.menu.search_passaggio, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.searchIcon:
+                calendar.set(year,
+                        month,
+                        day,
+                        hour,
+                        minute);
+
+                time = calendar.getTime();
+                //openCercaPassaggioFragment();
+                getPassaggi();
+
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -131,12 +153,6 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                return true;
            }
        });
-
-
-
-
-
-
 
 
 
@@ -228,15 +244,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
        cercaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               calendar.set(year,
-                       month,
-                       day,
-                       hour,
-                       minute);
 
-               time = calendar.getTime();
-               //openCercaPassaggioFragment();
-               getPassaggi();
            }
        });
 
