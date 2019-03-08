@@ -16,6 +16,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -83,8 +84,29 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
         super.onCreateOptionsMenu(menu, inflater);
+        getActivity().getMenuInflater().inflate(R.menu.search_passaggio, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.searchIcon:
+                calendar.set(year,
+                        month,
+                        day,
+                        hour,
+                        minute);
+
+                time = calendar.getTime();
+                //openCercaPassaggioFragment();
+                getPassaggi();
+
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -93,6 +115,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
         final View v = inflater.inflate(R.layout.fragment_cerca_passaggio, container, false);
 
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
+        toolbar.setTitle("Cerca un passaggio");
        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
        toolbar.setNavigationIcon(R.drawable.back_icon);
        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -102,13 +125,14 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
            }
        });
 
+       setHasOptionsMenu(true);
+
        //Barra di ricerca
        sw = v.findViewById(R.id.search);
        //sw.onActionViewExpanded();
        sw.setQueryHint("Inserisci un autista");
        sw.setIconifiedByDefault(false);
        sw.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-
 
 
        sw.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -131,12 +155,6 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                return true;
            }
        });
-
-
-
-
-
-
 
 
 
@@ -224,29 +242,10 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
 
 
 
-       Button cercaPassaggioBtn = v.findViewById(R.id.cercaPassaggio);
-       cercaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               calendar.set(year,
-                       month,
-                       day,
-                       hour,
-                       minute);
-
-               time = calendar.getTime();
-               //openCercaPassaggioFragment();
-               getPassaggi();
-           }
-       });
 
 
        return v;
     }
-
-
-
-
 
     //METODO CHE RESTITUISCE I PASSAGGI
     private void getPassaggi() {

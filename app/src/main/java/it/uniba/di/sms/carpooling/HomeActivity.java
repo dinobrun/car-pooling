@@ -127,7 +127,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
             }
         });
 
-        
+
         Button creaPassaggioBtn = findViewById(R.id.creaPassaggio);
         creaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
             @Override
