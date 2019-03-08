@@ -54,7 +54,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="80dp"
         android:layout_marginEnd="80dp"
-        android:layout_marginBottom="380dp"
+        android:layout_marginBottom="304dp"
         android:ems="10"
         android:hint="@string/indirizzo"
         android:inputType="textPersonName"
@@ -68,9 +68,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_gravity="center"
-        android:layout_marginStart="80dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="320dp"
+        android:layout_marginStart="78dp"
+        android:layout_marginEnd="82dp"
+        android:layout_marginBottom="233dp"
         android:ems="10"
         android:hint="@string/telefono"
         android:inputType="textPersonName"
@@ -87,10 +87,26 @@
         android:layout_gravity="end"
         android:layout_marginStart="80dp"
         android:layout_marginEnd="80dp"
-        android:layout_marginBottom="260dp"
+        android:layout_marginBottom="169dp"
         android:layout_weight="0.2"
         android:ems="10"
         android:hint="@string/dataNascita"
+        android:inputType="textPersonName"
+        android:text="@string/blank" />
+
+
+    <EditText
+        android:id="@+id/cittaText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="370dp"
+        android:ems="10"
+        android:hint="@string/citta"
         android:inputType="textPersonName"
         android:text="@string/blank" />
 
@@ -116,7 +132,6 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
-
 
     </FrameLayout>
 
