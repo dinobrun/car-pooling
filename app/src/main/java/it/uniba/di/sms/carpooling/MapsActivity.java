@@ -250,13 +250,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
 
-        TextView txtNome = (TextView) rowView.findViewById(R.id.txtNome);
-        TextView txtCognome = (TextView) rowView.findViewById(R.id.txtCognome);
-        Button btnRequest = (Button) rowView.findViewById(R.id.btnRequest);
+        TextView txtNome = rowView.findViewById(R.id.txtNome);
+        TextView txtCognome = rowView.findViewById(R.id.txtCognome);
+        TextView txtAuto =  rowView.findViewById(R.id.txtAuto);
+        TextView txtPosti = rowView.findViewById(R.id.txtPosti);
+        Button btnRequest =  rowView.findViewById(R.id.btnRequest);
 
         final Passaggio passaggio = (Passaggio) marker.getTag();
-        txtNome.setText(passaggio.getAutista());
-        txtCognome.setText(passaggio.getIndirizzo());
+        txtNome.append(" " + passaggio.getAutista());
+        txtCognome.append(" " + passaggio.getIndirizzo());
+        txtAuto.append(" " + passaggio.getAutomobile());
+        txtPosti.append(" " + Integer.toString(passaggio.getNumPosti()));
+
         if(passaggio.isRichiesto()){
             btnRequest.setClickable(false);
         }else{

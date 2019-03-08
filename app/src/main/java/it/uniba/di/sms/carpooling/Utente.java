@@ -68,8 +68,7 @@ public class Utente {
         this.indirizzoAzienda = indirizzoAzienda;
     }
 
-
-
+    
     public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, Boolean confermato) {
         this.username = username;
         this.nome = nome;
@@ -79,6 +78,8 @@ public class Utente {
         this.telefono = telefono;
         this.confermato = confermato;
     }
+
+
 
 
     public void addAzienda(String azienda){
