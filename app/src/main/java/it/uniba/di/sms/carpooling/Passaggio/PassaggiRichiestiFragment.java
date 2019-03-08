@@ -171,7 +171,7 @@ public class PassaggiRichiestiFragment extends Fragment {
                                             FragmentTransaction transaction = fragmentManager.beginTransaction();
                                             transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
                                             transaction.addToBackStack(null);
-                                            transaction.add(R.id.open_frag, fragment, "BLANK_FRAGMENT").commit();
+                                            transaction.add(R.id.main_content, fragment, "BLANK_FRAGMENT").commit();
 
                                         }
 

@@ -1,9 +1,14 @@
 package it.uniba.di.sms.carpooling;
 
 public class Utente {
-    private String username, nome, cognome, sesso, dataNascita, indirizzo, email, telefono;
+    private String username, nome, cognome, sesso, dataNascita, indirizzo, email, telefono, indirizzoAzienda;
     private String azienda = null;
     private boolean confermato;
+
+    public String getIndirizzoAzienda() {
+        return indirizzoAzienda;
+    }
+
 
     public String getUsername() {
         return username;
@@ -51,7 +56,7 @@ public class Utente {
         this.dataNascita = dataNascita;
     }
 
-    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, String dataNascita, String azienda) {
+    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, String dataNascita, String azienda, String indirizzoAzienda) {
         this.username = username;
         this.nome = nome;
         this.cognome = cognome;
@@ -60,16 +65,10 @@ public class Utente {
         this.telefono = telefono;
         this.dataNascita = dataNascita;
         this.azienda=azienda;
+        this.indirizzoAzienda = indirizzoAzienda;
     }
 
-    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono) {
-        this.username = username;
-        this.nome = nome;
-        this.cognome = cognome;
-        this.indirizzo = indirizzo;
-        this.email = email;
-        this.telefono = telefono;
-    }
+
 
     public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, Boolean confermato) {
         this.username = username;
@@ -81,11 +80,6 @@ public class Utente {
         this.confermato = confermato;
     }
 
-
-    public Utente(String nome, String cognome) {
-        this.nome = nome;
-        this.cognome = cognome;
-    }
 
     public void addAzienda(String azienda){
         this.azienda=azienda;
