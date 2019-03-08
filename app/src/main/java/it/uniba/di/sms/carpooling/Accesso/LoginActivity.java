@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import it.uniba.di.sms.carpooling.Azienda;
 import it.uniba.di.sms.carpooling.HomeActivity;
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.RequestHandler;
@@ -129,8 +130,10 @@ public class LoginActivity extends Activity {
                                     userJson.getString("email"),
                                     userJson.getString("telefono"),
                                     userJson.getString("dataNascita"),
-                                    userJson.getString("azienda")
+                                    userJson.getString("azienda"),
+                                    userJson.getString("indirizzoAzienda")
                             );
+
                         }
                         else{
                             //creating a new user object without company

@@ -3,9 +3,13 @@
     android:orientation="vertical"
     android:layout_width="350dp"
     android:layout_height="475dp"
-    android:background="@color/colorPrimaryDark"
     android:padding="5dp"
     android:layout_gravity="center">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,5 +36,7 @@
         android:layout_marginTop="25dp"
         android:layout_gravity="center_horizontal"
         />
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

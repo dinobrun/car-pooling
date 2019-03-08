@@ -268,7 +268,7 @@ public class PassaggiOffertiFragment extends Fragment {
                             FragmentTransaction transaction = fragmentManager.beginTransaction();
                             transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
                             transaction.addToBackStack(null);
-                            transaction.replace(R.id.open_passaggi_offerti, fragment, "BLANK_FRAGMENT").commit();
+                            transaction.replace(R.id.main_content, fragment, "BLANK_FRAGMENT").commit();
 
 
                         }

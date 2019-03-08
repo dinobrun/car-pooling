@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.util.Locale;
 
 import it.uniba.di.sms.carpooling.R;
+import it.uniba.di.sms.carpooling.SharedPrefManager;
+import it.uniba.di.sms.carpooling.Utente;
 
 
 public class InfoPassaggioRichiestoFragment extends Fragment {
@@ -40,6 +42,8 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
     //MAP
     private MapView mMapView;
     private GoogleMap googleMap;
+    private Utente utente = SharedPrefManager.getInstance(getActivity()).getUser();
+
 
 
     public InfoPassaggioRichiestoFragment() {
@@ -84,26 +88,12 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
-
-                MarkerOptions markerOptions = new MarkerOptions();
-                Marker marker;
-                Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
-                Address address = null;
                 try {
-                    address = geocoder.getFromLocationName(passaggioParam.getIndirizzo(), 1).get(0);
-                    LatLng position = new LatLng(address.getLatitude(),address.getLongitude());
+                    addAutistaMarker(passaggioParam, mMap);
+                    addMyMarker(mMap);
+                    addAziendaMarker(mMap);
 
-                    markerOptions.position(position);
-                    if(passaggioParam.isRichiesto()){
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                    }
-                    markerOptions.title(passaggioParam.getAutista());
-                    marker = mMap.addMarker(markerOptions);
-                    marker.setTag(passaggioParam);
 
-                    // For zooming functionality
-                    CameraPosition cameraPosition = new CameraPosition.Builder().target(position).zoom(12).build();
-                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -115,23 +105,57 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
         TextView dataText = v.findViewById(R.id.data);
         TextView direzioneText = v.findViewById(R.id.direzione);
 
-        Button annullaPassaggio = v.findViewById(R.id.annullaPassaggio);
 
         autistaText.append(" " + passaggioParam.getAutista());
         autoText.append(" " + passaggioParam.getAutomobile());
         dataText.append(" " + passaggioParam.getData());
         direzioneText.append(" " + passaggioParam.getDirezione());
 
-        annullaPassaggio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Aggiungi codice quando si annulla la richiesta di un passaggio
-            }
-        });
         return v;
     }
 
+    private void addAutistaMarker(Passaggio passaggio, GoogleMap map) throws IOException {
+        Address autistaAddress = null;
+        MarkerOptions markerOptions = new MarkerOptions();
+        Marker marker;
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        //crea marker dall'indirizzo dell'autista
+        autistaAddress = geocoder.getFromLocationName(passaggioParam.getIndirizzo(), 1).get(0);
+        LatLng position = new LatLng(autistaAddress.getLatitude(),autistaAddress.getLongitude());
 
+        markerOptions.position(position);
+        markerOptions.title(passaggioParam.getAutista());
+        marker = map.addMarker(markerOptions);
+        marker.setTag(passaggioParam);
+    }
 
+    private void addMyMarker(GoogleMap map) throws IOException {
+        Address myAddress = null;
+        MarkerOptions markerOptions = new MarkerOptions();
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        myAddress = geocoder.getFromLocationName(utente.getIndirizzo(), 1).get(0);
+        LatLng position = new LatLng(myAddress.getLatitude(),myAddress.getLongitude());
+
+        markerOptions.position(position);
+        markerOptions.title(utente.getUsername());
+        map.addMarker(markerOptions);
+        // For zooming functionality
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(position).zoom(12).build();
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
+
+    private void addAziendaMarker(GoogleMap map) throws IOException {
+        Address aziendaAddress = null;
+        MarkerOptions markerOptions = new MarkerOptions();
+        Marker marker;
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        //crea marker dall'indirizzo dell'autista
+        aziendaAddress = geocoder.getFromLocationName(utente.getIndirizzoAzienda(), 1).get(0);
+        LatLng position = new LatLng(aziendaAddress.getLatitude(),aziendaAddress.getLongitude());
+
+        markerOptions.position(position);
+        markerOptions.title(utente.getAzienda());
+        map.addMarker(markerOptions);
+    }
 
 }

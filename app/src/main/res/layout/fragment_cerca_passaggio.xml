@@ -71,7 +71,7 @@
                 android:text="TextView"
                 android:textAppearance="@android:style/TextAppearance.Holo.Medium"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/dataTextHome"
+                app:layout_constraintStart_toEndOf="@+id/dataText"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -121,7 +121,7 @@
                 android:id="@+id/radioGroup"
                 android:layout_width="249dp"
                 android:layout_height="43dp"
-                android:layout_below="@+id/dataTextHome"
+                android:layout_below="@+id/dataText"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="248dp"
