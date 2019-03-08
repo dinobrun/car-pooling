@@ -10,7 +10,7 @@
     tools:layout_editor_absoluteY="81dp">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/tripImage"
         android:layout_width="206dp"
         android:layout_height="166dp"
         android:layout_alignParentTop="true"
