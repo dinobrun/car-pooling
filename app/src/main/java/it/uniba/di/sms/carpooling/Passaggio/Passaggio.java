@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Passaggio implements Serializable {
 
-    private String autista, data, automobile, azienda, direzione, indirizzo;
+    private String autista, data, automobile, azienda, direzione, indirizzo, foto;
     private int id, numPosti;
     private boolean richiesto = false;
     private boolean confermato = false;
@@ -34,6 +34,23 @@ public class Passaggio implements Serializable {
         this.direzione = direzione;
         this.numPosti = numPosti;
         this.indirizzo=indirizzo;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public Passaggio(int id, String autista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti, boolean confermato, String foto) {
+        this.id=id;
+        this.autista = autista;
+        this.data = data;
+        this.automobile = automobile;
+        this.azienda = azienda;
+        this.direzione = direzione;
+        this.numPosti = numPosti;
+        this.indirizzo=indirizzo;
+        this.confermato=confermato;
+        this.foto = foto;
     }
 
     public Passaggio(int id, String autista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti, boolean confermato) {

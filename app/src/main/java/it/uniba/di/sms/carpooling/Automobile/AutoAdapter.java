@@ -83,7 +83,7 @@ public class AutoAdapter extends RecyclerView.Adapter<AutoAdapter.ProductViewHol
             textViewShortDesc = itemView.findViewById(R.id.textViewShortDesc);
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
-            imageView = itemView.findViewById(R.id.imageView);
+            imageView = itemView.findViewById(R.id.profileImage);
 
         }
     }

@@ -133,12 +133,12 @@ public class PassaggiRichiestiFragment extends Fragment {
 
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
+                    //Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
 
                     //if no error in response
                     if (!obj.getBoolean("error")) {
                         //if list is not empty
                         if(!obj.getBoolean("empty_list")){
-
                             JSONArray passaggiJson = obj.getJSONArray("passaggio");
                             for(int i=0; i<passaggiJson.length(); i++){
                                 JSONObject temp = passaggiJson.getJSONObject(i);
@@ -151,7 +151,8 @@ public class PassaggiRichiestiFragment extends Fragment {
                                         aziendaParam,
                                         temp.getString("direzione"),
                                         Integer.parseInt(temp.getString("num_posti")),
-                                        Boolean.parseBoolean(temp.getString("confermato"))
+                                        Boolean.parseBoolean(temp.getString("confermato")),
+                                        temp.getString("foto")
                                 ));
                             }
 
@@ -184,7 +185,7 @@ public class PassaggiRichiestiFragment extends Fragment {
 
                         }
                         else{
-                            Toast.makeText(getActivity(), "Lista vuota scemo", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Listascemo", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {

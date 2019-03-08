@@ -1,13 +1,17 @@
 package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -42,12 +46,18 @@ public class PassaggioAdapter extends RecyclerView.Adapter<PassaggioAdapter.Prod
         //getting the product of the specified position
         Passaggio passaggio = passaggioList.get(position);
 
-        //binding the data with the viewholder views
+        if(passaggio.getFoto() != null){
+            byte[] decodedString = Base64.decode(passaggio.getFoto(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            holder.profileImage.setImageBitmap(decodedByte);
+        }else{
+            holder.profileImage.setBackgroundResource(R.drawable.no_profile);
+        }
+
         holder.textViewTitle.setText(passaggio.getAutista());
         holder.textViewShortDesc.setText(passaggio.getAutomobile());
         holder.textViewRating.setText(passaggio.getDirezione());
         holder.textViewPrice.setText(passaggio.getData());
-
     }
 
     @Override
@@ -73,16 +83,15 @@ public class PassaggioAdapter extends RecyclerView.Adapter<PassaggioAdapter.Prod
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewTitle, textViewShortDesc, textViewRating, textViewPrice;
-        ImageView imageView;
+        ImageView profileImage;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
-
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewShortDesc = itemView.findViewById(R.id.textViewShortDesc);
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
-            imageView = itemView.findViewById(R.id.imageView);
+            profileImage = itemView.findViewById(R.id.profileImage);
 
         }
     }

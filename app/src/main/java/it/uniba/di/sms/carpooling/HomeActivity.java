@@ -272,8 +272,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
     //metodo che restituisce la foto dell'utente
     private void getProfilePicture(){
 
-        final String[] image = new String[1];
-
         //classe per prendere le aziende
         class ProfilePicture extends AsyncTask<Void, Void, String> {
 
