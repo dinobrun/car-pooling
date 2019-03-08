@@ -42,6 +42,7 @@ public class PassaggioAdapter extends RecyclerView.Adapter<PassaggioAdapter.Prod
         //getting the product of the specified position
         Passaggio passaggio = passaggioList.get(position);
 
+
         //binding the data with the viewholder views
         holder.textViewTitle.setText(passaggio.getAutista());
         holder.textViewShortDesc.setText(passaggio.getAutomobile());

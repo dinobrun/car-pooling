@@ -84,8 +84,8 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.search_passaggio, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        getActivity().getMenuInflater().inflate(R.menu.search_passaggio, menu);
     }
 
     @Override
@@ -115,6 +115,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
         final View v = inflater.inflate(R.layout.fragment_cerca_passaggio, container, false);
 
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
+        toolbar.setTitle("Cerca un passaggio");
        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
        toolbar.setNavigationIcon(R.drawable.back_icon);
        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -124,13 +125,14 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
            }
        });
 
+       setHasOptionsMenu(true);
+
        //Barra di ricerca
        sw = v.findViewById(R.id.search);
        //sw.onActionViewExpanded();
        sw.setQueryHint("Inserisci un autista");
        sw.setIconifiedByDefault(false);
        sw.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-
 
 
        sw.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -240,21 +242,10 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
 
 
 
-       Button cercaPassaggioBtn = v.findViewById(R.id.cercaPassaggio);
-       cercaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-
-           }
-       });
 
 
        return v;
     }
-
-
-
-
 
     //METODO CHE RESTITUISCE I PASSAGGI
     private void getPassaggi() {

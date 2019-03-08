@@ -3,9 +3,9 @@
     <item
         android:id="@+id/searchIcon"
         android:orderInCategory="200"
-        android:title="Search"
         android:icon="@drawable/search_icon"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"
+        android:title="search" />
 </menu>
 
 

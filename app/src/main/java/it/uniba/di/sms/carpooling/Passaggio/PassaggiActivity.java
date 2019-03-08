@@ -36,8 +36,6 @@ public class PassaggiActivity extends AppCompatActivity {
             }
         });
 
-
-
         mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.

@@ -76,9 +76,6 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_info_passaggio_offerto, container, false);
 
-        Toast.makeText(getActivity(),"offerto",Toast.LENGTH_SHORT).show();
-
-
         mMapView = v.findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
@@ -110,13 +107,10 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                     marker = mMap.addMarker(markerOptions);
                     marker.setTag(passaggioParam);
 
-                    // For zooming functionality
-                    CameraPosition cameraPosition = new CameraPosition.Builder().target(position).zoom(12).build();
-                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), (float) 14));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
 
 
                 //Aggiunge i marker degli utenti che hanno richiesto il passaggio
