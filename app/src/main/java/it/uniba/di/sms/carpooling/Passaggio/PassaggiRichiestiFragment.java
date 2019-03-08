@@ -158,7 +158,7 @@ public class PassaggiRichiestiFragment extends Fragment {
 
 
                             //creating recyclerview adapter
-                            PassaggioAdapter adapter = new PassaggioAdapter(getActivity(), listaPassaggi);
+                            PassaggioRichiestoAdapter adapter = new PassaggioRichiestoAdapter(getActivity(), listaPassaggi);
 
                             //setting adapter to recyclerview
                             recyclerView.setAdapter(adapter);

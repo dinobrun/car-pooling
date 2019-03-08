@@ -11,14 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import it.uniba.di.sms.carpooling.R;
 
 
-public class PassaggioAdapter extends RecyclerView.Adapter<PassaggioAdapter.ProductViewHolder> implements RecyclerView.OnItemTouchListener {
+public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRichiestoAdapter.ProductViewHolder> implements RecyclerView.OnItemTouchListener {
 
 
     //this context we will use to inflate the layout
@@ -28,7 +27,7 @@ public class PassaggioAdapter extends RecyclerView.Adapter<PassaggioAdapter.Prod
     private List<Passaggio> passaggioList;
 
     //getting the context and product list with constructor
-    public PassaggioAdapter(Context mCtx, List<Passaggio> passaggioList) {
+    public PassaggioRichiestoAdapter(Context mCtx, List<Passaggio> passaggioList) {
         this.mCtx = mCtx;
         this.passaggioList = passaggioList;
     }
@@ -37,7 +36,7 @@ public class PassaggioAdapter extends RecyclerView.Adapter<PassaggioAdapter.Prod
     public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.list_layout, null);
+        View view = inflater.inflate(R.layout.list_passaggio_richiesto, null);
         return new ProductViewHolder(view);
     }
 
@@ -91,7 +90,7 @@ public class PassaggioAdapter extends RecyclerView.Adapter<PassaggioAdapter.Prod
             textViewShortDesc = itemView.findViewById(R.id.textViewShortDesc);
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
-            profileImage = itemView.findViewById(R.id.profileImage);
+            profileImage = itemView.findViewById(R.id.tripImage);
 
         }
     }
