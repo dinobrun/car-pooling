@@ -7,13 +7,20 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import it.uniba.di.sms.carpooling.R;
 
@@ -50,6 +57,8 @@ public class RegistrationFragment extends Fragment {
     private String usernameParam;
     private String passwordParam;
     private String emailParam;
+
+    private Button btn_avanti;
 
 
     private OnFragmentInteractionListener mListener;
@@ -89,6 +98,23 @@ public class RegistrationFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_avanti, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.avanti:
+                Toast.makeText(getActivity(), "miao", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
 
     @Override
@@ -97,7 +123,27 @@ public class RegistrationFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_registration, container, false);
 
+        Toolbar toolbar = view.findViewById(R.id.my_toolbar);
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        setHasOptionsMenu(true);
+
         view.setBackgroundColor(Color.WHITE);
+        btn_avanti = view.findViewById(R.id.btn_avanti);
+        btn_avanti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                secondRegistrationPart();
+            }
+        });
 
         txtNome = view.findViewById(R.id.nomeText);
         txtCognome = view.findViewById(R.id.cognomeText);
@@ -108,14 +154,6 @@ public class RegistrationFragment extends Fragment {
         //fragment
         companyFragment = view.findViewById(R.id.company_fragment);
 
-        ImageButton avantiButton2 = view.findViewById(R.id.avantiButton2);
-
-        avantiButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                secondRegistrationPart();
-            }
-        });
 
         // Inflate the layout for this fragment
         return view;

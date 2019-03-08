@@ -1,6 +1,8 @@
 package it.uniba.di.sms.carpooling.Accesso;
 
 
+import android.app.ActionBar;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.TextInputEditText;
@@ -8,25 +10,52 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
 
+import it.uniba.di.sms.carpooling.HomeActivity;
+import it.uniba.di.sms.carpooling.Passaggio.PassaggiActivity;
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.RequestHandler;
 import it.uniba.di.sms.carpooling.URLs;
 
 
-public class RegistrationActivity extends FragmentActivity implements RegistrationFragment.OnFragmentInteractionListener {
+public class RegistrationActivity extends AppCompatActivity implements RegistrationFragment.OnFragmentInteractionListener {
 
     private EditText txtUserName;
     private TextInputEditText txtPassword;
     private EditText txtEmail;
+    private Toolbar toolbar;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_avanti, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.avanti:
+                firstRegistrationPart();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +66,18 @@ public class RegistrationActivity extends FragmentActivity implements Registrati
         txtPassword = findViewById(R.id.passwordRegistration);
         txtEmail = findViewById(R.id.emailRegistration);
 
-        ImageButton btnAvanti= findViewById(R.id.avantiButton);
-
-        btnAvanti.setOnClickListener(new View.OnClickListener() {
-
+        toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        android.support.v7.app.ActionBar actionbar = getSupportActionBar();
+        toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                firstRegistrationPart();
-
+            public void onClick(View view) {
+                Intent openLogin = new Intent(RegistrationActivity.this, LoginActivity.class);
+                startActivity(openLogin);
             }
         });
+
 
 
     }
@@ -59,7 +90,7 @@ public class RegistrationActivity extends FragmentActivity implements Registrati
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
         transaction.addToBackStack(null);
-        transaction.add(R.id.registration_frag_layout, fragment, "BLANK_FRAGMENT").commitAllowingStateLoss();
+        transaction.replace(R.id.registration_frag_layout, fragment, "BLANK_FRAGMENT").commitAllowingStateLoss();
 
     }
 

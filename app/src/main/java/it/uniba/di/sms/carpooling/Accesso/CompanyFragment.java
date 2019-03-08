@@ -1,5 +1,6 @@
 package it.uniba.di.sms.carpooling.Accesso;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -66,6 +69,8 @@ public class CompanyFragment extends Fragment {
     private String dataNascitaParam;
     private String company = null;
     private ArrayList<String> companies;
+    private Bitmap bitmap;
+    private String stringImage = "null";
 
     //Costruttore
     public CompanyFragment() {
@@ -150,14 +155,18 @@ public class CompanyFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-        profilePhoto= v.findViewById(R.id.imageProfile);
-        Button takePhoto=v.findViewById(R.id.takePhotoButton);
+
+
+        //immagine del profilo
+        profilePhoto = v.findViewById(R.id.imageProfile);
+        Button takePhoto = v.findViewById(R.id.takePhotoButton);
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent pickPhoto = new Intent(Intent.ACTION_PICK);
-                pickPhoto.setType("image/*");
-                startActivityForResult(pickPhoto , IMAGE_PICK_CODE);//one can be replaced with any action code
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Seleziona una foto"), 1);
             }
         });
 
@@ -173,15 +182,30 @@ public class CompanyFragment extends Fragment {
 
     }
 
-    Bitmap bitmap;
-    Uri imageUri;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode==RESULT_OK && requestCode==IMAGE_PICK_CODE){
-            imageUri = data.getData();
-            profilePhoto.setImageURI(imageUri);
+        if (resultCode==RESULT_OK && requestCode== 1 && data != null && data.getData() != null){
+            Uri filepath = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filepath);
+                profilePhoto.setImageBitmap(bitmap);
+                stringImage = getStringImage(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+
+    //prende in input un bitmap e lo converte in una stringa
+    public String getStringImage(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+
+        byte[] imageByteArray = byteArrayOutputStream.toByteArray();
+        String encodedImage = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
+        return encodedImage;
     }
 
     private ArrayList<String> getCompanies(){
@@ -271,7 +295,7 @@ public class CompanyFragment extends Fragment {
                 params.put("Email", emailParam);
                 params.put("Telefono", telefonoParam);
                 params.put("Azienda",company);
-                //params.put("Immagine", encodedImage);
+                params.put("Immagine", stringImage);
 
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_REGISTER, params);
