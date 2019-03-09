@@ -310,6 +310,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                                         Integer.parseInt(temp.getString("num_posti"))
                                 ));
                             }
+
                             //lista di passaggi già richiesti
                             ArrayList<String> passaggi_ID = new ArrayList<>();
                             if(obj.getString("passaggio_utente") != "null"){
