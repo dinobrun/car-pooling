@@ -66,6 +66,6 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="124dp"
         android:layout_marginTop="77dp"
-        android:src="@drawable/profile" />
+        android:src="@drawable/no_profile" />
 
 </RelativeLayout>
