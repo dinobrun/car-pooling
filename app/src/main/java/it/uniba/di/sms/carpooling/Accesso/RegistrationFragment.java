@@ -45,6 +45,7 @@ public class RegistrationFragment extends Fragment {
 
     private EditText txtNome;
     private EditText txtCognome;
+    private EditText txtCitta;
     private EditText txtDataNascita;
     private EditText txtIndirizzo;
     private EditText txtTelefono;
@@ -148,9 +149,11 @@ public class RegistrationFragment extends Fragment {
 
         txtNome = view.findViewById(R.id.nomeText);
         txtCognome = view.findViewById(R.id.cognomeText);
+        txtCitta=view.findViewById(R.id.cittaText);
         txtIndirizzo = view.findViewById(R.id.indirizzoText);
         txtTelefono = view.findViewById(R.id.telefonoText);
         txtDataNascita = view.findViewById(R.id.dataNascitaText);
+
 
         //fragment
         companyFragment = view.findViewById(R.id.company_fragment);
@@ -175,7 +178,8 @@ public class RegistrationFragment extends Fragment {
 
         final String nome = txtNome.getText().toString().trim();
         final String cognome = txtCognome.getText().toString().trim();
-        final String indirizzo = txtIndirizzo.getText().toString().trim();
+        final String citta = txtCitta.getText().toString().trim();
+        String indirizzo = txtIndirizzo.getText().toString().trim();
         final String telefono = txtTelefono.getText().toString().trim();
         final String dataNascita = txtDataNascita.getText().toString().trim();
 
@@ -183,35 +187,42 @@ public class RegistrationFragment extends Fragment {
         //first we will do the validations
 
         if (TextUtils.isEmpty(nome)) {
-            txtNome.setError("Please enter nome");
+            txtNome.setError("Campo nome non compilato");
             txtNome.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(cognome)) {
-            txtCognome.setError("Please enter your cognome");
+            txtCognome.setError("Campo cognome non compilato");
             txtCognome.requestFocus();
             return;
         }
 
+        if (TextUtils.isEmpty(citta)) {
+            txtCitta.setError("Campo città non compilato");
+            txtCitta.requestFocus();
+            return;
+        }
+
         if (TextUtils.isEmpty(indirizzo)) {
-            txtIndirizzo.setError("Please enter your indirizzo");
+            txtIndirizzo.setError("Campo indirizzo non compilato");
             txtIndirizzo.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(telefono)) {
-            txtTelefono.setError("Please enter your telefono");
+            txtTelefono.setError("Campo telefono non compilato");
             txtTelefono.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(dataNascita)) {
-            txtDataNascita.setError("Please enter your dataNascita");
+            txtDataNascita.setError("Campo data nascita non compilato");
             txtDataNascita.requestFocus();
             return;
         }
 
+        indirizzo= indirizzo.concat(" " + citta);
         openFragment(usernameParam,passwordParam,emailParam,nome,cognome,indirizzo,telefono,dataNascita);
 
     }
