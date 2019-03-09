@@ -129,19 +129,12 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         TextView dataText = v.findViewById(R.id.data);
         TextView direzioneText = v.findViewById(R.id.direzione);
 
-        Button annullaPassaggio = v.findViewById(R.id.annullaPassaggio);
-
         autistaText.append(" " + passaggioParam.getAutista());
         autoText.append(" " + passaggioParam.getAutomobile());
         dataText.append(" " + passaggioParam.getData());
         direzioneText.append(" " + passaggioParam.getDirezione());
 
-        annullaPassaggio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Aggiungi codice quando si annulla la richiesta di un passaggio
-            }
-        });
+
         return v;
     }
 

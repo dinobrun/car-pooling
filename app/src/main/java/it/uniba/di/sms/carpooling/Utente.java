@@ -9,7 +9,6 @@ public class Utente {
         return indirizzoAzienda;
     }
 
-
     public String getUsername() {
         return username;
     }
