@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,15 +57,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Location mLastLocation;
     Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
-    private RelativeLayout parentLinearLayout;
     private ArrayList<Passaggio> passaggi;
     private ArrayList<String> passaggi_utente;
+    CardView card;
+    ImageView close;
+    TextView txtNome;
+    TextView txtCognome;
+    TextView txtAuto;
+    TextView txtPosti;
+    Button btnRequest;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        txtNome = findViewById(R.id.txtNome);
+        txtCognome = findViewById(R.id.txtCognome);
+        txtAuto =  findViewById(R.id.txtAuto);
+        txtPosti = findViewById(R.id.txtPosti);
+        btnRequest =  findViewById(R.id.btnRequest);
+        card = findViewById(R.id.info);
+        close = findViewById(R.id.close_card);
 
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);
@@ -75,7 +90,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        parentLinearLayout = findViewById(R.id.mParentProva);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                card.setVisibility(View.INVISIBLE);
+            }
+        });
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFrag.getMapAsync(this);
@@ -245,33 +265,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //crea un riquadro in cui inserisce le info del marker
     public void displayInfo(Marker marker) {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View rowView = inflater.inflate(R.layout.info_window, null);
-        final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //visualizza la card con le informazioni sul passaggio
+        card.setVisibility(View.VISIBLE);
 
-        params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-
-        TextView txtNome = rowView.findViewById(R.id.txtNome);
-        TextView txtCognome = rowView.findViewById(R.id.txtCognome);
-        TextView txtAuto =  rowView.findViewById(R.id.txtAuto);
-        TextView txtPosti = rowView.findViewById(R.id.txtPosti);
-        Button btnRequest =  rowView.findViewById(R.id.btnRequest);
 
         final Passaggio passaggio = (Passaggio) marker.getTag();
-        txtNome.append(" " + passaggio.getAutista());
-        //txtCognome.append(" " + passaggio.getUtente().getCognome());
-        txtAuto.append(" " + passaggio.getAutomobile());
-        txtPosti.append(" " + Integer.toString(passaggio.getNumPosti()));
-
-        //Icona per chiudere card
-        ImageView iv = rowView.findViewById(R.id.close_card);
-        iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                parentLinearLayout.removeView(rowView);
-            }
-        });
+        txtNome.setText(passaggio.getAutista());
+        //txtCognome.setText(passaggio.getUtente().getCognome());
+        txtAuto.setText(passaggio.getAutomobile());
+        txtPosti.setText(Integer.toString(passaggio.getNumPosti()));
 
         if(passaggio.isRichiesto()){
             btnRequest.setClickable(false);
@@ -283,9 +285,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             });
         }
-
-        // Add the new row before the add field button.
-        parentLinearLayout.addView(rowView, params);
     }
 
     //funzione che come parametri ha una mappa e un utente e gli assegna un marker con le informazioni
