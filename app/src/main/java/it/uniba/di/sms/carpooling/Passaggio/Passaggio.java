@@ -12,6 +12,16 @@ public class Passaggio implements Serializable {
     private boolean richiesto = false;
     private boolean confermato = false;
 
+    public int getRichiesteInSospeso() {
+        return richiesteInSospeso;
+    }
+
+    public void setRichiesteInSospeso(int richiesteInSospeso) {
+        this.richiesteInSospeso = richiesteInSospeso;
+    }
+
+    private int richiesteInSospeso = 0;
+
     public boolean isRichiesto() {
         return richiesto;
     }

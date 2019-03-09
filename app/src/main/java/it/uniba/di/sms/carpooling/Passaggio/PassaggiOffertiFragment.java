@@ -148,7 +148,7 @@ public class PassaggiOffertiFragment extends Fragment {
                                         temp.getString("direzione"),
                                         Integer.parseInt(temp.getString("num_posti"))
                                 ));
-                                //Toast.makeText(getActivity(), Integer.parseInt(temp.getString("id")), Toast.LENGTH_SHORT).show();
+                                listaPassaggi.get(i).setRichiesteInSospeso(Integer.parseInt(temp.getString("passaggi_in_sospeso")));
                             }
 
 
@@ -202,7 +202,6 @@ public class PassaggiOffertiFragment extends Fragment {
     //Metodo asincrono che prende la lista di utenti che hanno richiesto il passaggio
     private void getUtentiPassages(final Passaggio passaggio) {
 
-
         //if it passes all the validations
         class UtentiPassages extends AsyncTask<Void, Void, String> {
 
@@ -237,14 +236,10 @@ public class PassaggiOffertiFragment extends Fragment {
                     //if no error in response
                     if (!obj.getBoolean("error")) {
 
-
                         //if list is not empty
                         if(!obj.getBoolean("empty_list")){
 
-
-
                             JSONArray utentiJson = obj.getJSONArray("utente");
-
 
                             for(int i=0; i<utentiJson.length(); i++){
                                 JSONObject temp = utentiJson.getJSONObject(i);
@@ -258,23 +253,17 @@ public class PassaggiOffertiFragment extends Fragment {
                                         (1 == Integer.parseInt(temp.getString("confermato")))
                                 ));
                             }
-
-
-
-
-                            //Apre il fragment InfoPassaggioOffertoFragment
-                            InfoPassaggioOffertoFragment fragment = InfoPassaggioOffertoFragment.newInstance(passaggio, listaUtentiPassages);
-                            FragmentManager fragmentManager = getFragmentManager();
-                            FragmentTransaction transaction = fragmentManager.beginTransaction();
-                            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
-                            transaction.addToBackStack(null);
-                            transaction.replace(R.id.main_content, fragment, "BLANK_FRAGMENT").commit();
-
-
                         }
                         else{
-                            Toast.makeText(getActivity(), "errore", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Nessuno ha ancora richiesto questo passaggio", Toast.LENGTH_SHORT).show();
                         }
+                        //Apre il fragment InfoPassaggioOffertoFragment
+                        InfoPassaggioOffertoFragment fragment = InfoPassaggioOffertoFragment.newInstance(passaggio, listaUtentiPassages);
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+                        transaction.addToBackStack(null);
+                        transaction.replace(R.id.main_content, fragment, "BLANK_FRAGMENT").commit();
 
                     } else {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();

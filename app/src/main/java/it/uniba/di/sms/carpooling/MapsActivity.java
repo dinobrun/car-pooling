@@ -60,6 +60,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<Passaggio> passaggi;
     private ArrayList<String> passaggi_utente;
 
+    private boolean clicked=false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,10 +119,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                clicked = true;
                 displayInfo(marker);
                 return true;
             }
         });
+
 
 
 

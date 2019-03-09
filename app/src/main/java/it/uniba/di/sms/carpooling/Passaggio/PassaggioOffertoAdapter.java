@@ -52,8 +52,9 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
 
         holder.textViewTitle.setText(passaggio.getAutista());
         holder.textViewShortDesc.setText(passaggio.getAutomobile());
-        holder.textViewRating.setText(passaggio.getDirezione());
+        holder.textViewRating.setText(Integer.toString(passaggio.getRichiesteInSospeso()));
         holder.textViewPrice.setText(passaggio.getData());
+
     }
 
     @Override
