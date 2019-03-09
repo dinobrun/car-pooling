@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/easyColor">
 
 
     <EditText
@@ -73,26 +74,27 @@
         android:layout_marginBottom="233dp"
         android:ems="10"
         android:hint="@string/telefono"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:text="@string/blank" />
 
 
-    <EditText
+    <TextView
         android:id="@+id/dataNascitaText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="47dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_gravity="end"
         android:layout_marginStart="80dp"
         android:layout_marginEnd="80dp"
-        android:layout_marginBottom="169dp"
+        android:layout_marginBottom="164dp"
         android:layout_weight="0.2"
         android:ems="10"
-        android:hint="@string/dataNascita"
-        android:inputType="textPersonName"
-        android:text="@string/blank" />
+        android:hint="Data di nascita"
+        style="@android:style/Widget.EditText"
+        android:text="@string/blank"
+        android:textAppearance="@android:style/TextAppearance.Holo.Medium" />
 
 
     <EditText

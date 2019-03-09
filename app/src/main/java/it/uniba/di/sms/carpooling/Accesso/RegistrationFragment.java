@@ -1,7 +1,10 @@
 package it.uniba.di.sms.carpooling.Accesso;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,10 +20,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import it.uniba.di.sms.carpooling.R;
 
@@ -46,9 +55,16 @@ public class RegistrationFragment extends Fragment {
     private EditText txtNome;
     private EditText txtCognome;
     private EditText txtCitta;
-    private EditText txtDataNascita;
+    private TextView txtDataNascita;
     private EditText txtIndirizzo;
     private EditText txtTelefono;
+
+    //Inizializzazione variabili Inserimento data
+    private Date time;
+    int year, month, day;
+    Calendar calendar = new GregorianCalendar();
+    DatePickerDialog.OnDateSetListener mDateSetListener = null;
+    Calendar cal = Calendar.getInstance();
 
 
     private FrameLayout companyFragment;
@@ -153,6 +169,38 @@ public class RegistrationFragment extends Fragment {
         txtIndirizzo = view.findViewById(R.id.indirizzoText);
         txtTelefono = view.findViewById(R.id.telefonoText);
         txtDataNascita = view.findViewById(R.id.dataNascitaText);
+
+        //Inserimento data
+        txtDataNascita = view.findViewById(R.id.dataNascitaText);
+
+        //Set current date
+        year = cal.get(Calendar.YEAR);
+        month = cal.get(Calendar.MONTH);
+        day = cal.get(Calendar.DAY_OF_MONTH);
+
+        txtDataNascita.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                year = cal.get(Calendar.YEAR);
+                month = cal.get(Calendar.MONTH);
+                day = cal.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog dialog = new DatePickerDialog(getActivity(),android.R.style.Theme_Holo_Dialog, mDateSetListener, year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int yearParam, int monthParam, int dayParam) {
+                year = yearParam;
+                month=monthParam;
+                day=dayParam;
+                String date = day + "/" + (month+1) + "/" + year;
+                txtDataNascita.setText(date);
+
+            }
+        };
 
 
         //fragment

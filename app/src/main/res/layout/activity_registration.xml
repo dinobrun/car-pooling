@@ -6,6 +6,7 @@
     android:id="@+id/registration_frag_layout"
     android:layout_height="match_parent"
     tools:context=".Accesso.RegistrationActivity"
+    android:background="@color/easyColor"
     tools:layout_editor_absoluteY="81dp"
     >
 

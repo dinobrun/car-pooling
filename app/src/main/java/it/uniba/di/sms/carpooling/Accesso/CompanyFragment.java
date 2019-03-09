@@ -4,7 +4,13 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -348,6 +354,42 @@ public class CompanyFragment extends Fragment {
         }
         RegisterUser ru = new RegisterUser();
         ru.execute();
+    }
+
+
+    //metodo per arrotondare gli angoli di un bitmap
+    public static Bitmap roundCorner(Bitmap src, float round)
+    {
+        // image size
+        int width = src.getWidth();
+        int height = src.getHeight();
+
+        // create bitmap output
+        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        // set canvas for painting
+        Canvas canvas = new Canvas(result);
+        canvas.drawARGB(0, 0, 0, 0);
+
+        // config paint
+        final Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLACK);
+
+        // config rectangle for embedding
+        final Rect rect = new Rect(0, 0, width, height);
+        final RectF rectF = new RectF(rect);
+
+        // draw rect to canvas
+        canvas.drawRoundRect(rectF, round, round, paint);
+
+        // create Xfer mode
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        // draw source image to canvas
+        canvas.drawBitmap(src, rect, rect, paint);
+
+        // return final image
+        return result;
     }
 
 }
