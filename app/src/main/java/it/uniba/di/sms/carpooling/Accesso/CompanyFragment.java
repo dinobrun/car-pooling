@@ -323,6 +323,9 @@ public class CompanyFragment extends Fragment {
 
                 try {
                     Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+                    //torna alla LoginActivity
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
                     JSONObject obj = new JSONObject(s);
 
                     if (!obj.getBoolean("error")) {
@@ -344,6 +347,7 @@ public class CompanyFragment extends Fragment {
                         }
                         SharedPrefManager.getInstance(getActivity()).userLogin(user);
                         Toast.makeText(getActivity(), "tutto apposto", Toast.LENGTH_SHORT).show();
+
                     } else {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
