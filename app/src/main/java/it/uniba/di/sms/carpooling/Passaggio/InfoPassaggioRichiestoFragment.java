@@ -51,7 +51,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
     private GoogleMap googleMap;
     private Utente utente = SharedPrefManager.getInstance(getActivity()).getUser();
 
-    
+
     public InfoPassaggioRichiestoFragment() {
         // Required empty public constructor
     }
