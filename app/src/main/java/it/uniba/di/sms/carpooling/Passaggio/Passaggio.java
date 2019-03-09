@@ -2,9 +2,12 @@ package it.uniba.di.sms.carpooling.Passaggio;
 
 import java.io.Serializable;
 
+import it.uniba.di.sms.carpooling.Utente;
+
 public class Passaggio implements Serializable {
 
     private String autista, data, automobile, azienda, direzione, indirizzo, foto;
+    private Utente utente;
     private int id, numPosti;
     private boolean richiesto = false;
     private boolean confermato = false;
@@ -34,6 +37,16 @@ public class Passaggio implements Serializable {
         this.direzione = direzione;
         this.numPosti = numPosti;
         this.indirizzo=indirizzo;
+    }
+
+    public Passaggio(int id, Utente utente, String data, String automobile, String azienda, String direzione, int numPosti) {
+        this.id=id;
+        this.utente = utente;
+        this.data = data;
+        this.automobile = automobile;
+        this.azienda = azienda;
+        this.direzione = direzione;
+        this.numPosti = numPosti;
     }
 
     public String getFoto() {
@@ -133,4 +146,10 @@ public class Passaggio implements Serializable {
         this.automobile = automobile;
         this.direzione = direzione;
     }
+
+    public Utente getUtente() {
+        return utente;
+    }
+
+
 }

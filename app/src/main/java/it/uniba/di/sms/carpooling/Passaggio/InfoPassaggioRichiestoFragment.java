@@ -1,9 +1,15 @@
 package it.uniba.di.sms.carpooling.Passaggio;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +22,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -44,8 +51,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
     private GoogleMap googleMap;
     private Utente utente = SharedPrefManager.getInstance(getActivity()).getUser();
 
-
-
+    
     public InfoPassaggioRichiestoFragment() {
         // Required empty public constructor
     }
@@ -114,6 +120,15 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
         return v;
     }
 
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
     private void addAutistaMarker(Passaggio passaggio, GoogleMap map) throws IOException {
         Address autistaAddress = null;
         MarkerOptions markerOptions = new MarkerOptions();
@@ -125,9 +140,11 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
 
         markerOptions.position(position);
         markerOptions.title(passaggioParam.getAutista());
+        //markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.ic_car));
         marker = map.addMarker(markerOptions);
         marker.setTag(passaggioParam);
     }
+
 
     private void addMyMarker(GoogleMap map) throws IOException {
         Address myAddress = null;
@@ -136,25 +153,26 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
         myAddress = geocoder.getFromLocationName(utente.getIndirizzo(), 1).get(0);
         LatLng position = new LatLng(myAddress.getLatitude(),myAddress.getLongitude());
 
+
         markerOptions.position(position);
         markerOptions.title(utente.getUsername());
+        //markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.home_icon));
         map.addMarker(markerOptions);
         // For zooming functionality
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(position).zoom(12).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(position).zoom(13).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     private void addAziendaMarker(GoogleMap map) throws IOException {
         Address aziendaAddress = null;
         MarkerOptions markerOptions = new MarkerOptions();
-        Marker marker;
         Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
-        //crea marker dall'indirizzo dell'autista
         aziendaAddress = geocoder.getFromLocationName(utente.getIndirizzoAzienda(), 1).get(0);
         LatLng position = new LatLng(aziendaAddress.getLatitude(),aziendaAddress.getLongitude());
 
         markerOptions.position(position);
         markerOptions.title(utente.getAzienda());
+        //markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.work_icon));
         map.addMarker(markerOptions);
     }
 

@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,6 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //lista di passaggi completa
         passaggi = (ArrayList<Passaggio>) getIntent().getSerializableExtra("Passaggi");
+        //Toast.makeText(MapsActivity.this, passaggi.get(0).getAutista(),Toast.LENGTH_SHORT).show();
 
         //lista di ID di passaggi già richiesti
         passaggi_utente = (ArrayList<String>) getIntent().getSerializableExtra("Passaggi_utente");
@@ -245,7 +247,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void displayInfo(Marker marker) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.info_window, null);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
@@ -258,9 +260,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         final Passaggio passaggio = (Passaggio) marker.getTag();
         txtNome.append(" " + passaggio.getAutista());
-        txtCognome.append(" " + passaggio.getIndirizzo());
+        //txtCognome.append(" " + passaggio.getUtente().getCognome());
         txtAuto.append(" " + passaggio.getAutomobile());
         txtPosti.append(" " + Integer.toString(passaggio.getNumPosti()));
+
+        //Icona per chiudere card
+        ImageView iv = rowView.findViewById(R.id.close_card);
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                parentLinearLayout.removeView(rowView);
+            }
+        });
 
         if(passaggio.isRichiesto()){
             btnRequest.setClickable(false);

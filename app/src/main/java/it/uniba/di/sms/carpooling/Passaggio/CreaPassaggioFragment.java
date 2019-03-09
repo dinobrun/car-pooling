@@ -131,6 +131,7 @@ public class CreaPassaggioFragment extends Fragment {
         final View v = inflater.inflate(R.layout.fragment_crea_passaggio, container, false);
 
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
+        toolbar.setTitle("Crea un passaggio");
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);

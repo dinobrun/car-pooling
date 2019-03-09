@@ -47,6 +47,7 @@ import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.RequestHandler;
 import it.uniba.di.sms.carpooling.SharedPrefManager;
 import it.uniba.di.sms.carpooling.URLs;
+import it.uniba.di.sms.carpooling.Utente;
 
 
 public class CercaPassaggioFragment extends Fragment implements Serializable {
@@ -223,8 +224,6 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
        /////////////////
 
 
-
-
        aziendaUtente = SharedPrefManager.getInstance(getActivity()).getUser().getAzienda();
 
        //Radio group andata/ritorno
@@ -239,9 +238,6 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                direzioneSelected=rd.getText().toString();
            }
        });
-
-
-
 
 
        return v;
@@ -296,8 +292,6 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
 
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
-                    Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
                     //if no error in response
                     if (!obj.getBoolean("error")) {
                         //if list is not empty
@@ -307,7 +301,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                                 JSONObject temp = passaggiJson.getJSONObject(i);
                                 listaPassaggi.add(new Passaggio(
                                         Integer.parseInt(temp.getString("id")),
-                                        temp.getString("nome"),
+                                        temp.getString("username"),
                                         temp.getString("indirizzo"),
                                         temp.getString("data"),
                                         temp.getString("automobile"),
@@ -329,6 +323,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
 
                             //passa all'activity mappa inserendo due liste
                             Intent mapIntent = new Intent(getActivity(), MapsActivity.class);
+                            //Toast.makeText(getActivity(), Integer.toString(listaPassaggi.get(0).getId()), Toast.LENGTH_SHORT).show();
                             mapIntent.putExtra("Passaggi",listaPassaggi);
                             mapIntent.putExtra("Passaggi_utente", passaggi_ID);
                             startActivity(mapIntent);

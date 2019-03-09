@@ -1,7 +1,7 @@
 package it.uniba.di.sms.carpooling;
 
 public class Utente {
-    private String username, nome, cognome, sesso, dataNascita, indirizzo, email, telefono, indirizzoAzienda;
+    private String username, nome, cognome, sesso, dataNascita, indirizzo, email, telefono, indirizzoAzienda, foto;
     private String azienda = null;
     private boolean confermato;
 
@@ -68,7 +68,17 @@ public class Utente {
         this.indirizzoAzienda = indirizzoAzienda;
     }
 
-    
+
+    public Utente(String username, String nome, String cognome, String indirizzo, String telefono, String foto) {
+        this.username = username;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.indirizzo = indirizzo;
+        this.telefono = telefono;
+        this.foto = foto;
+    }
+
+
     public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, Boolean confermato) {
         this.username = username;
         this.nome = nome;
@@ -77,6 +87,10 @@ public class Utente {
         this.email = email;
         this.telefono = telefono;
         this.confermato = confermato;
+    }
+
+    public Utente(){
+
     }
 
 
