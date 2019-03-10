@@ -5,7 +5,7 @@
     android:id="@+id/form_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fefce2"
+    android:background="@color/easyColor"
     tools:context=".Accesso.LoginActivity"
     tools:layout_editor_absoluteY="81dp">
 
