@@ -2,12 +2,17 @@ package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +27,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 import it.uniba.di.sms.carpooling.R;
+import it.uniba.di.sms.carpooling.RequestHandler;
+import it.uniba.di.sms.carpooling.URLs;
 import it.uniba.di.sms.carpooling.Utente;
 
 
@@ -45,6 +57,13 @@ public class InfoPassaggioOffertoFragment extends Fragment {
     private MapView mMapView;
     private GoogleMap googleMap;
 
+    CardView card;
+    ImageView close;
+    TextView txtNome;
+    TextView txtCognome;
+    TextView txtTelefono;
+    Button btnAccept;
+    Button btnDecline;
 
     public InfoPassaggioOffertoFragment() {
         // Required empty public constructor
@@ -64,6 +83,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             passaggioParam = (Passaggio) getArguments().get(PASSAGGIO);
             utentiParam = (ArrayList<Utente>) getArguments().get(UTENTI);
@@ -75,6 +95,20 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_info_passaggio_offerto, container, false);
+
+        txtNome = v.findViewById(R.id.txtNome);
+        txtCognome = v.findViewById(R.id.txtCognome);
+        txtTelefono =  v.findViewById(R.id.txtTelefono);
+        btnAccept =  v.findViewById(R.id.btnAccept);
+        btnDecline =  v.findViewById(R.id.btnDecline);
+        card = v.findViewById(R.id.info);
+        close = v.findViewById(R.id.close_card);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                card.setVisibility(View.INVISIBLE);
+            }
+        });
 
         mMapView = v.findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
@@ -95,6 +129,15 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                 Marker marker;
                 Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
                 Address address = null;
+
+                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        displayInfo(marker);
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), (float) 14));
+                        return true;
+                    }
+                });
                 try {
                     address = geocoder.getFromLocationName(passaggioParam.getIndirizzo(), 1).get(0);
                     LatLng position = new LatLng(address.getLatitude(),address.getLongitude());
@@ -139,6 +182,8 @@ public class InfoPassaggioOffertoFragment extends Fragment {
     }
 
 
+
+
     private void addMarkerUtenti(Utente utente) throws IOException {
         MarkerOptions markerOptions = new MarkerOptions();
         Marker marker;
@@ -155,8 +200,91 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         marker.setTag(utente);
     }
 
+    //crea un riquadro in cui inserisce le info del marker
+    public void displayInfo(final Marker marker) {
+        //visualizza la card con le informazioni sul passaggio
+        card.setVisibility(View.VISIBLE);
+
+        final Utente utente = (Utente) marker.getTag();
+        txtNome.setText(utente.getNome());
+        txtCognome.setText(utente.getCognome());
+        txtTelefono.setText(utente.getTelefono());
+
+        //accetta il passaggio
+        btnAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                acceptDeclinePassaggio(passaggioParam.getId(),utente.getUsername(), true);
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            }
+        });
+
+        //rifiuta il passaggio
+        btnDecline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                acceptDeclinePassaggio(passaggioParam.getId(),utente.getUsername(), false);
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+            }
+        });
+    }
+
+    //Metodo asincrono che accetta o rifiuta il passaggio
+    private void acceptDeclinePassaggio(final int idPassaggio, final String usernameRichiedente, final Boolean conferma) {
+
+        //if it passes all the validations
+        class AcceptDeclinePassaggio extends AsyncTask<Void, Void, String> {
 
 
+            @Override
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("ID", Integer.toString(idPassaggio));
+                params.put("Username", usernameRichiedente);
+                params.put("Conferma", conferma.toString());
+
+                //returning the response
+                return requestHandler.sendPostRequest(URLs.URL_ACCEPT_DECLINE_PASSAGGIO, params);
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                try{
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
+
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+
+                        Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+
+                    } else {
+                        Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //executing the async task
+        AcceptDeclinePassaggio up = new AcceptDeclinePassaggio();
+        up.execute();
+    }
 
 
 
