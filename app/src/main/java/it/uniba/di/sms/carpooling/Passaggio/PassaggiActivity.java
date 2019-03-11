@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 
 import it.uniba.di.sms.carpooling.R;
@@ -18,6 +19,7 @@ public class PassaggiActivity extends AppCompatActivity {
     private SectionsPageAdapter mSectionsPageAdapter;
 
     private ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

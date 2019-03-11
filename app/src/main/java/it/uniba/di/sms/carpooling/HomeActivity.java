@@ -239,7 +239,8 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                             }
                         }
                         else {
-                            //Apre popup per aggiungere auto
+                            Toast.makeText(HomeActivity.this, "Devi prima aggiungere una auto", Toast.LENGTH_SHORT).show();
+                            openListaAutoFragment();
                         }
 
                     } else {
@@ -248,10 +249,10 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                     //Se l'utente non ha auto aggiunte
                     if(automobili.isEmpty()){
                         Toast.makeText(HomeActivity.this, "Aggiungi prima una automobile.", Toast.LENGTH_SHORT).show();
+                        openListaAutoFragment();
                     }
                     //Se l'utente possiede almeno una auto
                     else {
-
                         openCreaPassaggioFragment(automobili);
                     }
 
