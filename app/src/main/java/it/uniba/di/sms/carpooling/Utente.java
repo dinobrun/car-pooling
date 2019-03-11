@@ -3,7 +3,7 @@ package it.uniba.di.sms.carpooling;
 public class Utente {
     private String username, nome, cognome, sesso, dataNascita, indirizzo, email, telefono, indirizzoAzienda, foto;
     private String azienda = null;
-    private boolean confermato;
+    private int confermato;
 
     public String getIndirizzoAzienda() {
         return indirizzoAzienda;
@@ -41,7 +41,11 @@ public class Utente {
         return azienda;
     }
 
-    public boolean isConfermato() {
+    public void setConfermato(int confermato) {
+        this.confermato = confermato;
+    }
+
+    public int getConfermato() {
         return confermato;
     }
 
@@ -78,7 +82,7 @@ public class Utente {
     }
 
 
-    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, Boolean confermato) {
+    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, int confermato) {
         this.username = username;
         this.nome = nome;
         this.cognome = cognome;

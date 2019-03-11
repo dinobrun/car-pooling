@@ -50,7 +50,6 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private Passaggio passaggioParam;
-    private ArrayList<Utente> utentiParam;
 
 
     //MAP
@@ -71,11 +70,10 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 
 
     // TODO: Rename and change types and number of parameters
-    public static InfoPassaggioOffertoFragment newInstance(Passaggio passaggioParam, ArrayList<Utente> utentiParam) {
+    public static InfoPassaggioOffertoFragment newInstance(Passaggio passaggioParam) {
         InfoPassaggioOffertoFragment fragment = new InfoPassaggioOffertoFragment();
         Bundle args = new Bundle();
         args.putSerializable(PASSAGGIO, passaggioParam);
-        args.putSerializable(UTENTI,utentiParam);
         fragment.setArguments(args);
         return fragment;
     }
@@ -86,7 +84,6 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 
         if (getArguments() != null) {
             passaggioParam = (Passaggio) getArguments().get(PASSAGGIO);
-            utentiParam = (ArrayList<Utente>) getArguments().get(UTENTI);
         }
     }
 
@@ -155,15 +152,9 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                     e.printStackTrace();
                 }
 
+                getUtentiPassages(passaggioParam);
 
-                //Aggiunge i marker degli utenti che hanno richiesto il passaggio
-                for(Utente u : utentiParam) {
-                    try {
-                        addMarkerUtenti(u);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+
             }
         });
 
@@ -192,10 +183,20 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
         markerOptions.title(utente.getUsername());
 
-        if(utente.isConfermato()){
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        switch (utente.getConfermato()){
+            //confermato
+            case 1: markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            btnAccept.setVisibility(View.INVISIBLE);
+            break;
+            //rifiutato
+            case 2: markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+            break;
+            //in sospeso
+            case 0: markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            break;
+            //se c'è un errore
+            default: markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         }
-
         marker = googleMap.addMarker(markerOptions);
         marker.setTag(utente);
     }
@@ -214,7 +215,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                acceptDeclinePassaggio(passaggioParam.getId(),utente.getUsername(), true);
+                acceptDeclinePassaggio(passaggioParam.getId(),utente, true);
                 marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
             }
         });
@@ -223,14 +224,14 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         btnDecline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                acceptDeclinePassaggio(passaggioParam.getId(),utente.getUsername(), false);
+                acceptDeclinePassaggio(passaggioParam.getId(),utente, false);
                 marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
             }
         });
     }
 
     //Metodo asincrono che accetta o rifiuta il passaggio
-    private void acceptDeclinePassaggio(final int idPassaggio, final String usernameRichiedente, final Boolean conferma) {
+    private void acceptDeclinePassaggio(final int idPassaggio, final Utente utenteRichiedente, final Boolean conferma) {
 
         //if it passes all the validations
         class AcceptDeclinePassaggio extends AsyncTask<Void, Void, String> {
@@ -244,7 +245,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("ID", Integer.toString(idPassaggio));
-                params.put("Username", usernameRichiedente);
+                params.put("Username", utenteRichiedente.getUsername());
                 params.put("Conferma", conferma.toString());
 
                 //returning the response
@@ -266,7 +267,11 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 
                     //if no error in response
                     if (!obj.getBoolean("error")) {
-
+                        if(conferma){
+                            utenteRichiedente.setConfermato(1);
+                        }else{
+                            utenteRichiedente.setConfermato(2);
+                        }
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
 
@@ -286,6 +291,87 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         up.execute();
     }
 
+    //restituisce la lista di utenti che hanno richiesto il passaggio
+    private void getUtentiPassages(final Passaggio passaggio) {
 
+        //if it passes all the validations
+        class UtentiPassages extends AsyncTask<Void, Void, String> {
+
+            ArrayList<Utente> listaUtentiPassages = new ArrayList<>();
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("ID", Integer.toString(passaggio.getId()));
+
+                //returning the response
+                return requestHandler.sendPostRequest(URLs.URL_GET_LIST_USER_REQUESTED, params);
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                try{
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
+
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+
+                        //if list is not empty
+                        if(!obj.getBoolean("empty_list")){
+
+                            JSONArray utentiJson = obj.getJSONArray("utente");
+
+                            for(int i=0; i<utentiJson.length(); i++){
+                                JSONObject temp = utentiJson.getJSONObject(i);
+                                listaUtentiPassages.add(new Utente(
+                                        temp.getString("username"),
+                                        temp.getString("nome"),
+                                        temp.getString("cognome"),
+                                        temp.getString("indirizzo"),
+                                        temp.getString("email"),
+                                        temp.getString("telefono"),
+                                        Integer.parseInt(temp.getString("confermato"))
+                                ));
+                            }
+                            //Aggiunge i marker degli utenti che hanno richiesto il passaggio
+                            for(Utente u : listaUtentiPassages) {
+                                try {
+                                    addMarkerUtenti(u);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "Nessuno ha ancora richiesto questo passaggio", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    } else {
+                        Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        //executing the async task
+        UtentiPassages up = new UtentiPassages();
+        up.execute();
+    }
 
 }
