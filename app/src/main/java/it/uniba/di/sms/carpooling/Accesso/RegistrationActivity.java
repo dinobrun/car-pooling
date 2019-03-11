@@ -1,12 +1,10 @@
 package it.uniba.di.sms.carpooling.Accesso;
 
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -17,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 
@@ -25,8 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
 
-import it.uniba.di.sms.carpooling.HomeActivity;
-import it.uniba.di.sms.carpooling.Passaggio.PassaggiActivity;
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.RequestHandler;
 import it.uniba.di.sms.carpooling.URLs;
@@ -42,7 +37,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_avanti, menu);
+        getMenuInflater().inflate(R.menu.menu_avanti_registration_activity, menu);
         return true;
     }
 
@@ -68,7 +63,6 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
 
         toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
-        android.support.v7.app.ActionBar actionbar = getSupportActionBar();
         toolbar.setNavigationIcon(R.drawable.back_icon);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,33 +139,25 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                //displaying the progress bar while user registers on the server
-                // progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                // progressBar.setVisibility(View.VISIBLE);
+
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                //hiding the progressbar after completion
-                // progressBar.setVisibility(View.GONE);
 
                 try {
                     //converting response to json object
-                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
                     JSONObject obj = new JSONObject(s);
 
                     //if no error in response
                     if (!obj.getBoolean("error")) {
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
                         //apre il fragment successivo
                         openFragment(username,password,email);
-
                     } else {
                         Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
-                } catch (JSONException e) {
+                }catch (JSONException e){
                     e.printStackTrace();
                 }
             }

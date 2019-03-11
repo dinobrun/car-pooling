@@ -55,7 +55,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
     RadioButton rd;
     private DrawerLayout drawerLayout;
 
-    ImageView profPic;
     Toolbar myToolbar;
 
 
@@ -69,9 +68,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
 
         drawerLayout = findViewById(R.id.drawer_layout);
-
-        profPic= findViewById(R.id.immagineProva);
-
 
         myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -136,8 +132,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
             }
         });
-        getProfilePicture();
-
 
     }
 
@@ -265,72 +259,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         autoDB.execute();
 
     }
-
-
-
-
-
-    //metodo che restituisce la foto dell'utente
-    private void getProfilePicture(){
-
-        //classe per prendere le aziende
-        class ProfilePicture extends AsyncTask<Void, Void, String> {
-
-            @Override
-            protected String doInBackground(Void... voids) {
-
-                //creating request handler object
-                RequestHandler requestHandler = new RequestHandler();
-
-                //creating request parameters
-                HashMap<String, String> params = new HashMap<>();
-                params.put("Username", user);
-
-                //returning the response
-                return requestHandler.sendPostRequest(URLs.URL_GET_PROFILE_PICTURE, params);
-            }
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-
-                try {
-                    //converting response to json object
-                    JSONObject obj = new JSONObject(s);
-
-                    //if no error in response
-                    if (!obj.getBoolean("error")) {
-
-                        if(!obj.getBoolean("empty_list")){
-                            byte[] decodedString = Base64.decode(obj.getString("foto"), Base64.DEFAULT);
-                            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                            profPic.setImageBitmap(decodedByte);
-
-
-                        }
-                        else {
-                            //Apre popup per aggiungere auto
-                        }
-
-                    } else {
-                        Toast.makeText(HomeActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        ProfilePicture pp = new ProfilePicture();
-        pp.execute();
-
-    }
-
 
 
 }

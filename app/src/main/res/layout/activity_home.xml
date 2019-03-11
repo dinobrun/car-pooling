@@ -20,15 +20,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
 
-        <ImageView
-            android:id="@+id/immagineProva"
-            android:layout_width="wrap_content"
-            android:layout_height="155dp"
-            android:layout_marginBottom="68dp"
-            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/no_profile" />
-
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
