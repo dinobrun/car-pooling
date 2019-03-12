@@ -99,14 +99,14 @@ public class LoginActivity extends Activity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                progressBar = (ProgressBar) findViewById(R.id.progressBar);
-               progressBar.setVisibility(View.VISIBLE);
+                progressBar =findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                //progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 
                 try {
                     //converting response to json object

@@ -19,8 +19,12 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -77,6 +81,7 @@ public class CompanyFragment extends Fragment {
     private ArrayList<String> companies;
     private Bitmap bitmap;
     private String stringImage = "null";
+    private ProgressBar progressBar;
 
     //Costruttore
     public CompanyFragment() {
@@ -119,6 +124,18 @@ public class CompanyFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_company, container, false);
 
+        Toolbar toolbar = v.findViewById(R.id.my_toolbar_2);
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.home_icon);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().popBackStack();
+            }
+        });
+
+        progressBar=v.findViewById(R.id.progressBarCompany);
         //restituisce la lista delle aziende presenti nel DB
         companies = getCompanies();
 
@@ -154,7 +171,6 @@ public class CompanyFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i!=0){
                     company = adapter.getItem(i);
-                    Toast.makeText(getActivity(), company, Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
@@ -239,7 +255,6 @@ public class CompanyFragment extends Fragment {
                 super.onPostExecute(s);
 
                 try {
-                    Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
                     JSONObject obj = new JSONObject(s);
 
                     if (!obj.getBoolean("error")) {
@@ -268,8 +283,6 @@ public class CompanyFragment extends Fragment {
     private void registerUser() {
 
         class RegisterUser extends AsyncTask<Void, Void, String> {
-
-            private ProgressBar progressBar;
 
             /*
             //Converte l'imageview in un bitmap
@@ -311,18 +324,17 @@ public class CompanyFragment extends Fragment {
             protected void onPreExecute() {
                 super.onPreExecute();
                 //displaying the progress bar while user registers on the server
-                // progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                // progressBar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 //hiding the progressbar after completion
-                // progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 
                 try {
-                    Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Account registrato con successo", Toast.LENGTH_SHORT).show();
                     //torna alla LoginActivity
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);

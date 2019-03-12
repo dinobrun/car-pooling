@@ -1,7 +1,6 @@
 package it.uniba.di.sms.carpooling.Accesso;
 
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -19,13 +18,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -75,8 +71,6 @@ public class RegistrationFragment extends Fragment {
     private String passwordParam;
     private String emailParam;
 
-    private Button btn_avanti;
-
 
     private OnFragmentInteractionListener mListener;
 
@@ -119,14 +113,14 @@ public class RegistrationFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        getActivity().getMenuInflater().inflate(R.menu.menu_avanti, menu);
+        inflater.inflate(R.menu.menu_avanti_registration_fragment, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.avanti:
-                Toast.makeText(getActivity(), "miao", Toast.LENGTH_SHORT).show();
+            case R.id.avanti_rf:
+                secondRegistrationPart();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -153,15 +147,6 @@ public class RegistrationFragment extends Fragment {
         });
 
         setHasOptionsMenu(true);
-
-        view.setBackgroundColor(Color.WHITE);
-        btn_avanti = view.findViewById(R.id.btn_avanti);
-        btn_avanti.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                secondRegistrationPart();
-            }
-        });
 
         txtNome = view.findViewById(R.id.nomeText);
         txtCognome = view.findViewById(R.id.cognomeText);
