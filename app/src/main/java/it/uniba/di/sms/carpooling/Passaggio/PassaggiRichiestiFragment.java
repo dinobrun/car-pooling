@@ -187,14 +187,16 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                                 JSONObject temp = passaggiJson.getJSONObject(i);
                                 listaPassaggi.add(new Passaggio(
                                         Integer.parseInt(temp.getString("id")),
-                                        temp.getString("autista"),
                                         temp.getString("indirizzo"),
+                                        temp.getString("nome"),
+                                        temp.getString("cognome"),
+                                        temp.getString("telefono"),
                                         temp.getString("data"),
                                         temp.getString("automobile"),
                                         aziendaParam,
                                         temp.getString("direzione"),
                                         Integer.parseInt(temp.getString("num_posti")),
-                                        Boolean.parseBoolean(temp.getString("confermato")),
+                                        Integer.parseInt(temp.getString("confermato")),
                                         temp.getString("foto")
                                 ));
                             }

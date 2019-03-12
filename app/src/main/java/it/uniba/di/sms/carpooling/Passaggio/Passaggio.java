@@ -6,11 +6,24 @@ import it.uniba.di.sms.carpooling.Utente;
 
 public class Passaggio implements Serializable {
 
-    private String autista, data, automobile, azienda, direzione, indirizzo, foto;
+    private String autista, data, automobile, azienda, direzione, indirizzo, foto, nomeAutista, cognomeAutista, telefonoAutista;
     private Utente utente;
     private int id, numPosti;
+
+    public String getNomeAutista() {
+        return nomeAutista;
+    }
+
+    public String getCognomeAutista() {
+        return cognomeAutista;
+    }
+
+    public String getTelefonoAutista() {
+        return telefonoAutista;
+    }
+
     private boolean richiesto = false;
-    private boolean confermato = false;
+    private int confermato = 0;
 
     public int getRichiesteInSospeso() {
         return richiesteInSospeso;
@@ -30,11 +43,11 @@ public class Passaggio implements Serializable {
         this.richiesto = richiesto;
     }
 
-    public boolean isConfermato() {
+    public int getConfermato() {
         return confermato;
     }
 
-    public void setConfermato(boolean confermato) {
+    public void setConfermato(int confermato) {
         this.confermato = confermato;
     }
 
@@ -48,15 +61,18 @@ public class Passaggio implements Serializable {
         this.numPosti = numPosti;
         this.indirizzo=indirizzo;
     }
-    
+
     public String getFoto() {
         return foto;
     }
 
 
-    public Passaggio(int id, String autista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti, boolean confermato, String foto) {
+    public Passaggio(int id, String indirizzo, String nomeAutista, String cognomeAutista, String telefonoAutista, String data, String automobile, String azienda, String direzione, int numPosti, int confermato, String foto) {
         this.id=id;
-        this.autista = autista;
+        this.indirizzo = indirizzo;
+        this.nomeAutista = nomeAutista;
+        this.cognomeAutista = cognomeAutista;
+        this.telefonoAutista = telefonoAutista;
         this.data = data;
         this.automobile = automobile;
         this.azienda = azienda;
@@ -67,7 +83,7 @@ public class Passaggio implements Serializable {
         this.foto = foto;
     }
 
-    public Passaggio(int id, String autista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti, boolean confermato) {
+    public Passaggio(int id, String autista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti, int confermato) {
         this.id=id;
         this.autista = autista;
         this.data = data;
@@ -79,9 +95,6 @@ public class Passaggio implements Serializable {
         this.confermato=confermato;
     }
 
-    public boolean getConfermato(){
-        return confermato;
-    }
 
     public String getIndirizzo(){
         return indirizzo;

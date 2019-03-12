@@ -70,7 +70,7 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
             holder.profileImage.setBackgroundResource(R.drawable.no_profile);
         }
 
-        holder.textViewTitle.setText(passaggio.getAutista());
+        holder.textViewTitle.setText(passaggio.getNomeAutista() + " " + passaggio.getCognomeAutista());
         holder.textViewShortDesc.setText(passaggio.getAutomobile());
         holder.textViewRating.setText(passaggio.getDirezione());
         holder.textViewPrice.setText(passaggio.getData());
