@@ -268,7 +268,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     //crea un riquadro in cui inserisce le info del marker
-    public void displayInfo(Marker marker) {
+    public void displayInfo(final Marker marker) {
         //visualizza la card con le informazioni sul passaggio
         card.setVisibility(View.VISIBLE);
 
@@ -285,7 +285,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             btnRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    requestPassaggio(passaggio.getId());
+                    requestPassaggio(marker);
                 }
             });
         }
@@ -300,6 +300,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
         if(passaggio.isRichiesto()){
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            btnRequest.setText("Richiesto");
+            btnRequest.setClickable(false);
+            btnRequest.setBackgroundColor(R.color.cardview_dark_background);
         }
         markerOptions.title(passaggio.getAutista());
         marker = map.addMarker(markerOptions);
@@ -309,8 +312,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     //funzione che prenota il passaggio selezionato
-    private void requestPassaggio(final int id_passaggio){
+    private void requestPassaggio(final Marker markerPassaggio){
             final String username = SharedPrefManager.getInstance(MapsActivity.this).getUser().getUsername();
+            final Passaggio passaggio = (Passaggio) markerPassaggio.getTag();
 
             //if it passes all the validations
             class RequestPassaggio extends AsyncTask<Void, Void, String> {
@@ -323,7 +327,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     //creating request parameters
                     HashMap<String, String> params = new HashMap<>();
                     params.put("Username", username);
-                    params.put("ID", Integer.toString(id_passaggio));
+                    params.put("ID", Integer.toString(passaggio.getId()));
 
                     //returning the response
                     return requestHandler.sendPostRequest(URLs.URL_REQUESTPASSAGGIO, params);
@@ -351,8 +355,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         //if no error in response
                         if (!obj.getBoolean("error")) {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
-
+                            markerPassaggio.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                            btnRequest.setText("Richiesto");
+                            btnRequest.setClickable(false);
+                            btnRequest.setBackgroundColor(R.color.cardview_dark_background);
                         } else {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         }
