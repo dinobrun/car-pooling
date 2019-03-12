@@ -22,6 +22,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -46,7 +47,6 @@ public class RegistrationFragment extends Fragment {
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
     private static final String EMAIL = "email";
-
 
     private EditText txtNome;
     private EditText txtCognome;
@@ -102,6 +102,7 @@ public class RegistrationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
             usernameParam = getArguments().getString(USERNAME);
             passwordParam = getArguments().getString(PASSWORD);
@@ -109,11 +110,12 @@ public class RegistrationFragment extends Fragment {
         }
     }
 
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.menu_avanti_registration_fragment, menu);
+        getActivity().getMenuInflater().inflate(R.menu.menu_avanti_registration_fragment, menu);
     }
 
     @Override
@@ -122,9 +124,8 @@ public class RegistrationFragment extends Fragment {
             case R.id.avanti_rf:
                 secondRegistrationPart();
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -134,6 +135,8 @@ public class RegistrationFragment extends Fragment {
                               Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_registration, container, false);
+
+        setHasOptionsMenu(true);
 
         Toolbar toolbar = view.findViewById(R.id.my_toolbar);
 
@@ -146,7 +149,7 @@ public class RegistrationFragment extends Fragment {
             }
         });
 
-        setHasOptionsMenu(true);
+
 
         txtNome = view.findViewById(R.id.nomeText);
         txtCognome = view.findViewById(R.id.cognomeText);
@@ -284,7 +287,6 @@ public class RegistrationFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
 
 
     /**

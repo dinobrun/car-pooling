@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private Passaggio passaggioParam;
+    CardView card;
 
 
     //MAP
@@ -79,6 +81,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_info_passaggio_richiesto, container, false);
+        //card = v.findViewById(R.id.info_richiesto);
 
         Toast.makeText(getActivity(),"richiesto",Toast.LENGTH_SHORT).show();
 

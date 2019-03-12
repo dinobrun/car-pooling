@@ -63,6 +63,8 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
+
         //user conterrà l'username dell'utente in sessione
         user = SharedPrefManager.getInstance(getApplicationContext()).getUser().getUsername();
 

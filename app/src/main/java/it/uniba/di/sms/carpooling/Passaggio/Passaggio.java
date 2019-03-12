@@ -48,20 +48,11 @@ public class Passaggio implements Serializable {
         this.numPosti = numPosti;
         this.indirizzo=indirizzo;
     }
-
-    public Passaggio(int id, Utente utente, String data, String automobile, String azienda, String direzione, int numPosti) {
-        this.id=id;
-        this.utente = utente;
-        this.data = data;
-        this.automobile = automobile;
-        this.azienda = azienda;
-        this.direzione = direzione;
-        this.numPosti = numPosti;
-    }
-
+    
     public String getFoto() {
         return foto;
     }
+
 
     public Passaggio(int id, String autista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti, boolean confermato, String foto) {
         this.id=id;

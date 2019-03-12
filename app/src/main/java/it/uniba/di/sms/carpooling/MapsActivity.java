@@ -272,7 +272,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //visualizza la card con le informazioni sul passaggio
         card.setVisibility(View.VISIBLE);
 
-
         final Passaggio passaggio = (Passaggio) marker.getTag();
         txtNome.setText(passaggio.getAutista());
         //txtCognome.setText(passaggio.getUtente().getCognome());
@@ -345,13 +344,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     try {
                         //converting response to json object
-                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
                         JSONObject obj = new JSONObject(s);
 
                         //if no error in response
                         if (!obj.getBoolean("error")) {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
+                            //nasconde cardview
+                            card.setVisibility(View.INVISIBLE);
 
                         } else {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();

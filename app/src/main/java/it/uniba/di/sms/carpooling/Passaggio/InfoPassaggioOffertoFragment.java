@@ -1,7 +1,9 @@
 package it.uniba.di.sms.carpooling.Passaggio;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -63,6 +65,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
     TextView txtTelefono;
     Button btnAccept;
     Button btnDecline;
+    ImageView callIcon;
 
     public InfoPassaggioOffertoFragment() {
         // Required empty public constructor
@@ -100,6 +103,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         btnDecline =  v.findViewById(R.id.btnDecline);
         card = v.findViewById(R.id.info);
         close = v.findViewById(R.id.close_card);
+        callIcon = v.findViewById(R.id.call_icon);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,6 +230,14 @@ public class InfoPassaggioOffertoFragment extends Fragment {
             public void onClick(View v) {
                 acceptDeclinePassaggio(passaggioParam.getId(),utente, false);
                 marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+            }
+        });
+
+        callIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + utente.getTelefono()));
+                startActivity(callIntent);
             }
         });
     }
