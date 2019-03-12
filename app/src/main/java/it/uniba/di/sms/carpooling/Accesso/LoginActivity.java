@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,6 +12,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,11 +36,28 @@ public class LoginActivity extends Activity {
     EditText txtUserName;
     TextInputEditText txtPassword;
     RelativeLayout loginForm;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        //ottiene il token di sessione
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        token = task.getResult().getToken();
+
+                        // Log and toast
+                        Toast.makeText(LoginActivity.this, token, Toast.LENGTH_SHORT).show();
+                    }
+                });
         txtUserName = findViewById(R.id.usernameLogin);
         txtPassword = findViewById(R.id.passwordLogin);
 
@@ -170,6 +194,7 @@ public class LoginActivity extends Activity {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("Username", username);
                 params.put("Password", password);
+                params.put("Token", token);
 
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_LOGIN, params);
