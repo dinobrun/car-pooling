@@ -3,6 +3,9 @@ package it.uniba.di.sms.carpooling.Passaggio;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -12,12 +15,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.uniba.di.sms.carpooling.R;
 
 
-public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRichiestoAdapter.ProductViewHolder> implements RecyclerView.OnItemTouchListener {
+public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRichiestoAdapter.ProductViewHolder> {
 
 
     //this context we will use to inflate the layout
@@ -25,6 +29,7 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
 
     //we are storing all the products in a list
     private List<Passaggio> passaggioList;
+    private List<Integer> selectedIds = new ArrayList<>();
 
     //getting the context and product list with constructor
     public PassaggioRichiestoAdapter(Context mCtx, List<Passaggio> passaggioList) {
@@ -45,6 +50,18 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
         //getting the product of the specified position
         Passaggio passaggio = passaggioList.get(position);
 
+        int id = passaggioList.get(position).getId();
+
+        if (selectedIds.contains(id)){
+            //if item is selected then,set foreground color of FrameLayout.
+            holder.itemView.setBackgroundColor(Color.GRAY);
+        }
+        else {
+            //else remove selected item color.
+            holder.itemView.setForeground(new ColorDrawable(ContextCompat.getColor(mCtx,android.R.color.transparent)));
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+        }
+
         if(passaggio.getFoto() != null){
             byte[] decodedString = Base64.decode(passaggio.getFoto(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -64,20 +81,15 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
         return passaggioList.size();
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-        return false;
+    public Passaggio getItem(int position){
+        return passaggioList.get(position);
     }
 
-    @Override
-    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
+    public void setSelectedIds(List<Integer> selectedIds) {
+        this.selectedIds = selectedIds;
+        notifyDataSetChanged();
     }
 
-    @Override
-    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-    }
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 

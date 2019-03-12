@@ -96,6 +96,10 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                                 openListaAutoFragment();
                                 break;
 
+                            case R.id.my_profile:
+                                openMioProfiloFragment();
+                                break;
+
                             case R.id.logout_section:
                                 SharedPrefManager.getInstance(HomeActivity.this).logout();
                                 Intent openLogin = new Intent(HomeActivity.this, LoginActivity.class);
@@ -176,6 +180,16 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
     //Apre ListaAutoFragment
     public void openListaAutoFragment() {
         ListaAutoFragment fragment = new ListaAutoFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.addToBackStack(null);
+        transaction.add(R.id.open_frag, fragment, "BLANK_FRAGMENT").commit();
+    }
+
+    //Apre ListaAutoFragment
+    public void openMioProfiloFragment() {
+        MioProfiloFragment fragment = new MioProfiloFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);

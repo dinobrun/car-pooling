@@ -67,6 +67,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        
         // Inflate the layout for this fragment
         final View v = inflater.inflate(R.layout.fragment_passaggi_offerti, container, false);
 
@@ -118,7 +119,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.remove_item:
-                showAddAutoPopup();
+                showopup();
                 return true;
         }
         return false;
@@ -129,29 +130,10 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
         isMultiSelect = false;
         selectedIds = new ArrayList<>();
         adapter.setSelectedIds(new ArrayList<Integer>());
-
     }
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
 
 
     private void getListPassages() {
-
 
         //if it passes all the validations
         class ListPassages extends AsyncTask<Void, Void, String> {
@@ -349,8 +331,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
     }
 
 
-    public void showAddAutoPopup(){
-
+    public void showopup(){
         AlertDialog.Builder builderNomeAuto = new AlertDialog.Builder(getActivity());
         builderNomeAuto.setTitle("Sei sicuro?");
         builderNomeAuto.setMessage("Le modifiche apportate non potranno essere annullate");
@@ -359,7 +340,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
         builderNomeAuto.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                detelePassaggi(selectedIds);
             //esegue le query di cancellazione
 
             }
@@ -372,5 +353,88 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
         });
         builderNomeAuto.show();
     }
+
+
+
+    //Metodo asincrono che cancella i passaggi selezionati
+    private void detelePassaggi(final List<Integer> idPassaggi) {
+
+        //if it passes all the validations
+        class DeletePassaggi extends AsyncTask<Void, Void, String> {
+
+            @Override
+            protected String doInBackground(Void... voids) {
+
+                JSONArray array = new JSONArray();
+
+                for(Integer id : idPassaggi) {
+                    JSONObject obj = new JSONObject();
+                    try {
+                        obj.put("id_passaggio", id);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    array.put(obj);
+                }
+
+                JSONObject mainObj = new JSONObject();
+                try {
+                    mainObj.put("passaggi",array);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("Array_Passaggi", mainObj.toString());
+
+                //returning the response
+                return requestHandler.sendPostRequest(URLs.URL_DELETE_PASSAGGI, params);
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                try{
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
+
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+
+                        Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+                        actionMode.finish();
+                        actionMode = null; //hide action mode.
+
+                        //Riavvia il fragment
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(PassaggiOffertiFragment.this).attach(PassaggiOffertiFragment.this).commit();
+
+
+                    } else {
+                        Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //executing the async task
+        DeletePassaggi dp = new DeletePassaggi();
+        dp.execute();
+    }
+
+
 
 }

@@ -18,5 +18,6 @@ public class URLs {
     public static final String URL_DELETE_AUTO = ROOT_URL + "deleteAuto";
     public static final String URL_GET_PROFILE_PICTURE = ROOT_URL + "getProfilePicture";
     public static final String URL_ACCEPT_DECLINE_PASSAGGIO = ROOT_URL + "acceptDeclinePassaggio";
+    public static final String URL_DELETE_PASSAGGI = ROOT_URL + "deletePassaggi";
 
 }
