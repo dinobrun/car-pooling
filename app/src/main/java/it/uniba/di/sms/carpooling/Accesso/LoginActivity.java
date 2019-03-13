@@ -50,12 +50,8 @@ public class LoginActivity extends Activity {
                         if (!task.isSuccessful()) {
                             return;
                         }
-
                         // Get new Instance ID token
                         token = task.getResult().getToken();
-
-                        // Log and toast
-                        Toast.makeText(LoginActivity.this, token, Toast.LENGTH_SHORT).show();
                     }
                 });
         txtUserName = findViewById(R.id.usernameLogin);

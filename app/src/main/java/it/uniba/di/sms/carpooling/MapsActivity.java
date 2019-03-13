@@ -141,9 +141,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                clicked = true;
-                displayInfo(marker);
-                return true;
+                if(marker.getTag() != null){
+                    displayInfo(marker);
+                    return true;
+                }else{
+                    return false;
+                }
             }
         });
 
@@ -179,20 +182,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Location location = locationResult.getLastLocation();
                 Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                 mLastLocation = location;
+                MarkerOptions markerOptions = new MarkerOptions();
 
                 if (mCurrLocationMarker != null) {
                     mCurrLocationMarker.remove();
                 }
 
                 //Marker della mia posizione
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-                markerOptions.title("Current Position");
-                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
-                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrLocationMarker.getPosition(), (float) 14));
-
+                Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+                Address address = null;
+                try {
+                    address = geocoder.getFromLocationName(SharedPrefManager.getInstance(MapsActivity.this).getUser().getIndirizzo(), 1).get(0);
+                    markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
+                    markerOptions.title("Casa mia");
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                    mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
 
             }
@@ -283,7 +290,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if(passaggio.isRichiesto()){
             btnRequest.setClickable(false);
+            btnRequest.setText("Richiesto");
+            btnRequest.setBackgroundColor(R.color.cardview_light_background);
         }else{
+            btnRequest.setClickable(true);
+            btnRequest.setText("Richiedi passaggio");
+            btnRequest.setBackgroundColor(R.color.easyColor);
             btnRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -304,7 +316,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
             btnRequest.setText("Richiesto");
             btnRequest.setClickable(false);
-            btnRequest.setBackgroundColor(R.color.cardview_dark_background);
+            btnRequest.setBackgroundColor(R.color.cardview_light_background);
         }
         markerOptions.title(passaggio.getUsernameAutista());
         marker = map.addMarker(markerOptions);
@@ -360,7 +372,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             btnRequest.setText("Richiesto");
                             btnRequest.setClickable(false);
                             btnRequest.setBackgroundColor(R.color.cardview_dark_background);
-                            
                         } else {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         }
