@@ -141,9 +141,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                clicked = true;
-                displayInfo(marker);
-                return true;
+                if(marker.getTag() != null){
+                    displayInfo(marker);
+                    return true;
+                }else{
+                    return false;
+                }
             }
         });
 
@@ -179,20 +182,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Location location = locationResult.getLastLocation();
                 Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                 mLastLocation = location;
+                MarkerOptions markerOptions = new MarkerOptions();
 
                 if (mCurrLocationMarker != null) {
                     mCurrLocationMarker.remove();
                 }
 
                 //Marker della mia posizione
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-                markerOptions.title("Current Position");
-                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
-                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrLocationMarker.getPosition(), (float) 14));
-
+                Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+                Address address = null;
+                try {
+                    address = geocoder.getFromLocationName(SharedPrefManager.getInstance(MapsActivity.this).getUser().getIndirizzo(), 1).get(0);
+                    markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
+                    markerOptions.title("Casa mia");
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                    mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
 
             }
