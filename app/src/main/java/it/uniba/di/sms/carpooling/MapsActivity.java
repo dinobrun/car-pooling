@@ -2,6 +2,7 @@ package it.uniba.di.sms.carpooling;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -14,12 +15,16 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -57,10 +62,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     CardView card;
     ImageView close;
     TextView txtNome;
-    TextView txtTelefono;
+    TextView txtCognome;
     TextView txtAuto;
     TextView txtPosti;
-    TextView txtData;
     Button btnRequest;
 
     private boolean clicked=false;
@@ -72,10 +76,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         txtNome = findViewById(R.id.txtNome);
-        txtTelefono = findViewById(R.id.txtTelefono);
+        txtCognome = findViewById(R.id.txtCognome);
         txtAuto =  findViewById(R.id.txtAuto);
         txtPosti = findViewById(R.id.txtPosti);
-        txtData = findViewById(R.id.txtData);
         btnRequest =  findViewById(R.id.btnRequest);
         card = findViewById(R.id.info);
         close = findViewById(R.id.close_card);
@@ -265,16 +268,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     //crea un riquadro in cui inserisce le info del marker
-    public void displayInfo(Marker marker) {
+    public void displayInfo(final Marker marker) {
         //visualizza la card con le informazioni sul passaggio
         card.setVisibility(View.VISIBLE);
 
+
         final Passaggio passaggio = (Passaggio) marker.getTag();
-        txtNome.setText(passaggio.getNomeAutista() + " " + passaggio.getCognomeAutista());
-        txtTelefono.setText(passaggio.getTelefonoAutista());
+        txtNome.setText(passaggio.getAutista());
+        //txtCognome.setText(passaggio.getUtente().getCognome());
         txtAuto.setText(passaggio.getAutomobile());
         txtPosti.setText(Integer.toString(passaggio.getNumPosti()));
-        txtData.setText(passaggio.getData());
 
         if(passaggio.isRichiesto()){
             btnRequest.setClickable(false);
@@ -282,7 +285,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             btnRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    requestPassaggio(passaggio.getId());
+                    requestPassaggio(marker);
                 }
             });
         }
@@ -297,8 +300,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
         if(passaggio.isRichiesto()){
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            btnRequest.setText("Richiesto");
+            btnRequest.setClickable(false);
+            btnRequest.setBackgroundColor(R.color.cardview_dark_background);
         }
-        markerOptions.title(passaggio.getUsernameAutista());
+        markerOptions.title(passaggio.getAutista());
         marker = map.addMarker(markerOptions);
         marker.setTag(passaggio);
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), (float) 14));
@@ -306,8 +312,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     //funzione che prenota il passaggio selezionato
-    private void requestPassaggio(final int id_passaggio){
+    private void requestPassaggio(final Marker markerPassaggio){
             final String username = SharedPrefManager.getInstance(MapsActivity.this).getUser().getUsername();
+            final Passaggio passaggio = (Passaggio) markerPassaggio.getTag();
 
             //if it passes all the validations
             class RequestPassaggio extends AsyncTask<Void, Void, String> {
@@ -320,7 +327,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     //creating request parameters
                     HashMap<String, String> params = new HashMap<>();
                     params.put("Username", username);
-                    params.put("ID", Integer.toString(id_passaggio));
+                    params.put("ID", Integer.toString(passaggio.getId()));
 
                     //returning the response
                     return requestHandler.sendPostRequest(URLs.URL_REQUESTPASSAGGIO, params);
@@ -342,14 +349,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     try {
                         //converting response to json object
+                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
                         JSONObject obj = new JSONObject(s);
 
                         //if no error in response
                         if (!obj.getBoolean("error")) {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                            //nasconde cardview
-                            card.setVisibility(View.INVISIBLE);
-
+                            markerPassaggio.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                            btnRequest.setText("Richiesto");
+                            btnRequest.setClickable(false);
+                            btnRequest.setBackgroundColor(R.color.cardview_dark_background);
+                            
                         } else {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         }
