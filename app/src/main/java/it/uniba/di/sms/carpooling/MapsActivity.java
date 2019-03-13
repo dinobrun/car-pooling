@@ -5,6 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -36,6 +39,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -327,7 +331,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         address = geocoder.getFromLocationName(SharedPrefManager.getInstance(MapsActivity.this).getUser().getIndirizzoAzienda(), 1).get(0);
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
         markerOptions.title("Azienda");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        markerOptions.icon(bitmapDescriptorFromVector(MapsActivity.this, R.drawable.marker_factory));
         mGoogleMap.addMarker(markerOptions);
     }
 
@@ -339,7 +343,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         address = geocoder.getFromLocationName(SharedPrefManager.getInstance(MapsActivity.this).getUser().getIndirizzo(), 1).get(0);
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
         markerOptions.title("Casa mia");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        markerOptions.icon(bitmapDescriptorFromVector(MapsActivity.this, R.drawable.marker_home));
         mGoogleMap.addMarker(markerOptions);
     }
 
@@ -368,16 +372,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 @Override
                 protected void onPreExecute() {
                     super.onPreExecute();
-                    //displaying the progress bar while user registers on the server
-                    // progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                    // progressBar.setVisibility(View.VISIBLE);
-                }
+                    }
 
                 @Override
                 protected void onPostExecute(String s) {
                     super.onPostExecute(s);
-                    //hiding the progressbar after completion
-                    // progressBar.setVisibility(View.GONE);
 
                     try {
                         //converting response to json object
@@ -402,5 +401,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             RequestPassaggio rp = new RequestPassaggio();
             rp.execute();
         }
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
 
 }
