@@ -40,8 +40,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
+import it.uniba.di.sms.carpooling.MapsActivity;
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.RequestHandler;
+import it.uniba.di.sms.carpooling.SharedPrefManager;
 import it.uniba.di.sms.carpooling.URLs;
 import it.uniba.di.sms.carpooling.Utente;
 
@@ -138,24 +140,18 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                 googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        displayInfo(marker);
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), (float) 14));
-                        return true;
+                        if(marker.getTag() != null){
+                            displayInfo(marker);
+                            return true;
+                        }else {
+                            return false;
+                        }
                     }
                 });
                 try {
-                    address = geocoder.getFromLocationName(passaggioParam.getIndirizzo(), 1).get(0);
-                    LatLng position = new LatLng(address.getLatitude(),address.getLongitude());
+                    //crea marker sull'indirizzo dell'utente che ha offerto il passaggio
+                    setUserMarker(googleMap);
 
-                    markerOptions.position(position);
-                    if(passaggioParam.isRichiesto()){
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                    }
-                    markerOptions.title(passaggioParam.getUsernameAutista());
-                    marker = mMap.addMarker(markerOptions);
-                    marker.setTag(passaggioParam);
-
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), (float) 14));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -181,7 +177,17 @@ public class InfoPassaggioOffertoFragment extends Fragment {
     }
 
 
-
+    //funzione che crea il marker sull'indirizzo dell'utente che richiede il passaggio
+    private void setUserMarker(GoogleMap mGoogleMap) throws IOException {
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        MarkerOptions markerOptions = new MarkerOptions();
+        Address address;
+        address = geocoder.getFromLocationName(SharedPrefManager.getInstance(getActivity()).getUser().getIndirizzo(), 1).get(0);
+        markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
+        markerOptions.title("Casa mia");
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        mGoogleMap.addMarker(markerOptions);
+    }
 
     private void addMarkerUtenti(Utente utente) throws IOException {
         MarkerOptions markerOptions = new MarkerOptions();
@@ -205,6 +211,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
             default: markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         }
         marker = googleMap.addMarker(markerOptions);
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), (float) 14));
         marker.setTag(utente);
     }
 
