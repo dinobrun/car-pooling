@@ -182,21 +182,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Location location = locationResult.getLastLocation();
                 Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                 mLastLocation = location;
-                MarkerOptions markerOptions = new MarkerOptions();
 
                 if (mCurrLocationMarker != null) {
                     mCurrLocationMarker.remove();
                 }
 
-                //Marker della mia posizione
-                Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
-                Address address = null;
                 try {
-                    address = geocoder.getFromLocationName(SharedPrefManager.getInstance(MapsActivity.this).getUser().getIndirizzo(), 1).get(0);
-                    markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
-                    markerOptions.title("Casa mia");
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-                    mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+                    //crea marker sull'azienda
+                    setCompanyMarker();
+                    //crea marker sulla casa dell'utente richiedente
+                    setUserMarker();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -324,6 +319,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), (float) 14));
     }
 
+    //funzione che crea il marker sul luogo di lavoro
+    private void setCompanyMarker() throws IOException {
+        Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+        MarkerOptions markerOptions = new MarkerOptions();
+        Address address;
+        address = geocoder.getFromLocationName(SharedPrefManager.getInstance(MapsActivity.this).getUser().getIndirizzoAzienda(), 1).get(0);
+        markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
+        markerOptions.title("Azienda");
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        mGoogleMap.addMarker(markerOptions);
+    }
+
+    //funzione che crea il marker sull'indirizzo dell'utente che richiede il passaggio
+    private void setUserMarker() throws IOException {
+        Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+        MarkerOptions markerOptions = new MarkerOptions();
+        Address address;
+        address = geocoder.getFromLocationName(SharedPrefManager.getInstance(MapsActivity.this).getUser().getIndirizzo(), 1).get(0);
+        markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
+        markerOptions.title("Casa mia");
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        mGoogleMap.addMarker(markerOptions);
+    }
 
     //funzione che prenota il passaggio selezionato
     private void requestPassaggio(final Marker markerPassaggio){
@@ -384,4 +402,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             RequestPassaggio rp = new RequestPassaggio();
             rp.execute();
         }
+
 }
