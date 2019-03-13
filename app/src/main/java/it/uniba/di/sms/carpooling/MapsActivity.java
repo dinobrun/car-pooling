@@ -359,6 +359,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             btnRequest.setText("Richiesto");
                             btnRequest.setClickable(false);
                             btnRequest.setBackgroundColor(R.color.cardview_dark_background);
+                            
                         } else {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         }
