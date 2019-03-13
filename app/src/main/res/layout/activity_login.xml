@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="58dp"
-        android:src="@drawable/ee" />
+        android:src="@drawable/icon_app" />
 
     <EditText
         android:id="@+id/usernameLogin"

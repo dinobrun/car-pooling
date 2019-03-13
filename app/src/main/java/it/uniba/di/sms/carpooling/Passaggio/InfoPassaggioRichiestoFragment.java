@@ -9,19 +9,15 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -187,7 +183,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
 
         markerOptions.position(position);
         markerOptions.title(passaggioParam.getNomeAutista() + " " + passaggioParam.getCognomeAutista());
-        //markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.ic_car));
+        markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.marker_car));
         marker = map.addMarker(markerOptions);
         marker.setTag(passaggioParam);
     }
@@ -203,8 +199,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
 
         markerOptions.position(position);
         markerOptions.title("Casa");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-        //markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.home_icon));
+        markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.marker_home));
         map.addMarker(markerOptions);
         // For zooming functionality
         CameraPosition cameraPosition = new CameraPosition.Builder().target(position).zoom(13).build();
@@ -219,8 +214,8 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
         LatLng position = new LatLng(aziendaAddress.getLatitude(),aziendaAddress.getLongitude());
 
         markerOptions.position(position);
+        markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.marker_factory));
         markerOptions.title(utente.getAzienda());
-        //markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.work_icon));
         map.addMarker(markerOptions);
     }
 

@@ -5,6 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -36,6 +39,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -182,21 +186,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Location location = locationResult.getLastLocation();
                 Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                 mLastLocation = location;
-                MarkerOptions markerOptions = new MarkerOptions();
 
                 if (mCurrLocationMarker != null) {
                     mCurrLocationMarker.remove();
                 }
 
-                //Marker della mia posizione
-                Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
-                Address address = null;
                 try {
-                    address = geocoder.getFromLocationName(SharedPrefManager.getInstance(MapsActivity.this).getUser().getIndirizzo(), 1).get(0);
-                    markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
-                    markerOptions.title("Casa mia");
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-                    mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+                    //crea marker sull'azienda
+                    setCompanyMarker();
+                    //crea marker sulla casa dell'utente richiedente
+                    setUserMarker();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -324,6 +323,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), (float) 14));
     }
 
+    //funzione che crea il marker sul luogo di lavoro
+    private void setCompanyMarker() throws IOException {
+        Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+        MarkerOptions markerOptions = new MarkerOptions();
+        Address address;
+        address = geocoder.getFromLocationName(SharedPrefManager.getInstance(MapsActivity.this).getUser().getIndirizzoAzienda(), 1).get(0);
+        markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
+        markerOptions.title("Azienda");
+        markerOptions.icon(bitmapDescriptorFromVector(MapsActivity.this, R.drawable.marker_factory));
+        mGoogleMap.addMarker(markerOptions);
+    }
+
+    //funzione che crea il marker sull'indirizzo dell'utente che richiede il passaggio
+    private void setUserMarker() throws IOException {
+        Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+        MarkerOptions markerOptions = new MarkerOptions();
+        Address address;
+        address = geocoder.getFromLocationName(SharedPrefManager.getInstance(MapsActivity.this).getUser().getIndirizzo(), 1).get(0);
+        markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
+        markerOptions.title("Casa mia");
+        markerOptions.icon(bitmapDescriptorFromVector(MapsActivity.this, R.drawable.marker_home));
+        mGoogleMap.addMarker(markerOptions);
+    }
 
     //funzione che prenota il passaggio selezionato
     private void requestPassaggio(final Marker markerPassaggio){
@@ -350,16 +372,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 @Override
                 protected void onPreExecute() {
                     super.onPreExecute();
-                    //displaying the progress bar while user registers on the server
-                    // progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                    // progressBar.setVisibility(View.VISIBLE);
-                }
+                    }
 
                 @Override
                 protected void onPostExecute(String s) {
                     super.onPostExecute(s);
-                    //hiding the progressbar after completion
-                    // progressBar.setVisibility(View.GONE);
 
                     try {
                         //converting response to json object
@@ -384,4 +401,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             RequestPassaggio rp = new RequestPassaggio();
             rp.execute();
         }
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
 }
