@@ -1,19 +1,25 @@
 package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +50,8 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private Passaggio passaggioParam;
+
+    ImageView callIcon;
 
 
     //MAP
@@ -80,7 +88,29 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_info_passaggio_richiesto, container, false);
 
-        Toast.makeText(getActivity(),"richiesto",Toast.LENGTH_SHORT).show();
+
+        Toolbar toolbar = v.findViewById(R.id.my_toolbar);
+        toolbar.setTitle("Informazioni sul passaggio");
+
+        callIcon = v.findViewById(R.id.call_icon);
+        callIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + passaggioParam.getTelefonoAutista()));
+                startActivity(callIntent);
+            }
+        });
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        setHasOptionsMenu(true);
 
         mMapView = v.findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
@@ -107,13 +137,30 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
         });
 
         TextView autistaText = v.findViewById(R.id.autista);
+        TextView telefonoText = v.findViewById(R.id.telefono);
         TextView autoText = v.findViewById(R.id.auto);
+        TextView postiAutoText = v.findViewById(R.id.posti_auto);
+        TextView confermatoText = v.findViewById(R.id.confermato);
         TextView dataText = v.findViewById(R.id.data);
         TextView direzioneText = v.findViewById(R.id.direzione);
 
 
-        autistaText.append(" " + passaggioParam.getAutista());
+
+        autistaText.append(" " + passaggioParam.getNomeAutista() + " " + passaggioParam.getCognomeAutista());
+        telefonoText.append(" " + passaggioParam.getTelefonoAutista());
         autoText.append(" " + passaggioParam.getAutomobile());
+        postiAutoText.append(" " + passaggioParam.getNumPosti());
+        switch (passaggioParam.getConfermato()) {
+            case 0:
+                confermatoText.append(" In attesa di conferma");
+                break;
+            case 1:
+                confermatoText.append(" Confermato");
+                break;
+            case 2:
+                confermatoText.append(" Rifiutato");
+                break;
+        }
         dataText.append(" " + passaggioParam.getData());
         direzioneText.append(" " + passaggioParam.getDirezione());
 
@@ -139,7 +186,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
         LatLng position = new LatLng(autistaAddress.getLatitude(),autistaAddress.getLongitude());
 
         markerOptions.position(position);
-        markerOptions.title(passaggioParam.getAutista());
+        markerOptions.title(passaggioParam.getUsernameAutista());
         //markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.ic_car));
         marker = map.addMarker(markerOptions);
         marker.setTag(passaggioParam);

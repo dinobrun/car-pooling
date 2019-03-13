@@ -64,7 +64,7 @@
             android:text="Richiedi passaggio"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtPosti" />
+            app:layout_constraintTop_toBottomOf="@+id/txtData" />
 
         <TextView
             android:id="@+id/lblNome"
@@ -90,26 +90,26 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/lblCognome"
+            android:id="@+id/lblTelefono"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            android:text="Cognome:"
+            android:text="Telefono:"
             android:textStyle="bold"
             android:layout_marginLeft="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtNome" />
 
         <TextView
-            android:id="@+id/txtCognome"
+            android:id="@+id/txtTelefono"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="8dp"
             android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@id/lblCognome"
+            app:layout_constraintLeft_toRightOf="@id/lblTelefono"
             app:layout_constraintTop_toBottomOf="@+id/txtNome" />
 
         <TextView
@@ -122,7 +122,7 @@
             android:textStyle="bold"
             android:layout_marginLeft="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtCognome" />
+            app:layout_constraintTop_toBottomOf="@+id/txtTelefono" />
 
         <TextView
             android:id="@+id/txtAuto"
@@ -133,7 +133,7 @@
             android:layout_marginLeft="8dp"
             android:textStyle="bold"
             app:layout_constraintLeft_toRightOf="@id/lblAuto"
-            app:layout_constraintTop_toBottomOf="@+id/txtCognome" />
+            app:layout_constraintTop_toBottomOf="@+id/txtTelefono" />
 
         <TextView
             android:id="@+id/lblPosti"
@@ -141,11 +141,11 @@
             android:layout_height="20dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            android:text="Posti disponibili:"
+            android:text="Posti:"
             android:textStyle="bold"
-            android:layout_marginLeft="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtAuto" />
+            android:layout_marginLeft="50dp"
+            app:layout_constraintLeft_toRightOf="@id/txtAuto"
+            app:layout_constraintTop_toBottomOf="@+id/txtTelefono" />
 
         <TextView
             android:id="@+id/txtPosti"
@@ -156,7 +156,42 @@
             android:layout_marginLeft="8dp"
             android:textStyle="bold"
             app:layout_constraintLeft_toRightOf="@id/lblPosti"
-            app:layout_constraintTop_toBottomOf="@+id/txtAuto" />
+            app:layout_constraintTop_toBottomOf="@+id/txtTelefono" />
+
+        <TextView
+            android:id="@+id/lblData"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:text="Data:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblAuto" />
+
+        <TextView
+            android:id="@+id/txtData"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/lblData"
+            app:layout_constraintTop_toBottomOf="@id/lblAuto" />
+
+        <ImageView
+            android:id="@+id/call_icon"
+            android:layout_width="22dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/call_icon"
+            app:layout_constraintLeft_toRightOf="@id/txtTelefono"
+            app:layout_constraintTop_toBottomOf="@id/txtNome"
+
+            />
 
 
     </android.support.constraint.ConstraintLayout>

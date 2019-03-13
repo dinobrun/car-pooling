@@ -64,7 +64,7 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
             holder.profileImage.setImageResource(R.drawable.ritorno_icon);
         }
 
-        holder.textViewTitle.setText(passaggio.getAutista());
+        holder.textViewTitle.setText(passaggio.getUsernameAutista());
         holder.textViewShortDesc.setText(passaggio.getAutomobile());
         holder.textViewRating.setText(Integer.toString(passaggio.getRichiesteInSospeso()));
         holder.textViewPrice.setText(passaggio.getData());

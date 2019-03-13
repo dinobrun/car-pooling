@@ -6,11 +6,24 @@ import it.uniba.di.sms.carpooling.Utente;
 
 public class Passaggio implements Serializable {
 
-    private String autista, data, automobile, azienda, direzione, indirizzo, foto;
+    private String usernameAutista, data, automobile, azienda, direzione, indirizzo, foto, nomeAutista, cognomeAutista, telefonoAutista;
     private Utente utente;
     private int id, numPosti;
+
+    public String getNomeAutista() {
+        return nomeAutista;
+    }
+
+    public String getCognomeAutista() {
+        return cognomeAutista;
+    }
+
+    public String getTelefonoAutista() {
+        return telefonoAutista;
+    }
+
     private boolean richiesto = false;
-    private boolean confermato = false;
+    private int confermato = 0;
 
     public int getRichiesteInSospeso() {
         return richiesteInSospeso;
@@ -30,55 +43,64 @@ public class Passaggio implements Serializable {
         this.richiesto = richiesto;
     }
 
-    public boolean isConfermato() {
+    public int getConfermato() {
         return confermato;
     }
 
-    public void setConfermato(boolean confermato) {
+    public void setConfermato(int confermato) {
         this.confermato = confermato;
     }
 
-    public Passaggio(int id, String autista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti) {
+    public Passaggio(int id, String usernameAutista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti) {
         this.id=id;
-        this.autista = autista;
+        this.usernameAutista = usernameAutista;
         this.data = data;
         this.automobile = automobile;
         this.azienda = azienda;
         this.direzione = direzione;
         this.numPosti = numPosti;
         this.indirizzo=indirizzo;
-    }
-
-    public Passaggio(int id, Utente utente, String data, String automobile, String azienda, String direzione, int numPosti) {
-        this.id=id;
-        this.utente = utente;
-        this.data = data;
-        this.automobile = automobile;
-        this.azienda = azienda;
-        this.direzione = direzione;
-        this.numPosti = numPosti;
     }
 
     public String getFoto() {
         return foto;
     }
 
-    public Passaggio(int id, String autista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti, boolean confermato, String foto) {
+    //costruttore PassaggiRichiestiFragment
+    public Passaggio(int id, String indirizzo, String nomeAutista, String cognomeAutista, String telefonoAutista, String data, String automobile, String azienda, String direzione, int numPosti, int confermato, String foto) {
         this.id=id;
-        this.autista = autista;
+        this.indirizzo = indirizzo;
+        this.nomeAutista = nomeAutista;
+        this.cognomeAutista = cognomeAutista;
+        this.telefonoAutista = telefonoAutista;
         this.data = data;
         this.automobile = automobile;
         this.azienda = azienda;
         this.direzione = direzione;
         this.numPosti = numPosti;
-        this.indirizzo=indirizzo;
         this.confermato=confermato;
         this.foto = foto;
     }
 
-    public Passaggio(int id, String autista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti, boolean confermato) {
+    //costruttore CercaPassaggioFragment
+    public Passaggio(int id, String indirizzo, String usernameAutista, String nomeAutista, String cognomeAutista, String telefonoAutista, String data, String automobile, int numPosti, String azienda, String direzione, String foto) {
         this.id=id;
-        this.autista = autista;
+        this.indirizzo = indirizzo;
+        this.usernameAutista = usernameAutista;
+        this.nomeAutista = nomeAutista;
+        this.cognomeAutista = cognomeAutista;
+        this.telefonoAutista = telefonoAutista;
+        this.data = data;
+        this.automobile = automobile;
+        this.azienda = azienda;
+        this.direzione = direzione;
+        this.numPosti = numPosti;
+        this.foto = foto;
+    }
+
+    public Passaggio(int id, String usernameAutista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti, int confermato) {
+        this.id=id;
+        this.usernameAutista = usernameAutista;
         this.data = data;
         this.automobile = automobile;
         this.azienda = azienda;
@@ -88,9 +110,6 @@ public class Passaggio implements Serializable {
         this.confermato=confermato;
     }
 
-    public boolean getConfermato(){
-        return confermato;
-    }
 
     public String getIndirizzo(){
         return indirizzo;
@@ -100,12 +119,12 @@ public class Passaggio implements Serializable {
         return id;
     }
 
-    public String getAutista() {
-        return autista;
+    public String getUsernameAutista() {
+        return usernameAutista;
     }
 
-    public void setAutista(String autista) {
-        this.autista = autista;
+    public void setUsernameAutista(String usernameAutista) {
+        this.usernameAutista = usernameAutista;
     }
 
     public String getData() {
@@ -151,8 +170,8 @@ public class Passaggio implements Serializable {
 
 
     //costruttore temporaneo
-    public Passaggio(String autista, String automobile, String direzione) {
-        this.autista = autista;
+    public Passaggio(String usernameAutista, String automobile, String direzione) {
+        this.usernameAutista = usernameAutista;
         this.automobile = automobile;
         this.direzione = direzione;
     }

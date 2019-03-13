@@ -4,7 +4,7 @@
     <item
         android:id="@+id/avanti_rf"
         android:orderInCategory="200"
-        android:title="Search"
-        android:icon="@drawable/ic_baseline_keyboard_arrow_right_24px"
+        android:title=""
+        android:icon="@drawable/trash_icon"
         app:showAsAction="ifRoom"/>
 </menu>
