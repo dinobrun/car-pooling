@@ -193,7 +193,8 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                                         temp.getString("direzione"),
                                         Integer.parseInt(temp.getString("num_posti")),
                                         Integer.parseInt(temp.getString("confermato")),
-                                        temp.getString("foto")
+                                        temp.getString("foto"),
+                                        (1==Integer.parseInt(temp.getString("concluso")))
                                 ));
                             }
 
