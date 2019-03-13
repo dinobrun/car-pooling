@@ -278,7 +278,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if(passaggio.isRichiesto()){
             btnRequest.setClickable(false);
-            btnRequest.setBackgroundColor(R.color.cardview_dark_background);
         }else{
             btnRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -350,7 +349,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                             //nasconde cardview
                             card.setVisibility(View.INVISIBLE);
-                            
 
                         } else {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
