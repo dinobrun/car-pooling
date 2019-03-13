@@ -46,9 +46,10 @@ public class MioProfiloFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_mio_profilo, container, false);
+        String username = SharedPrefManager.getInstance(getActivity()).getUser().getUsername();
 
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
-        toolbar.setTitle("Mio profilo");
+        toolbar.setTitle(username);
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);

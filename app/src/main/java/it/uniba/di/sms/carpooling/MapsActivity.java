@@ -351,7 +351,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     try {
                         //converting response to json object
-                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
                         JSONObject obj = new JSONObject(s);
 
                         //if no error in response

@@ -186,7 +186,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
         LatLng position = new LatLng(autistaAddress.getLatitude(),autistaAddress.getLongitude());
 
         markerOptions.position(position);
-        markerOptions.title(passaggioParam.getUsernameAutista());
+        markerOptions.title(passaggioParam.getNomeAutista() + " " + passaggioParam.getCognomeAutista());
         //markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.ic_car));
         marker = map.addMarker(markerOptions);
         marker.setTag(passaggioParam);
@@ -202,7 +202,8 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
 
 
         markerOptions.position(position);
-        markerOptions.title(utente.getUsername());
+        markerOptions.title("Casa");
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         //markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.home_icon));
         map.addMarker(markerOptions);
         // For zooming functionality
