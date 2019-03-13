@@ -129,6 +129,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //getPassaggi();
         try {
+            //crea marker sull'azienda
+            setCompanyMarker();
+            //crea marker sulla casa dell'utente richiedente
+            setUserMarker();
             for(Passaggio p : passaggi)
                 if(passaggi_utente.contains(Integer.toString(p.getId()))){
                     p.setRichiesto(true);
@@ -141,6 +145,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
@@ -191,14 +196,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mCurrLocationMarker.remove();
                 }
 
-                try {
-                    //crea marker sull'azienda
-                    setCompanyMarker();
-                    //crea marker sulla casa dell'utente richiedente
-                    setUserMarker();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
 
 
             }
