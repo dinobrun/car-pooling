@@ -232,7 +232,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
 
                         }
                         else{
-                            Toast.makeText(getActivity(), "Lista vuota scemo", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Nessun passaggio offerto", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {

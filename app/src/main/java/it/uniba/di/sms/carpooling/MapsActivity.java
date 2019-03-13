@@ -62,9 +62,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     CardView card;
     ImageView close;
     TextView txtNome;
-    TextView txtCognome;
+    TextView txtTelefono;
     TextView txtAuto;
     TextView txtPosti;
+    TextView txtData;
     Button btnRequest;
 
     private boolean clicked=false;
@@ -76,9 +77,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         txtNome = findViewById(R.id.txtNome);
-        txtCognome = findViewById(R.id.txtCognome);
+        txtTelefono = findViewById(R.id.txtTelefono);
         txtAuto =  findViewById(R.id.txtAuto);
         txtPosti = findViewById(R.id.txtPosti);
+        txtData = findViewById(R.id.txtData);
         btnRequest =  findViewById(R.id.btnRequest);
         card = findViewById(R.id.info);
         close = findViewById(R.id.close_card);
@@ -272,12 +274,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //visualizza la card con le informazioni sul passaggio
         card.setVisibility(View.VISIBLE);
 
-
         final Passaggio passaggio = (Passaggio) marker.getTag();
-        txtNome.setText(passaggio.getAutista());
-        //txtCognome.setText(passaggio.getUtente().getCognome());
+        txtNome.setText(passaggio.getNomeAutista() + " " + passaggio.getCognomeAutista());
+        txtTelefono.setText(passaggio.getTelefonoAutista());
         txtAuto.setText(passaggio.getAutomobile());
         txtPosti.setText(Integer.toString(passaggio.getNumPosti()));
+        txtData.setText(passaggio.getData());
 
         if(passaggio.isRichiesto()){
             btnRequest.setClickable(false);
@@ -309,7 +311,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             btnRequest.setClickable(false);
             btnRequest.setBackgroundColor(R.color.cardview_dark_background);
         }
-        markerOptions.title(passaggio.getAutista());
+        markerOptions.title(passaggio.getUsernameAutista());
         marker = map.addMarker(markerOptions);
         marker.setTag(passaggio);
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), (float) 14));
