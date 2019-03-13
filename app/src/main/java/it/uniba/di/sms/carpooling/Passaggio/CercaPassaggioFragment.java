@@ -301,13 +301,17 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                                 JSONObject temp = passaggiJson.getJSONObject(i);
                                 listaPassaggi.add(new Passaggio(
                                         Integer.parseInt(temp.getString("id")),
-                                        temp.getString("username"),
                                         temp.getString("indirizzo"),
+                                        temp.getString("username"),
+                                        temp.getString("nome"),
+                                        temp.getString("cognome"),
+                                        temp.getString("telefono"),
                                         temp.getString("data"),
                                         temp.getString("automobile"),
+                                        Integer.parseInt(temp.getString("num_posti")),
                                         aziendaUtente,
                                         temp.getString("direzione"),
-                                        Integer.parseInt(temp.getString("num_posti"))
+                                        temp.getString("foto")
                                 ));
                             }
 

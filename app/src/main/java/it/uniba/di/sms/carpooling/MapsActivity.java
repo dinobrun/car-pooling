@@ -2,7 +2,6 @@ package it.uniba.di.sms.carpooling;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -15,16 +14,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -62,9 +57,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     CardView card;
     ImageView close;
     TextView txtNome;
-    TextView txtCognome;
+    TextView txtTelefono;
     TextView txtAuto;
     TextView txtPosti;
+    TextView txtData;
     Button btnRequest;
 
     private boolean clicked=false;
@@ -76,9 +72,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         txtNome = findViewById(R.id.txtNome);
-        txtCognome = findViewById(R.id.txtCognome);
+        txtTelefono = findViewById(R.id.txtTelefono);
         txtAuto =  findViewById(R.id.txtAuto);
         txtPosti = findViewById(R.id.txtPosti);
+        txtData = findViewById(R.id.txtData);
         btnRequest =  findViewById(R.id.btnRequest);
         card = findViewById(R.id.info);
         close = findViewById(R.id.close_card);
@@ -273,13 +270,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         card.setVisibility(View.VISIBLE);
 
         final Passaggio passaggio = (Passaggio) marker.getTag();
-        txtNome.setText(passaggio.getAutista());
-        //txtCognome.setText(passaggio.getUtente().getCognome());
+        txtNome.setText(passaggio.getNomeAutista() + " " + passaggio.getCognomeAutista());
+        txtTelefono.setText(passaggio.getTelefonoAutista());
         txtAuto.setText(passaggio.getAutomobile());
         txtPosti.setText(Integer.toString(passaggio.getNumPosti()));
+        txtData.setText(passaggio.getData());
 
         if(passaggio.isRichiesto()){
             btnRequest.setClickable(false);
+            btnRequest.setBackgroundColor(R.color.cardview_dark_background);
         }else{
             btnRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -300,7 +299,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(passaggio.isRichiesto()){
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         }
-        markerOptions.title(passaggio.getAutista());
+        markerOptions.title(passaggio.getUsernameAutista());
         marker = map.addMarker(markerOptions);
         marker.setTag(passaggio);
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), (float) 14));
@@ -351,6 +350,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                             //nasconde cardview
                             card.setVisibility(View.INVISIBLE);
+                            
 
                         } else {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();

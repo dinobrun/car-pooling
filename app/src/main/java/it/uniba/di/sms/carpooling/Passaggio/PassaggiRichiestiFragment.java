@@ -41,8 +41,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
     // TODO: Rename and change types of parameters
 
 
-    private static final String USERNAME = "username";
-    private String usernameParam;
+    private String usernameParam = SharedPrefManager.getInstance(getActivity()).getUser().getUsername();
     //the recyclerview
     RecyclerView recyclerView;
     private PassaggioRichiestoAdapter adapter;
@@ -61,9 +60,6 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            usernameParam = getArguments().getString(USERNAME);
-        }
     }
 
     @Override
@@ -236,11 +232,9 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                                     multiSelect(position);
                                 }
                             }));
-
-
                         }
                         else{
-                            Toast.makeText(getActivity(), "Listascemo", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Nessun passaggio richiesto", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {
@@ -305,7 +299,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
 
                 JSONObject mainObj = new JSONObject();
                 try {
-                    mainObj.put("passaggi",array);
+                    mainObj.put(usernameParam,array);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -318,7 +312,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                 params.put("Array_Passaggi", mainObj.toString());
 
                 //returning the response
-                return requestHandler.sendPostRequest(URLs.URL_DELETE_PASSAGGI, params);
+                return requestHandler.sendPostRequest(URLs.URL_DELETE_PASSAGGI_RICHIESTI, params);
             }
 
             @Override

@@ -186,7 +186,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
         LatLng position = new LatLng(autistaAddress.getLatitude(),autistaAddress.getLongitude());
 
         markerOptions.position(position);
-        markerOptions.title(passaggioParam.getAutista());
+        markerOptions.title(passaggioParam.getUsernameAutista());
         //markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.ic_car));
         marker = map.addMarker(markerOptions);
         marker.setTag(passaggioParam);

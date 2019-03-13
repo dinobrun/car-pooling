@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,6 +98,8 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_info_passaggio_offerto, container, false);
 
+
+
         txtNome = v.findViewById(R.id.txtNome);
         txtCognome = v.findViewById(R.id.txtCognome);
         txtTelefono =  v.findViewById(R.id.txtTelefono);
@@ -147,7 +151,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                     if(passaggioParam.isRichiesto()){
                         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                     }
-                    markerOptions.title(passaggioParam.getAutista());
+                    markerOptions.title(passaggioParam.getUsernameAutista());
                     marker = mMap.addMarker(markerOptions);
                     marker.setTag(passaggioParam);
 
@@ -167,7 +171,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         TextView dataText = v.findViewById(R.id.data);
         TextView direzioneText = v.findViewById(R.id.direzione);
 
-        autistaText.append(" " + passaggioParam.getAutista());
+        autistaText.append(" " + passaggioParam.getUsernameAutista());
         autoText.append(" " + passaggioParam.getAutomobile());
         dataText.append(" " + passaggioParam.getData());
         direzioneText.append(" " + passaggioParam.getDirezione());
