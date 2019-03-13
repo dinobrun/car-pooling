@@ -281,7 +281,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if(passaggio.isRichiesto()){
             btnRequest.setClickable(false);
+            btnRequest.setText("Richiesto");
+            btnRequest.setBackgroundColor(R.color.cardview_light_background);
         }else{
+            btnRequest.setClickable(true);
+            btnRequest.setText("Richiedi passaggio");
+            btnRequest.setBackgroundColor(R.color.easyColor);
             btnRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -359,7 +364,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             btnRequest.setText("Richiesto");
                             btnRequest.setClickable(false);
                             btnRequest.setBackgroundColor(R.color.cardview_dark_background);
-                            
                         } else {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         }
