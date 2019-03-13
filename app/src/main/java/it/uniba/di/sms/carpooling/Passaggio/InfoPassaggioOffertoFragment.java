@@ -194,7 +194,6 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         switch (utente.getConfermato()){
             //confermato
             case 1: markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-            btnAccept.setVisibility(View.INVISIBLE);
             break;
             //rifiutato
             case 2: markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
@@ -223,8 +222,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                acceptDeclinePassaggio(passaggioParam.getId(),utente, true);
-                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                acceptDeclinePassaggio(passaggioParam.getId(), marker, true);
             }
         });
 
@@ -232,7 +230,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         btnDecline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                acceptDeclinePassaggio(passaggioParam.getId(),utente, false);
+                acceptDeclinePassaggio(passaggioParam.getId(), marker, false);
                 marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
             }
         });
@@ -247,12 +245,12 @@ public class InfoPassaggioOffertoFragment extends Fragment {
     }
 
     //Metodo asincrono che accetta o rifiuta il passaggio
-    private void acceptDeclinePassaggio(final int idPassaggio, final Utente utenteRichiedente, final Boolean conferma) {
+    private void acceptDeclinePassaggio(final int idPassaggio, final Marker utenteRichiedente, final Boolean conferma) {
 
         //if it passes all the validations
         class AcceptDeclinePassaggio extends AsyncTask<Void, Void, String> {
 
-
+            Utente utente = (Utente) utenteRichiedente.getTag();
             @Override
             protected String doInBackground(Void... voids) {
                 //creating request handler object
@@ -261,7 +259,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("ID", Integer.toString(idPassaggio));
-                params.put("Username", utenteRichiedente.getUsername());
+                params.put("Username", utente.getUsername());
                 params.put("Conferma", conferma.toString());
 
                 //returning the response
@@ -284,9 +282,11 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                     //if no error in response
                     if (!obj.getBoolean("error")) {
                         if(conferma){
-                            utenteRichiedente.setConfermato(1);
+                            utente.setConfermato(1);
+                            utenteRichiedente.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                         }else{
-                            utenteRichiedente.setConfermato(2);
+                            utente.setConfermato(2);
+                            utenteRichiedente.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
                         }
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 

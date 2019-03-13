@@ -309,7 +309,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
             btnRequest.setText("Richiesto");
             btnRequest.setClickable(false);
-            btnRequest.setBackgroundColor(R.color.cardview_dark_background);
+            btnRequest.setBackgroundColor(R.color.cardview_light_background);
         }
         markerOptions.title(passaggio.getUsernameAutista());
         marker = map.addMarker(markerOptions);
