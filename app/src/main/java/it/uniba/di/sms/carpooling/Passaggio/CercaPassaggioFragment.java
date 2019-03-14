@@ -54,9 +54,10 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
 
 
     private String aziendaUtente;
-    private String direzioneSelected;
+    private int direzioneSelected=0;
     private Date time;
-    RadioButton rd;
+    private RadioButton ra;
+    private RadioButton rr;
     private String autistaSearch = "";
     SearchView sw;
 
@@ -229,16 +230,8 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
        //Radio group andata/ritorno
        RadioGroup rg = v.findViewById(R.id.radioGroup);
        rg.check(R.id.radioButtonAndata);
-       rd = v.findViewById(R.id.radioButtonAndata);
-       direzioneSelected=rd.getText().toString();
-
-       rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-           public void onCheckedChanged(RadioGroup group, int checkedId) {
-               rd = v.findViewById(checkedId);
-               direzioneSelected=rd.getText().toString();
-           }
-       });
-
+       ra= v.findViewById(R.id.radioButtonAndata);
+       rr=v.findViewById(R.id.radioButtonRitorno);
 
        return v;
     }
@@ -257,12 +250,19 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                 //creating request handler object
                 RequestHandler requestHandler = new RequestHandler();
 
+                if(ra.isChecked()){
+                    direzioneSelected=0;
+                }
+                else if (rr.isChecked()){
+                    direzioneSelected=1;
+                }
+
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("Username", SharedPrefManager.getInstance(getContext()).getUser().getUsername());
                 params.put("Data", new java.sql.Timestamp(time.getTime()).toString());
                 params.put("Azienda", aziendaUtente);
-                params.put("Direzione", direzioneSelected);
+                params.put("Direzione", Integer.toString(direzioneSelected));
 
                 if(!autistaSearch.equals("")){
                     params.put("Autista",autistaSearch);
@@ -309,7 +309,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                                         temp.getString("automobile"),
                                         Integer.parseInt(temp.getString("num_posti")),
                                         aziendaUtente,
-                                        temp.getString("direzione"),
+                                        Integer.parseInt(temp.getString("direzione")),
                                         temp.getString("foto")
                                 ));
                             }

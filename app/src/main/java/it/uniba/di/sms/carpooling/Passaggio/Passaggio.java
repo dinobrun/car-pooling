@@ -6,9 +6,9 @@ import it.uniba.di.sms.carpooling.Utente;
 
 public class Passaggio implements Serializable {
 
-    private String usernameAutista, data, automobile, azienda, direzione, indirizzo, foto, nomeAutista, cognomeAutista, telefonoAutista;
+    private String usernameAutista, data, automobile, azienda, indirizzo, foto, nomeAutista, cognomeAutista, telefonoAutista;
     private Utente utente;
-    private int id, numPosti;
+    private int id, numPosti, direzione;
 
     private boolean concluso;
 
@@ -58,7 +58,7 @@ public class Passaggio implements Serializable {
     }
 
     //costruttore PassaggiOffertiFragment
-    public Passaggio(int id, String usernameAutista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti, boolean concluso) {
+    public Passaggio(int id, String usernameAutista, String indirizzo, String data, String automobile, String azienda, int direzione, int numPosti, boolean concluso) {
         this.id=id;
         this.usernameAutista = usernameAutista;
         this.data = data;
@@ -71,7 +71,7 @@ public class Passaggio implements Serializable {
     }
 
     //costruttore PassaggiRichiestiFragment
-    public Passaggio(int id, String indirizzo, String nomeAutista, String cognomeAutista, String telefonoAutista, String data, String automobile, String azienda, String direzione, int numPosti, int confermato, String foto, boolean concluso) {
+    public Passaggio(int id, String indirizzo, String nomeAutista, String cognomeAutista, String telefonoAutista, String data, String automobile, String azienda, int direzione, int numPosti, int confermato, String foto, boolean concluso) {
         this.id=id;
         this.indirizzo = indirizzo;
         this.nomeAutista = nomeAutista;
@@ -88,7 +88,7 @@ public class Passaggio implements Serializable {
     }
 
     //costruttore CercaPassaggioFragment
-    public Passaggio(int id, String indirizzo, String usernameAutista, String nomeAutista, String cognomeAutista, String telefonoAutista, String data, String automobile, int numPosti, String azienda, String direzione, String foto) {
+    public Passaggio(int id, String indirizzo, String usernameAutista, String nomeAutista, String cognomeAutista, String telefonoAutista, String data, String automobile, int numPosti, String azienda, int direzione, String foto) {
         this.id=id;
         this.indirizzo = indirizzo;
         this.usernameAutista = usernameAutista;
@@ -103,7 +103,7 @@ public class Passaggio implements Serializable {
         this.foto = foto;
     }
 
-    public Passaggio(int id, String usernameAutista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti, int confermato) {
+    public Passaggio(int id, String usernameAutista, String indirizzo, String data, String automobile, String azienda, int direzione, int numPosti, int confermato) {
         this.id=id;
         this.usernameAutista = usernameAutista;
         this.data = data;
@@ -116,7 +116,7 @@ public class Passaggio implements Serializable {
     }
 
     //costruttore temporaneo
-    public Passaggio(String usernameAutista, String automobile, String direzione) {
+    public Passaggio(String usernameAutista, String automobile, int direzione) {
         this.usernameAutista = usernameAutista;
         this.automobile = automobile;
         this.direzione = direzione;
@@ -163,11 +163,11 @@ public class Passaggio implements Serializable {
         this.azienda = azienda;
     }
 
-    public String getDirezione() {
+    public int getDirezione() {
         return direzione;
     }
 
-    public void setDirezione(String direzione) {
+    public void setDirezione(int direzione) {
         this.direzione = direzione;
     }
 
