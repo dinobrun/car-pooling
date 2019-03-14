@@ -269,7 +269,6 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                 }
 
 
-
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_GETPASSAGGI, params);
             }

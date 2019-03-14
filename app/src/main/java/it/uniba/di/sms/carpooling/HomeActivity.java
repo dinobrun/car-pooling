@@ -199,7 +199,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
         final ArrayList<Automobile> automobili = new ArrayList<>();
 
-        //classe per prendere le aziende
         class AutoDB extends AsyncTask<Void, Void, String> {
 
             @Override

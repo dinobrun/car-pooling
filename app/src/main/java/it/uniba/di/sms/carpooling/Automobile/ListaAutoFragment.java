@@ -43,6 +43,7 @@ public class ListaAutoFragment extends Fragment {
     String username;
     RecyclerView recyclerView;
     AutoAdapter adapter;
+    ArrayList<Automobile> listaAutomobiliUltima = new ArrayList<>();
 
     public ListaAutoFragment() {
         // Required empty public constructor
@@ -110,7 +111,7 @@ public class ListaAutoFragment extends Fragment {
 
 
         //Restituisce le auto
-        final ArrayList<Automobile> listaAutomobiliUltima = getAuto();
+        listaAutomobiliUltima = getAuto();
 
 
 
@@ -125,18 +126,12 @@ public class ListaAutoFragment extends Fragment {
                             @Override
                             public void onClick(int pos) {
                                 deleteAuto(listaAutomobiliUltima.get(pos));
-                                listaAutomobiliUltima.remove(pos);
-                                adapter.notifyItemRemoved(pos);
-                                adapter.notifyItemRangeChanged(pos, listaAutomobiliUltima.size());
-                                adapter.notifyDataSetChanged();
                             }
                         }
                 ));
 
             }
         };
-
-
         return v;
     }
 
@@ -373,9 +368,9 @@ public class ListaAutoFragment extends Fragment {
 
                         //if no error in response
                         if (!obj.getBoolean("error")) {
-
+                            listaAutomobiliUltima.remove(auto);
+                            adapter.notifyDataSetChanged();
                             Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
                         } else {
                             Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         }

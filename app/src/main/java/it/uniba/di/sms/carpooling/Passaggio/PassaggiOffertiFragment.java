@@ -232,7 +232,8 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                                         temp.getString("automobile"),
                                         aziendaParam,
                                         temp.getString("direzione"),
-                                        Integer.parseInt(temp.getString("num_posti"))
+                                        Integer.parseInt(temp.getString("num_posti")),
+                                        (1==Integer.parseInt(temp.getString("concluso")))
                                 ));
                                 listaPassaggi.get(i).setRichiesteInSospeso(Integer.parseInt(temp.getString("passaggi_in_sospeso")));
                             }
