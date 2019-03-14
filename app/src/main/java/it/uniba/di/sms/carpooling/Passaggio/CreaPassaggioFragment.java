@@ -52,7 +52,9 @@ public class CreaPassaggioFragment extends Fragment {
     private static final String AUTO = "auto";
     private ArrayList<Automobile> autoParam;
     private Date time;
-    String value = "";
+    int direzione = 0;
+    private RadioButton ra;
+    private RadioButton rr;
     Button mostra;
     private String selectionAuto = null;
     private Integer selectionPostoAuto;
@@ -256,17 +258,8 @@ public class CreaPassaggioFragment extends Fragment {
         //Inizializzo il radio group con il check su "Andata"
         RadioGroup rg = v.findViewById(R.id.radioGroup);
         rg.check(R.id.radioButtonAndata);
-        RadioButton rd = v.findViewById(R.id.radioButtonAndata);
-        value=rd.getText().toString();
-
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton rd = v.findViewById(checkedId);
-                value=rd.getText().toString();
-            }
-        });
-
-
+        ra = v.findViewById(R.id.radioButtonAndata);
+        rr = v.findViewById(R.id.radioButtonRitorno);
         return v;
     }
 
@@ -350,6 +343,11 @@ public class CreaPassaggioFragment extends Fragment {
                 //creating request handler object
                 RequestHandler requestHandler = new RequestHandler();
 
+                 if(ra.isChecked()){
+                     direzione=0;
+                 }else if(rr.isChecked()){
+                     direzione=1;
+                 }
 
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
@@ -359,7 +357,7 @@ public class CreaPassaggioFragment extends Fragment {
                     params.put("Automobile",Integer.toString(autoId));
                     params.put("Azienda",utente.getAzienda());
                     params.put("Num_Posti",selectionPostoAuto.toString());
-                    params.put("Direzione",value);
+                    params.put("Direzione",Integer.toString(direzione));
                     params.put("Ciclico", YES_CYCLIC);
                 }else{
                     params.put("Autista", utente.getUsername());
@@ -367,7 +365,7 @@ public class CreaPassaggioFragment extends Fragment {
                     params.put("Automobile",Integer.toString(autoId));
                     params.put("Azienda",utente.getAzienda());
                     params.put("Num_Posti",selectionPostoAuto.toString());
-                    params.put("Direzione",value);
+                    params.put("Direzione",Integer.toString(direzione));
                     params.put("Ciclico", NO_CYCLIC);
                 }
 

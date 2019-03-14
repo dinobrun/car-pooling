@@ -225,7 +225,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                                         temp.getString("data"),
                                         temp.getString("automobile"),
                                         aziendaParam,
-                                        temp.getString("direzione"),
+                                        Integer.parseInt(temp.getString("direzione")),
                                         Integer.parseInt(temp.getString("num_posti")),
                                         Integer.parseInt(temp.getString("confermato")),
                                         temp.getString("foto"),

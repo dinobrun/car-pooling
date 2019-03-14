@@ -57,10 +57,10 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
         }
 
 
-        if(passaggio.getDirezione().equals("Andata")){
+        if(passaggio.getDirezione()==0){
             holder.profileImage.setImageResource(R.drawable.andata_icon);
         }
-        else if(passaggio.getDirezione().equals("Ritorno")){
+        else if(passaggio.getDirezione()==1){
             holder.profileImage.setImageResource(R.drawable.ritorno_icon);
         }
 
