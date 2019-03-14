@@ -151,7 +151,8 @@ public class LoginActivity extends Activity {
                                     userJson.getString("telefono"),
                                     userJson.getString("dataNascita"),
                                     userJson.getString("azienda"),
-                                    userJson.getString("indirizzoAzienda")
+                                    userJson.getString("indirizzoAzienda"),
+                                    Integer.parseInt(userJson.getString("autorizzato"))
                             );
 
                         }
@@ -164,7 +165,8 @@ public class LoginActivity extends Activity {
                                     userJson.getString("indirizzo"),
                                     userJson.getString("email"),
                                     userJson.getString("telefono"),
-                                    userJson.getString("dataNascita")
+                                    userJson.getString("dataNascita"),
+                                    Integer.parseInt(userJson.getString("autorizzato"))
                             );
                         }
 

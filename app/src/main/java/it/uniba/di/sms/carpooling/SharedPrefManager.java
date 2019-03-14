@@ -19,6 +19,7 @@ public class SharedPrefManager {
     private static final String KEY_TELEFONO = "keytelefono";
     private static final String KEY_AZIENDA = "keyazienda";
     private static final String KEY_INDIRIZZO_AZIENDA = "keyindirizzoazienda";
+    private static final String KEY_AUTORIZZATO = "keyautorizzato";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;
@@ -73,7 +74,8 @@ public class SharedPrefManager {
                 sharedPreferences.getString(KEY_EMAIL, null),
                 sharedPreferences.getString(KEY_TELEFONO, null),
                 sharedPreferences.getString(KEY_AZIENDA, null),
-                sharedPreferences.getString(KEY_INDIRIZZO_AZIENDA, null)
+                sharedPreferences.getString(KEY_INDIRIZZO_AZIENDA, null),
+                sharedPreferences.getInt(KEY_AUTORIZZATO, 0)
         );
     }
 

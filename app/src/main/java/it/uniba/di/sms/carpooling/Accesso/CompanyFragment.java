@@ -351,7 +351,8 @@ public class CompanyFragment extends Fragment {
                                 userJson.getString("indirizzo"),
                                 userJson.getString("email"),
                                 userJson.getString("telefono"),
-                                userJson.getString("dataNascita")
+                                userJson.getString("dataNascita"),
+                                Integer.parseInt(userJson.getString("autorizzato"))
                         );
 
                         if(!userJson.getString("azienda").equals("")){

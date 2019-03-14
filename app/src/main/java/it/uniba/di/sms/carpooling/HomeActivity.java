@@ -99,12 +99,8 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                                 break;
 
                             case R.id.logout_section:
-                                SharedPrefManager.getInstance(HomeActivity.this).logout();
-                                Intent openLogin = new Intent(HomeActivity.this, LoginActivity.class);
-                                openLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                openLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(openLogin);
-                                finish();
+                                //effettua il logout
+                                logout();
                                 break;
 
                         }
@@ -203,7 +199,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
         final ArrayList<Automobile> automobili = new ArrayList<>();
 
-        //classe per prendere le aziende
         class AutoDB extends AsyncTask<Void, Void, String> {
 
             @Override
@@ -273,6 +268,61 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         }
         AutoDB autoDB = new AutoDB();
         autoDB.execute();
+
+    }
+
+    //metodo che effettua il logout impostando a null il token nel database
+    private void logout(){
+
+
+        class UpdateToken extends AsyncTask<Void, Void, String> {
+
+            @Override
+            protected String doInBackground(Void... voids) {
+
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("ID_Utente", user);
+
+                //returning the response
+                return requestHandler.sendPostRequest(URLs.URL_UPDATE_TOKEN, params);
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                try {
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
+
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+                        SharedPrefManager.getInstance(HomeActivity.this).logout();
+                        Intent openLogin = new Intent(HomeActivity.this, LoginActivity.class);
+                        openLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        openLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(openLogin);
+                        finish();
+                    } else {
+                        Toast.makeText(HomeActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        UpdateToken updateToken = new UpdateToken();
+        updateToken.execute();
 
     }
 

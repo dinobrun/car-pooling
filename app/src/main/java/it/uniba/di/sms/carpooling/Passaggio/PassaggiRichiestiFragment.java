@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ActionMode;
@@ -34,7 +35,7 @@ import it.uniba.di.sms.carpooling.SharedPrefManager;
 import it.uniba.di.sms.carpooling.URLs;
 
 
-public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Callback {
+public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Callback, SwipeRefreshLayout.OnRefreshListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -50,6 +51,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
     private boolean isMultiSelect = false;
     //i created List of int type to store id of data, you can create custom class type data according to your need.
     private List<Integer> selectedIds = new ArrayList<>();
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     public PassaggiRichiestiFragment() {
@@ -68,14 +70,46 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
         // Inflate the layout for this fragment
         final View v = inflater.inflate(R.layout.fragment_passaggi_richiesti, container, false);
 
+        // SwipeRefreshLayout
+        mSwipeRefreshLayout = v.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setOnRefreshListener(PassaggiRichiestiFragment.this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
+
         //getting the recyclerview from xml
         recyclerView = v.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        getListPassages();
+        /**
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        mSwipeRefreshLayout.post(new Runnable() {
+
+            @Override
+            public void run() {
+
+                mSwipeRefreshLayout.setRefreshing(true);
+
+                // Fetching data from server
+                getListPassages();
+            }
+        });
 
         return v;
+    }
+
+    /**
+     * This method is called when swipe refresh is pulled down
+     */
+    @Override
+    public void onRefresh() {
+
+        // Fetching data from server
+        getListPassages();
     }
 
 
@@ -132,6 +166,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
 
 
     private void getListPassages() {
+        mSwipeRefreshLayout.setRefreshing(true);
 
         //if it passes all the validations
         class ListPassages extends AsyncTask<Void, Void, String> {
@@ -193,7 +228,8 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                                         temp.getString("direzione"),
                                         Integer.parseInt(temp.getString("num_posti")),
                                         Integer.parseInt(temp.getString("confermato")),
-                                        temp.getString("foto")
+                                        temp.getString("foto"),
+                                        (1==Integer.parseInt(temp.getString("concluso")))
                                 ));
                             }
 
@@ -203,6 +239,9 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
 
                             //setting adapter to recyclerview
                             recyclerView.setAdapter(adapter);
+
+                            //stop animation of refresh
+                            mSwipeRefreshLayout.setRefreshing(false);
 
                             recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
@@ -235,6 +274,13 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                         }
                         else{
                             Toast.makeText(getActivity(), "Nessun passaggio richiesto", Toast.LENGTH_SHORT).show();
+                            //creating recyclerview adapter
+                            adapter = new PassaggioRichiestoAdapter(getActivity(), listaPassaggi);
+
+                            //setting adapter to recyclerview
+                            recyclerView.setAdapter(adapter);
+                            //stop refresh animation
+                            mSwipeRefreshLayout.setRefreshing(false);
                         }
 
                     } else {

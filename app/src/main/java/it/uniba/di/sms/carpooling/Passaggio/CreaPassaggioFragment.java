@@ -62,6 +62,8 @@ public class CreaPassaggioFragment extends Fragment {
     Spinner spinnerAuto;
     Spinner spinnerPostiAuto;
 
+    int autoId = 3;
+
     Calendar calendar = new GregorianCalendar();
 
     //Inizializza checkbox ciclica
@@ -115,6 +117,12 @@ public class CreaPassaggioFragment extends Fragment {
                         minute);
 
                 time = calendar.getTime();
+
+                for(Automobile auto : autoParam) {
+                    if(auto.getNome().equals(selectionAuto)) {
+                        autoId = auto.getId();
+                    }
+                }
 
                 //Aggiunge il passaggio al DB
                 addPassaggio();
@@ -342,12 +350,13 @@ public class CreaPassaggioFragment extends Fragment {
                 //creating request handler object
                 RequestHandler requestHandler = new RequestHandler();
 
+
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 if(chkCiclico.isChecked()){
                     params.put("Autista", utente.getUsername());
                     params.put("Data", new java.sql.Timestamp(time.getTime()).toString());
-                    params.put("Automobile",selectionAuto);
+                    params.put("Automobile",Integer.toString(autoId));
                     params.put("Azienda",utente.getAzienda());
                     params.put("Num_Posti",selectionPostoAuto.toString());
                     params.put("Direzione",value);
@@ -355,7 +364,7 @@ public class CreaPassaggioFragment extends Fragment {
                 }else{
                     params.put("Autista", utente.getUsername());
                     params.put("Data", new java.sql.Timestamp(time.getTime()).toString());
-                    params.put("Automobile",selectionAuto);
+                    params.put("Automobile",Integer.toString(autoId));
                     params.put("Azienda",utente.getAzienda());
                     params.put("Num_Posti",selectionPostoAuto.toString());
                     params.put("Direzione",value);

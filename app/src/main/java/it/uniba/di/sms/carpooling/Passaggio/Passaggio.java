@@ -10,6 +10,8 @@ public class Passaggio implements Serializable {
     private Utente utente;
     private int id, numPosti;
 
+    private boolean concluso;
+
     public String getNomeAutista() {
         return nomeAutista;
     }
@@ -51,7 +53,12 @@ public class Passaggio implements Serializable {
         this.confermato = confermato;
     }
 
-    public Passaggio(int id, String usernameAutista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti) {
+    public String getFoto() {
+        return foto;
+    }
+
+    //costruttore PassaggiOffertiFragment
+    public Passaggio(int id, String usernameAutista, String indirizzo, String data, String automobile, String azienda, String direzione, int numPosti, boolean concluso) {
         this.id=id;
         this.usernameAutista = usernameAutista;
         this.data = data;
@@ -60,14 +67,11 @@ public class Passaggio implements Serializable {
         this.direzione = direzione;
         this.numPosti = numPosti;
         this.indirizzo=indirizzo;
-    }
-
-    public String getFoto() {
-        return foto;
+        this.concluso= concluso;
     }
 
     //costruttore PassaggiRichiestiFragment
-    public Passaggio(int id, String indirizzo, String nomeAutista, String cognomeAutista, String telefonoAutista, String data, String automobile, String azienda, String direzione, int numPosti, int confermato, String foto) {
+    public Passaggio(int id, String indirizzo, String nomeAutista, String cognomeAutista, String telefonoAutista, String data, String automobile, String azienda, String direzione, int numPosti, int confermato, String foto, boolean concluso) {
         this.id=id;
         this.indirizzo = indirizzo;
         this.nomeAutista = nomeAutista;
@@ -80,6 +84,7 @@ public class Passaggio implements Serializable {
         this.numPosti = numPosti;
         this.confermato=confermato;
         this.foto = foto;
+        this.concluso=concluso;
     }
 
     //costruttore CercaPassaggioFragment
@@ -108,6 +113,13 @@ public class Passaggio implements Serializable {
         this.numPosti = numPosti;
         this.indirizzo=indirizzo;
         this.confermato=confermato;
+    }
+
+    //costruttore temporaneo
+    public Passaggio(String usernameAutista, String automobile, String direzione) {
+        this.usernameAutista = usernameAutista;
+        this.automobile = automobile;
+        this.direzione = direzione;
     }
 
 
@@ -167,17 +179,12 @@ public class Passaggio implements Serializable {
         this.numPosti = numPosti;
     }
 
-
-
-    //costruttore temporaneo
-    public Passaggio(String usernameAutista, String automobile, String direzione) {
-        this.usernameAutista = usernameAutista;
-        this.automobile = automobile;
-        this.direzione = direzione;
-    }
-
     public Utente getUtente() {
         return utente;
+    }
+
+    public boolean isConcluso() {
+        return concluso;
     }
 
 

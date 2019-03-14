@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cardview_light_background">
@@ -23,4 +23,4 @@
         app:layout_constraintVertical_bias="1.0">
     </FrameLayout>
 
-</RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

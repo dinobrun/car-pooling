@@ -3,7 +3,7 @@ package it.uniba.di.sms.carpooling;
 public class Utente {
     private String username, nome, cognome, sesso, dataNascita, indirizzo, email, telefono, indirizzoAzienda, foto;
     private String azienda = null;
-    private int confermato;
+    private int confermato, autorizzato;
 
     public String getIndirizzoAzienda() {
         return indirizzoAzienda;
@@ -49,7 +49,8 @@ public class Utente {
         return confermato;
     }
 
-    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, String dataNascita) {
+    //costruttore di utente nel login senza azienda
+    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, String dataNascita, int autorizzato) {
         this.username = username;
         this.nome = nome;
         this.cognome = cognome;
@@ -57,9 +58,11 @@ public class Utente {
         this.email = email;
         this.telefono = telefono;
         this.dataNascita = dataNascita;
+        this.autorizzato = autorizzato;
     }
 
-    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, String dataNascita, String azienda, String indirizzoAzienda) {
+    //costruttore di utente nel login con l'azienda
+    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, String dataNascita, String azienda, String indirizzoAzienda, int autorizzato) {
         this.username = username;
         this.nome = nome;
         this.cognome = cognome;
@@ -69,19 +72,11 @@ public class Utente {
         this.dataNascita = dataNascita;
         this.azienda=azienda;
         this.indirizzoAzienda = indirizzoAzienda;
+        this.autorizzato = autorizzato;
     }
 
 
-    public Utente(String username, String nome, String cognome, String indirizzo, String telefono, String foto) {
-        this.username = username;
-        this.nome = nome;
-        this.cognome = cognome;
-        this.indirizzo = indirizzo;
-        this.telefono = telefono;
-        this.foto = foto;
-    }
-
-
+    //costruttore di utenti per la creazione dei marker
     public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, int confermato) {
         this.username = username;
         this.nome = nome;
@@ -92,9 +87,6 @@ public class Utente {
         this.confermato = confermato;
     }
 
-    public Utente(){
-
-    }
 
 
 
