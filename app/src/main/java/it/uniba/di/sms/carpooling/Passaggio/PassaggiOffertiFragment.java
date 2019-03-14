@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,7 +40,7 @@ import it.uniba.di.sms.carpooling.URLs;
 import it.uniba.di.sms.carpooling.Utente;
 
 
-public class PassaggiOffertiFragment extends Fragment implements ActionMode.Callback {
+public class PassaggiOffertiFragment extends Fragment implements ActionMode.Callback, SwipeRefreshLayout.OnRefreshListener {
 
     //the recyclerview
     private RecyclerView recyclerView;
@@ -49,6 +50,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
     private boolean isMultiSelect = false;
     //i created List of int type to store id of data, you can create custom class type data according to your need.
     private List<Integer> selectedIds = new ArrayList<>();
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     String user = SharedPrefManager.getInstance(getActivity()).getUser().getUsername();
 
@@ -71,14 +73,54 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
         // Inflate the layout for this fragment
         final View v = inflater.inflate(R.layout.fragment_passaggi_offerti, container, false);
 
+        // SwipeRefreshLayout
+        mSwipeRefreshLayout = v.findViewById(R.id.swipe_container_offerti);
+        mSwipeRefreshLayout.setOnRefreshListener(PassaggiOffertiFragment.this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
+
+        //getting the recyclerview from xml
+        recyclerView = v.findViewById(R.id.recycler);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        /**
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        mSwipeRefreshLayout.post(new Runnable() {
+
+            @Override
+            public void run() {
+
+                mSwipeRefreshLayout.setRefreshing(true);
+
+                // Fetching data from server
+                getListPassages();
+            }
+        });
+
+
 //getting the recyclerview from xml
         recyclerView = v.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        getListPassages();
+        //getListPassages();
 
         return v;
+    }
+
+    /**
+     * This method is called when swipe refresh is pulled down
+     */
+    @Override
+    public void onRefresh() {
+
+        // Fetching data from server
+        getListPassages();
     }
 
     private void multiSelect(int position) {
@@ -134,6 +176,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
 
 
     private void getListPassages() {
+        mSwipeRefreshLayout.setRefreshing(true);
 
         //if it passes all the validations
         class ListPassages extends AsyncTask<Void, Void, String> {
@@ -200,6 +243,9 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                             //setting adapter to recyclerview
                             recyclerView.setAdapter(adapter);
 
+                            //stop refreshing animation
+                            mSwipeRefreshLayout.setRefreshing(false);
+
                             recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
@@ -233,6 +279,8 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                         }
                         else{
                             Toast.makeText(getActivity(), "Nessun passaggio offerto", Toast.LENGTH_SHORT).show();
+                            //stop refreshing animation
+                            mSwipeRefreshLayout.setRefreshing(false);
                         }
 
                     } else {
