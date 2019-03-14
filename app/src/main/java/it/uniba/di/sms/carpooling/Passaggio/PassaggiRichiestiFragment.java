@@ -204,7 +204,6 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                 // progressBar.setVisibility(View.GONE);
 
                 try{
-
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
                     //Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
@@ -216,21 +215,42 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                             JSONArray passaggiJson = obj.getJSONArray("passaggio");
                             for(int i=0; i<passaggiJson.length(); i++){
                                 JSONObject temp = passaggiJson.getJSONObject(i);
-                                listaPassaggi.add(new Passaggio(
-                                        Integer.parseInt(temp.getString("id")),
-                                        temp.getString("indirizzo"),
-                                        temp.getString("nome"),
-                                        temp.getString("cognome"),
-                                        temp.getString("telefono"),
-                                        temp.getString("data"),
-                                        temp.getString("automobile"),
-                                        aziendaParam,
-                                        Integer.parseInt(temp.getString("direzione")),
-                                        Integer.parseInt(temp.getString("num_posti")),
-                                        Integer.parseInt(temp.getString("confermato")),
-                                        temp.getString("foto"),
-                                        (1==Integer.parseInt(temp.getString("concluso")))
-                                ));
+
+                                //se la foto non è presente
+                                if(temp.getString("foto").equals("null")){
+                                    listaPassaggi.add(new Passaggio(
+                                            Integer.parseInt(temp.getString("id")),
+                                            temp.getString("indirizzo"),
+                                            temp.getString("nome"),
+                                            temp.getString("cognome"),
+                                            temp.getString("telefono"),
+                                            temp.getString("data"),
+                                            temp.getString("automobile"),
+                                            aziendaParam,
+                                            Integer.parseInt(temp.getString("direzione")),
+                                            Integer.parseInt(temp.getString("num_posti")),
+                                            Integer.parseInt(temp.getString("confermato")),
+                                            null,
+                                            (1==Integer.parseInt(temp.getString("concluso")))
+                                    ));
+                                }else{
+                                    //la foto è presente
+                                    listaPassaggi.add(new Passaggio(
+                                            Integer.parseInt(temp.getString("id")),
+                                            temp.getString("indirizzo"),
+                                            temp.getString("nome"),
+                                            temp.getString("cognome"),
+                                            temp.getString("telefono"),
+                                            temp.getString("data"),
+                                            temp.getString("automobile"),
+                                            aziendaParam,
+                                            Integer.parseInt(temp.getString("direzione")),
+                                            Integer.parseInt(temp.getString("num_posti")),
+                                            Integer.parseInt(temp.getString("confermato")),
+                                            temp.getString("foto"),
+                                            (1==Integer.parseInt(temp.getString("concluso")))
+                                    ));
+                                }
                             }
 
 

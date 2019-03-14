@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -54,6 +55,7 @@ public class RegistrationFragment extends Fragment {
     private TextView txtDataNascita;
     private EditText txtIndirizzo;
     private EditText txtTelefono;
+    private Button btnAvanti;
 
     //Inizializzazione variabili Inserimento data
     private Date time;
@@ -154,6 +156,14 @@ public class RegistrationFragment extends Fragment {
         txtIndirizzo = view.findViewById(R.id.indirizzoText);
         txtTelefono = view.findViewById(R.id.telefonoText);
         txtDataNascita = view.findViewById(R.id.dataNascitaText);
+        btnAvanti = view.findViewById(R.id.btnAvanti);
+
+        btnAvanti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                secondRegistrationPart();
+            }
+        });
 
         //Inserimento data
         txtDataNascita = view.findViewById(R.id.dataNascitaText);
