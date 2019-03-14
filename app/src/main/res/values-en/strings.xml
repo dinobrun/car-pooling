@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="passage_request">Request passage</string>
+    <string name="title_activity_maps">Maps</string>
+    <string name="accedi">Log in</string>
+    <string name="registrati">Sign in</string>
+    <string name="azienda">Company</string>
+    <string name="indirizzo">Address</string>
+    <string name="telefono">Telephone</string>
+    <string name="avanti">One way</string>
+    <string name="nome">Name</string>
+    <string name="cognome">Surname</string>
+    <string name="dataNascita">Date of birth</string>
+    <string name="newStep">Create new passage</string>
+    <string name="findStep">Find passages</string>
+    <string name="insertDate">Insert date</string>
+    <string name="icon">Icon</string>
+    <string name="close">Close</string>
+    <string name="citta">City</string>
+    <string name="car">Car</string>
+    <string name="places">Places</string>
+    <string name="date">Date</string>
+    <string name="one_way">One way</string>
+    <string name="backHome">Return</string>
+    <string name="image_profile">Image profile</string>
+    <string name="hour">Hour</string>
+    <string name="cyclic_passage">Create cyclic passage</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
+    <string name="passage_information">Passage information</string>
+    <string name="driver">Driver</string>
+    <string name="direction">Direction</string>
+    <string name="status">Status</string>
+    <string name="trip">Trip</string>
+    <string name="action_settings">Settings</string>
+</resources>

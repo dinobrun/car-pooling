@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/common_google_signin_btn_text_dark_default"
     tools:context=".Passaggio.CercaPassaggioFragment"
-    android:clickable="true">
+    android:clickable="true"
+    android:focusable="true">
 
 
 
@@ -35,7 +36,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/dataPassaggio"
                 android:layout_width="40dp"
                 android:layout_height="34dp"
                 android:layout_alignParentStart="true"
@@ -44,7 +45,8 @@
                 android:layout_marginTop="172dp"
                 android:src="@drawable/calendar"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/date" />
 
             <TextView
                 android:id="@+id/dataText"
@@ -54,9 +56,9 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="180dp"
-                android:text="TextView"
+                android:text="@string/blank"
                 android:textAppearance="@android:style/TextAppearance.Holo.Medium"
-                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintStart_toEndOf="@+id/dataPassaggio"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -68,7 +70,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="180dp"
                 android:layout_marginEnd="16dp"
-                android:text="TextView"
+                android:text="@string/blank"
                 android:textAppearance="@android:style/TextAppearance.Holo.Medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/dataText"
@@ -121,15 +123,13 @@
                     android:id="@+id/radioButtonAndata"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/radioGroup"
-                    android:text="Andata" />
+                    android:text="@string/one_way" />
 
                 <RadioButton
                     android:id="@+id/radioButtonRitorno"
                     android:layout_width="123dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/radioGroup"
-                    android:text="Ritorno" />
+                    android:text="@string/backHome" />
 
 
             </RadioGroup>
