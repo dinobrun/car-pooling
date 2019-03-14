@@ -125,7 +125,7 @@
         android:layout_marginEnd="8dp"
         android:layout_weight="0.2"
         android:ems="10"
-        android:hint="Data di nascita"
+        android:hint="@string/dataNascita"
         android:text="@string/blank"
         android:textAppearance="@android:style/TextAppearance.Holo.Medium"
         app:layout_constraintEnd_toEndOf="parent"

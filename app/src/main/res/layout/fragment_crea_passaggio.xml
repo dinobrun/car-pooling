@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/common_google_signin_btn_text_dark_default"
     android:clickable="true"
-    tools:context=".Passaggio.CreaPassaggioFragment">
+    tools:context=".Passaggio.CreaPassaggioFragment"
+    android:focusable="true">
 
 
     <Spinner
@@ -50,7 +51,7 @@
             android:id="@+id/radioButtonAndata"
             android:layout_width="94dp"
             android:layout_height="wrap_content"
-            android:text="Andata"
+            android:text="@string/one_way"
 
             tools:layout_editor_absoluteX="28dp"
             tools:layout_editor_absoluteY="434dp" />
@@ -59,7 +60,7 @@
             android:id="@+id/radioButtonRitorno"
             android:layout_width="103dp"
             android:layout_height="wrap_content"
-            android:text="Ritorno"
+            android:text="@string/backHome"
             tools:layout_editor_absoluteX="28dp"
             tools:layout_editor_absoluteY="434dp" />
 
@@ -71,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="92dp"
         android:layout_marginTop="128dp"
-        android:text="TextView"
+        android:text="@string/date"
         android:textAppearance="@android:style/TextAppearance.Holo.Medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -82,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
         android:layout_marginEnd="92dp"
-        android:text="TextView"
+        android:text="@string/hour"
         android:textAppearance="@android:style/TextAppearance.Holo.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -97,7 +98,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/data_icon"
         android:layout_width="42dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
@@ -107,17 +108,19 @@
         app:layout_constraintEnd_toStartOf="@+id/spinnerAuto"
         app:layout_constraintHorizontal_bias="0.447"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/car_icon"
+        android:contentDescription="@string/date" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/car_icon"
         android:layout_width="40dp"
         android:layout_height="34dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="120dp"
         android:src="@drawable/calendar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/car" />
 
     <CheckBox
         android:id="@+id/checkBoxCiclo"
@@ -126,7 +129,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
-        android:text="Crea un passaggio ciclico"
+        android:text="@string/cyclic_passage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
