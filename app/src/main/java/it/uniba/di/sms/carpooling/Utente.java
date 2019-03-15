@@ -3,7 +3,13 @@ package it.uniba.di.sms.carpooling;
 public class Utente {
     private String username, nome, cognome, sesso, dataNascita, indirizzo, email, telefono, indirizzoAzienda, foto;
     private String azienda = null;
-    private int confermato, autorizzato;
+    private int confermato;
+
+    public int getAutorizzato() {
+        return autorizzato;
+    }
+
+    private int autorizzato;
 
     public String getIndirizzoAzienda() {
         return indirizzoAzienda;
