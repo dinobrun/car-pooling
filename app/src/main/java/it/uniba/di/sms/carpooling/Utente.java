@@ -49,6 +49,15 @@ public class Utente {
         return confermato;
     }
 
+    public void setAutorizzato(int confermato) {
+        this.autorizzato = confermato;
+    }
+
+    public int getAutorizzato() {
+        return autorizzato;
+    }
+
+
     //costruttore di utente nel login senza azienda
     public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, String dataNascita, int autorizzato) {
         this.username = username;

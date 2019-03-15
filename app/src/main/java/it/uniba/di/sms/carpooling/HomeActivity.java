@@ -63,14 +63,17 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
+        if(SharedPrefManager.getInstance(HomeActivity.this).getUser().getAutorizzato()==0){
+            openCercaPassaggioFragment();
+        }
 
         //user conterrà l'username dell'utente in sessione
         user = SharedPrefManager.getInstance(getApplicationContext()).getUser().getUsername();
 
 
-        drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.home_layout);
 
+        
         myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -146,6 +149,16 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //Apre NotAcceptedFragment
+    public void openNotAcceptedFragment() {
+        NotAcceptedFragment fragment = NotAcceptedFragment.newInstance();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.addToBackStack(null);
+        transaction.add(R.id.open_frag, fragment, "BLANK_FRAGMENT").commit();
     }
 
     //Apre CreaPassaggioFragment
