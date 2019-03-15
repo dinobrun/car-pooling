@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -51,6 +52,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
     //i created List of int type to store id of data, you can create custom class type data according to your need.
     private List<Integer> selectedIds = new ArrayList<>();
     SwipeRefreshLayout mSwipeRefreshLayout;
+
 
     String user = SharedPrefManager.getInstance(getActivity()).getUser().getUsername();
 
@@ -86,6 +88,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+
         /**
          * Showing Swipe Refresh animation on activity create
          * As animation won't start on onCreate, post runnable is used
@@ -107,9 +110,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
         recyclerView = v.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         //getListPassages();
-
         return v;
     }
 
@@ -279,7 +280,9 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
 
                         }
                         else{
-                            Toast.makeText(getActivity(), "Nessun passaggio offerto", Toast.LENGTH_SHORT).show();
+
+
+
                             //stop refreshing animation
                             mSwipeRefreshLayout.setRefreshing(false);
                         }

@@ -43,7 +43,7 @@ public class SharedPrefManager {
         editor.putString(KEY_USERNAME, user.getUsername());
         editor.putString(KEY_NOME, user.getNome());
         editor.putString(KEY_COGNOME, user.getCognome());
-        editor.putString(KEY_DATANASCITA, user.getEmail());
+        editor.putString(KEY_DATANASCITA, user.getDataNascita());
         editor.putString(KEY_EMAIL, user.getEmail());
         editor.putString(KEY_INDIRIZZO, user.getIndirizzo());
         editor.putString(KEY_TELEFONO, user.getTelefono());
@@ -70,9 +70,9 @@ public class SharedPrefManager {
                 sharedPreferences.getString(KEY_NOME, null),
                 sharedPreferences.getString(KEY_COGNOME, null),
                 sharedPreferences.getString(KEY_INDIRIZZO, null),
-                sharedPreferences.getString(KEY_DATANASCITA, null),
                 sharedPreferences.getString(KEY_EMAIL, null),
                 sharedPreferences.getString(KEY_TELEFONO, null),
+                sharedPreferences.getString(KEY_DATANASCITA, null),
                 sharedPreferences.getString(KEY_AZIENDA, null),
                 sharedPreferences.getString(KEY_INDIRIZZO_AZIENDA, null),
                 sharedPreferences.getInt(KEY_AUTORIZZATO, 0)
