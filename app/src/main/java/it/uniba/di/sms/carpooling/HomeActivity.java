@@ -61,84 +61,128 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+
 
         if(SharedPrefManager.getInstance(HomeActivity.this).getUser().getAutorizzato()==0){
-            openCercaPassaggioFragment();
+            setContentView(R.layout.fragment_not_accepted);
+            user = SharedPrefManager.getInstance(getApplicationContext()).getUser().getUsername();
+
+            drawerLayout = findViewById(R.id.home_layout);
+
+
+            myToolbar = findViewById(R.id.my_toolbar);
+            setSupportActionBar(myToolbar);
+            ActionBar actionbar = getSupportActionBar();
+            actionbar.setDisplayHomeAsUpEnabled(true);
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+
+            NavigationView navigationView = findViewById(R.id.nav_view_not_accepted);
+            navigationView.setNavigationItemSelectedListener(
+                    new NavigationView.OnNavigationItemSelectedListener() {
+                        @Override
+                        public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                            switch (menuItem.getItemId()) {
+                                case R.id.my_profile:
+                                    openMioProfiloFragment();
+                                    break;
+
+                                case R.id.logout_section:
+                                    //effettua il logout
+                                    logout();
+                                    break;
+
+                            }
+
+                            // set item as selected to persist highlight
+                            menuItem.setChecked(true);
+
+                            // close drawer when item is tapped
+                            drawerLayout.closeDrawers();
+
+                            return true;
+                        }
+                    });
+        }else{
+            setContentView(R.layout.activity_home);
+            //user conterrà l'username dell'utente in sessione
+            user = SharedPrefManager.getInstance(getApplicationContext()).getUser().getUsername();
+
+
+            drawerLayout = findViewById(R.id.home_layout);
+
+
+            myToolbar = findViewById(R.id.my_toolbar);
+            setSupportActionBar(myToolbar);
+            ActionBar actionbar = getSupportActionBar();
+            actionbar.setDisplayHomeAsUpEnabled(true);
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(
+                    new NavigationView.OnNavigationItemSelectedListener() {
+                        @Override
+                        public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                            switch (menuItem.getItemId()) {
+                                case R.id.nav_camera:
+                                    Intent openPassaggi = new Intent(HomeActivity.this, PassaggiActivity.class);
+                                    startActivity(openPassaggi);
+                                    break;
+
+                                case R.id.auto_section:
+                                    openListaAutoFragment();
+                                    break;
+
+                                case R.id.my_profile:
+                                    openMioProfiloFragment();
+                                    break;
+
+                                case R.id.logout_section:
+                                    //effettua il logout
+                                    logout();
+                                    break;
+
+                            }
+
+                            // set item as selected to persist highlight
+                            menuItem.setChecked(true);
+
+                            // close drawer when item is tapped
+                            drawerLayout.closeDrawers();
+
+                            return true;
+                        }
+                    });
+
+            aziendaUtente = SharedPrefManager.getInstance(HomeActivity.this).getUser().getAzienda();
+
+            Button cercaPassaggioBtn = findViewById(R.id.cercaPassaggio);
+            cercaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openCercaPassaggioFragment();
+                }
+            });
+
+
+            Button creaPassaggioBtn = findViewById(R.id.creaPassaggio);
+            creaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getAuto();
+
+                }
+            });
         }
 
-        //user conterrà l'username dell'utente in sessione
-        user = SharedPrefManager.getInstance(getApplicationContext()).getUser().getUsername();
 
 
-        drawerLayout = findViewById(R.id.home_layout);
-
-        
-        myToolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
 
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-
-                        switch (menuItem.getItemId()) {
-                            case R.id.nav_camera:
-                                Intent openPassaggi = new Intent(HomeActivity.this, PassaggiActivity.class);
-                                startActivity(openPassaggi);
-                                break;
-
-                            case R.id.auto_section:
-                                openListaAutoFragment();
-                                break;
-
-                            case R.id.my_profile:
-                                openMioProfiloFragment();
-                                break;
-
-                            case R.id.logout_section:
-                                //effettua il logout
-                                logout();
-                                break;
-
-                        }
-
-                        // set item as selected to persist highlight
-                        menuItem.setChecked(true);
-
-                        // close drawer when item is tapped
-                        drawerLayout.closeDrawers();
-
-                        return true;
-                    }
-                });
-
-        aziendaUtente = SharedPrefManager.getInstance(HomeActivity.this).getUser().getAzienda();
-
-        Button cercaPassaggioBtn = findViewById(R.id.cercaPassaggio);
-        cercaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openCercaPassaggioFragment();
-            }
-        });
-
-
-        Button creaPassaggioBtn = findViewById(R.id.creaPassaggio);
-        creaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getAuto();
-
-            }
-        });
-
-    }
 
 
     @Override
@@ -151,15 +195,6 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         return super.onOptionsItemSelected(item);
     }
 
-    //Apre NotAcceptedFragment
-    public void openNotAcceptedFragment() {
-        NotAcceptedFragment fragment = NotAcceptedFragment.newInstance();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
-        transaction.addToBackStack(null);
-        transaction.add(R.id.open_frag, fragment, "BLANK_FRAGMENT").commit();
-    }
 
     //Apre CreaPassaggioFragment
     public void openCreaPassaggioFragment(ArrayList<Automobile> automobili) {

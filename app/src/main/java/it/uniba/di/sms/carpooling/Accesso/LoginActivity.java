@@ -169,7 +169,6 @@ public class LoginActivity extends Activity {
                                     Integer.parseInt(userJson.getString("autorizzato"))
                             );
                         }
-
                         //storing the user in shared preferences
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
 
