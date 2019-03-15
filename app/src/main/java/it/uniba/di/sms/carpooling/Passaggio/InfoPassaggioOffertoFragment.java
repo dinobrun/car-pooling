@@ -1,6 +1,7 @@
 package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -225,6 +226,14 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         txtCognome.setText(utente.getCognome());
         txtTelefono.setText(utente.getTelefono());
 
+        if(((Utente) marker.getTag()).getConfermato()==1){
+            btnAccept.setBackgroundColor(Color.DKGRAY);
+            btnAccept.setClickable(false);
+        }else if(((Utente) marker.getTag()).getConfermato()==2){
+            btnDecline.setBackgroundColor(Color.DKGRAY);
+            btnDecline.setClickable(false);
+        }
+
         //accetta il passaggio
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -291,9 +300,18 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                         if(conferma){
                             utente.setConfermato(1);
                             utenteRichiedente.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                            btnAccept.setBackgroundColor(Color.DKGRAY);
+                            btnAccept.setClickable(false);
+                            btnDecline.setBackgroundColor(Color.GRAY);
+                            btnDecline.setClickable(true);
+
                         }else{
                             utente.setConfermato(2);
                             utenteRichiedente.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                            btnDecline.setBackgroundColor(Color.DKGRAY);
+                            btnDecline.setClickable(false);
+                            btnAccept.setBackgroundColor(Color.GRAY);
+                            btnAccept.setClickable(true);
                         }
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
