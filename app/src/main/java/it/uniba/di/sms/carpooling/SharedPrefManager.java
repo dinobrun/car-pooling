@@ -47,6 +47,7 @@ public class SharedPrefManager {
         editor.putString(KEY_EMAIL, user.getEmail());
         editor.putString(KEY_INDIRIZZO, user.getIndirizzo());
         editor.putString(KEY_TELEFONO, user.getTelefono());
+        editor.putInt(KEY_AUTORIZZATO, user.getAutorizzato());
 
         if(user.getAzienda()!=null){
             editor.putString(KEY_AZIENDA, user.getAzienda());
