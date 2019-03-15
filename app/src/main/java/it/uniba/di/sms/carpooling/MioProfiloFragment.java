@@ -1,12 +1,16 @@
 package it.uniba.di.sms.carpooling;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import it.uniba.di.sms.carpooling.Automobile.Automobile;
@@ -23,6 +28,7 @@ import it.uniba.di.sms.carpooling.Automobile.Automobile;
 public class MioProfiloFragment extends Fragment {
 
     EditText txtNome, txtCognome, txtDataNascita, txtIndirizzo, txtEmail, txtTelefono;
+    ImageView profileImage;
 
 
     public MioProfiloFragment() {
@@ -84,6 +90,16 @@ public class MioProfiloFragment extends Fragment {
 
         txtTelefono = v.findViewById(R.id.telefono);
         txtTelefono.setText(SharedPrefManager.getInstance(getActivity()).getUser().getTelefono());
+
+        profileImage = v.findViewById(R.id.imageView);
+        if(SharedPrefManager.getInstance(getActivity()).getUser().getFoto()==null){
+            profileImage.setBackgroundResource(R.drawable.no_profile);
+        }
+        else{
+            byte[] decodedString = Base64.decode(SharedPrefManager.getInstance(getActivity()).getUser().getFoto(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            profileImage.setImageBitmap(decodedByte);
+        }
 
 
 

@@ -334,32 +334,15 @@ public class CompanyFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
 
                 try {
-                    Toast.makeText(getActivity(), "Account registrato con successo", Toast.LENGTH_SHORT).show();
-                    //torna alla LoginActivity
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
+
+
                     JSONObject obj = new JSONObject(s);
 
                     if (!obj.getBoolean("error")) {
-                        Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                        JSONObject userJson = obj.getJSONObject("user");
-
-                        Utente user = new Utente(
-                                userJson.getString("username"),
-                                userJson.getString("nome"),
-                                userJson.getString("cognome"),
-                                userJson.getString("indirizzo"),
-                                userJson.getString("email"),
-                                userJson.getString("telefono"),
-                                userJson.getString("dataNascita"),
-                                Integer.parseInt(userJson.getString("autorizzato"))
-                        );
-
-                        if(!userJson.getString("azienda").equals("")){
-                            user.addAzienda(userJson.getString("azienda"));
-                        }
-                        SharedPrefManager.getInstance(getActivity()).userLogin(user);
-                        Toast.makeText(getActivity(), "tutto apposto", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Account registrato con successo", Toast.LENGTH_SHORT).show();
+                        //torna alla LoginActivity
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(intent);
 
                     } else {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();

@@ -153,6 +153,7 @@ public class LoginActivity extends Activity {
                                     userJson.getString("azienda"),
                                     userJson.getString("indirizzoAzienda"),
                                     Integer.parseInt(userJson.getString("autorizzato"))
+
                             );
 
                         }

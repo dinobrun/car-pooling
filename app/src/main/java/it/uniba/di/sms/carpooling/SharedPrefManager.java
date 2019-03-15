@@ -20,6 +20,7 @@ public class SharedPrefManager {
     private static final String KEY_AZIENDA = "keyazienda";
     private static final String KEY_INDIRIZZO_AZIENDA = "keyindirizzoazienda";
     private static final String KEY_AUTORIZZATO = "keyautorizzato";
+    private static final String KEY_FOTO = "keyfoto";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;

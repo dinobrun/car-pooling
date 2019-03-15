@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -159,21 +160,23 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
             aziendaUtente = SharedPrefManager.getInstance(HomeActivity.this).getUser().getAzienda();
 
-            Button cercaPassaggioBtn = findViewById(R.id.cercaPassaggio);
-            cercaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    openCercaPassaggioFragment();
-                }
-            });
 
 
-            Button creaPassaggioBtn = findViewById(R.id.creaPassaggio);
-            creaPassaggioBtn.setOnClickListener(new View.OnClickListener() {
+
+
+            FloatingActionButton creaPassaggio = findViewById(R.id.creaPassaggioButton);
+            creaPassaggio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     getAuto();
+                }
+            });
 
+            FloatingActionButton cercaPassaggio = findViewById(R.id.cercapassaggioButton);
+            cercaPassaggio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openCercaPassaggioFragment();
                 }
             });
         }
