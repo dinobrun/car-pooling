@@ -31,12 +31,14 @@ public class PassaggiActivity extends AppCompatActivity {
 
         (PassaggiActivity.this).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setTitle("I miei passaggi");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PassaggiActivity.this.onBackPressed();
             }
         });
+
 
         mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
 

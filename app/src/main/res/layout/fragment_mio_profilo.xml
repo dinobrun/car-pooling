@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cardview_light_background"
-    tools:context=".MioProfiloFragment">
+    tools:context=".MioProfiloFragment"
+    android:clickable="true">
 
 
     <ImageView
@@ -28,5 +29,103 @@
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <EditText
+        android:id="@+id/nome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:inputType="textPersonName"
+        android:text="Nome"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:enabled="false"
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="253dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView"/>
+
+    <EditText
+        android:id="@+id/cognome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
+        android:inputType="textPersonName"
+        android:text="Cognome"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:enabled="false"
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="253dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nome"/>
+
+    <EditText
+        android:id="@+id/data_nascita"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
+        android:inputType="datetime"
+        android:text="Data di nascita"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:enabled="false"
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="253dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cognome"/>
+
+    <EditText
+        android:id="@+id/indirizzo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
+        android:inputType="textPersonName"
+        android:text="Indirizzo"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:enabled="false"
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="253dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/data_nascita"/>
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
+        android:inputType="textPersonName"
+        android:text="Email"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:enabled="false"
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="253dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/indirizzo"/>
+
+    <EditText
+        android:id="@+id/telefono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
+        android:inputType="numberDecimal"
+        android:text="Telefono"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:enabled="false"
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="253dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email"/>
+
+
 
 </android.support.constraint.ConstraintLayout>

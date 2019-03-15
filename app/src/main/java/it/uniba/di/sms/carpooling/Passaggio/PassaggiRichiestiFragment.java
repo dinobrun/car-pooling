@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -54,6 +55,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
     SwipeRefreshLayout mSwipeRefreshLayout;
 
 
+
     public PassaggiRichiestiFragment() {
         // Required empty public constructor
     }
@@ -82,6 +84,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
         recyclerView = v.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
 
         /**
          * Showing Swipe Refresh animation on activity create
@@ -293,7 +296,8 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                             }));
                         }
                         else{
-                            Toast.makeText(getActivity(), "Nessun passaggio richiesto", Toast.LENGTH_SHORT).show();
+
+
                             //creating recyclerview adapter
                             adapter = new PassaggioRichiestoAdapter(getActivity(), listaPassaggi);
 
