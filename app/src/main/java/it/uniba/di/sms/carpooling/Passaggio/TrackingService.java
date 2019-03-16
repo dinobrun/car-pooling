@@ -13,8 +13,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.os.IBinder;
 import android.content.Intent;
@@ -26,6 +31,7 @@ import android.app.Notification;
 import android.content.pm.PackageManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.widget.Toast;
 
 import it.uniba.di.sms.carpooling.R;
 
@@ -42,29 +48,51 @@ public class TrackingService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        createNotificationChannel();
+
+
         buildNotification();
         loginToFirebase();
     }
 
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.app_name);
+            String description = getString(R.string.tracking_enabled_notif);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("mychannel", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+
+
 //Create the persistent notification//
 
     private void buildNotification() {
+
         String stop = "stop";
         registerReceiver(stopReceiver, new IntentFilter(stop));
         PendingIntent broadcastIntent = PendingIntent.getBroadcast(
                 this, 0, new Intent(stop), PendingIntent.FLAG_UPDATE_CURRENT);
 
-// Create the persistent notification//
-        Notification.Builder builder = new Notification.Builder(this)
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "mychannel")
+                .setSmallIcon(R.drawable.ritorno_icon)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.tracking_enabled_notif))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-//Make this notification ongoing so it can’t be dismissed by the user//
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(0, builder.build());
 
-                .setOngoing(true)
-                .setContentIntent(broadcastIntent)
-                .setSmallIcon(R.drawable.ic_stat_name);
-        startForeground(1, builder.build());
     }
 
     protected BroadcastReceiver stopReceiver = new BroadcastReceiver() {
@@ -76,7 +104,6 @@ public class TrackingService extends Service {
             unregisterReceiver(stopReceiver);
 
 //Stop the Service//
-
             stopSelf();
         }
     };
@@ -99,7 +126,7 @@ public class TrackingService extends Service {
 
                 if (task.isSuccessful()) {
 
-
+                    Log.d(TAG, "Firebase giusta autentizaione");
 
 //...then call requestLocationUpdates//
 
@@ -133,7 +160,7 @@ public class TrackingService extends Service {
 
 //If the app currently has access to the location permission...//
 
-            if (permission == PackageManager.PERMISSION_GRANTED) {
+        if (permission == PackageManager.PERMISSION_GRANTED) {
 
 //...then request location updates//
 
@@ -149,11 +176,9 @@ public class TrackingService extends Service {
 
                     if (location != null) {
 
+                        //Save the location data to the database//
 
-
-//Save the location data to the database//
-
-                        ref.setValue("Hello, World!");
+                        ref.setValue(location);
                     }
                 }
             }, null);

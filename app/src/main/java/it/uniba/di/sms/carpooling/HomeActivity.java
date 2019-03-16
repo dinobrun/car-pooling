@@ -1,6 +1,8 @@
 package it.uniba.di.sms.carpooling;
 
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -61,6 +64,10 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
     Toolbar myToolbar;
 
 
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +116,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                     });
         }else{
             setContentView(R.layout.activity_home);
+
             //user conterrà l'username dell'utente in sessione
             user = SharedPrefManager.getInstance(getApplicationContext()).getUser().getUsername();
 

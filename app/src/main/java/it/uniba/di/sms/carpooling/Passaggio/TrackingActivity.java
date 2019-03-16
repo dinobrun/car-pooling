@@ -10,9 +10,12 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.widget.Toast;
 
+import it.uniba.di.sms.carpooling.R;
+
 public class TrackingActivity extends Activity {
 
     private static final int PERMISSIONS_REQUEST = 100;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +70,6 @@ public class TrackingActivity extends Activity {
 //Start the TrackerService//
 
     private void startTrackerService() {
-
         startService(new Intent(this, TrackingService.class));
 
 //Notify the user that tracking has been enabled//
@@ -79,4 +81,6 @@ public class TrackingActivity extends Activity {
         finish();
     }
 
+
 }
+
