@@ -46,6 +46,8 @@ import it.uniba.di.sms.carpooling.Passaggio.CercaPassaggioFragment;
 import it.uniba.di.sms.carpooling.Passaggio.CreaPassaggioFragment;
 import it.uniba.di.sms.carpooling.Passaggio.PassaggiActivity;
 import it.uniba.di.sms.carpooling.Passaggio.PassaggiRichiestiFragment;
+import it.uniba.di.sms.carpooling.Passaggio.TrackingActivity;
+import it.uniba.di.sms.carpooling.Passaggio.TrackingFragment;
 
 public class HomeActivity extends AppCompatActivity implements CreaPassaggioFragment.OnFragmentInteractionListener{
 
@@ -112,6 +114,15 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
 
             drawerLayout = findViewById(R.id.home_layout);
+
+            Button tracking = findViewById(R.id.tracking);
+            tracking.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent trackingIntent = new Intent(HomeActivity.this, TrackingActivity.class);
+                    startActivity(trackingIntent);
+                }
+            });
 
 
             myToolbar = findViewById(R.id.my_toolbar);
@@ -180,6 +191,9 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                 }
             });
         }
+
+
+
 
 
 

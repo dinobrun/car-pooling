@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "679287116672",
-    "firebase_url": "https://car-pooling-61b8f.firebaseio.com",
-    "project_id": "car-pooling-61b8f",
-    "storage_bucket": "car-pooling-61b8f.appspot.com"
+    "project_number": "423124520077",
+    "firebase_url": "https://carpooling-92386.firebaseio.com",
+    "project_id": "carpooling-92386",
+    "storage_bucket": "carpooling-92386.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:679287116672:android:fb8adb882eba2346",
+        "mobilesdk_app_id": "1:423124520077:android:fb8adb882eba2346",
         "android_client_info": {
           "package_name": "it.uniba.di.sms.carpooling"
         }
       },
       "oauth_client": [
         {
-          "client_id": "679287116672-mquq3pfo34k358437id7mdd258sadleh.apps.googleusercontent.com",
+          "client_id": "423124520077-5pv3b1bif3thbnmu2l7441e8icej9fb8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "it.uniba.di.sms.carpooling",
-            "certificate_hash": "72c9340aa629d2bfeabd8a59d10ad407cb7a80e9"
+            "certificate_hash": "510ae78c3b30566999b2bcb5881d9a2e4e68497f"
           }
         },
         {
-          "client_id": "679287116672-fedk45gerqf22uge0udjidpda3g5v8i0.apps.googleusercontent.com",
+          "client_id": "423124520077-7q7p80aqa65q026o2et84c7154efes0h.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBkxdzblODvfJV-TJMzOXlYZdtPU8jo3aI"
+          "current_key": "AIzaSyBeNnl8VwRtR_JQsloW3sDQFGweUKd0F4A"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "679287116672-fedk45gerqf22uge0udjidpda3g5v8i0.apps.googleusercontent.com",
+              "client_id": "423124520077-7q7p80aqa65q026o2et84c7154efes0h.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -44,6 +44,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -258,6 +261,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
                         mGoogleMap.setMyLocationEnabled(true);
+
+
                     }
 
                 } else {
