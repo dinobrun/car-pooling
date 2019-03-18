@@ -13,6 +13,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Process;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
@@ -37,9 +38,8 @@ import it.uniba.di.sms.carpooling.URLs;
 
 public class TrackingService extends Service {
 
-    private static final String TAG = TrackingService.class.getSimpleName();
-
-
+    LocationRequest request;
+    FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -53,6 +53,12 @@ public class TrackingService extends Service {
     }
 
     @Override
+    public void onDestroy() {
+        Toast.makeText(TrackingService.this, "Servizio distrutto",Toast.LENGTH_SHORT).show();
+        super.onDestroy();
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         Toast.makeText(TrackingService.this, "Servizio partito",Toast.LENGTH_SHORT).show();
@@ -63,15 +69,10 @@ public class TrackingService extends Service {
         buildNotification();
 
         //loginToFirebase();
-        return START_STICKY;
+        return super.onStartCommand(intent,flags,startId);
     }
 
-    @Override
-    public void onDestroy() {
-        Toast.makeText(TrackingService.this, "Distrutto",Toast.LENGTH_SHORT).show();
-        stopForeground(true);
-        super.onDestroy();
-    }
+
 
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
@@ -86,6 +87,7 @@ public class TrackingService extends Service {
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
+
         }
     }
 
@@ -104,6 +106,7 @@ public class TrackingService extends Service {
                 .setSmallIcon(R.drawable.ritorno_icon)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.tracking_enabled_notif))
+                .setContentIntent(broadcastIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
@@ -120,7 +123,7 @@ public class TrackingService extends Service {
             unregisterReceiver(stopReceiver);
 
 //Stop the Service//
-            stopSelf();
+            //stopSelf();
         }
     };
 
@@ -163,11 +166,6 @@ public class TrackingService extends Service {
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
 
-                        Intent goToTracking = new Intent(TrackingService.this, TrackingActivity.class);
-                        startActivity(goToTracking);
-                        stopSelf();
-
-
                     } else {
                         //Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
@@ -184,15 +182,15 @@ public class TrackingService extends Service {
 
 
     private void requestLocationCheckPassaggio() {
-        final LocationRequest request = new LocationRequest();
+        request = new LocationRequest();
         request.setInterval(5000);
+        //request.setNumUpdates(1);
 
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        final FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
+
         int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
 
         if (permission == PackageManager.PERMISSION_GRANTED) {
-
 
             client.requestLocationUpdates(request, new LocationCallback() {
                 @Override
@@ -204,8 +202,7 @@ public class TrackingService extends Service {
 
                         //invia al server la posizione per la validazione del percorso
                         sendLocation(location);
-                        //Toast.makeText(TrackingService.this, Double.toString(location.getLatitude())+ " " + Double.toString(location.getLongitude()), Toast.LENGTH_SHORT).show();
-                        //request.setNumUpdates(1);
+
 
                     }
 
@@ -277,10 +274,6 @@ public class TrackingService extends Service {
                     if (location != null) {
 
                         //Save the location data to the database//
-
-
-
-
 
                         //ref.setValue(location);
                     }

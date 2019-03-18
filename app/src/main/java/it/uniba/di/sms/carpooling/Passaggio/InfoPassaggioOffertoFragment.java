@@ -9,6 +9,7 @@ import android.location.Geocoder;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -129,6 +130,14 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                 }
 
 
+            }
+        });
+
+        Button buttonStop = v.findViewById(R.id.stop_button);
+        buttonStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stopTrackerService();
             }
         });
 
@@ -474,11 +483,18 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 //Start the TrackerService//
 
     private void startTrackerService() {
-        getActivity().startService(new Intent(getActivity(), TrackingService.class));
-        //Notify the user that tracking has been enabled//
-        //Toast.makeText(getActivity(), "GPS tracking enabled", Toast.LENGTH_SHORT).show();
-        //Close MainActivity//
-        //finish();
+            Intent serviceIntent = new Intent(getActivity(), TrackingService.class);
+            getActivity().startService(serviceIntent);
+
+    }
+
+
+
+    private void stopTrackerService() {
+        Intent serviceIntent = new Intent(getActivity(), TrackingService.class);
+        getActivity().stopService(serviceIntent);
+        Toast.makeText(getActivity(), "Metodo stoppato", Toast.LENGTH_SHORT).show();
+
     }
 
 

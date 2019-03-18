@@ -48,13 +48,6 @@ public class TrackingActivity extends Activity {
 
         if (permission == PackageManager.PERMISSION_GRANTED) {
             //stopTrackerService();
-        } else {
-
-//If the app doesn’t currently have access to the user’s location, then request access//
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST);
         }
     }
 
@@ -65,9 +58,7 @@ public class TrackingActivity extends Activity {
         Intent stopTracking = new Intent(this, TrackingService.class);
         stopService(stopTracking);
 //Notify the user that tracking has been enabled//
-
         Toast.makeText(this, "Metodo stoppato", Toast.LENGTH_SHORT).show();
-
 //Close MainActivity//
 
         //finish();

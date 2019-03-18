@@ -28,7 +28,7 @@
         <service
             android:name=".Passaggio.TrackingService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="false" />
 
         <activity android:name=".Passaggio.TrackingActivity" />
         <activity android:name=".Passaggio.PassaggiActivity" />
