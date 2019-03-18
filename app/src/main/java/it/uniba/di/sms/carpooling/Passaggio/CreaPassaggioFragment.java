@@ -151,7 +151,6 @@ public class CreaPassaggioFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-
         setHasOptionsMenu(true);
 
         //Inserimento data

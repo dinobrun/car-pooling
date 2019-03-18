@@ -7,14 +7,27 @@
     tools:context=".Passaggio.TrackingActivity">
 
 
-    <Button
-        android:id="@+id/stop_button"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:stateListAnimator="@null"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <ImageView
+        android:id="@+id/imageTracking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="288dp"
-        android:text="Button"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/passaggi_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/my_toolbar"
+        tools:layout_editor_absoluteY="77dp" />
+
+
+
 </android.support.constraint.ConstraintLayout>

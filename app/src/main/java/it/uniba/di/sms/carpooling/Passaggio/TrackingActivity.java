@@ -8,15 +8,19 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import it.uniba.di.sms.carpooling.R;
 
-public class TrackingActivity extends Activity {
+public class TrackingActivity extends AppCompatActivity {
 
     private static final int PERMISSIONS_REQUEST = 100;
+
+
 
 
     @Override
@@ -24,13 +28,20 @@ public class TrackingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracking);
 
-        Button buttonStop = findViewById(R.id.stop_button);
-        buttonStop.setOnClickListener(new View.OnClickListener() {
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+
+        (TrackingActivity.this).setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.close_icon);
+        toolbar.setTitle("Tracciamento del percorso");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 stopTrackerService();
             }
         });
+
+        int idPassaggio = getIntent().getExtras().getInt("id_passaggio");
+
 
 //Check whether GPS tracking is enabled//
 
@@ -52,16 +63,10 @@ public class TrackingActivity extends Activity {
     }
 
 
-//Start the TrackerService//
-
     private void stopTrackerService() {
-        Intent stopTracking = new Intent(this, TrackingService.class);
-        stopService(stopTracking);
-//Notify the user that tracking has been enabled//
-        Toast.makeText(this, "Metodo stoppato", Toast.LENGTH_SHORT).show();
-//Close MainActivity//
-
-        //finish();
+        Intent serviceIntent = new Intent(this, TrackingService.class);
+        stopService(serviceIntent);
+        onBackPressed();
     }
 
 

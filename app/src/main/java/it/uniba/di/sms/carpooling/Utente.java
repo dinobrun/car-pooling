@@ -73,6 +73,12 @@ public class Utente {
         this.autorizzato = autorizzato;
     }
 
+    //costruttore utilizzato per il tracking di un passaggio in TrackingService
+    public Utente(String username, String indirizzo){
+        this.username=username;
+        this.indirizzo=indirizzo;
+    }
+
     //costruttore di utente nel login con l'azienda
     public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, String dataNascita, String azienda, String indirizzoAzienda, int autorizzato) {
         this.username = username;

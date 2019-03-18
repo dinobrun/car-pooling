@@ -128,20 +128,8 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                         Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     startTrackerService();
                 }
-
-
             }
         });
-
-        Button buttonStop = v.findViewById(R.id.stop_button);
-        buttonStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                stopTrackerService();
-            }
-        });
-
-
 
         txtNome = v.findViewById(R.id.txtNome);
         txtCognome = v.findViewById(R.id.txtCognome);
@@ -478,15 +466,10 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 
     private void startTrackerService() {
         Intent serviceIntent = new Intent(getActivity(), TrackingService.class);
+        serviceIntent.putExtra("id_passaggio",passaggioParam.getId());
         getActivity().startService(serviceIntent);
     }
 
-
-
-    private void stopTrackerService() {
-        Intent serviceIntent = new Intent(getActivity(), TrackingService.class);
-        getActivity().stopService(serviceIntent);
-    }
 
 
 

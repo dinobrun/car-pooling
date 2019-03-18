@@ -24,5 +24,6 @@ public class URLs {
     public static final String URL_UPDATE_TOKEN = ROOT_URL + "updateToken";
 
     public static final String URL_CHECK_PASSAGGIO = ROOT_URL_MAPS + "checkPassaggio";
+    public static final String URL_TRACKING_PASSAGGIO = ROOT_URL_MAPS + "trackingPassaggio";
 
 }
