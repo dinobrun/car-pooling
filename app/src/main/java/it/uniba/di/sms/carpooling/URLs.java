@@ -2,6 +2,7 @@ package it.uniba.di.sms.carpooling;
 
 public class URLs {
     private static final String ROOT_URL = "https://carpooling2019.altervista.org/Api.php?apicall=";
+    private static final String ROOT_URL_MAPS = "https://carpooling2019.altervista.org/Api_maps.php?apicall=";
 
     public static final String URL_REGISTER = ROOT_URL + "signup";
     public static final String URL_LOGIN= ROOT_URL + "login";
@@ -21,4 +22,7 @@ public class URLs {
     public static final String URL_DELETE_PASSAGGI = ROOT_URL + "deletePassaggi";
     public static final String URL_DELETE_PASSAGGI_RICHIESTI = ROOT_URL + "deletePassaggiRichiesti";
     public static final String URL_UPDATE_TOKEN = ROOT_URL + "updateToken";
+
+    public static final String URL_CHECK_PASSAGGIO = ROOT_URL_MAPS + "checkPassaggio";
+
 }

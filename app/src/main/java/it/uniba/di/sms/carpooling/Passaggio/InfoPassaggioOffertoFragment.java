@@ -1,15 +1,20 @@
 package it.uniba.di.sms.carpooling.Passaggio;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -41,12 +46,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
+import it.uniba.di.sms.carpooling.HomeActivity;
 import it.uniba.di.sms.carpooling.MapsActivity;
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.RequestHandler;
 import it.uniba.di.sms.carpooling.SharedPrefManager;
 import it.uniba.di.sms.carpooling.URLs;
 import it.uniba.di.sms.carpooling.Utente;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 
 public class InfoPassaggioOffertoFragment extends Fragment {
@@ -71,6 +79,8 @@ public class InfoPassaggioOffertoFragment extends Fragment {
     Button btnAccept;
     Button btnDecline;
     ImageView callIcon;
+
+    private static final int PERMISSIONS_REQUEST = 100;
 
     public InfoPassaggioOffertoFragment() {
         // Required empty public constructor
@@ -100,6 +110,32 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_info_passaggio_offerto, container, false);
+
+
+        Button buttonTracking = v.findViewById(R.id.tracking_button);
+        buttonTracking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //Check whether GPS tracking is enabled//
+                LocationManager lm = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+                if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    Toast.makeText(getActivity(), "GPS disattivato. Non puoi utilizzare questa funzione.", Toast.LENGTH_SHORT).show();
+                    //getActivity().finish();
+                }
+                else if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    startTrackerService();
+                } else {
+                    //If the app doesn’t currently have access to the user’s location, then request access//
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            PERMISSIONS_REQUEST);
+                }
+
+
+            }
+        });
 
 
 
@@ -132,7 +168,6 @@ public class InfoPassaggioOffertoFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
-
                 MarkerOptions markerOptions = new MarkerOptions();
                 Marker marker;
                 Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
@@ -414,5 +449,43 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         UtentiPassages up = new UtentiPassages();
         up.execute();
     }
+
+
+
+
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[]
+            grantResults) {
+
+//If the permission has been granted...//
+
+        if (requestCode == PERMISSIONS_REQUEST && grantResults.length == 1
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+//...then start the GPS tracking service//
+
+            startTrackerService();
+        } else {
+
+//If the user denies the permission request, then display a toast with some more information//
+
+            Toast.makeText(getActivity(), "Please enable location services to allow GPS tracking", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+//Start the TrackerService//
+
+    private void startTrackerService() {
+        getActivity().startService(new Intent(getActivity(), TrackingService.class));
+        //Notify the user that tracking has been enabled//
+        Toast.makeText(getActivity(), "GPS tracking enabled", Toast.LENGTH_SHORT).show();
+        //Close MainActivity//
+        //finish();
+    }
+
+
 
 }

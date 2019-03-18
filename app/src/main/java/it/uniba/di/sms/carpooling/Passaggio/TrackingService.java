@@ -1,22 +1,17 @@
 package it.uniba.di.sms.carpooling.Passaggio;
 
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -24,16 +19,20 @@ import android.support.v4.content.ContextCompat;
 import android.os.IBinder;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 import android.Manifest;
 import android.location.Location;
-import android.app.Notification;
 import android.content.pm.PackageManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.widget.Toast;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.HashMap;
 
 import it.uniba.di.sms.carpooling.R;
+import it.uniba.di.sms.carpooling.RequestHandler;
+import it.uniba.di.sms.carpooling.SharedPrefManager;
+import it.uniba.di.sms.carpooling.URLs;
 
 
 public class TrackingService extends Service {
@@ -49,10 +48,11 @@ public class TrackingService extends Service {
     public void onCreate() {
         super.onCreate();
         createNotificationChannel();
-
+        requestLocationCheckPassaggio();
 
         buildNotification();
-        loginToFirebase();
+
+        //loginToFirebase();
     }
 
 
@@ -71,7 +71,6 @@ public class TrackingService extends Service {
             notificationManager.createNotificationChannel(channel);
         }
     }
-
 
 
 //Create the persistent notification//
@@ -108,38 +107,120 @@ public class TrackingService extends Service {
         }
     };
 
-    private void loginToFirebase() {
 
-//Authenticate with Firebase, using the email and password we created earlier//
+    //restituisce la lista di utenti che hanno richiesto il passaggio
+    private void sendLocation(final Location location) {
 
-        String email = "carpoolingsms@gmail.com";
-        String password = "Smar3porting.";
+        //if it passes all the validations
+        class LocationUser extends AsyncTask<Void, Void, String> {
 
-//Call OnCompleteListener if the user is signed in successfully//
-
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(
-                email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onComplete(Task<AuthResult> task) {
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
 
-//If the user has been authenticated...//
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("Username", SharedPrefManager.getInstance(TrackingService.this).getUser().getUsername());
+                params.put("Latitudine", Double.toString(location.getLatitude()));
+                params.put("Longitudine", Double.toString(location.getLongitude()));
 
-                if (task.isSuccessful()) {
+                //returning the response
+                return requestHandler.sendPostRequest(URLs.URL_CHECK_PASSAGGIO, params);
+            }
 
-                    Log.d(TAG, "Firebase giusta autentizaione");
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
 
-//...then call requestLocationUpdates//
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
 
-                    requestLocationUpdates();
-                } else {
+                try {
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
 
-//If sign in fails, then log the error//
+                    Toast.makeText(TrackingService.this, s, Toast.LENGTH_SHORT).show();
 
-                    Log.d(TAG, "Firebase authentication failed");
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+                        Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
-        });
+        }
+        //executing the async task
+        LocationUser lu = new LocationUser();
+        lu.execute();
     }
+
+
+    private void requestLocationCheckPassaggio() {
+        final LocationRequest request = new LocationRequest();
+        request.setInterval(2000);
+
+
+
+
+        request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        final FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
+        int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+
+        if (permission == PackageManager.PERMISSION_GRANTED) {
+
+
+            client.requestLocationUpdates(request, new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+
+                    Location location = locationResult.getLastLocation();
+
+                    if (location != null) {
+
+                        //invia al server la posizione per la validazione del percorso
+                        sendLocation(location);
+                        Toast.makeText(TrackingService.this, Double.toString(location.getLatitude())+ " " + Double.toString(location.getLongitude()), Toast.LENGTH_SHORT).show();
+                        //request.setNumUpdates(1);
+                    }
+
+                }
+            }, null);
+
+
+
+            /*final LocationCallback mLocationCallback = new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+                    Location location = locationResult.getLastLocation();
+                    if (location != null) {
+                        sendLocation(location);
+                        Toast.makeText(TrackingService.this, "giusto", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(TrackingService.this, "non e entrato nell if", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            };*/
+
+
+
+
+        }
+
+
+    }
+
+
+
+
+
 
 //Initiate the request to track the device's location//
 
@@ -148,7 +229,7 @@ public class TrackingService extends Service {
 
 //Specify how often your app should request the device’s location//
 
-        request.setInterval(10000);
+        request.setInterval(5000);
 
 //Get the most accurate location data available//
 
@@ -170,7 +251,7 @@ public class TrackingService extends Service {
 
 //Get a reference to the database, so your app can perform read and write operations//
 
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
+                    //DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
                     Location location = locationResult.getLastLocation();
 
 
@@ -178,7 +259,11 @@ public class TrackingService extends Service {
 
                         //Save the location data to the database//
 
-                        ref.setValue(location);
+
+
+
+
+                        //ref.setValue(location);
                     }
                 }
             }, null);

@@ -78,7 +78,7 @@ public class TrackingActivity extends Activity {
 
 //Close MainActivity//
 
-        finish();
+        //finish();
     }
 
 

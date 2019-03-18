@@ -123,14 +123,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
             drawerLayout = findViewById(R.id.home_layout);
 
-            Button tracking = findViewById(R.id.tracking);
-            tracking.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent trackingIntent = new Intent(HomeActivity.this, TrackingActivity.class);
-                    startActivity(trackingIntent);
-                }
-            });
+
 
 
             myToolbar = findViewById(R.id.my_toolbar);
