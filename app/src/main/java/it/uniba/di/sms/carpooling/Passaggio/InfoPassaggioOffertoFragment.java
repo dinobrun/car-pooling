@@ -464,18 +464,12 @@ public class InfoPassaggioOffertoFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[]
             grantResults) {
 
-//If the permission has been granted...//
-
         if (requestCode == PERMISSIONS_REQUEST && grantResults.length == 1
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-//...then start the GPS tracking service//
-
             //startTrackerService();
         } else {
 
-//If the user denies the permission request, then display a toast with some more information//
-
+            //If the user denies the permission request, then display a toast with some more information//
             Toast.makeText(getActivity(), "Please enable location services to allow GPS tracking", Toast.LENGTH_SHORT).show();
         }
     }
@@ -483,9 +477,8 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 //Start the TrackerService//
 
     private void startTrackerService() {
-            Intent serviceIntent = new Intent(getActivity(), TrackingService.class);
-            getActivity().startService(serviceIntent);
-
+        Intent serviceIntent = new Intent(getActivity(), TrackingService.class);
+        getActivity().startService(serviceIntent);
     }
 
 
@@ -493,8 +486,6 @@ public class InfoPassaggioOffertoFragment extends Fragment {
     private void stopTrackerService() {
         Intent serviceIntent = new Intent(getActivity(), TrackingService.class);
         getActivity().stopService(serviceIntent);
-        Toast.makeText(getActivity(), "Metodo stoppato", Toast.LENGTH_SHORT).show();
-
     }
 
 

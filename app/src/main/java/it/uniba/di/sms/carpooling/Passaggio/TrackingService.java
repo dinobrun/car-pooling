@@ -7,10 +7,13 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.graphics.Color;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Process;
@@ -29,6 +32,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
+import java.util.Timer;
 
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.RequestHandler;
@@ -38,8 +42,11 @@ import it.uniba.di.sms.carpooling.URLs;
 
 public class TrackingService extends Service {
 
-    LocationRequest request;
-    FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
+
+    LocationRequest request = new LocationRequest();
+    FusedLocationProviderClient client;
+    LocationCallback locationCallback;
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -54,65 +61,65 @@ public class TrackingService extends Service {
 
     @Override
     public void onDestroy() {
-        Toast.makeText(TrackingService.this, "Servizio distrutto",Toast.LENGTH_SHORT).show();
+        client.removeLocationUpdates(locationCallback);
+        Toast.makeText(TrackingService.this, "Servizio chiuso",Toast.LENGTH_SHORT).show();
         super.onDestroy();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        requestLocationCheckPassaggio();
+        createNotification();
+
         Toast.makeText(TrackingService.this, "Servizio partito",Toast.LENGTH_SHORT).show();
 
-        createNotificationChannel();
-        requestLocationCheckPassaggio();
-
-        buildNotification();
-
         //loginToFirebase();
-        return super.onStartCommand(intent,flags,startId);
+        return START_STICKY;
     }
 
 
 
-    private void createNotificationChannel() {
+    private void createNotification() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.app_name);
-            String description = getString(R.string.tracking_enabled_notif);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("mychannel", name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+
+            String NOTIFICATION_CHANNEL_ID = "com.example.simpleapp";
+            String channelName = "My Background Service";
+            NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
+            chan.setLightColor(Color.BLUE);
+            chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            assert manager != null;
+            manager.createNotificationChannel(chan);
+
+
+
+            String stop = "stop";
+            registerReceiver(stopReceiver, new IntentFilter(stop));
+            PendingIntent broadcastIntent = PendingIntent.getBroadcast(
+                    this, 0, new Intent(stop), PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+            Notification notification = notificationBuilder.setOngoing(true)
+                    .setSmallIcon(R.drawable.ritorno_icon)
+                    .setContentTitle("Carpooling")
+                    .setContentText("Tracciamento in corso. Tocca qui per chiudere il tracciamento.")
+                    .setContentIntent(broadcastIntent)
+                    .setPriority(NotificationManager.IMPORTANCE_MIN)
+                    .setCategory(Notification.CATEGORY_SERVICE)
+                    .build();
+            startForeground(2, notification);
+
 
         }
     }
 
 
-//Create the persistent notification//
 
-    private void buildNotification() {
-
-        String stop = "stop";
-        registerReceiver(stopReceiver, new IntentFilter(stop));
-        PendingIntent broadcastIntent = PendingIntent.getBroadcast(
-                this, 0, new Intent(stop), PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "mychannel")
-                .setSmallIcon(R.drawable.ritorno_icon)
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.tracking_enabled_notif))
-                .setContentIntent(broadcastIntent)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(0, builder.build());
-
-    }
 
     protected BroadcastReceiver stopReceiver = new BroadcastReceiver() {
         @Override
@@ -120,10 +127,10 @@ public class TrackingService extends Service {
 
 //Unregister the BroadcastReceiver when the notification is tapped//
 
-            unregisterReceiver(stopReceiver);
+            //unregisterReceiver(stopReceiver);
 
 //Stop the Service//
-            //stopSelf();
+            stopSelf();
         }
     };
 
@@ -182,32 +189,34 @@ public class TrackingService extends Service {
 
 
     private void requestLocationCheckPassaggio() {
-        request = new LocationRequest();
+
+
         request.setInterval(5000);
         //request.setNumUpdates(1);
-
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        client = LocationServices.getFusedLocationProviderClient(this);
 
         int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
 
         if (permission == PackageManager.PERMISSION_GRANTED) {
 
-            client.requestLocationUpdates(request, new LocationCallback() {
+             locationCallback = new LocationCallback() {
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
-
                     Location location = locationResult.getLastLocation();
-
                     if (location != null) {
-
                         //invia al server la posizione per la validazione del percorso
                         sendLocation(location);
-
-
                     }
-
                 }
-            }, null);
+            };
+
+
+
+
+            client.requestLocationUpdates(request, locationCallback, null);
+
 
 
 
@@ -245,7 +254,9 @@ public class TrackingService extends Service {
 
 //Specify how often your app should request the device’s location//
 
-        request.setInterval(5000);
+
+
+
 
 //Get the most accurate location data available//
 
