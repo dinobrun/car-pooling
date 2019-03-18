@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import it.uniba.di.sms.carpooling.R;
@@ -20,6 +22,15 @@ public class TrackingActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tracking);
+
+        Button buttonStop = findViewById(R.id.stop_button);
+        buttonStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stopTrackerService();
+            }
+        });
 
 //Check whether GPS tracking is enabled//
 
@@ -36,7 +47,7 @@ public class TrackingActivity extends Activity {
 //If the location permission has been granted, then start the TrackerService//
 
         if (permission == PackageManager.PERMISSION_GRANTED) {
-            startTrackerService();
+            //stopTrackerService();
         } else {
 
 //If the app doesn’t currently have access to the user’s location, then request access//
@@ -47,34 +58,15 @@ public class TrackingActivity extends Activity {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[]
-            grantResults) {
-
-//If the permission has been granted...//
-
-        if (requestCode == PERMISSIONS_REQUEST && grantResults.length == 1
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-//...then start the GPS tracking service//
-
-            startTrackerService();
-        } else {
-
-//If the user denies the permission request, then display a toast with some more information//
-
-            Toast.makeText(this, "Please enable location services to allow GPS tracking", Toast.LENGTH_SHORT).show();
-        }
-    }
 
 //Start the TrackerService//
 
-    private void startTrackerService() {
-        startService(new Intent(this, TrackingService.class));
-
+    private void stopTrackerService() {
+        Intent stopTracking = new Intent(this, TrackingService.class);
+        stopService(stopTracking);
 //Notify the user that tracking has been enabled//
 
-        Toast.makeText(this, "GPS tracking enabled", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Metodo stoppato", Toast.LENGTH_SHORT).show();
 
 //Close MainActivity//
 

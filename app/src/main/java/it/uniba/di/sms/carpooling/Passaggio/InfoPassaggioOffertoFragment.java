@@ -126,11 +126,6 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                 else if (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     startTrackerService();
-                } else {
-                    //If the app doesn’t currently have access to the user’s location, then request access//
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            PERMISSIONS_REQUEST);
                 }
 
 
@@ -467,7 +462,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 
 //...then start the GPS tracking service//
 
-            startTrackerService();
+            //startTrackerService();
         } else {
 
 //If the user denies the permission request, then display a toast with some more information//
@@ -481,7 +476,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
     private void startTrackerService() {
         getActivity().startService(new Intent(getActivity(), TrackingService.class));
         //Notify the user that tracking has been enabled//
-        Toast.makeText(getActivity(), "GPS tracking enabled", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "GPS tracking enabled", Toast.LENGTH_SHORT).show();
         //Close MainActivity//
         //finish();
     }

@@ -39,6 +39,8 @@ public class TrackingService extends Service {
 
     private static final String TAG = TrackingService.class.getSimpleName();
 
+
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -47,14 +49,29 @@ public class TrackingService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        Toast.makeText(TrackingService.this, "Servizio partito",Toast.LENGTH_SHORT).show();
+
         createNotificationChannel();
         requestLocationCheckPassaggio();
 
         buildNotification();
 
         //loginToFirebase();
+        return START_STICKY;
     }
 
+    @Override
+    public void onDestroy() {
+        Toast.makeText(TrackingService.this, "Distrutto",Toast.LENGTH_SHORT).show();
+        stopForeground(true);
+        super.onDestroy();
+    }
 
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
@@ -142,13 +159,17 @@ public class TrackingService extends Service {
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
 
-                    Toast.makeText(TrackingService.this, s, Toast.LENGTH_SHORT).show();
-
                     //if no error in response
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                        Intent goToTracking = new Intent(TrackingService.this, TrackingActivity.class);
+                        startActivity(goToTracking);
+                        stopSelf();
+
+
                     } else {
-                        Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
@@ -164,10 +185,7 @@ public class TrackingService extends Service {
 
     private void requestLocationCheckPassaggio() {
         final LocationRequest request = new LocationRequest();
-        request.setInterval(2000);
-
-
-
+        request.setInterval(5000);
 
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         final FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
@@ -186,8 +204,9 @@ public class TrackingService extends Service {
 
                         //invia al server la posizione per la validazione del percorso
                         sendLocation(location);
-                        Toast.makeText(TrackingService.this, Double.toString(location.getLatitude())+ " " + Double.toString(location.getLongitude()), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(TrackingService.this, Double.toString(location.getLatitude())+ " " + Double.toString(location.getLongitude()), Toast.LENGTH_SHORT).show();
                         //request.setNumUpdates(1);
+
                     }
 
                 }
@@ -249,7 +268,7 @@ public class TrackingService extends Service {
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
 
-//Get a reference to the database, so your app can perform read and write operations//
+                    //Get a reference to the database, so your app can perform read and write operations//
 
                     //DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
                     Location location = locationResult.getLastLocation();
