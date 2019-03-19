@@ -1,24 +1,65 @@
 package it.uniba.di.sms.carpooling.Passaggio;
 
-import android.app.Activity;
-import android.support.v4.app.ActivityCompat;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import it.uniba.di.sms.carpooling.R;
+import it.uniba.di.sms.carpooling.Utente;
 
 public class TrackingActivity extends AppCompatActivity {
 
     private static final int PERMISSIONS_REQUEST = 100;
+
+    private RecyclerView passengersRecycler;
+    private PassengersAdapter adapterPassengers;
+    String jsonListPassengers;
+    ArrayList<Utente> listPassengers = new ArrayList<>();
+
+    // Handling the received Intents for the "my-integer" event
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Extract data included in the Intent
+            jsonListPassengers = intent.getStringExtra("listPassengers");
+
+            try {
+                JSONObject obj = new JSONObject(jsonListPassengers);
+                JSONArray passeggeriJson = obj.getJSONArray("passengers");
+                for(int i=0; i<passeggeriJson.length(); i++){
+                    JSONObject temp = passeggeriJson.getJSONObject(i);
+                    listPassengers.add(new Utente(
+                            temp.getString("nome"),
+                            temp.getString("cognome")
+                    ));
+                }
+
+                Toast.makeText(TrackingActivity.this, listPassengers.get(0).getNome(), Toast.LENGTH_SHORT).show();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
 
 
 
@@ -29,6 +70,25 @@ public class TrackingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tracking);
 
         Toolbar toolbar = findViewById(R.id.my_toolbar);
+
+        //set adapter for paassengers list
+        passengersRecycler = findViewById(R.id.passengersRecycler);
+        passengersRecycler.setHasFixedSize(true);
+        passengersRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         (TrackingActivity.this).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.close_icon);
@@ -41,6 +101,8 @@ public class TrackingActivity extends AppCompatActivity {
         });
 
         int idPassaggio = getIntent().getExtras().getInt("id_passaggio");
+
+       // adapterPassengers = new PassaggioOffertoAdapter(this, listaPassaggi);
 
 
 //Check whether GPS tracking is enabled//
@@ -69,6 +131,13 @@ public class TrackingActivity extends AppCompatActivity {
         onBackPressed();
     }
 
-
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        // This registers mMessageReceiver to receive messages.
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(mMessageReceiver,
+                        new IntentFilter("my-integer"));
+    }
 }
 

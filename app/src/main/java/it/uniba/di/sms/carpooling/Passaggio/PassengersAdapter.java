@@ -6,16 +6,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
-import it.uniba.di.sms.carpooling.Automobile.Automobile;
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.Utente;
 
-public class PasseggeroAdapter extends RecyclerView.Adapter<it.uniba.di.sms.carpooling.Passaggio.PasseggeroAdapter.ProductViewHolder> implements RecyclerView.OnItemTouchListener {
+public class PassengersAdapter extends RecyclerView.Adapter<PassengersAdapter.ProductViewHolder> implements RecyclerView.OnItemTouchListener {
 
 
     //this context we will use to inflate the layout
@@ -25,21 +23,21 @@ public class PasseggeroAdapter extends RecyclerView.Adapter<it.uniba.di.sms.carp
     private List<Utente> passeggeriList;
 
     //getting the context and product list with constructor
-    public PasseggeroAdapter(Context mCtx, List<Utente> passeggeriParam) {
+    public PassengersAdapter(Context mCtx, List<Utente> passeggeriParam) {
         this.mCtx = mCtx;
         this.passeggeriList = passeggeriParam;
     }
 
     @Override
-    public it.uniba.di.sms.carpooling.Passaggio.PasseggeroAdapter.ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PassengersAdapter.ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         View view = inflater.inflate(R.layout.list_layout_passeggero, null);
-        return new it.uniba.di.sms.carpooling.Passaggio.PasseggeroAdapter.ProductViewHolder(view);
+        return new PassengersAdapter.ProductViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(it.uniba.di.sms.carpooling.Passaggio.PasseggeroAdapter.ProductViewHolder holder, int position) {
+    public void onBindViewHolder(PassengersAdapter.ProductViewHolder holder, int position) {
         //getting the product of the specified position
         Utente utente = passeggeriList.get(position);
 
