@@ -1,6 +1,7 @@
 package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -18,9 +19,30 @@ import it.uniba.di.sms.carpooling.R;
 
 public class TrackingActivity extends AppCompatActivity {
 
-    private static final int PERMISSIONS_REQUEST = 100;
+
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            stopTrackerService();
+            return;
+        }
 
 
+        this.doubleBackToExitPressedOnce = true;
+        //stopTrackerService();
+        Toast.makeText(this, "Clicca due volte per chiudere il tracciamento.", Toast.LENGTH_SHORT).show();
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 
 
     @Override
@@ -37,6 +59,7 @@ public class TrackingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 stopTrackerService();
+                onBackPressed();
             }
         });
 
@@ -66,7 +89,6 @@ public class TrackingActivity extends AppCompatActivity {
     private void stopTrackerService() {
         Intent serviceIntent = new Intent(this, TrackingService.class);
         stopService(serviceIntent);
-        onBackPressed();
     }
 
 

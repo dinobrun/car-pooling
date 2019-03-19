@@ -140,12 +140,6 @@ public class TrackingService extends Service {
     protected BroadcastReceiver stopReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
-//Unregister the BroadcastReceiver when the notification is tapped//
-
-            //unregisterReceiver(stopReceiver);
-
-//Stop the Service//
             stopSelf();
         }
     };
@@ -213,8 +207,6 @@ public class TrackingService extends Service {
 
 
     private void requestLocationCheckPassaggio() {
-        request.setInterval(5000);
-        request.setNumUpdates(1);
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         client = LocationServices.getFusedLocationProviderClient(this);
@@ -252,9 +244,6 @@ public class TrackingService extends Service {
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
 
-                    //Get a reference to the database, so your app can perform read and write operations//
-
-                    //DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
                     Location location = locationResult.getLastLocation();
 
                     if (location != null) {
