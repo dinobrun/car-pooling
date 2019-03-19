@@ -194,9 +194,8 @@ public class TrackingService extends Service {
 
                         Intent goToTracking = new Intent(TrackingService.this, TrackingActivity.class);
                         goToTracking.putExtra("id_passaggio",idPassaggio);
+                        goToTracking.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(goToTracking);
-
-
                     } else {
                         Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
