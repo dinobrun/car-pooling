@@ -101,7 +101,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                         minute);
 
                 time = calendar.getTime();
-                //openCercaPassaggioFragment();
+                //openFindRideFragment();
                 getPassaggi();
 
 

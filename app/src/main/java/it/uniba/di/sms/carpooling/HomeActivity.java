@@ -1,17 +1,8 @@
 package it.uniba.di.sms.carpooling;
 
-import android.app.DatePickerDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -22,24 +13,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.TimePicker;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 import it.uniba.di.sms.carpooling.Accesso.LoginActivity;
@@ -48,37 +30,23 @@ import it.uniba.di.sms.carpooling.Automobile.ListaAutoFragment;
 import it.uniba.di.sms.carpooling.Passaggio.CercaPassaggioFragment;
 import it.uniba.di.sms.carpooling.Passaggio.CreaPassaggioFragment;
 import it.uniba.di.sms.carpooling.Passaggio.PassaggiActivity;
-import it.uniba.di.sms.carpooling.Passaggio.PassaggiRichiestiFragment;
-import it.uniba.di.sms.carpooling.Passaggio.TrackingActivity;
-import it.uniba.di.sms.carpooling.Passaggio.TrackingFragment;
 
 public class HomeActivity extends AppCompatActivity implements CreaPassaggioFragment.OnFragmentInteractionListener{
 
 
     private String user;
-    private String direzioneSelected;
-    private String aziendaUtente;
-    RadioButton rd;
     private DrawerLayout drawerLayout;
-
     Toolbar myToolbar;
-
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        //if user is not authorized
         if(SharedPrefManager.getInstance(HomeActivity.this).getUser().getAutorizzato()==0){
             setContentView(R.layout.fragment_not_accepted);
             user = SharedPrefManager.getInstance(getApplicationContext()).getUser().getUsername();
-
             drawerLayout = findViewById(R.id.home_layout);
-
 
             myToolbar = findViewById(R.id.my_toolbar);
             setSupportActionBar(myToolbar);
@@ -95,43 +63,35 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
                             switch (menuItem.getItemId()) {
                                 case R.id.my_profile:
-                                    openMioProfiloFragment();
+                                    openMyProfileFragment();
                                     break;
 
                                 case R.id.logout_section:
-                                    //effettua il logout
                                     logout();
                                     break;
-
                             }
 
                             // set item as selected to persist highlight
                             menuItem.setChecked(true);
-
                             // close drawer when item is tapped
                             drawerLayout.closeDrawers();
-
                             return true;
                         }
                     });
+        //if user is authorized
         }else{
             setContentView(R.layout.activity_home);
 
             //user conterrà l'username dell'utente in sessione
             user = SharedPrefManager.getInstance(getApplicationContext()).getUser().getUsername();
 
-
             drawerLayout = findViewById(R.id.home_layout);
-
-
-
 
             myToolbar = findViewById(R.id.my_toolbar);
             setSupportActionBar(myToolbar);
             ActionBar actionbar = getSupportActionBar();
             actionbar.setDisplayHomeAsUpEnabled(true);
             actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-
 
             NavigationView navigationView = findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(
@@ -141,20 +101,19 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
                             switch (menuItem.getItemId()) {
                                 case R.id.nav_camera:
-                                    Intent openPassaggi = new Intent(HomeActivity.this, PassaggiActivity.class);
-                                    startActivity(openPassaggi);
+                                    Intent openMyRides = new Intent(HomeActivity.this, PassaggiActivity.class);
+                                    startActivity(openMyRides);
                                     break;
 
                                 case R.id.auto_section:
-                                    openListaAutoFragment();
+                                    openCarListFragment();
                                     break;
 
                                 case R.id.my_profile:
-                                    openMioProfiloFragment();
+                                    openMyProfileFragment();
                                     break;
 
                                 case R.id.logout_section:
-                                    //effettua il logout
                                     logout();
                                     break;
 
@@ -165,42 +124,31 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
                             // close drawer when item is tapped
                             drawerLayout.closeDrawers();
-
                             return true;
                         }
                     });
 
-            aziendaUtente = SharedPrefManager.getInstance(HomeActivity.this).getUser().getAzienda();
-
-
-
-
-
-            FloatingActionButton creaPassaggio = findViewById(R.id.creaPassaggioButton);
-            creaPassaggio.setOnClickListener(new View.OnClickListener() {
+            //Button createRide
+            FloatingActionButton createRide = findViewById(R.id.creaPassaggioButton);
+            createRide.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    getAuto();
+                    createRide();
                 }
             });
 
-            FloatingActionButton cercaPassaggio = findViewById(R.id.cercapassaggioButton);
-            cercaPassaggio.setOnClickListener(new View.OnClickListener() {
+            //Button findRide
+            FloatingActionButton findRide = findViewById(R.id.cercapassaggioButton);
+            Animation searchRideAnimation=AnimationUtils.loadAnimation(this, R.anim.scale_animation);
+            findRide.startAnimation(searchRideAnimation);
+            findRide.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    openCercaPassaggioFragment();
+                    openFindRideFragment();
                 }
             });
         }
-
-
-
-
-
-
-        }
-
-
+    }
 
 
     @Override
@@ -215,7 +163,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
 
     //Apre CreaPassaggioFragment
-    public void openCreaPassaggioFragment(ArrayList<Automobile> automobili) {
+    public void openCreateRideFragment(ArrayList<Automobile> automobili) {
         CreaPassaggioFragment fragment = CreaPassaggioFragment.newInstance(automobili);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -226,7 +174,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
 
     //Apre CercaPassaggioFragment
-    public void openCercaPassaggioFragment() {
+    public void openFindRideFragment() {
         CercaPassaggioFragment fragment = new CercaPassaggioFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -236,7 +184,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
     }
 
     //Apre ListaAutoFragment
-    public void openListaAutoFragment() {
+    public void openCarListFragment() {
         ListaAutoFragment fragment = new ListaAutoFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -246,7 +194,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
     }
 
     //Apre ListaAutoFragment
-    public void openMioProfiloFragment() {
+    public void openMyProfileFragment() {
         MioProfiloFragment fragment = new MioProfiloFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -261,11 +209,11 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
 
     //metodo che restituisce la lista di auto dell'utente
-    private void getAuto(){
+    private void createRide(){
 
-        final ArrayList<Automobile> automobili = new ArrayList<>();
+        final ArrayList<Automobile> cars = new ArrayList<>();
 
-        class AutoDB extends AsyncTask<Void, Void, String> {
+        class RideCreation extends AsyncTask<Void, Void, String> {
 
             @Override
             protected String doInBackground(Void... voids) {
@@ -301,7 +249,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                             JSONArray companyJson = obj.getJSONArray("automobile");
                             for(int i=0; i<companyJson.length(); i++){
                                 JSONObject temp = companyJson.getJSONObject(i);
-                                automobili.add(new Automobile(
+                                cars.add(new Automobile(
                                         Integer.parseInt(temp.getString("id")),
                                         temp.getString("nome"),
                                         Integer.parseInt(temp.getString("num_posti")),
@@ -311,20 +259,20 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                         }
                         else {
                             Toast.makeText(HomeActivity.this, "Devi prima aggiungere una auto", Toast.LENGTH_SHORT).show();
-                            openListaAutoFragment();
+                            openCarListFragment();
                         }
 
                     } else {
                         Toast.makeText(HomeActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
                     //Se l'utente non ha auto aggiunte
-                    if(automobili.isEmpty()){
+                    if(cars.isEmpty()){
                         Toast.makeText(HomeActivity.this, "Aggiungi prima una automobile.", Toast.LENGTH_SHORT).show();
-                        openListaAutoFragment();
+                        openCarListFragment();
                     }
                     //Se l'utente possiede almeno una auto
                     else {
-                        openCreaPassaggioFragment(automobili);
+                        openCreateRideFragment(cars);
                     }
 
                 } catch (JSONException e) {
@@ -332,8 +280,8 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                 }
             }
         }
-        AutoDB autoDB = new AutoDB();
-        autoDB.execute();
+        RideCreation rc = new RideCreation();
+        rc.execute();
 
     }
 
@@ -394,6 +342,3 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
 
 
 }
-
-
-
