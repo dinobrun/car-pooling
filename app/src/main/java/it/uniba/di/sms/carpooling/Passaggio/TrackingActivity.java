@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.content.Intent;
 import android.location.LocationManager;
@@ -34,6 +35,29 @@ public class TrackingActivity extends AppCompatActivity {
     private PassengersAdapter adapterPassengers;
     String jsonListPassengers;
     ArrayList<Utente> listPassengers = new ArrayList<>();
+
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Premi di nuovo BACK per chiudere il tracking", Toast.LENGTH_SHORT).show();
+        stopTrackerService();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+
 
     // Handling the received Intents for the "my-integer" event
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
