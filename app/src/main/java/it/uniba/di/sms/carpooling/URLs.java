@@ -25,6 +25,6 @@ public class URLs {
 
     public static final String URL_CHECK_PASSAGGIO = ROOT_URL_MAPS + "checkPassaggio";
     public static final String URL_TRACKING_PASSAGGIO = ROOT_URL_MAPS + "trackingPassaggio";
-    public static final String URL_LIST_PASSENGERS = ROOT_URL_MAPS + "getListPassengers";
+    public static final String URL_START_TRACKING = ROOT_URL_MAPS + "startTrackingService";
 
 }

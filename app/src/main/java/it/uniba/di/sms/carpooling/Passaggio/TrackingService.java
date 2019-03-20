@@ -26,10 +26,8 @@ import android.content.pm.PackageManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -243,7 +241,7 @@ public class TrackingService extends Service {
                         /*metodo per controllare gli utenti vicini
                         sendLocationForTracking(location);*/
                         //request list passengers in the car
-                        getListPassengers();
+                        startTrackingService(location);
                     }
                 }
             };
@@ -252,7 +250,7 @@ public class TrackingService extends Service {
         }
     }
 
-    private void getListPassengers() {
+    private void startTrackingService(final Location location) {
 
         //if it passes all the validations
         class LocationUserTracking extends AsyncTask<Void, Void, String> {
@@ -267,9 +265,12 @@ public class TrackingService extends Service {
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("ID_Passaggio",Integer.toString(idPassaggio));
+                params.put("Username", SharedPrefManager.getInstance(TrackingService.this).getUser().getUsername());
+                params.put("Latitudine", Double.toString(location.getLatitude()));
+                params.put("Longitudine", Double.toString(location.getLongitude()));
 
                 //returning the response
-                return requestHandler.sendPostRequest(URLs.URL_LIST_PASSENGERS, params);
+                return requestHandler.sendPostRequest(URLs.URL_START_TRACKING, params);
             }
 
             @Override

@@ -44,7 +44,6 @@ public class TrackingActivity extends AppCompatActivity {
             // Extract data included in the Intent
             jsonListPassengers = intent.getStringExtra("listPassengers");
 
-
             try {
                 JSONObject obj = new JSONObject(jsonListPassengers);
                 JSONArray passeggeriJson = obj.getJSONArray("passengers");
@@ -62,6 +61,7 @@ public class TrackingActivity extends AppCompatActivity {
                         adapterPassengers.notifyDataSetChanged();
                     }
                 }
+
                 tempListPassengers.clear();
 
             } catch (JSONException e) {
