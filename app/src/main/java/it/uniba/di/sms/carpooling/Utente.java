@@ -1,6 +1,8 @@
 package it.uniba.di.sms.carpooling;
 
-public class Utente {
+import java.io.Serializable;
+
+public class Utente implements Serializable {
     private String username, nome, cognome, sesso, dataNascita, indirizzo, email, telefono, indirizzoAzienda;
     private String foto = null;
     private String azienda = null;
@@ -74,9 +76,9 @@ public class Utente {
     }
 
     //costruttore utilizzato per il tracking di un passaggio in TrackingService
-    public Utente(String username, String indirizzo){
-        this.username=username;
-        this.indirizzo=indirizzo;
+    public Utente(String nome, String cognome){
+        this.nome = nome;
+        this.cognome = cognome;
     }
 
     //costruttore di utente nel login con l'azienda

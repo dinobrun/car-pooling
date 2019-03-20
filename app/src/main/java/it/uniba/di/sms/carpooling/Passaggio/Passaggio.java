@@ -10,7 +10,15 @@ public class Passaggio implements Serializable {
     private Utente utente;
     private int id, numPosti, direzione;
 
-    private boolean concluso;
+    private boolean concluso, iniziato;
+
+    public boolean isIniziato() {
+        return iniziato;
+    }
+
+    public void setIniziato(boolean iniziato) {
+        this.iniziato = iniziato;
+    }
 
     public String getNomeAutista() {
         return nomeAutista;
@@ -70,8 +78,10 @@ public class Passaggio implements Serializable {
         this.concluso= concluso;
     }
 
+
+
     //costruttore PassaggiRichiestiFragment
-    public Passaggio(int id, String indirizzo, String nomeAutista, String cognomeAutista, String telefonoAutista, String data, String automobile, String azienda, int direzione, int numPosti, int confermato, String foto, boolean concluso) {
+    public Passaggio(int id, String indirizzo, String nomeAutista, String cognomeAutista, String telefonoAutista, String data, String automobile, String azienda, int direzione, int numPosti, int confermato, String foto, boolean concluso, boolean iniziato) {
         this.id=id;
         this.indirizzo = indirizzo;
         this.nomeAutista = nomeAutista;
@@ -85,6 +95,7 @@ public class Passaggio implements Serializable {
         this.confermato=confermato;
         this.foto = foto;
         this.concluso=concluso;
+        this.iniziato = iniziato;
     }
 
     //costruttore CercaPassaggioFragment

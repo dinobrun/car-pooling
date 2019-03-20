@@ -25,7 +25,7 @@ import android.location.Location;
 import android.content.pm.PackageManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
@@ -36,8 +36,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import it.uniba.di.sms.carpooling.Automobile.AutoAdapter;
-import it.uniba.di.sms.carpooling.MapsActivity;
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.RequestHandler;
 import it.uniba.di.sms.carpooling.SharedPrefManager;
@@ -59,7 +57,7 @@ public class TrackingService extends Service {
 
 
     public RecyclerView recyclerViewTracking;
-    public PasseggeroAdapter adapterTracking;
+    public PassengersAdapter adapterTracking;
 
 
     @Override
@@ -159,6 +157,7 @@ public class TrackingService extends Service {
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("Username", SharedPrefManager.getInstance(TrackingService.this).getUser().getUsername());
+                params.put("ID_Passaggio", Integer.toString(idPassaggio));
                 params.put("Latitudine", Double.toString(location.getLatitude()));
                 params.put("Longitudine", Double.toString(location.getLongitude()));
 
@@ -183,14 +182,14 @@ public class TrackingService extends Service {
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
 
+                        //start tracking
                         createNotification();
                         requestLocationTracking();
 
                         Intent goToTracking = new Intent(TrackingService.this, TrackingActivity.class);
                         goToTracking.putExtra("id_passaggio",idPassaggio);
+                        //goToTracking.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(goToTracking);
-
-
                     } else {
                         Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
@@ -205,7 +204,7 @@ public class TrackingService extends Service {
         lu.execute();
     }
 
-
+    //first check if location is available
     private void requestLocationCheckPassaggio() {
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
@@ -229,7 +228,7 @@ public class TrackingService extends Service {
         }
     }
 
-
+    //start tracking
     private void requestLocationTracking() {
         LocationRequest requestTracking = new LocationRequest();
         requestTracking.setInterval(5000);
@@ -247,7 +246,10 @@ public class TrackingService extends Service {
                     Location location = locationResult.getLastLocation();
 
                     if (location != null) {
-                        sendLocationForTracking(location);
+                        /*metodo per controllare gli utenti vicini
+                        sendLocationForTracking(location);*/
+                        //request list passengers in the car
+                        getListPassengers();
                     }
                 }
             };
@@ -256,9 +258,79 @@ public class TrackingService extends Service {
         }
     }
 
+    private void getListPassengers() {
+
+        //if it passes all the validations
+        class LocationUserTracking extends AsyncTask<Void, Void, String> {
+
+            ArrayList<Utente> listPassengers = new ArrayList<>();
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("ID_Passaggio",Integer.toString(idPassaggio));
+
+                //returning the response
+                return requestHandler.sendPostRequest(URLs.URL_LIST_PASSENGERS, params);
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                try {
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
+
+
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+
+
+                        //if list is not empty
+                        if(!obj.getBoolean("empty_list")){
+
+                            sendMessage(s);
+
+                        }
+
+                    } else {
+                        Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        //executing the async task
+        LocationUserTracking lut = new LocationUserTracking();
+        lut.execute();
+    }
+
+    // Supposing that your value is an integer declared somewhere as: int myInteger;
+    private void sendMessage(String json) {
+        // The string "my-integer" will be used to filer the intent
+        Intent intent = new Intent("my-integer");
+        // Adding some data
+        intent.putExtra("listPassengers", json);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+
 
     //invia la posizione del dispositivo al server
-    private void sendLocationForTracking(final Location location) {
+
+   /* private void sendLocationForTracking(final Location location) {
 
         //if it passes all the validations
         class LocationUserTracking extends AsyncTask<Void, Void, String> {
@@ -309,7 +381,7 @@ public class TrackingService extends Service {
                                         temp.getString("indirizzo")
                                 ));
                             }
-                        }*/
+                        }
 
                     } else {
                         Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -323,7 +395,6 @@ public class TrackingService extends Service {
         //executing the async task
         LocationUserTracking lut = new LocationUserTracking();
         lut.execute();
-    }
-
+    }*/
 
 }
