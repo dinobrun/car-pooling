@@ -20,7 +20,7 @@
 
             <TextView
                 android:id="@+id/textViewNome"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
@@ -28,10 +28,10 @@
 
             <TextView
                 android:id="@+id/textViewCognome"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                app:layout_constraintStart_toEndOf="@id/textViewNome"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewNome"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
 

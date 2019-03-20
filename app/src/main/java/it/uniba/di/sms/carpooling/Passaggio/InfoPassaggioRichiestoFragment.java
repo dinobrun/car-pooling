@@ -1,12 +1,15 @@
 package it.uniba.di.sms.carpooling.Passaggio;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,8 +19,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,6 +42,8 @@ import java.util.Locale;
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.SharedPrefManager;
 import it.uniba.di.sms.carpooling.Utente;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 
 public class InfoPassaggioRichiestoFragment extends Fragment {
@@ -87,6 +94,24 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
 
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
         toolbar.setTitle("Informazioni sul passaggio");
+
+        Button buttonTracking = v.findViewById(R.id.tracking_button);
+        buttonTracking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //Check whether GPS tracking is enabled//
+                LocationManager lm = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+                if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    Toast.makeText(getActivity(), "GPS disattivato. Non puoi utilizzare questa funzione.", Toast.LENGTH_SHORT).show();
+                    //getActivity().finish();
+                }
+                else if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    startTrackerService();
+                }
+            }
+        });
 
         callIcon = v.findViewById(R.id.call_icon);
         callIcon.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +177,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
                 break;
             case 1:
                 confermatoText.append(" Confermato");
+                buttonTracking.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 confermatoText.append(" Rifiutato");
@@ -218,5 +244,14 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
         markerOptions.title(utente.getAzienda());
         map.addMarker(markerOptions);
     }
+
+    //Start the TrackerService//
+
+    private void startTrackerService() {
+        Intent serviceIntent = new Intent(getActivity(), TrackingService.class);
+        serviceIntent.putExtra("id_passaggio",passaggioParam.getId());
+        getActivity().startService(serviceIntent);
+    }
+
 
 }
