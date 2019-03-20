@@ -250,6 +250,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
     private void startTrackerService() {
         Intent serviceIntent = new Intent(getActivity(), TrackingService.class);
         serviceIntent.putExtra("id_passaggio",passaggioParam.getId());
+        serviceIntent.putExtra("passenger",true);
         getActivity().startService(serviceIntent);
     }
 

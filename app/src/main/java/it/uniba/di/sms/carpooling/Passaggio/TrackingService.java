@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import it.uniba.di.sms.carpooling.HomeActivity;
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.RequestHandler;
 import it.uniba.di.sms.carpooling.SharedPrefManager;
@@ -50,6 +51,10 @@ public class TrackingService extends Service {
     LocationCallback locationCallback;
     LocationCallback locationCallbackTracking;
     int idPassaggio;
+
+    boolean passenger;
+
+
 
 
     @Override
@@ -77,6 +82,8 @@ public class TrackingService extends Service {
 
         idPassaggio = intent.getExtras().getInt("id_passaggio");
 
+        passenger = intent.getExtras().getBoolean("passenger");
+
         requestLocationCheckPassaggio();
 
 
@@ -100,12 +107,13 @@ public class TrackingService extends Service {
             assert manager != null;
             manager.createNotificationChannel(chan);
 
-
+            Intent goToTracking = new Intent(TrackingService.this, TrackingActivity.class);
+            goToTracking.putExtra("id_passaggio",idPassaggio);
 
             String stop = "stop";
             registerReceiver(stopReceiver, new IntentFilter(stop));
             PendingIntent broadcastIntent = PendingIntent.getBroadcast(
-                    this, 0, new Intent(stop), PendingIntent.FLAG_UPDATE_CURRENT);
+                    this, 0, goToTracking, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
 
@@ -268,6 +276,7 @@ public class TrackingService extends Service {
                 params.put("Username", SharedPrefManager.getInstance(TrackingService.this).getUser().getUsername());
                 params.put("Latitudine", Double.toString(location.getLatitude()));
                 params.put("Longitudine", Double.toString(location.getLongitude()));
+                params.put("Passenger",Boolean.toString(passenger));
 
                 //returning the response
                 return requestHandler.sendPostRequest(URLs.URL_START_TRACKING, params);
@@ -286,13 +295,44 @@ public class TrackingService extends Service {
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
 
+                    //Toast.makeText(TrackingService.this, s, Toast.LENGTH_SHORT).show();
+
                     //if no error in response
                     if (!obj.getBoolean("error")) {
 
-                        //if list is not empty
-                        if(!obj.getBoolean("empty_list")){
-                            sendListUser(s);
+                        //check if user is a passenger or driver
+                        if(passenger){
+                            //if list is not empty
+                            if(!obj.getBoolean("empty_list")){
+                                //check if driver is near the company
+                                if(obj.getBoolean("ended")){
+                                    sendListUser(s);
+                                    stopSelf();
+                                    Intent goToTrackingSummary = new Intent(TrackingService.this, TrackingSummaryActivity.class);
+                                    goToTrackingSummary.putExtra("data_tracking",s);
+                                    startActivity(goToTrackingSummary);
+                                }
+                                sendListUser(s);
+                            }
                         }
+                        else{
+                            //if list is not empty
+                            if(!obj.getBoolean("empty_list")){
+                                //check if driver is near the company
+                                if(obj.getBoolean("nearby")){
+                                    sendListUser(s);
+                                    stopSelf();
+                                    Intent goToTrackingSummary = new Intent(TrackingService.this, TrackingSummaryActivity.class);
+                                    goToTrackingSummary.putExtra("data_tracking",s);
+                                    startActivity(goToTrackingSummary);
+                                }
+                                sendListUser(s);
+                            }
+                        }
+
+
+
+
 
                     } else {
                         Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -319,73 +359,5 @@ public class TrackingService extends Service {
 
 
 
-    //invia la posizione del dispositivo al server
-
-   /* private void sendLocationForTracking(final Location location) {
-
-        //if it passes all the validations
-        class LocationUserTracking extends AsyncTask<Void, Void, String> {
-
-            ArrayList<Utente> utentiPasseggeri = new ArrayList<>();
-
-            @Override
-            protected String doInBackground(Void... voids) {
-                //creating request handler object
-                RequestHandler requestHandler = new RequestHandler();
-
-                //creating request parameters
-                HashMap<String, String> params = new HashMap<>();
-                params.put("Username", SharedPrefManager.getInstance(TrackingService.this).getUser().getUsername());
-                params.put("Id_Passaggio",Integer.toString(idPassaggio));
-                params.put("Latitudine", Double.toString(location.getLatitude()));
-                params.put("Longitudine", Double.toString(location.getLongitude()));
-
-                //returning the response
-                return requestHandler.sendPostRequest(URLs.URL_TRACKING_PASSAGGIO, params);
-            }
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-
-                try {
-                    //converting response to json object
-                    JSONObject obj = new JSONObject(s);
-
-                    //if no error in response
-                    if (!obj.getBoolean("error")) {
-                        Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
-
-                        /*
-                        //if list is not empty
-                        if(!obj.getBoolean("empty_list")){
-                            JSONArray passeggeriJson = obj.getJSONArray("passeggeri");
-                            for(int i=0; i<passeggeriJson.length(); i++){
-                                JSONObject temp = passeggeriJson.getJSONObject(i);
-                                utentiPasseggeri.add(new Utente(
-                                        temp.getString("username"),
-                                        temp.getString("indirizzo")
-                                ));
-                            }
-                        }
-
-                    } else {
-                        Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        //executing the async task
-        LocationUserTracking lut = new LocationUserTracking();
-        lut.execute();
-    }*/
 
 }

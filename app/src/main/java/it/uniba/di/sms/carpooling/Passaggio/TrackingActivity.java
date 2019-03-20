@@ -47,10 +47,10 @@ public class TrackingActivity extends AppCompatActivity {
             super.onBackPressed();
             return;
         }
-
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Premi di nuovo BACK per chiudere il tracking", Toast.LENGTH_SHORT).show();
         stopTrackerService();
+
 
         new Handler().postDelayed(new Runnable() {
 
@@ -76,7 +76,7 @@ public class TrackingActivity extends AppCompatActivity {
                 JSONObject obj = new JSONObject(jsonListPassengers);
                 JSONObject driverJson = obj.getJSONObject("driver");
                 driver = new Utente(driverJson.getString("nome"), driverJson.getString("cognome"));
-                txtDriver.setText(driverJson.getString("nome"));
+                txtDriver.setText(driverJson.getString("nome")+" "+driverJson.getString("cognome"));
 
                 JSONArray passeggeriJson = obj.getJSONArray("passengers");
                 for(int i=0; i<passeggeriJson.length(); i++){
@@ -133,7 +133,7 @@ public class TrackingActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                stopTrackerService();
+                onBackPressed();
             }
         });
 
