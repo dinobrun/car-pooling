@@ -291,9 +291,7 @@ public class TrackingService extends Service {
 
                         //if list is not empty
                         if(!obj.getBoolean("empty_list")){
-
-                            sendMessage(s);
-
+                            sendListUser(s);
                         }
 
                     } else {
@@ -310,8 +308,8 @@ public class TrackingService extends Service {
         lut.execute();
     }
 
-    // Supposing that your value is an integer declared somewhere as: int myInteger;
-    private void sendMessage(String json) {
+    // send list of passengers to the activity
+    private void sendListUser(String json) {
         // The string "my-integer" will be used to filer the intent
         Intent intent = new Intent("my-integer");
         // Adding some data

@@ -16,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -35,6 +36,8 @@ public class TrackingActivity extends AppCompatActivity {
     private PassengersAdapter adapterPassengers;
     String jsonListPassengers;
     ArrayList<Utente> listPassengers = new ArrayList<>();
+    Utente driver;
+    TextView txtDriver;
 
     boolean doubleBackToExitPressedOnce = false;
 
@@ -69,7 +72,12 @@ public class TrackingActivity extends AppCompatActivity {
             jsonListPassengers = intent.getStringExtra("listPassengers");
 
             try {
+
                 JSONObject obj = new JSONObject(jsonListPassengers);
+                JSONObject driverJson = obj.getJSONObject("driver");
+                driver = new Utente(driverJson.getString("nome"), driverJson.getString("cognome"));
+                txtDriver.setText(driverJson.getString("nome"));
+
                 JSONArray passeggeriJson = obj.getJSONArray("passengers");
                 for(int i=0; i<passeggeriJson.length(); i++){
                     JSONObject temp = passeggeriJson.getJSONObject(i);
@@ -104,6 +112,8 @@ public class TrackingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tracking);
 
         Toolbar toolbar = findViewById(R.id.my_toolbar);
+
+        txtDriver = findViewById(R.id.txtDriver);
 
         //set adapter for paassengers list
         passengersRecycler = findViewById(R.id.passengersRecycler);
