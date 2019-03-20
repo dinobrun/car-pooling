@@ -37,23 +37,33 @@ public class TrackingActivity extends AppCompatActivity {
 
     // Handling the received Intents for the "my-integer" event
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+
+        ArrayList<Utente> tempListPassengers = new ArrayList<>();
         @Override
         public void onReceive(Context context, Intent intent) {
             // Extract data included in the Intent
             jsonListPassengers = intent.getStringExtra("listPassengers");
+
 
             try {
                 JSONObject obj = new JSONObject(jsonListPassengers);
                 JSONArray passeggeriJson = obj.getJSONArray("passengers");
                 for(int i=0; i<passeggeriJson.length(); i++){
                     JSONObject temp = passeggeriJson.getJSONObject(i);
-                    listPassengers.add(new Utente(
+                    tempListPassengers.add(new Utente(
                             temp.getString("nome"),
                             temp.getString("cognome")
                     ));
                 }
+                //check if there is a new user to insert
+                for(Utente user: tempListPassengers){
+                    if(!listPassengers.contains(user)){
+                        listPassengers.add(user);
+                        adapterPassengers.notifyDataSetChanged();
+                    }
+                }
+                tempListPassengers.clear();
 
-                Toast.makeText(TrackingActivity.this, listPassengers.get(0).getNome(), Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -76,17 +86,10 @@ public class TrackingActivity extends AppCompatActivity {
         passengersRecycler.setHasFixedSize(true);
         passengersRecycler.setLayoutManager(new LinearLayoutManager(this));
 
+        adapterPassengers = new PassengersAdapter(TrackingActivity.this, listPassengers);
 
-
-
-
-
-
-
-
-
-
-
+        //setting adapter to recyclerview
+        passengersRecycler.setAdapter(adapterPassengers);
 
 
 
