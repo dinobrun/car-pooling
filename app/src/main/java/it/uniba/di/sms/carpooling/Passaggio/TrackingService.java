@@ -54,12 +54,6 @@ public class TrackingService extends Service {
     int idPassaggio;
 
 
-
-
-    public RecyclerView recyclerViewTracking;
-    public PassengersAdapter adapterTracking;
-
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -291,10 +285,8 @@ public class TrackingService extends Service {
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
 
-
                     //if no error in response
                     if (!obj.getBoolean("error")) {
-
 
                         //if list is not empty
                         if(!obj.getBoolean("empty_list")){

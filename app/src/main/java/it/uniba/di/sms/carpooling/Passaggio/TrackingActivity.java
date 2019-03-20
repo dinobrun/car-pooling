@@ -23,12 +23,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import it.uniba.di.sms.carpooling.Automobile.AutoAdapter;
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.Utente;
 
 public class TrackingActivity extends AppCompatActivity {
-
-    private static final int PERMISSIONS_REQUEST = 100;
 
     private RecyclerView passengersRecycler;
     private PassengersAdapter adapterPassengers;
@@ -54,6 +53,13 @@ public class TrackingActivity extends AppCompatActivity {
                 }
 
                 Toast.makeText(TrackingActivity.this, listPassengers.get(0).getNome(), Toast.LENGTH_SHORT).show();
+
+                //setting adapter to recyclerview
+                passengersRecycler.setAdapter(adapterPassengers);
+
+                //creating recyclerview adapter
+                adapterPassengers = new PassengersAdapter(TrackingActivity.this, listPassengers);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -71,24 +77,6 @@ public class TrackingActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.my_toolbar);
 
-        //set adapter for paassengers list
-        passengersRecycler = findViewById(R.id.passengersRecycler);
-        passengersRecycler.setHasFixedSize(true);
-        passengersRecycler.setLayoutManager(new LinearLayoutManager(this));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         (TrackingActivity.this).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.close_icon);
@@ -100,25 +88,24 @@ public class TrackingActivity extends AppCompatActivity {
             }
         });
 
-        int idPassaggio = getIntent().getExtras().getInt("id_passaggio");
 
-       // adapterPassengers = new PassaggioOffertoAdapter(this, listaPassaggi);
+        //set adapter for paassengers list
+        passengersRecycler = findViewById(R.id.passengersRecycler);
+        passengersRecycler.setHasFixedSize(true);
+        passengersRecycler.setLayoutManager(new LinearLayoutManager(TrackingActivity.this));
 
 
-//Check whether GPS tracking is enabled//
-
+        //Check whether GPS tracking is enabled//
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             finish();
         }
 
-//Check whether this app has access to the location permission//
-
+        //Check whether this app has access to the location permission//
         int permission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
 
-//If the location permission has been granted, then start the TrackerService//
-
+        //If the location permission has been granted, then start the TrackerService//
         if (permission == PackageManager.PERMISSION_GRANTED) {
             //stopTrackerService();
         }

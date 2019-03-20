@@ -76,9 +76,8 @@ public class PassengersAdapter extends RecyclerView.Adapter<PassengersAdapter.Pr
 
         public ProductViewHolder(View itemView) {
             super(itemView);
-
-            textViewUsername = itemView.findViewById(R.id.textViewTitle);
-            textViewIndirizzo = itemView.findViewById(R.id.textViewShortDesc);
+            textViewUsername = itemView.findViewById(R.id.textViewNome);
+            textViewIndirizzo = itemView.findViewById(R.id.textViewIndirizzo);
         }
     }
 }

@@ -288,7 +288,6 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                 // progressBar.setVisibility(View.GONE);
 
                 try{
-
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
                     //if no error in response
