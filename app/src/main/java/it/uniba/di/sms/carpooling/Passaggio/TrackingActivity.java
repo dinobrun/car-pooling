@@ -23,11 +23,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import it.uniba.di.sms.carpooling.Automobile.AutoAdapter;
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.Utente;
 
 public class TrackingActivity extends AppCompatActivity {
+
+    private static final int PERMISSIONS_REQUEST = 100;
 
     private RecyclerView passengersRecycler;
     private PassengersAdapter adapterPassengers;
@@ -36,29 +37,32 @@ public class TrackingActivity extends AppCompatActivity {
 
     // Handling the received Intents for the "my-integer" event
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+
+        ArrayList<Utente> tempListPassengers = new ArrayList<>();
         @Override
         public void onReceive(Context context, Intent intent) {
             // Extract data included in the Intent
             jsonListPassengers = intent.getStringExtra("listPassengers");
+
 
             try {
                 JSONObject obj = new JSONObject(jsonListPassengers);
                 JSONArray passeggeriJson = obj.getJSONArray("passengers");
                 for(int i=0; i<passeggeriJson.length(); i++){
                     JSONObject temp = passeggeriJson.getJSONObject(i);
-                    listPassengers.add(new Utente(
+                    tempListPassengers.add(new Utente(
                             temp.getString("nome"),
                             temp.getString("cognome")
                     ));
                 }
-
-                Toast.makeText(TrackingActivity.this, listPassengers.get(0).getNome(), Toast.LENGTH_SHORT).show();
-
-                //setting adapter to recyclerview
-                passengersRecycler.setAdapter(adapterPassengers);
-
-                //creating recyclerview adapter
-                adapterPassengers = new PassengersAdapter(TrackingActivity.this, listPassengers);
+                //check if there is a new user to insert
+                for(Utente user: tempListPassengers){
+                    if(!listPassengers.contains(user)){
+                        listPassengers.add(user);
+                        adapterPassengers.notifyDataSetChanged();
+                    }
+                }
+                tempListPassengers.clear();
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -77,6 +81,17 @@ public class TrackingActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.my_toolbar);
 
+        //set adapter for paassengers list
+        passengersRecycler = findViewById(R.id.passengersRecycler);
+        passengersRecycler.setHasFixedSize(true);
+        passengersRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+        adapterPassengers = new PassengersAdapter(TrackingActivity.this, listPassengers);
+
+        //setting adapter to recyclerview
+        passengersRecycler.setAdapter(adapterPassengers);
+
+
 
         (TrackingActivity.this).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.close_icon);
@@ -88,24 +103,25 @@ public class TrackingActivity extends AppCompatActivity {
             }
         });
 
+        int idPassaggio = getIntent().getExtras().getInt("id_passaggio");
 
-        //set adapter for paassengers list
-        passengersRecycler = findViewById(R.id.passengersRecycler);
-        passengersRecycler.setHasFixedSize(true);
-        passengersRecycler.setLayoutManager(new LinearLayoutManager(TrackingActivity.this));
+       // adapterPassengers = new PassaggioOffertoAdapter(this, listaPassaggi);
 
 
-        //Check whether GPS tracking is enabled//
+//Check whether GPS tracking is enabled//
+
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             finish();
         }
 
-        //Check whether this app has access to the location permission//
+//Check whether this app has access to the location permission//
+
         int permission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
 
-        //If the location permission has been granted, then start the TrackerService//
+//If the location permission has been granted, then start the TrackerService//
+
         if (permission == PackageManager.PERMISSION_GRANTED) {
             //stopTrackerService();
         }

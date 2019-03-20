@@ -118,4 +118,10 @@ public class Utente implements Serializable {
     public String getFoto() {
         return foto;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Utente user = (Utente) obj;
+        return this.nome.equals(user.getNome()) && this.cognome.equals(user.getCognome());
+    }
 }
