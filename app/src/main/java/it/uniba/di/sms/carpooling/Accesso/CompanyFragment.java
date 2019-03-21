@@ -1,17 +1,8 @@
 package it.uniba.di.sms.carpooling.Accesso;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,8 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -38,48 +27,40 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.RequestHandler;
-import it.uniba.di.sms.carpooling.SharedPrefManager;
 import it.uniba.di.sms.carpooling.URLs;
-import it.uniba.di.sms.carpooling.Utente;
 
 import static android.app.Activity.RESULT_OK;
 
 public class CompanyFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
-    private static final int IMAGE_PICK_CODE=1000;
     ImageView profilePhoto;
 
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
     private static final String EMAIL = "email";
-    private static final String NOME = "nome";
-    private static final String COGNOME = "cognome";
-    private static final String INDIRIZZO = "indirizzo";
-    private static final String TELEFONO = "telefono";
-    private static final String DATANASCITA = "dataNascita";
+    private static final String NAME = "name";
+    private static final String SURNAME = "surname";
+    private static final String ADDRESS = "address";
+    private static final String TELEPHONE = "telephone";
+    private static final String BIRTHDATE = "birthDate";
 
     // TODO: Rename and change types of parameters
     private String usernameParam;
     private String passwordParam;
     private String emailParam;
-    private String nomeParam;
-    private String cognomeParam;
-    private String indirizzoParam;
-    private String telefonoParam;
-    private String dataNascitaParam;
+    private String nameParam;
+    private String surnameParam;
+    private String addressParam;
+    private String telephoneParam;
+    private String birthDateParam;
     private String company = null;
-    private ArrayList<String> companies;
-    private Bitmap bitmap;
     private String stringImage = "null";
     private ProgressBar progressBar;
 
@@ -88,17 +69,17 @@ public class CompanyFragment extends Fragment {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static CompanyFragment newInstance(String username, String password, String email, String nome, String cognome, String indirizzo, String telefono, String dataNascita) {
+    public static CompanyFragment newInstance(String username, String password, String email, String name, String surname, String address, String telephone, String birthDate) {
         CompanyFragment fragment = new CompanyFragment();
         Bundle args = new Bundle();
         args.putString(USERNAME, username);
         args.putString(PASSWORD, password);
         args.putString(EMAIL, email);
-        args.putString(NOME, nome);
-        args.putString(COGNOME, cognome);
-        args.putString(INDIRIZZO, indirizzo);
-        args.putString(TELEFONO, telefono);
-        args.putString(DATANASCITA, dataNascita);
+        args.putString(NAME, name);
+        args.putString(SURNAME, surname);
+        args.putString(ADDRESS, address);
+        args.putString(TELEPHONE, telephone);
+        args.putString(BIRTHDATE, birthDate);
         fragment.setArguments(args);
         return fragment;
     }
@@ -110,11 +91,11 @@ public class CompanyFragment extends Fragment {
             usernameParam = getArguments().getString(USERNAME);
             passwordParam = getArguments().getString(PASSWORD);
             emailParam = getArguments().getString(EMAIL);
-            nomeParam = getArguments().getString(NOME);
-            cognomeParam = getArguments().getString(COGNOME);
-            indirizzoParam = getArguments().getString(INDIRIZZO);
-            telefonoParam = getArguments().getString(TELEFONO);
-            dataNascitaParam = getArguments().getString(DATANASCITA);
+            nameParam = getArguments().getString(NAME);
+            surnameParam = getArguments().getString(SURNAME);
+            addressParam = getArguments().getString(ADDRESS);
+            telephoneParam = getArguments().getString(TELEPHONE);
+            birthDateParam = getArguments().getString(BIRTHDATE);
         }
     }
 
@@ -136,11 +117,11 @@ public class CompanyFragment extends Fragment {
         });
 
         progressBar=v.findViewById(R.id.progressBarCompany);
-        //restituisce la lista delle aziende presenti nel DB
-        companies = getCompanies();
+        //get the list of the companies
+        ArrayList<String> companies = getCompanies();
 
         //spinner
-        final Spinner spinner = v.findViewById(R.id.spinner3);
+        final Spinner spinner = v.findViewById(R.id.companySpinner);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, companies){
@@ -165,7 +146,7 @@ public class CompanyFragment extends Fragment {
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        adapter.add("Seleziona la tua azienda");
+        adapter.add(getString(R.string.select_company));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -179,7 +160,7 @@ public class CompanyFragment extends Fragment {
         });
 
 
-        //immagine del profilo
+        //profile image
         profilePhoto = v.findViewById(R.id.imageProfile);
         Button takePhoto = v.findViewById(R.id.takePhotoButton);
         takePhoto.setOnClickListener(new View.OnClickListener() {
@@ -192,8 +173,8 @@ public class CompanyFragment extends Fragment {
             }
         });
 
-        Button registratiBtn = v.findViewById(R.id.registrati);
-        registratiBtn.setOnClickListener(new View.OnClickListener() {
+        Button registerButton = v.findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 registerUser();
@@ -210,9 +191,9 @@ public class CompanyFragment extends Fragment {
         if (resultCode==RESULT_OK && requestCode== 1 && data != null && data.getData() != null){
             Uri filepath = data.getData();
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filepath);
-                profilePhoto.setImageBitmap(bitmap);
-                stringImage = getStringImage(bitmap);
+                Bitmap profileBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filepath);
+                profilePhoto.setImageBitmap(profileBitmap);
+                stringImage = getStringImage(profileBitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -220,21 +201,19 @@ public class CompanyFragment extends Fragment {
     }
 
 
-    //prende in input un bitmap e lo converte in una stringa
+    //convert from bitmap to string
     public String getStringImage(Bitmap bitmap){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-
         byte[] imageByteArray = byteArrayOutputStream.toByteArray();
-        String encodedImage = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
-        return encodedImage;
+        return Base64.encodeToString(imageByteArray, Base64.DEFAULT);
     }
 
+    //get the companies list
     private ArrayList<String> getCompanies(){
 
-        final ArrayList<String> aziende = new ArrayList<>();
+        final ArrayList<String> listCompanies = new ArrayList<>();
 
-        //classe per prendere le aziende
         class Companies extends AsyncTask<Void, Void, String> {
 
 
@@ -263,7 +242,7 @@ public class CompanyFragment extends Fragment {
 
                         for(int i=0; i<companyJson.length(); i++){
                             JSONObject temp = companyJson.getJSONObject(i);
-                            aziende.add(temp.getString("nome"));
+                            listCompanies.add(temp.getString("nome"));
                         }
                     } else {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -276,7 +255,7 @@ public class CompanyFragment extends Fragment {
 
         Companies companies = new Companies();
         companies.execute();
-        return aziende;
+        return listCompanies;
     }
 
 
@@ -284,35 +263,21 @@ public class CompanyFragment extends Fragment {
 
         class RegisterUser extends AsyncTask<Void, Void, String> {
 
-            /*
-            //Converte l'imageview in un bitmap
-            BitmapDrawable imageDrawable=  (BitmapDrawable) profilePhoto.getDrawable();
-            Bitmap imageBitmap=imageDrawable.getBitmap();
-*/
-
             @Override
             protected String doInBackground(Void... voids) {
                 //creating request handler object
                 RequestHandler requestHandler = new RequestHandler();
 
-                /*bitmap = BitmapFactory.decodeFile(imageUri.getPath());
-                //Converte il bitmap in una stringa
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] imageBytes = baos.toByteArray();
-                String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-                */
-
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
                 params.put("Username", usernameParam);
                 params.put("Password", passwordParam);
-                params.put("Nome", nomeParam);
-                params.put("Cognome", cognomeParam);
-                params.put("DataNascita", dataNascitaParam);
-                params.put("Indirizzo", indirizzoParam);
+                params.put("Nome", nameParam);
+                params.put("Cognome", surnameParam);
+                params.put("DataNascita", birthDateParam);
+                params.put("Indirizzo", addressParam);
                 params.put("Email", emailParam);
-                params.put("Telefono", telefonoParam);
+                params.put("Telefono", telephoneParam);
                 params.put("Azienda",company);
                 params.put("Immagine", stringImage);
 
@@ -339,8 +304,8 @@ public class CompanyFragment extends Fragment {
                     JSONObject obj = new JSONObject(s);
 
                     if (!obj.getBoolean("error")) {
-                        Toast.makeText(getActivity(), "Account registrato con successo", Toast.LENGTH_SHORT).show();
-                        //torna alla LoginActivity
+                        Toast.makeText(getActivity(), R.string.successful_registration, Toast.LENGTH_SHORT).show();
+                        //back to LoginActivity
                         Intent intent = new Intent(getActivity(), LoginActivity.class);
                         startActivity(intent);
 
@@ -356,41 +321,6 @@ public class CompanyFragment extends Fragment {
         ru.execute();
     }
 
-
-    //metodo per arrotondare gli angoli di un bitmap
-    public static Bitmap roundCorner(Bitmap src, float round)
-    {
-        // image size
-        int width = src.getWidth();
-        int height = src.getHeight();
-
-        // create bitmap output
-        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-
-        // set canvas for painting
-        Canvas canvas = new Canvas(result);
-        canvas.drawARGB(0, 0, 0, 0);
-
-        // config paint
-        final Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setColor(Color.BLACK);
-
-        // config rectangle for embedding
-        final Rect rect = new Rect(0, 0, width, height);
-        final RectF rectF = new RectF(rect);
-
-        // draw rect to canvas
-        canvas.drawRoundRect(rectF, round, round, paint);
-
-        // create Xfer mode
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        // draw source image to canvas
-        canvas.drawBitmap(src, rect, rect, paint);
-
-        // return final image
-        return result;
-    }
 
 }
 

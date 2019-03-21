@@ -56,9 +56,9 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        txtUserName = findViewById(R.id.usernameRegistration);
-        txtPassword = findViewById(R.id.passwordRegistration);
-        txtEmail = findViewById(R.id.emailRegistration);
+        txtUserName = findViewById(R.id.textUsernameRegistration);
+        txtPassword = findViewById(R.id.textPasswordRegistration);
+        txtEmail = findViewById(R.id.textUsernameRegistration);
 
         toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
@@ -74,7 +74,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
 
 
     //Apre RegistrationFragment
-    public void openFragment(String username, String password, String email) {
+    public void openRegistrationFragment(String username, String password, String email) {
         RegistrationFragment fragment = RegistrationFragment.newInstance(username, password, email);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -92,25 +92,25 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
 
         //first we will do the validations
         if (TextUtils.isEmpty(username)) {
-            txtUserName.setError("Please enter username");
+            txtUserName.setError(getText(R.string.enter_username));
             txtUserName.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(email)) {
-            txtPassword.setError("Please enter your email");
+            txtPassword.setError(getText(R.string.enter_email));
             txtPassword.requestFocus();
             return;
         }
 
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            txtEmail.setError("Enter a valid email");
+            txtEmail.setError(getText(R.string.invalid_email));
             txtEmail.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            txtPassword.setError("Enter a password");
+            txtPassword.setError(getText(R.string.enter_password));
             txtPassword.requestFocus();
             return;
         }
@@ -148,8 +148,8 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
 
                     //if no error in response
                     if (!obj.getBoolean("error")) {
-                        //apre il fragment successivo
-                        openFragment(username,password,email);
+                        //open RegistrationFragment
+                        openRegistrationFragment(username,password,email);
                     } else {
                         Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
@@ -162,9 +162,6 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         FirstRegistrationPart frp = new FirstRegistrationPart();
         frp.execute();
     }
-
-
-
 
 
     @Override

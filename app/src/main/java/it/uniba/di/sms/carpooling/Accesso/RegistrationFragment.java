@@ -21,13 +21,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
-
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-
 import it.uniba.di.sms.carpooling.R;
 
 
@@ -48,25 +44,18 @@ public class RegistrationFragment extends Fragment {
     private static final String PASSWORD = "password";
     private static final String EMAIL = "email";
 
+    private EditText txtName;
+    private EditText txtSurname;
+    private EditText txtCity;
+    private TextView txtBirthDate;
+    private EditText txtAddress;
+    private EditText txtTelephone;
 
-    private EditText txtNome;
-    private EditText txtCognome;
-    private EditText txtCitta;
-    private TextView txtDataNascita;
-    private EditText txtIndirizzo;
-    private EditText txtTelefono;
-    private Button btnAvanti;
-
-    //Inizializzazione variabili Inserimento data
+    //Inizialization of the Date variable
     private Date time;
     int year, month, day;
-    Calendar calendar = new GregorianCalendar();
     DatePickerDialog.OnDateSetListener mDateSetListener = null;
     Calendar cal = Calendar.getInstance();
-
-
-    private FrameLayout companyFragment;
-
 
     // TODO: Rename and change types of parameters
     private String usernameParam;
@@ -150,30 +139,30 @@ public class RegistrationFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        txtNome = view.findViewById(R.id.nomeText);
-        txtCognome = view.findViewById(R.id.cognomeText);
-        txtCitta=view.findViewById(R.id.cittaText);
-        txtIndirizzo = view.findViewById(R.id.indirizzoText);
-        txtTelefono = view.findViewById(R.id.telefonoText);
-        txtDataNascita = view.findViewById(R.id.dataNascitaText);
-        btnAvanti = view.findViewById(R.id.btnAvanti);
+        txtName = view.findViewById(R.id.textName);
+        txtSurname = view.findViewById(R.id.textSurname);
+        txtCity =view.findViewById(R.id.textCity);
+        txtAddress = view.findViewById(R.id.textAddress);
+        txtTelephone = view.findViewById(R.id.textTelephone);
+        txtBirthDate = view.findViewById(R.id.textBirthDate);
+        Button forwardButton = view.findViewById(R.id.btnForward);
 
-        btnAvanti.setOnClickListener(new View.OnClickListener() {
+        forwardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 secondRegistrationPart();
             }
         });
 
-        //Inserimento data
-        txtDataNascita = view.findViewById(R.id.dataNascitaText);
+        //Insert date
+        txtBirthDate = view.findViewById(R.id.textBirthDate);
 
         //Set current date
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH);
         day = cal.get(Calendar.DAY_OF_MONTH);
 
-        txtDataNascita.setOnClickListener(new View.OnClickListener() {
+        txtBirthDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 year = cal.get(Calendar.YEAR);
@@ -192,24 +181,19 @@ public class RegistrationFragment extends Fragment {
                 month=monthParam;
                 day=dayParam;
                 String date = day + "/" + (month+1) + "/" + year;
-                txtDataNascita.setText(date);
+                txtBirthDate.setText(date);
 
             }
         };
-
-
-        //fragment
-        companyFragment = view.findViewById(R.id.company_fragment);
-
 
         // Inflate the layout for this fragment
         return view;
     }
 
 
-    public void openFragment(String username, String password, String email, String nome, String cognome, String indirizzo,
-                             String telefono, String dataNascita) {
-        CompanyFragment companyFrag=CompanyFragment.newInstance(username, password,email,nome,cognome,indirizzo,telefono,dataNascita);
+    public void openFragment(String username, String password, String email, String name, String surname, String address,
+                             String telephone, String birthDate) {
+        CompanyFragment companyFrag=CompanyFragment.newInstance(username, password,email,name,surname,address,telephone,birthDate);
         FragmentManager manager=getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
@@ -219,54 +203,53 @@ public class RegistrationFragment extends Fragment {
 
     private void secondRegistrationPart() {
 
-        final String nome = txtNome.getText().toString().trim();
-        final String cognome = txtCognome.getText().toString().trim();
-        final String citta = txtCitta.getText().toString().trim();
-        String indirizzo = txtIndirizzo.getText().toString().trim();
-        final String telefono = txtTelefono.getText().toString().trim();
-        final String dataNascita = txtDataNascita.getText().toString().trim();
-
+        final String name = txtName.getText().toString().trim();
+        final String surname = txtSurname.getText().toString().trim();
+        final String city = txtCity.getText().toString().trim();
+        String address = txtAddress.getText().toString().trim();
+        final String telephone = txtTelephone.getText().toString().trim();
+        final String birthDate = txtBirthDate.getText().toString().trim();
 
         //first we will do the validations
 
-        if (TextUtils.isEmpty(nome)) {
-            txtNome.setError("Campo nome non compilato");
-            txtNome.requestFocus();
+        if (TextUtils.isEmpty(name)) {
+            txtName.setError(getText(R.string.enter_name));
+            txtName.requestFocus();
             return;
         }
 
-        if (TextUtils.isEmpty(cognome)) {
-            txtCognome.setError("Campo cognome non compilato");
-            txtCognome.requestFocus();
+        if (TextUtils.isEmpty(surname)) {
+            txtSurname.setError(getText(R.string.enter_surname));
+            txtSurname.requestFocus();
             return;
         }
 
-        if (TextUtils.isEmpty(citta)) {
-            txtCitta.setError("Campo città non compilato");
-            txtCitta.requestFocus();
+        if (TextUtils.isEmpty(city)) {
+            txtCity.setError(getText(R.string.enter_city));
+            txtCity.requestFocus();
             return;
         }
 
-        if (TextUtils.isEmpty(indirizzo)) {
-            txtIndirizzo.setError("Campo indirizzo non compilato");
-            txtIndirizzo.requestFocus();
+        if (TextUtils.isEmpty(address)) {
+            txtAddress.setError(getText(R.string.enter_address));
+            txtAddress.requestFocus();
             return;
         }
 
-        if (TextUtils.isEmpty(telefono)) {
-            txtTelefono.setError("Campo telefono non compilato");
-            txtTelefono.requestFocus();
+        if (TextUtils.isEmpty(telephone)) {
+            txtTelephone.setError(getText(R.string.enter_telephone));
+            txtTelephone.requestFocus();
             return;
         }
 
-        if (TextUtils.isEmpty(dataNascita)) {
-            txtDataNascita.setError("Campo data nascita non compilato");
-            txtDataNascita.requestFocus();
+        if (TextUtils.isEmpty(birthDate)) {
+            txtBirthDate.setError(getText(R.string.enter_birthdate));
+            txtBirthDate.requestFocus();
             return;
         }
 
-        indirizzo= indirizzo.concat(" " + citta);
-        openFragment(usernameParam,passwordParam,emailParam,nome,cognome,indirizzo,telefono,dataNascita);
+        address= address.concat(" " + city);
+        openFragment(usernameParam,passwordParam,emailParam,name,surname,address,telephone,birthDate);
 
     }
 
