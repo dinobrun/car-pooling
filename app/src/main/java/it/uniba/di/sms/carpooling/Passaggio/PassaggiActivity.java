@@ -31,7 +31,7 @@ public class PassaggiActivity extends AppCompatActivity {
 
         (PassaggiActivity.this).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);
-        toolbar.setTitle("I miei passaggi");
+        toolbar.setTitle(R.string.my_rides);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,8 +53,8 @@ public class PassaggiActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(new PassaggiRichiestiFragment(), "Richiesti");
-        adapter.addFragment(new PassaggiOffertiFragment(),"Offerti");
+        adapter.addFragment(new PassaggiRichiestiFragment(), getString(R.string.requested));
+        adapter.addFragment(new PassaggiOffertiFragment(),getString(R.string.offered));
 
         viewPager.setAdapter(adapter);
     }

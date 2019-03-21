@@ -248,7 +248,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
 
 
         markerOptions.position(position);
-        markerOptions.title("Casa");
+        markerOptions.title(getString(R.string.home));
         markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.marker_home));
         map.addMarker(markerOptions);
         // For zooming functionality

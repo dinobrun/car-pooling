@@ -1,9 +1,13 @@
 package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
@@ -27,6 +31,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -63,6 +68,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
     //MAP
     private MapView mMapView;
     private GoogleMap googleMap;
+    private Utente user = SharedPrefManager.getInstance(getActivity()).getUser();
 
     CardView card;
     ImageView close;
@@ -183,6 +189,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                                 try {
                                     //crea marker sull'indirizzo dell'utente che ha offerto il passaggio
                                     setUserMarker(googleMap);
+                                    addAziendaMarker(googleMap);
 
                                 } catch (IOException e) {
                                     e.printStackTrace();
@@ -224,9 +231,31 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         Address address;
         address = geocoder.getFromLocationName(SharedPrefManager.getInstance(getActivity()).getUser().getIndirizzo(), 1).get(0);
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
-        markerOptions.title("Casa mia");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        markerOptions.title(getString(R.string.home));
+        markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.marker_home));
         mGoogleMap.addMarker(markerOptions);
+    }
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    private void addAziendaMarker(GoogleMap map) throws IOException {
+        Address aziendaAddress = null;
+        MarkerOptions markerOptions = new MarkerOptions();
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        aziendaAddress = geocoder.getFromLocationName(user.getIndirizzoAzienda(), 1).get(0);
+        LatLng position = new LatLng(aziendaAddress.getLatitude(),aziendaAddress.getLongitude());
+
+        markerOptions.position(position);
+        markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.marker_factory));
+        markerOptions.title(user.getAzienda());
+        map.addMarker(markerOptions);
     }
 
     private void addMarkerUtenti(Utente utente) throws IOException {

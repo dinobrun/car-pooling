@@ -58,7 +58,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
 
         txtUserName = findViewById(R.id.textUsernameRegistration);
         txtPassword = findViewById(R.id.textPasswordRegistration);
-        txtEmail = findViewById(R.id.textUsernameRegistration);
+        txtEmail = findViewById(R.id.textEmailRegistration);
 
         toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);

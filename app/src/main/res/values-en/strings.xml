@@ -57,4 +57,9 @@
     <string name="my_cars">My cars</string>
     <string name="my_rides">My rides</string>
     <string name="profile">Profile</string>
+    <string name="ongoing">Ongoing</string>
+    <string name="concluded">Concluded</string>
+    <string name="requested">Requested</string>
+    <string name="offered">Offered</string>
+    <string name="home">Home</string>
 </resources>

@@ -65,6 +65,11 @@
     <string name="my_rides">I miei passaggi</string>
     <string name="logout" translatable="false">Logout</string>
     <string name="profile">Profilo</string>
+    <string name="concluded">Concluso</string>
+    <string name="ongoing">In corso</string>
+    <string name="requested">Richiesti</string>
+    <string name="offered">Offerti</string>
+    <string name="home">Casa</string>
 
 
     <string-array name="postiAutoList">

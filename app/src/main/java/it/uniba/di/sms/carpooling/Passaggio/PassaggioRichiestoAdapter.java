@@ -73,11 +73,10 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
         holder.textViewTitle.setText(passaggio.getNomeAutista() + " " + passaggio.getCognomeAutista());
         holder.textViewShortDesc.setText(passaggio.getAutomobile());
 
-
         if(passaggio.getConcluso()==1)
-            holder.textViewRating.setText("Concluso");
+            holder.textViewRating.setText(R.string.concluded);
         else
-            holder.textViewRating.setText("In corso");
+            holder.textViewRating.setText(R.string.ongoing);
 
         holder.textViewPrice.setText(passaggio.getData());
     }
