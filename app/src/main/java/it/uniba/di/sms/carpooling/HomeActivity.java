@@ -26,12 +26,12 @@ import java.util.HashMap;
 
 import it.uniba.di.sms.carpooling.Accesso.LoginActivity;
 import it.uniba.di.sms.carpooling.Automobile.Automobile;
-import it.uniba.di.sms.carpooling.Automobile.ListaAutoFragment;
-import it.uniba.di.sms.carpooling.Passaggio.CercaPassaggioFragment;
-import it.uniba.di.sms.carpooling.Passaggio.CreaPassaggioFragment;
+import it.uniba.di.sms.carpooling.Automobile.CarListFragment;
+import it.uniba.di.sms.carpooling.Passaggio.CreateRideFragment;
+import it.uniba.di.sms.carpooling.Passaggio.FindRideFragment;
 import it.uniba.di.sms.carpooling.Passaggio.PassaggiActivity;
 
-public class HomeActivity extends AppCompatActivity implements CreaPassaggioFragment.OnFragmentInteractionListener{
+public class HomeActivity extends AppCompatActivity implements CreateRideFragment.OnFragmentInteractionListener{
 
 
     private String user;
@@ -162,9 +162,9 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
     }
 
 
-    //Apre CreaPassaggioFragment
+    //open CreateRideFragment
     public void openCreateRideFragment(ArrayList<Automobile> automobili) {
-        CreaPassaggioFragment fragment = CreaPassaggioFragment.newInstance(automobili);
+        CreateRideFragment fragment = CreateRideFragment.newInstance(automobili);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
@@ -173,9 +173,9 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
     }
 
 
-    //Apre CercaPassaggioFragment
+    //open FindRideFragment
     public void openFindRideFragment() {
-        CercaPassaggioFragment fragment = new CercaPassaggioFragment();
+        FindRideFragment fragment = new FindRideFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
@@ -183,9 +183,9 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         transaction.add(R.id.open_frag, fragment, "BLANK_FRAGMENT").commit();
     }
 
-    //Apre ListaAutoFragment
+    //open CarListFragment
     public void openCarListFragment() {
-        ListaAutoFragment fragment = new ListaAutoFragment();
+        CarListFragment fragment = new CarListFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
@@ -193,9 +193,9 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         transaction.add(R.id.open_frag, fragment, "BLANK_FRAGMENT").commit();
     }
 
-    //Apre ListaAutoFragment
+    //open CarListFragment
     public void openMyProfileFragment() {
-        MioProfiloFragment fragment = new MioProfiloFragment();
+        MyProfileFragment fragment = new MyProfileFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
@@ -207,8 +207,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
     public void onFragmentInteraction(Uri uri) {
     }
 
-
-    //metodo che restituisce la lista di auto dell'utente
+    //create new ride
     private void createRide(){
 
         final ArrayList<Automobile> cars = new ArrayList<>();
@@ -226,7 +225,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                 params.put("Username", user);
 
                 //returning the response
-                return requestHandler.sendPostRequest(URLs.URL_GETAUTO, params);
+                return requestHandler.sendPostRequest(URLs.URL_GET_CARS, params);
             }
 
             @Override
@@ -265,12 +264,12 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                     } else {
                         Toast.makeText(HomeActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }
-                    //Se l'utente non ha auto aggiunte
+                    //if user hasn't at least one car open CarListFragment
                     if(cars.isEmpty()){
                         Toast.makeText(HomeActivity.this, R.string.add_auto, Toast.LENGTH_SHORT).show();
                         openCarListFragment();
                     }
-                    //Se l'utente possiede almeno una auto
+                    //if user has at least one car
                     else {
                         openCreateRideFragment(cars);
                     }

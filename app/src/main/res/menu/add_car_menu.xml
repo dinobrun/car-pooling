@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="it.uniba.di.sms.carpooling.ScrollingActivity">
     <item
-        android:id="@+id/add_auto"
+        android:id="@+id/add_car"
         android:orderInCategory="200"
         android:title="Search"
-        android:icon="@drawable/add_auto_icon"
+        android:icon="@drawable/add_car_icon"
         app:showAsAction="ifRoom"/>
 
 </menu>

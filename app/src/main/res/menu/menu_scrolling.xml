@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="it.uniba.di.sms.carpooling.ScrollingActivity">
     <item
-        android:id="@+id/addPassaggio"
+        android:id="@+id/addRide"
         android:orderInCategory="200"
         android:title="Search"
         android:icon="@drawable/baseline_done_black_18dp"

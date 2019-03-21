@@ -53,7 +53,7 @@ public class TrackingSummaryActivity extends AppCompatActivity {
     Button finishButton;
     int idPassaggio;
 
-    int score;
+    String score;
 
 
 
@@ -66,7 +66,12 @@ public class TrackingSummaryActivity extends AppCompatActivity {
 
         //view of correct completed tracking
         if(isCorrectEnd){
+
+
+            getScore();
             setContentView(R.layout.activity_tracking_summary);
+
+            Toast.makeText(TrackingSummaryActivity.this, Integer.toString(idPassaggio),Toast.LENGTH_SHORT).show();
 
             txtDriver = findViewById(R.id.txtDriver);
             txtScore = findViewById(R.id.score);
@@ -130,6 +135,10 @@ public class TrackingSummaryActivity extends AppCompatActivity {
         else{
             setContentView(R.layout.activity_stopped_tracking_summary);
 
+            getScore();
+
+            Toast.makeText(TrackingSummaryActivity.this, Integer.toString(idPassaggio), Toast.LENGTH_SHORT).show();
+
             finishButton = findViewById(R.id.finish_button);
 
             finishButton.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +152,7 @@ public class TrackingSummaryActivity extends AppCompatActivity {
     }
 
 
+    //get the score of the user for this ride
     private void getScore() {
 
         //if it passes all the validations
@@ -159,7 +169,7 @@ public class TrackingSummaryActivity extends AppCompatActivity {
                 params.put("Username", SharedPrefManager.getInstance(TrackingSummaryActivity.this).getUser().getUsername());
 
                 //returning the response
-                return requestHandler.sendPostRequest(URLs.URL_START_TRACKING, params);
+                return requestHandler.sendPostRequest(URLs.URL_GET_SCORE, params);
             }
 
             @Override
@@ -175,13 +185,14 @@ public class TrackingSummaryActivity extends AppCompatActivity {
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
 
+                    Toast.makeText(TrackingSummaryActivity.this, s, Toast.LENGTH_SHORT).show();
+
 
                     //if no error in response
                     if (!obj.getBoolean("error")) {
 
-                        score = Integer.parseInt(obj.getString("score"));
-
-                        txtScore.setText(Integer.toString(score));
+                        score = obj.getString("score");
+                        txtScore.setText(score);
 
 
                     } else {
