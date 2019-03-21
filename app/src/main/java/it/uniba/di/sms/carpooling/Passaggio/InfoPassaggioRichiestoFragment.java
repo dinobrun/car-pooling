@@ -173,21 +173,21 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
         postiAutoText.append(": " + passaggioParam.getNumPosti());
         switch (passaggioParam.getConfermato()) {
             case 0:
-                confermatoText.append(": " + R.string.wait_conferm);
+                confermatoText.append(": " + getText(R.string.wait_conferm));
                 break;
             case 1:
-                confermatoText.append(": " + R.string.confermed);
+                confermatoText.append(": " + getText(R.string.confermed));
                 break;
             case 2:
-                confermatoText.append(": " + R.string.rejected);
+                confermatoText.append(": " + getText(R.string.rejected));
                 break;
         }
 
         dataText.append(": " + passaggioParam.getData());
         if(passaggioParam.getDirezione()==0){
-            direzioneText.append(": " + R.string.one_way);
+            direzioneText.append(": " + getText(R.string.one_way));
         }else{
-            direzioneText.append(": " + R.string.backHome);
+            direzioneText.append(": " + getText(R.string.backHome));
         }
 
         //Show button if ride is started and not finished

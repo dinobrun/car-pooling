@@ -195,9 +195,9 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         autoText.append(": " + passaggioParam.getAutomobile());
         dataText.append(": " + passaggioParam.getData());
         if(passaggioParam.getDirezione()==0){
-            direzioneText.append(": " + R.string.one_way);
+            direzioneText.append(": " + getText(R.string.one_way));
         }else{
-            direzioneText.append(": " + R.string.backHome);
+            direzioneText.append(": " + getText(R.string.backHome));
         }
 
         return v;
