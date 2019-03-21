@@ -49,9 +49,12 @@
     <string name="enter_city">Please, enter your city</string>
     <string name="select_company">Select your company</string>
     <string name="successful_registration">" Account successfully registered"</string>
-    <string name="add_auto">You need to insert a car</string>
+    <string name="add_car">You need to insert a car</string>
     <string name="create_ride">Create ride</string>
     <string name="confermed">Confirmed</string>
     <string name="rejected">Rejected</string>
     <string name="wait_conferm">Pending confirmation</string>
+    <string name="my_cars">My cars</string>
+    <string name="my_rides">My rides</string>
+    <string name="profile">Profile</string>
 </resources>

@@ -100,7 +100,7 @@ public class CarListFragment extends Fragment {
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);
-        toolbar.setTitle("Le mie auto");
+        toolbar.setTitle(R.string.my_cars);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

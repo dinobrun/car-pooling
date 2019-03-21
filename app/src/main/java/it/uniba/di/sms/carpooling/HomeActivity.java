@@ -255,23 +255,15 @@ public class HomeActivity extends AppCompatActivity implements CreateRideFragmen
                                         user
                                 ));
                             }
+                            openCreateRideFragment(cars);
                         }
                         else {
-                            Toast.makeText(HomeActivity.this, "Devi prima aggiungere una auto", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(HomeActivity.this, R.string.add_car, Toast.LENGTH_SHORT).show();
                             openCarListFragment();
                         }
 
                     } else {
                         Toast.makeText(HomeActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
-                    }
-                    //if user hasn't at least one car open CarListFragment
-                    if(cars.isEmpty()){
-                        Toast.makeText(HomeActivity.this, R.string.add_auto, Toast.LENGTH_SHORT).show();
-                        openCarListFragment();
-                    }
-                    //if user has at least one car
-                    else {
-                        openCreateRideFragment(cars);
                     }
 
                 } catch (JSONException e) {
