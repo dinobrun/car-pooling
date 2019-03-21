@@ -12,6 +12,7 @@ import android.location.Geocoder;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -87,9 +88,9 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_info_passaggio_richiesto, container, false);
+        final View v = inflater.inflate(R.layout.fragment_info_passaggio_richiesto, container, false);
 
 
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
@@ -133,29 +134,43 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        mMapView = v.findViewById(R.id.map);
-        mMapView.onCreate(savedInstanceState);
-        mMapView.onResume();
-        try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        mMapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap mMap) {
-                googleMap = mMap;
-                try {
-                    addAutistaMarker(passaggioParam, mMap);
-                    addMyMarker(mMap);
-                    addAziendaMarker(mMap);
+        //delay loading of the map till fragment opened animation if finished
+        if (googleMap == null) {
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    if (isAdded()) {
+                        mMapView = v.findViewById(R.id.map);
+                        mMapView.onCreate(savedInstanceState);
+                        mMapView.onResume();
+                        try {
+                            MapsInitializer.initialize(getActivity().getApplicationContext());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        mMapView.getMapAsync(new OnMapReadyCallback() {
+                            @Override
+                            public void onMapReady(GoogleMap mMap) {
+                                googleMap = mMap;
+                                try {
+                                    addAutistaMarker(passaggioParam, mMap);
+                                    addMyMarker(mMap);
+                                    addAziendaMarker(mMap);
 
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
                 }
-            }
-        });
+            }, 300);
+        }
+
+
+
 
         TextView autistaText = v.findViewById(R.id.autista);
         TextView telefonoText = v.findViewById(R.id.telefono);
@@ -261,30 +276,6 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
         serviceIntent.putExtra("id_passaggio",passaggioParam.getId());
         serviceIntent.putExtra("passenger",true);
         getActivity().startService(serviceIntent);
-    }
-
-    @Override
-    public void onResume() {
-        mMapView.onResume();
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        mMapView.onPause();
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        mMapView.onDestroy();
-        super.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        mMapView.onLowMemory();
-        super.onLowMemory();
     }
 
 

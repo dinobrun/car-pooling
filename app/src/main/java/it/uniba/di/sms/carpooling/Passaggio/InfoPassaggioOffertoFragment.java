@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -99,9 +100,9 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_info_passaggio_offerto, container, false);
+        final View v = inflater.inflate(R.layout.fragment_info_passaggio_offerto, container, false);
 
 
         Button buttonTracking = v.findViewById(R.id.tracking_button);
@@ -142,49 +143,61 @@ public class InfoPassaggioOffertoFragment extends Fragment {
             }
         });
 
-        mMapView = v.findViewById(R.id.map);
-        mMapView.onCreate(savedInstanceState);
-        mMapView.onResume();
-        try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        mMapView.getMapAsync(new OnMapReadyCallback() {
+        //delay loading of the map till fragment opened animation if finished
+        if (googleMap == null) {
+            new Handler().postDelayed(new Runnable() {
 
-
-            @Override
-            public void onMapReady(GoogleMap mMap) {
-                googleMap = mMap;
-                MarkerOptions markerOptions = new MarkerOptions();
-                Marker marker;
-                Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
-                Address address = null;
-
-                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                    @Override
-                    public boolean onMarkerClick(Marker marker) {
-                        if(marker.getTag() != null){
-                            displayInfo(marker);
-                            return true;
-                        }else {
-                            return false;
+                @Override
+                public void run() {
+                    if (isAdded()) {
+                        mMapView = v.findViewById(R.id.map);
+                        mMapView.onCreate(savedInstanceState);
+                        mMapView.onResume();
+                        try {
+                            MapsInitializer.initialize(getActivity().getApplicationContext());
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
+                        mMapView.getMapAsync(new OnMapReadyCallback() {
+
+
+                            @Override
+                            public void onMapReady(GoogleMap mMap) {
+                                googleMap = mMap;
+                                MarkerOptions markerOptions = new MarkerOptions();
+                                Marker marker;
+                                Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+                                Address address = null;
+
+                                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                    @Override
+                                    public boolean onMarkerClick(Marker marker) {
+                                        if(marker.getTag() != null){
+                                            displayInfo(marker);
+                                            return true;
+                                        }else {
+                                            return false;
+                                        }
+                                    }
+                                });
+                                try {
+                                    //crea marker sull'indirizzo dell'utente che ha offerto il passaggio
+                                    setUserMarker(googleMap);
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                getUtentiPassages(passaggioParam);
+
+                            }
+                        });
+
                     }
-                });
-                try {
-                    //crea marker sull'indirizzo dell'utente che ha offerto il passaggio
-                    setUserMarker(googleMap);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+            }, 300);
+        }
 
-                getUtentiPassages(passaggioParam);
-
-
-            }
-        });
 
         TextView autistaText = v.findViewById(R.id.autista);
         TextView autoText = v.findViewById(R.id.auto);
@@ -468,30 +481,6 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         serviceIntent.putExtra("id_passaggio",passaggioParam.getId());
         serviceIntent.putExtra("passenger",false);
         getActivity().startService(serviceIntent);
-    }
-
-    @Override
-    public void onResume() {
-        mMapView.onResume();
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        mMapView.onPause();
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        mMapView.onDestroy();
-        super.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        mMapView.onLowMemory();
-        super.onLowMemory();
     }
 
 

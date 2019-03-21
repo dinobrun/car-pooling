@@ -40,7 +40,7 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
     }
 
     @Override
-    public void onBindViewHolder(PassaggioOffertoAdapter.ProductViewHolder holder, final int position) {
+    public void onBindViewHolder(PassaggioOffertoAdapter.ProductViewHolder holder, int position) {
         //getting the product of the specified position
         Passaggio passaggio = passaggioList.get(position);
 
