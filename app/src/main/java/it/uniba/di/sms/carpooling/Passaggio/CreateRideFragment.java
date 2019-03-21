@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
@@ -46,33 +45,25 @@ import it.uniba.di.sms.carpooling.Utente;
 
 import static android.R.layout.simple_list_item_1;
 
-public class CreaPassaggioFragment extends Fragment {
+public class CreateRideFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    private static final String AUTO = "auto";
-    private ArrayList<Automobile> autoParam;
+    private static final String CAR = "auto";
+    private ArrayList<Automobile> carParam;
     private Date time;
-    int direzione = 0;
+    int direction = 0;
     private RadioButton ra;
     private RadioButton rr;
-    Button mostra;
-    private String selectionAuto = null;
-    private Integer selectionPostoAuto;
-
+    private String selectionCars = null;
+    private Integer selectionCarPlaces;
     int year, month, day, hour, minute;
-
-    Spinner spinnerAuto;
-    Spinner spinnerPostiAuto;
-
-    int autoId = 3;
-
+    Spinner spinneCars;
+    Spinner spinnerCarPlaces;
+    int carID = 3;
     Calendar calendar = new GregorianCalendar();
-
-    //Inizializza checkbox ciclica
-    CheckBox chkCiclico;
+    CheckBox chkCyclic;
     public static final String YES_CYCLIC = "1";
     public static final String NO_CYCLIC = "0";
-
 
     DatePickerDialog.OnDateSetListener mDateSetListener = null;
     TimePickerDialog.OnTimeSetListener mTimeSetListener = null;
@@ -80,15 +71,15 @@ public class CreaPassaggioFragment extends Fragment {
     Calendar cal = Calendar.getInstance();
 
 
-    public CreaPassaggioFragment() {
+    public CreateRideFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static CreaPassaggioFragment newInstance(ArrayList<Automobile> automobiles) {
-        CreaPassaggioFragment fragment = new CreaPassaggioFragment();
+    public static CreateRideFragment newInstance(ArrayList<Automobile> cars) {
+        CreateRideFragment fragment = new CreateRideFragment();
         Bundle args = new Bundle();
-        args.putSerializable(AUTO,automobiles);
+        args.putSerializable(CAR,cars);
         fragment.setArguments(args);
         return fragment;
     }
@@ -97,7 +88,7 @@ public class CreaPassaggioFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            autoParam = (ArrayList<Automobile>) getArguments().get(AUTO);
+            carParam = (ArrayList<Automobile>) getArguments().get(CAR);
         }
     }
 
@@ -110,7 +101,7 @@ public class CreaPassaggioFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.addPassaggio:
+            case R.id.addRide:
 
                 calendar.set(year,
                         month,
@@ -120,14 +111,13 @@ public class CreaPassaggioFragment extends Fragment {
 
                 time = calendar.getTime();
 
-                for(Automobile auto : autoParam) {
-                    if(auto.getNome().equals(selectionAuto)) {
-                        autoId = auto.getId();
+                for(Automobile car : carParam) {
+                    if(car.getNome().equals(selectionCars)) {
+                        carID = car.getId();
                     }
                 }
 
-                //Aggiunge il passaggio al DB
-                addPassaggio();
+                addRide();
 
                 return true;
             default:
@@ -138,10 +128,10 @@ public class CreaPassaggioFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
-        final View v = inflater.inflate(R.layout.fragment_crea_passaggio, container, false);
+        final View v = inflater.inflate(R.layout.fragment_create_ride, container, false);
 
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
-        toolbar.setTitle("Crea un passaggio");
+        toolbar.setTitle(R.string.create_ride);
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);
@@ -153,9 +143,9 @@ public class CreaPassaggioFragment extends Fragment {
         });
         setHasOptionsMenu(true);
 
-        //Inserimento data
-        final TextView dataText = v.findViewById(R.id.dataText);
-        final TextView orarioText = v.findViewById(R.id.orarioText);
+        //date insert
+        final TextView textDate = v.findViewById(R.id.textDate);
+        final TextView textHour = v.findViewById(R.id.textHour);
 
         //Set current date
         year = cal.get(Calendar.YEAR);
@@ -163,11 +153,11 @@ public class CreaPassaggioFragment extends Fragment {
         day = cal.get(Calendar.DAY_OF_MONTH);
         hour = cal.get(Calendar.HOUR);
         minute = cal.get(Calendar.MINUTE);
-        dataText.setText(day + "/" + (month+1) + "/" + year);
-        orarioText.setText(cal.get(Calendar.HOUR) + " : " + cal.get(Calendar.MINUTE));
+        textDate.setText(day + "/" + (month+1) + "/" + year);
+        textHour.setText(cal.get(Calendar.HOUR) + " : " + cal.get(Calendar.MINUTE));
 
 
-        dataText.setOnClickListener(new View.OnClickListener() {
+        textDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 year = cal.get(Calendar.YEAR);
@@ -186,12 +176,12 @@ public class CreaPassaggioFragment extends Fragment {
                 month=monthParam;
                 day=dayParam;
                 String date = day + "/" + (month+1) + "/" + year;
-                dataText.setText(date);
+                textDate.setText(date);
 
             }
         };
 
-        orarioText.setOnClickListener(new View.OnClickListener() {
+        textHour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 hour=cal.get(Calendar.HOUR);
@@ -208,57 +198,54 @@ public class CreaPassaggioFragment extends Fragment {
                 hour=hourParam;
                 minute=minuteParam;
                 String time = hour + " : " + minute;
-                orarioText.setText(time);
+                textHour.setText(time);
             }
         };
 
         //Assegno la checkbox ciclica
-        chkCiclico=v.findViewById(R.id.checkBoxCiclo);
+        chkCyclic =v.findViewById(R.id.checkBoxCycle);
 
         //Contiene i nomi delle auto
-        ArrayList<String> nomiAuto = new ArrayList<>();
-        for(Automobile a : autoParam)
-            nomiAuto.add(a.getNome());
+        ArrayList<String> carNames = new ArrayList<>();
+        for(Automobile car : carParam)
+            carNames.add(car.getNome());
 
 
         //Spinner lista auto
-        spinnerAuto = v.findViewById(R.id.spinnerAuto);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), simple_list_item_1, nomiAuto);
+        spinneCars = v.findViewById(R.id.spinnerCars);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), simple_list_item_1, carNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerAuto.setAdapter(adapter);
-        spinnerAuto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinneCars.setAdapter(adapter);
+        spinneCars.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectionAuto = adapter.getItem(i);
-                spinnerPostiAuto.setSelection(autoParam.get(i).getNumPosti()-2);
+                selectionCars = adapter.getItem(i);
+                spinnerCarPlaces.setSelection(carParam.get(i).getNumPosti()-2);
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
 
-
-        //Spinner posti auto
-        spinnerPostiAuto = v.findViewById(R.id.spinnerPostiAuto);
+        spinnerCarPlaces = v.findViewById(R.id.spinnerCarPlaces);
         final ArrayAdapter<String> adapterPostiAuto = new ArrayAdapter<>(this.getActivity(), simple_list_item_1, getResources().getStringArray(R.array.postiAutoList));
         adapterPostiAuto.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerPostiAuto.setAdapter(adapterPostiAuto);
-        spinnerPostiAuto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerCarPlaces.setAdapter(adapterPostiAuto);
+        spinnerCarPlaces.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectionPostoAuto = Integer.parseInt(adapterPostiAuto.getItem(i));
+                selectionCarPlaces = Integer.parseInt(adapterPostiAuto.getItem(i));
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
 
-
-        //Inizializzo il radio group con il check su "Andata"
+        //start with the check on "One way"
         RadioGroup rg = v.findViewById(R.id.radioGroup);
-        rg.check(R.id.radioButtonAndata);
-        ra = v.findViewById(R.id.radioButtonAndata);
-        rr = v.findViewById(R.id.radioButtonRitorno);
+        rg.check(R.id.radioButtonOneWay);
+        ra = v.findViewById(R.id.radioButtonOneWay);
+        rr = v.findViewById(R.id.radioButtonReturn);
         return v;
     }
 
@@ -305,10 +292,10 @@ public class CreaPassaggioFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    ////INVIA AL SERVER LE INFO SUL PASSAGGIO
-    private void addPassaggio() {
+    //add ride to DB
+    private void addRide() {
 
-        final Utente utente = SharedPrefManager.getInstance(getActivity()).getUser();
+        final Utente user = SharedPrefManager.getInstance(getActivity()).getUser();
 
         class Passaggio extends AsyncTask<Void, Void, String> {
 
@@ -343,34 +330,33 @@ public class CreaPassaggioFragment extends Fragment {
                 RequestHandler requestHandler = new RequestHandler();
 
                  if(ra.isChecked()){
-                     direzione=0;
+                     direction =0;
                  }else if(rr.isChecked()){
-                     direzione=1;
+                     direction =1;
                  }
 
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
-                if(chkCiclico.isChecked()){
-                    params.put("Autista", utente.getUsername());
+                if(chkCyclic.isChecked()){
+                    params.put("Autista", user.getUsername());
                     params.put("Data", new java.sql.Timestamp(time.getTime()).toString());
-                    params.put("Automobile",Integer.toString(autoId));
-                    params.put("Azienda",utente.getAzienda());
-                    params.put("Num_Posti",selectionPostoAuto.toString());
-                    params.put("Direzione",Integer.toString(direzione));
+                    params.put("Automobile",Integer.toString(carID));
+                    params.put("Azienda",user.getAzienda());
+                    params.put("Num_Posti", selectionCarPlaces.toString());
+                    params.put("Direzione",Integer.toString(direction));
                     params.put("Ciclico", YES_CYCLIC);
                 }else{
-                    params.put("Autista", utente.getUsername());
+                    params.put("Autista", user.getUsername());
                     params.put("Data", new java.sql.Timestamp(time.getTime()).toString());
-                    params.put("Automobile",Integer.toString(autoId));
-                    params.put("Azienda",utente.getAzienda());
-                    params.put("Num_Posti",selectionPostoAuto.toString());
-                    params.put("Direzione",Integer.toString(direzione));
+                    params.put("Automobile",Integer.toString(carID));
+                    params.put("Azienda",user.getAzienda());
+                    params.put("Num_Posti", selectionCarPlaces.toString());
+                    params.put("Direzione",Integer.toString(direction));
                     params.put("Ciclico", NO_CYCLIC);
                 }
 
-
                 //returing the response
-                return requestHandler.sendPostRequest(URLs.URL_ADDPASSAGGIO, params);
+                return requestHandler.sendPostRequest(URLs.URL_ADD_RIDE, params);
             }
         }
 

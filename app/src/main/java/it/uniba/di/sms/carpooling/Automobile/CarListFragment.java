@@ -36,7 +36,7 @@ import it.uniba.di.sms.carpooling.SwipeHelper;
 import it.uniba.di.sms.carpooling.URLs;
 
 
-public class ListaAutoFragment extends Fragment {
+public class CarListFragment extends Fragment {
 
     String autoNameInput;
     int numPostiInput;
@@ -45,13 +45,13 @@ public class ListaAutoFragment extends Fragment {
     AutoAdapter adapter;
     ArrayList<Automobile> listaAutomobiliUltima = new ArrayList<>();
 
-    public ListaAutoFragment() {
+    public CarListFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static ListaAutoFragment newInstance() {
-        ListaAutoFragment fragment = new ListaAutoFragment();
+    public static CarListFragment newInstance() {
+        CarListFragment fragment = new CarListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -72,7 +72,7 @@ public class ListaAutoFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.add_auto:
+            case R.id.add_car:
                 showAddAutoPopup();
                 return true;
             default:
@@ -121,7 +121,7 @@ public class ListaAutoFragment extends Fragment {
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
                         "Delete",
-                        R.drawable.add_auto_icon,
+                        R.drawable.add_car_icon,
                         Color.parseColor("#FF3C30"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override
@@ -214,7 +214,7 @@ public class ListaAutoFragment extends Fragment {
                 params.put("Num_Posti", Integer.toString(numPosti));
 
                 //returing the response
-                return requestHandler.sendPostRequest(URLs.URL_ADDAUTO, params);
+                return requestHandler.sendPostRequest(URLs.URL_ADD_CAR, params);
             }
 
             @Override
@@ -243,7 +243,7 @@ public class ListaAutoFragment extends Fragment {
 
                         //Riavvia il fragment
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        ft.detach(ListaAutoFragment.this).attach(ListaAutoFragment.this).commit();
+                        ft.detach(CarListFragment.this).attach(CarListFragment.this).commit();
 
                     } else {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -280,7 +280,7 @@ public class ListaAutoFragment extends Fragment {
                 params.put("Username", username);
 
                 //returning the response
-                return requestHandler.sendPostRequest(URLs.URL_GETAUTO, params);
+                return requestHandler.sendPostRequest(URLs.URL_GET_CARS, params);
             }
 
             @Override
@@ -351,7 +351,7 @@ public class ListaAutoFragment extends Fragment {
                 params.put("id", Integer.toString(auto.getId()));
 
                 //returning the response
-                return requestHandler.sendPostRequest(URLs.URL_DELETE_AUTO, params);
+                return requestHandler.sendPostRequest(URLs.URL_DELETE_CAR, params);
             }
 
             @Override

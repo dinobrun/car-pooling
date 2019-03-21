@@ -1,17 +1,12 @@
 package it.uniba.di.sms.carpooling;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,24 +15,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import it.uniba.di.sms.carpooling.Automobile.Automobile;
 
 
-public class MioProfiloFragment extends Fragment {
+public class MyProfileFragment extends Fragment {
 
     EditText txtNome, txtCognome, txtDataNascita, txtIndirizzo, txtEmail, txtTelefono;
     ImageView profileImage;
 
 
-    public MioProfiloFragment() {
+    public MyProfileFragment() {
 
     }
 
 
-    public static MioProfiloFragment newInstance(String param1, String param2) {
-        MioProfiloFragment fragment = new MioProfiloFragment();
+    public static MyProfileFragment newInstance(String param1, String param2) {
+        MyProfileFragment fragment = new MyProfileFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;

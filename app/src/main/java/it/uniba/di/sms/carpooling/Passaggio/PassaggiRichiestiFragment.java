@@ -2,7 +2,6 @@ package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -189,7 +187,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                 params.put("Username", user);
 
                 //returning the response
-                return requestHandler.sendPostRequest(URLs.URL_GET_LIST_PASSAGES, params);
+                return requestHandler.sendPostRequest(URLs.URL_GET_LIST_REQUESTED_RIDES, params);
             }
 
             @Override
@@ -230,7 +228,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                                             temp.getString("data"),
                                             temp.getString("automobile"),
                                             aziendaParam,
-                                            Integer.parseInt(temp.getString("direzione")),
+                                            Integer.parseInt(temp.getString("direction")),
                                             Integer.parseInt(temp.getString("num_posti")),
                                             Integer.parseInt(temp.getString("confermato")),
                                             null,
@@ -248,7 +246,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                                             temp.getString("data"),
                                             temp.getString("automobile"),
                                             aziendaParam,
-                                            Integer.parseInt(temp.getString("direzione")),
+                                            Integer.parseInt(temp.getString("direction")),
                                             Integer.parseInt(temp.getString("num_posti")),
                                             Integer.parseInt(temp.getString("confermato")),
                                             temp.getString("foto"),
@@ -384,7 +382,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                 params.put("Array_Passaggi", mainObj.toString());
 
                 //returning the response
-                return requestHandler.sendPostRequest(URLs.URL_DELETE_PASSAGGI_RICHIESTI, params);
+                return requestHandler.sendPostRequest(URLs.URL_DELETE_REQUESTED_RIDES, params);
             }
 
             @Override

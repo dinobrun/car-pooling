@@ -98,7 +98,7 @@ public class Passaggio implements Serializable {
         this.iniziato = iniziato;
     }
 
-    //costruttore CercaPassaggioFragment
+    //costruttore FindRideFragment
     public Passaggio(int id, String indirizzo, String usernameAutista, String nomeAutista, String cognomeAutista, String telefonoAutista, String data, String automobile, int numPosti, String azienda, int direzione, String foto) {
         this.id=id;
         this.indirizzo = indirizzo;

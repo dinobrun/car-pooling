@@ -2,17 +2,14 @@ package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,8 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -38,7 +33,6 @@ import it.uniba.di.sms.carpooling.RecyclerItemClickListener;
 import it.uniba.di.sms.carpooling.RequestHandler;
 import it.uniba.di.sms.carpooling.SharedPrefManager;
 import it.uniba.di.sms.carpooling.URLs;
-import it.uniba.di.sms.carpooling.Utente;
 
 
 public class PassaggiOffertiFragment extends Fragment implements ActionMode.Callback, SwipeRefreshLayout.OnRefreshListener {
@@ -195,7 +189,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                 params.put("Username", user);
 
                 //returning the response
-                return requestHandler.sendPostRequest(URLs.URL_GET_OFFERED_PASSAGES, params);
+                return requestHandler.sendPostRequest(URLs.URL_GET_OFFERED_RIDES, params);
             }
 
             @Override
@@ -232,7 +226,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                                         temp.getString("data"),
                                         temp.getString("automobile"),
                                         aziendaParam,
-                                        Integer.parseInt(temp.getString("direzione")),
+                                        Integer.parseInt(temp.getString("direction")),
                                         Integer.parseInt(temp.getString("num_posti")),
                                         (1==Integer.parseInt(temp.getString("concluso")))
                                 ));
@@ -369,7 +363,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                 params.put("Array_Passaggi", mainObj.toString());
 
                 //returning the response
-                return requestHandler.sendPostRequest(URLs.URL_DELETE_PASSAGGI, params);
+                return requestHandler.sendPostRequest(URLs.URL_DELETE_RIDES, params);
             }
 
             @Override

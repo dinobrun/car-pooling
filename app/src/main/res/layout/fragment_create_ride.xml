@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/common_google_signin_btn_text_dark_default"
     android:clickable="true"
-    tools:context=".Passaggio.CreaPassaggioFragment"
+    tools:context=".Passaggio.CreateRideFragment"
     android:focusable="true">
 
 
     <Spinner
-        android:id="@+id/spinnerAuto"
+        android:id="@+id/spinnerCars"
         android:layout_width="170dp"
         android:layout_height="52dp"
         android:layout_marginStart="8dp"
@@ -20,10 +20,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.392"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dataText" />
+        app:layout_constraintTop_toBottomOf="@+id/textDate" />
 
     <Spinner
-        android:id="@+id/spinnerPostiAuto"
+        android:id="@+id/spinnerCarPlaces"
         android:layout_width="95dp"
         android:layout_height="52dp"
         android:layout_marginStart="8dp"
@@ -32,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.971"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orarioText" />
+        app:layout_constraintTop_toBottomOf="@+id/textHour" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -45,10 +45,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerAuto">
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCarPlaces">
 
         <RadioButton
-            android:id="@+id/radioButtonAndata"
+            android:id="@+id/radioButtonOneWay"
             android:layout_width="94dp"
             android:layout_height="wrap_content"
             android:text="@string/one_way"
@@ -57,7 +57,7 @@
             tools:layout_editor_absoluteY="434dp" />
 
         <RadioButton
-            android:id="@+id/radioButtonRitorno"
+            android:id="@+id/radioButtonReturn"
             android:layout_width="103dp"
             android:layout_height="wrap_content"
             android:text="@string/backHome"
@@ -67,7 +67,7 @@
     </RadioGroup>
 
     <TextView
-        android:id="@+id/dataText"
+        android:id="@+id/textDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="92dp"
@@ -78,7 +78,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/orarioText"
+        android:id="@+id/textHour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
@@ -98,14 +98,14 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <ImageView
-        android:id="@+id/data_icon"
+        android:id="@+id/date_icon"
         android:layout_width="42dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="8dp"
         android:src="@drawable/car_icon"
-        app:layout_constraintEnd_toStartOf="@+id/spinnerAuto"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerCars"
         app:layout_constraintHorizontal_bias="0.447"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/car_icon"
@@ -123,7 +123,7 @@
         android:contentDescription="@string/car" />
 
     <CheckBox
-        android:id="@+id/checkBoxCiclo"
+        android:id="@+id/checkBoxCycle"
         android:layout_width="261dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

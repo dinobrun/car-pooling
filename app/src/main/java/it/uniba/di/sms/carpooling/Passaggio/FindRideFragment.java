@@ -45,7 +45,7 @@ import it.uniba.di.sms.carpooling.SharedPrefManager;
 import it.uniba.di.sms.carpooling.URLs;
 
 
-public class CercaPassaggioFragment extends Fragment implements Serializable {
+public class FindRideFragment extends Fragment implements Serializable {
 
 
     private String aziendaUtente;
@@ -63,12 +63,12 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
     TimePickerDialog.OnTimeSetListener mTimeSetListener = null;
     Calendar cal = Calendar.getInstance();
 
-    public CercaPassaggioFragment() {
+    public FindRideFragment() {
         // Required empty public constructor
     }
 
-    public static CercaPassaggioFragment newInstance() {
-        CercaPassaggioFragment fragment = new CercaPassaggioFragment();
+    public static FindRideFragment newInstance() {
+        FindRideFragment fragment = new FindRideFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -109,7 +109,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View v = inflater.inflate(R.layout.fragment_cerca_passaggio, container, false);
+        final View v = inflater.inflate(R.layout.fragment_find_ride, container, false);
 
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
         toolbar.setTitle("Cerca un passaggio");
@@ -303,7 +303,7 @@ public class CercaPassaggioFragment extends Fragment implements Serializable {
                                         temp.getString("automobile"),
                                         Integer.parseInt(temp.getString("num_posti")),
                                         aziendaUtente,
-                                        Integer.parseInt(temp.getString("direzione")),
+                                        Integer.parseInt(temp.getString("direction")),
                                         temp.getString("foto")
                                 ));
                             }
