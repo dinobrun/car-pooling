@@ -46,6 +46,8 @@ public class TrackingSummaryActivity extends AppCompatActivity {
     TextView txtDriver;
     TextView txtScore;
 
+    boolean isCorrectEnd;
+
 
 
 
@@ -54,57 +56,69 @@ public class TrackingSummaryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tracking_summary);
 
-        txtDriver = findViewById(R.id.txtDriver);
-        txtScore = findViewById(R.id.score);
+        isCorrectEnd = getIntent().getExtras().getBoolean("correct_end_key");
 
-        //set adapter for paassengers list
-        passengersRecycler = findViewById(R.id.passengersRecycler);
-        passengersRecycler.setHasFixedSize(true);
-        passengersRecycler.setLayoutManager(new LinearLayoutManager(this));
+        //view of correct completed tracking
+        if(isCorrectEnd){
+            setContentView(R.layout.activity_tracking_summary);
 
-        adapterPassengers = new PassengersAdapter(TrackingSummaryActivity.this, listPassengers);
+            txtDriver = findViewById(R.id.txtDriver);
+            txtScore = findViewById(R.id.score);
 
-        //setting adapter to recyclerview
-        passengersRecycler.setAdapter(adapterPassengers);
+            //set adapter for paassengers list
+            passengersRecycler = findViewById(R.id.passengersRecycler);
+            passengersRecycler.setHasFixedSize(true);
+            passengersRecycler.setLayoutManager(new LinearLayoutManager(this));
 
+            adapterPassengers = new PassengersAdapter(TrackingSummaryActivity.this, listPassengers);
 
-        ArrayList<Utente> tempListPassengers = new ArrayList<>();
-        // Extract data included in the Intent
-        jsonListPassengers = getIntent().getStringExtra("data_tracking");
-
-        try {
-
-            JSONObject obj = new JSONObject(jsonListPassengers);
-            JSONObject driverJson = obj.getJSONObject("driver");
-            driver = new Utente(driverJson.getString("nome"), driverJson.getString("cognome"));
-            txtDriver.setText(driverJson.getString("nome")+" "+driverJson.getString("cognome"));
+            //setting adapter to recyclerview
+            passengersRecycler.setAdapter(adapterPassengers);
 
 
-            JSONArray passeggeriJson = obj.getJSONArray("passengers");
-            for(int i=0; i<passeggeriJson.length(); i++){
-                JSONObject temp = passeggeriJson.getJSONObject(i);
-                tempListPassengers.add(new Utente(
-                        temp.getString("nome"),
-                        temp.getString("cognome")
-                ));
-            }
-            //check if there is a new user to insert
-            for(Utente user: tempListPassengers){
-                if(!listPassengers.contains(user)){
-                    listPassengers.add(user);
-                    adapterPassengers.notifyDataSetChanged();
+            ArrayList<Utente> tempListPassengers = new ArrayList<>();
+            // Extract data included in the Intent
+            jsonListPassengers = getIntent().getStringExtra("data_tracking");
+
+            try {
+
+                JSONObject obj = new JSONObject(jsonListPassengers);
+                JSONObject driverJson = obj.getJSONObject("driver");
+                driver = new Utente(driverJson.getString("nome"), driverJson.getString("cognome"));
+                txtDriver.setText(driverJson.getString("nome")+" "+driverJson.getString("cognome"));
+
+
+                JSONArray passeggeriJson = obj.getJSONArray("passengers");
+                for(int i=0; i<passeggeriJson.length(); i++){
+                    JSONObject temp = passeggeriJson.getJSONObject(i);
+                    tempListPassengers.add(new Utente(
+                            temp.getString("nome"),
+                            temp.getString("cognome")
+                    ));
                 }
+                //check if there is a new user to insert
+                for(Utente user: tempListPassengers){
+                    if(!listPassengers.contains(user)){
+                        listPassengers.add(user);
+                        adapterPassengers.notifyDataSetChanged();
+                    }
+                }
+
+                tempListPassengers.clear();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
-            tempListPassengers.clear();
-
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
 
-        //int idPassaggio = getIntent().getExtras().getInt("id_passaggio");
+        //view of stopped tracking before complete
+        else{
+            setContentView(R.layout.activity_stopped_tracking_summary);
+        }
+
+
+
 
     }
 
