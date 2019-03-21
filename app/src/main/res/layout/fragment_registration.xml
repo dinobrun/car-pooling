@@ -19,7 +19,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <EditText
-        android:id="@+id/nomeText"
+        android:id="@+id/textName"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_alignParentStart="true"
@@ -29,7 +29,7 @@
         android:layout_marginTop="44dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:hint="@string/nome"
+        android:hint="@string/name"
         android:inputType="textPersonName"
         android:text="@string/blank"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
 
     <EditText
-        android:id="@+id/cognomeText"
+        android:id="@+id/textSurname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -47,15 +47,15 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:hint="@string/cognome"
+        android:hint="@string/surname"
         android:inputType="textPersonName"
         android:text="@string/blank"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nomeText" />
+        app:layout_constraintTop_toBottomOf="@+id/textName" />
 
     <EditText
-        android:id="@+id/cittaText"
+        android:id="@+id/textCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -70,10 +70,10 @@
         android:text="@string/blank"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cognomeText" />
+        app:layout_constraintTop_toBottomOf="@+id/textSurname" />
 
     <EditText
-        android:id="@+id/indirizzoText"
+        android:id="@+id/textAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -83,15 +83,15 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:hint="@string/indirizzo"
+        android:hint="@string/address"
         android:inputType="textPersonName"
         android:text="@string/blank"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cittaText" />
+        app:layout_constraintTop_toBottomOf="@+id/textCity" />
 
     <EditText
-        android:id="@+id/telefonoText"
+        android:id="@+id/textTelephone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -102,16 +102,16 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:hint="@string/telefono"
+        android:hint="@string/telephone"
         android:inputType="number"
         android:text="@string/blank"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indirizzoText" />
+        app:layout_constraintTop_toBottomOf="@+id/textAddress" />
 
 
     <TextView
-        android:id="@+id/dataNascitaText"
+        android:id="@+id/textBirthDate"
         style="@android:style/Widget.EditText"
         android:layout_width="wrap_content"
         android:layout_height="47dp"
@@ -125,19 +125,19 @@
         android:layout_marginEnd="8dp"
         android:layout_weight="0.2"
         android:ems="10"
-        android:hint="@string/dataNascita"
+        android:hint="@string/birthDate"
         android:text="@string/blank"
         android:textAppearance="@android:style/TextAppearance.Holo.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/telefonoText" />
+        app:layout_constraintTop_toBottomOf="@+id/textTelephone" />
 
     <Button
-        android:id="@+id/btnAvanti"
+        android:id="@+id/btnForward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintTop_toBottomOf="@id/dataNascitaText"
+        android:text="AVANTI"
+        app:layout_constraintTop_toBottomOf="@id/textBirthDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

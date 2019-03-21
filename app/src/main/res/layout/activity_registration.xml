@@ -25,7 +25,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <EditText
-            android:id="@+id/usernameRegistration"
+            android:id="@+id/textUsernameRegistration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -53,7 +53,7 @@
             android:layout_marginTop="350dp">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/passwordRegistration"
+                android:id="@+id/textPasswordRegistration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
@@ -62,7 +62,7 @@
 
 
         <EditText
-            android:id="@+id/emailRegistration"
+            android:id="@+id/textEmailRegistration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -77,15 +77,7 @@
             android:inputType="textEmailAddress"
             android:text="@string/blank" />
 
-
-
-
     </RelativeLayout>
-
-
-
-
-
 
 </android.support.constraint.ConstraintLayout>
 

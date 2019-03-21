@@ -20,10 +20,7 @@ import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
-
-import it.uniba.di.sms.carpooling.Azienda;
 import it.uniba.di.sms.carpooling.HomeActivity;
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.RequestHandler;
@@ -42,7 +39,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //ottiene il token di sessione
+        //get the session's token
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -59,7 +56,7 @@ public class LoginActivity extends Activity {
 
         loginForm = findViewById(R.id.form_login);
 
-        // Check if UserResponse is Already Logged In
+        // Check if user is already logged in
         if(SharedPrefManager.getInstance(LoginActivity.this).isLoggedIn()) {
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -69,9 +66,7 @@ public class LoginActivity extends Activity {
             loginForm.setVisibility(View.VISIBLE);
         }
 
-
-        //if user presses on login
-        //calling the method login
+        //calling the method login on click
         findViewById(R.id.signInButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,11 +74,10 @@ public class LoginActivity extends Activity {
             }
         });
 
-        //if user presses on not registered
+        //open RegistrationActivity on click
         findViewById(R.id.registerButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //open register screen
                 finish();
                 startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
             }
@@ -99,13 +93,13 @@ public class LoginActivity extends Activity {
 
         //validating inputs
         if (TextUtils.isEmpty(username)) {
-            txtUserName.setError("Please enter your username");
+            txtUserName.setError(getText(R.string.enter_username));
             txtUserName.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            txtPassword.setError("Please enter your password");
+            txtPassword.setError(getText(R.string.enter_password));
             txtPassword.requestFocus();
             return;
         }
@@ -114,7 +108,7 @@ public class LoginActivity extends Activity {
 
         class UserLogin extends AsyncTask<Void, Void, String> {
 
-          ProgressBar progressBar;
+          private ProgressBar progressBar;
 
             @Override
             protected void onPreExecute() {
@@ -174,9 +168,11 @@ public class LoginActivity extends Activity {
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
 
                         finish();
+
+                        //open HomeActivity
                         startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                     } else {
-                        Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.invalid, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

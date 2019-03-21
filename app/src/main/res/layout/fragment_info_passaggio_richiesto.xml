@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/telefono"
+                android:text="@string/telephone"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/autista" />
@@ -111,7 +111,7 @@
                 android:src="@drawable/call_icon"
                 app:layout_constraintLeft_toRightOf="@id/telefono"
                 app:layout_constraintTop_toBottomOf="@id/autista"
-                android:contentDescription="@string/telefono" />
+                android:contentDescription="@string/telephone" />
 
             <TextView
                 android:id="@+id/posti_auto"

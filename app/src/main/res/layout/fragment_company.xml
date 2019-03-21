@@ -17,7 +17,7 @@
 
 
     <Spinner
-        android:id="@+id/spinner3"
+        android:id="@+id/companySpinner"
         android:layout_width="271dp"
         android:layout_height="60dp"
         android:layout_alignParentStart="true"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
 
     <Button
-        android:id="@+id/registrati"
+        android:id="@+id/registerButton"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -41,14 +41,14 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/rectangle_button"
-        android:text="@string/registrati"
+        android:background="@android:color/holo_orange_dark"
+        android:text="@string/signup"
         android:textColor="#fff"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner3"
+        app:layout_constraintTop_toBottomOf="@+id/companySpinner"
         app:layout_constraintVertical_bias="0.229" />
 
     <Button
@@ -60,7 +60,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="132dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/oval_button"
+        android:background="@android:color/holo_orange_dark"
         android:text="+"
         android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
