@@ -210,6 +210,8 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
 
                 try{
 
+
+
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
 
@@ -217,7 +219,6 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                     if (!obj.getBoolean("error")) {
                         //if list is not empty
                         if(!obj.getBoolean("empty_list")){
-
                             JSONArray passaggiJson = obj.getJSONArray("passaggio");
                             for(int i=0; i<passaggiJson.length(); i++){
                                 JSONObject temp = passaggiJson.getJSONObject(i);
@@ -235,7 +236,6 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                                 ));
                                 listaPassaggi.get(i).setRichiesteInSospeso(Integer.parseInt(temp.getString("passaggi_in_sospeso")));
                             }
-
                             //creating recyclerview adapter
                             adapter = new PassaggioOffertoAdapter(getActivity(), listaPassaggi);
 
