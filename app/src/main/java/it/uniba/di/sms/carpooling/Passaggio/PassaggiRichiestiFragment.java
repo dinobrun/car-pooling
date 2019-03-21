@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ActionMode;
@@ -51,6 +52,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
     //i created List of int type to store id of data, you can create custom class type data according to your need.
     private List<Integer> selectedIds = new ArrayList<>();
     SwipeRefreshLayout mSwipeRefreshLayout;
+    ArrayList<Passaggio> listaPassaggi = new ArrayList<>();
 
 
 
@@ -84,6 +86,42 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
+        //creating recyclerview adapter
+        adapter = new PassaggioRichiestoAdapter(getActivity(), listaPassaggi);
+
+        //setting adapter to recyclerview
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if (isMultiSelect) {
+                    //if multiple selection is enabled then select item on single click else perform normal click on item.
+                    multiSelect(position);
+                }
+                else{
+                    InfoPassaggioRichiestoFragment fragment = InfoPassaggioRichiestoFragment.newInstance(listaPassaggi.get(position));
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+                    transaction.addToBackStack(null);
+                    transaction.add(R.id.main_content, fragment, "BLANK_FRAGMENT").commit();
+                }
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+                if (!isMultiSelect) {
+                    isMultiSelect = true;
+                    if (actionMode == null) {
+                        actionMode = view.startActionMode(PassaggiRichiestiFragment.this); //show ActionMode.
+                    }
+                }
+                multiSelect(position);
+            }
+        }));
+
+
         /**
          * Showing Swipe Refresh animation on activity create
          * As animation won't start on onCreate, post runnable is used
@@ -94,7 +132,6 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
             public void run() {
 
                 mSwipeRefreshLayout.setRefreshing(true);
-
                 // Fetching data from server
                 getListPassages();
             }
@@ -138,6 +175,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
         MenuInflater inflater = actionMode.getMenuInflater();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
         inflater.inflate(R.menu.remove_item, menu);
         return true;
     }
@@ -163,16 +201,18 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
         isMultiSelect = false;
         selectedIds = new ArrayList<>();
         adapter.setSelectedIds(new ArrayList<Integer>());
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 
 
     private void getListPassages() {
         mSwipeRefreshLayout.setRefreshing(true);
+        listaPassaggi.clear();
 
         //if it passes all the validations
         class ListPassages extends AsyncTask<Void, Void, String> {
 
-            ArrayList<Passaggio> listaPassaggi = new ArrayList<>();
+
             String aziendaParam = SharedPrefManager.getInstance(getContext()).getUser().getUsername();
 
             @Override
@@ -255,54 +295,14 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                                     ));
                                 }
                             }
-
-
-                            //creating recyclerview adapter
-                            adapter = new PassaggioRichiestoAdapter(getActivity(), listaPassaggi);
-
-                            //setting adapter to recyclerview
-                            recyclerView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
 
                             //stop animation of refresh
                             mSwipeRefreshLayout.setRefreshing(false);
 
-                            recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, int position) {
-                                    if (isMultiSelect) {
-                                        //if multiple selection is enabled then select item on single click else perform normal click on item.
-                                        multiSelect(position);
-                                    }
-                                    else{
-                                        InfoPassaggioRichiestoFragment fragment = InfoPassaggioRichiestoFragment.newInstance(listaPassaggi.get(position));
-                                        FragmentManager fragmentManager = getFragmentManager();
-                                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                                        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
-                                        transaction.addToBackStack(null);
-                                        transaction.add(R.id.main_content, fragment, "BLANK_FRAGMENT").commit();
-                                    }
-                                }
-
-                                @Override
-                                public void onLongItemClick(View view, int position) {
-                                    if (!isMultiSelect) {
-                                        isMultiSelect = true;
-                                        if (actionMode == null) {
-                                            actionMode = view.startActionMode(PassaggiRichiestiFragment.this); //show ActionMode.
-                                        }
-                                    }
-                                    multiSelect(position);
-                                }
-                            }));
                         }
                         else{
 
-
-                            //creating recyclerview adapter
-                            adapter = new PassaggioRichiestoAdapter(getActivity(), listaPassaggi);
-
-                            //setting adapter to recyclerview
-                            recyclerView.setAdapter(adapter);
                             //stop refresh animation
                             mSwipeRefreshLayout.setRefreshing(false);
                         }
