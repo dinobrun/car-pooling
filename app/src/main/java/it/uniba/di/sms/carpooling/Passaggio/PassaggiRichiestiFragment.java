@@ -232,7 +232,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                                             Integer.parseInt(temp.getString("num_posti")),
                                             Integer.parseInt(temp.getString("confermato")),
                                             null,
-                                            (1==Integer.parseInt(temp.getString("concluso"))),
+                                            Integer.parseInt(temp.getString("concluso")),
                                             (1==Integer.parseInt(temp.getString("iniziato")))
                                     ));
                                 }else{
@@ -250,7 +250,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                                             Integer.parseInt(temp.getString("num_posti")),
                                             Integer.parseInt(temp.getString("confermato")),
                                             temp.getString("foto"),
-                                            (1==Integer.parseInt(temp.getString("concluso"))),
+                                            Integer.parseInt(temp.getString("concluso")),
                                             (1==Integer.parseInt(temp.getString("iniziato")))
                                     ));
                                 }

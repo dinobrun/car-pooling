@@ -122,6 +122,11 @@ public class InfoPassaggioOffertoFragment extends Fragment {
             }
         });
 
+        //show start button if ride is not finished
+        if(passaggioParam.getConcluso()==0){
+            buttonTracking.setVisibility(View.VISIBLE);
+        }
+
         txtNome = v.findViewById(R.id.txtNome);
         txtCognome = v.findViewById(R.id.txtCognome);
         txtTelefono =  v.findViewById(R.id.txtTelefono);
@@ -190,6 +195,9 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         autoText.append(" " + passaggioParam.getAutomobile());
         dataText.append(" " + passaggioParam.getData());
         direzioneText.append(" " + passaggioParam.getDirezione());
+
+
+
 
 
         return v;

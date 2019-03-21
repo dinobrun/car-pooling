@@ -174,7 +174,9 @@ public class TrackingActivity extends AppCompatActivity {
     private void stopTrackerService() {
         Intent serviceIntent = new Intent(this, TrackingService.class);
         stopService(serviceIntent);
-        onBackPressed();
+        Intent goToSummary = new Intent(this, TrackingSummaryActivity.class);
+        goToSummary.putExtra("correct_end_key",false);
+        startActivity(goToSummary);
     }
 
     @Override
