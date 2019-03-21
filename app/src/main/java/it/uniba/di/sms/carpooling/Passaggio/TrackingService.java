@@ -295,8 +295,6 @@ public class TrackingService extends Service {
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
 
-                    Toast.makeText(TrackingService.this, s, Toast.LENGTH_SHORT).show();
-
                     //if no error in response
                     if (!obj.getBoolean("error")) {
 
@@ -311,6 +309,7 @@ public class TrackingService extends Service {
                                     Intent goToTrackingSummary = new Intent(TrackingService.this, TrackingSummaryActivity.class);
                                     goToTrackingSummary.putExtra("data_tracking",s);
                                     goToTrackingSummary.putExtra("correct_end_key",true);
+                                    goToTrackingSummary.putExtra("id_passaggio",idPassaggio);
                                     startActivity(goToTrackingSummary);
                                 }
                                 else if(obj.getBoolean("sudden_end")){
@@ -318,6 +317,7 @@ public class TrackingService extends Service {
                                     Intent goToTrackingSummary = new Intent(TrackingService.this, TrackingSummaryActivity.class);
                                     goToTrackingSummary.putExtra("data_tracking",s);
                                     goToTrackingSummary.putExtra("correct_end_key",false);
+                                    goToTrackingSummary.putExtra("id_passaggio",idPassaggio);
                                     startActivity(goToTrackingSummary);
                                 }
                                 sendListUser(s);
@@ -337,8 +337,11 @@ public class TrackingService extends Service {
                                     Intent goToTrackingSummary = new Intent(TrackingService.this, TrackingSummaryActivity.class);
                                     goToTrackingSummary.putExtra("data_tracking",s);
                                     goToTrackingSummary.putExtra("correct_end_key",true);
+                                    goToTrackingSummary.putExtra("id_passaggio",idPassaggio);
                                     startActivity(goToTrackingSummary);
                                 }
+
+
                                 sendListUser(s);
                             }
                         }

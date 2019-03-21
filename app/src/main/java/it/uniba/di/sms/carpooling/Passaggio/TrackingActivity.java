@@ -176,6 +176,7 @@ public class TrackingActivity extends AppCompatActivity {
         stopService(serviceIntent);
         Intent goToSummary = new Intent(this, TrackingSummaryActivity.class);
         goToSummary.putExtra("correct_end_key",false);
+        goToSummary.putExtra("id_passaggio",idPassaggio);
         startActivity(goToSummary);
     }
 
