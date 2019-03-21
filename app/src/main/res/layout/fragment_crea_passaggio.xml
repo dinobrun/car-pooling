@@ -104,7 +104,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_car"
+        android:src="@drawable/car_icon"
         app:layout_constraintEnd_toStartOf="@+id/spinnerAuto"
         app:layout_constraintHorizontal_bias="0.447"
         app:layout_constraintStart_toStartOf="parent"

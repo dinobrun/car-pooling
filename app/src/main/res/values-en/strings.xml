@@ -2,15 +2,15 @@
 <resources>
     <string name="passage_request">Request passage</string>
     <string name="title_activity_maps">Maps</string>
-    <string name="accedi">Log in</string>
-    <string name="registrati">Sign in</string>
-    <string name="azienda">Company</string>
-    <string name="indirizzo">Address</string>
-    <string name="telefono">Telephone</string>
-    <string name="avanti">One way</string>
-    <string name="nome">Name</string>
-    <string name="cognome">Surname</string>
-    <string name="dataNascita">Date of birth</string>
+    <string name="login">Log in</string>
+    <string name="signup">Sign in</string>
+    <string name="company">Company</string>
+    <string name="address">Address</string>
+    <string name="telephone">Telephone</string>
+    <string name="forward">One way</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="birthDate">Date of birth</string>
     <string name="newStep">Create new passage</string>
     <string name="findStep">Find passages</string>
     <string name="insertDate">Insert date</string>
@@ -35,4 +35,19 @@
     <string name="action_settings">Settings</string>
     <string name="not_accepted">Your account has not yet been authorized</string>
     <string name="tracking_enabled_notif">Tracking is currently enabled. Tap to cancel.</string>
+    <string name="enter_username">Please, enter username</string>
+    <string name="enter_password">Please, enter password</string>
+    <string name="error">Error</string>
+    <string name="invalid">Invalid username or password</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="enter_email">Please, enter email</string>
+    <string name="enter_name">Please, enter your name</string>
+    <string name="enter_surname">Please, enter your surname</string>
+    <string name="enter_address">Please, enter your address</string>
+    <string name="enter_birthdate">Please, enter your birth date</string>
+    <string name="enter_telephone">Please, enter your telephone number</string>
+    <string name="enter_city">Please, enter your city</string>
+    <string name="select_company">Select your company</string>
+    <string name="successful_registration">" Account successfully registered"</string>
+    <string name="add_auto">You need to insert a car</string>
 </resources>

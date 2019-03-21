@@ -2,16 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/my_profile"
+            android:id="@+id/my_profile_section"
             android:icon="@drawable/profile_icon"
             android:title="Profilo" />
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/passaggi_icon"
+            android:id="@+id/rides_section"
+            android:icon="@drawable/rides_icon"
             android:title="I miei passaggi" />
         <item
-            android:id="@+id/auto_section"
-            android:icon="@drawable/ic_car"
+            android:id="@+id/car_section"
+            android:icon="@drawable/car_icon"
             android:title="Le mie auto" />
         <item
             android:id="@+id/logout_section"

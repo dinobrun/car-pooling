@@ -10,7 +10,8 @@ public class Passaggio implements Serializable {
     private Utente utente;
     private int id, numPosti, direzione;
 
-    private boolean concluso, iniziato;
+    private boolean iniziato;
+    private int concluso;
 
     public boolean isIniziato() {
         return iniziato;
@@ -66,8 +67,8 @@ public class Passaggio implements Serializable {
     }
 
     //costruttore PassaggiOffertiFragment
-    public Passaggio(int id, String usernameAutista, String indirizzo, String data, String automobile, String azienda, int direzione, int numPosti, boolean concluso) {
-        this.id=id;
+    public Passaggio(int id, String usernameAutista, String indirizzo, String data, String automobile, String azienda, int direzione, int numPosti, int concluso, boolean iniziato) {
+        this.id = id;
         this.usernameAutista = usernameAutista;
         this.data = data;
         this.automobile = automobile;
@@ -75,13 +76,14 @@ public class Passaggio implements Serializable {
         this.direzione = direzione;
         this.numPosti = numPosti;
         this.indirizzo=indirizzo;
-        this.concluso= concluso;
+        this.concluso = concluso;
+        this.iniziato = iniziato;
     }
 
 
 
     //costruttore PassaggiRichiestiFragment
-    public Passaggio(int id, String indirizzo, String nomeAutista, String cognomeAutista, String telefonoAutista, String data, String automobile, String azienda, int direzione, int numPosti, int confermato, String foto, boolean concluso, boolean iniziato) {
+    public Passaggio(int id, String indirizzo, String nomeAutista, String cognomeAutista, String telefonoAutista, String data, String automobile, String azienda, int direzione, int numPosti, int confermato, String foto, int concluso, boolean iniziato) {
         this.id=id;
         this.indirizzo = indirizzo;
         this.nomeAutista = nomeAutista;
@@ -194,7 +196,7 @@ public class Passaggio implements Serializable {
         return utente;
     }
 
-    public boolean isConcluso() {
+    public int getConcluso() {
         return concluso;
     }
 

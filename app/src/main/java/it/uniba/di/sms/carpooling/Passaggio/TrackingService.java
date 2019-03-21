@@ -330,9 +330,13 @@ public class TrackingService extends Service {
                                 //check if driver is near the company
                                 if(obj.getBoolean("nearby")){
                                     sendListUser(s);
+
+                                    //correct stop for the ride
                                     stopSelf();
+
                                     Intent goToTrackingSummary = new Intent(TrackingService.this, TrackingSummaryActivity.class);
                                     goToTrackingSummary.putExtra("data_tracking",s);
+                                    goToTrackingSummary.putExtra("correct_end_key",true);
                                     startActivity(goToTrackingSummary);
                                 }
                                 sendListUser(s);

@@ -74,7 +74,7 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
         holder.textViewShortDesc.setText(passaggio.getAutomobile());
 
 
-        if(passaggio.isConcluso())
+        if(passaggio.getConcluso()==1)
             holder.textViewRating.setText("Concluso");
         else
             holder.textViewRating.setText("In corso");
