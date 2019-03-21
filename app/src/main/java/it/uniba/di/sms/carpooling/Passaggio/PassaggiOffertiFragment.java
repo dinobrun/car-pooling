@@ -234,7 +234,8 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                                         aziendaParam,
                                         Integer.parseInt(temp.getString("direzione")),
                                         Integer.parseInt(temp.getString("num_posti")),
-                                        (1==Integer.parseInt(temp.getString("concluso")))
+                                        Integer.parseInt(temp.getString("concluso")),
+                                        (1==Integer.parseInt(temp.getString("iniziato")))
                                 ));
                                 listaPassaggi.get(i).setRichiesteInSospeso(Integer.parseInt(temp.getString("passaggi_in_sospeso")));
                             }

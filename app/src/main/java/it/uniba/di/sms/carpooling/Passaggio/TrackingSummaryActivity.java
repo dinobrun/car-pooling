@@ -18,6 +18,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import it.uniba.di.sms.carpooling.HomeActivity;
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.RequestHandler;
 import it.uniba.di.sms.carpooling.SharedPrefManager;
@@ -48,8 +50,10 @@ public class TrackingSummaryActivity extends AppCompatActivity {
 
     boolean isCorrectEnd;
 
+    Button finishButton;
+    int idPassaggio;
 
-
+    int score;
 
 
 
@@ -58,6 +62,7 @@ public class TrackingSummaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         isCorrectEnd = getIntent().getExtras().getBoolean("correct_end_key");
+        idPassaggio = getIntent().getExtras().getInt("id_passaggio");
 
         //view of correct completed tracking
         if(isCorrectEnd){
@@ -65,6 +70,15 @@ public class TrackingSummaryActivity extends AppCompatActivity {
 
             txtDriver = findViewById(R.id.txtDriver);
             txtScore = findViewById(R.id.score);
+
+            finishButton = findViewById(R.id.finish_button);
+            finishButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent goToHomeActivity = new Intent(TrackingSummaryActivity.this, HomeActivity.class);
+                    startActivity(goToHomeActivity);
+                }
+            });
 
             //set adapter for paassengers list
             passengersRecycler = findViewById(R.id.passengersRecycler);
@@ -115,11 +129,73 @@ public class TrackingSummaryActivity extends AppCompatActivity {
         //view of stopped tracking before complete
         else{
             setContentView(R.layout.activity_stopped_tracking_summary);
+
+            finishButton = findViewById(R.id.finish_button);
+
+            finishButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent goToHomeActivity = new Intent(TrackingSummaryActivity.this, HomeActivity.class);
+                    startActivity(goToHomeActivity);
+                }
+            });
         }
+    }
 
 
+    private void getScore() {
+
+        //if it passes all the validations
+        class Score extends AsyncTask<Void, Void, String> {
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("ID_Passaggio",Integer.toString(idPassaggio));
+                params.put("Username", SharedPrefManager.getInstance(TrackingSummaryActivity.this).getUser().getUsername());
+
+                //returning the response
+                return requestHandler.sendPostRequest(URLs.URL_START_TRACKING, params);
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                try {
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
 
 
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+
+                        score = Integer.parseInt(obj.getString("score"));
+
+                        txtScore.setText(Integer.toString(score));
+
+
+                    } else {
+                        Toast.makeText(TrackingSummaryActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        //executing the async task
+        Score s = new Score();
+        s.execute();
     }
 
 
