@@ -37,14 +37,14 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_avanti_registration_activity, menu);
+        getMenuInflater().inflate(R.menu.registration_activity_forward_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.avanti:
+            case R.id.forwardItem:
                 firstRegistrationPart();
                 return true;
         }

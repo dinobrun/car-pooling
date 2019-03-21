@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/avanti"
+        android:id="@+id/forwardItem"
         android:orderInCategory="200"
         android:title="Search"
         android:icon="@drawable/ic_baseline_keyboard_arrow_right_24px"

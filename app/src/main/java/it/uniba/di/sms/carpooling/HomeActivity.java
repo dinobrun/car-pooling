@@ -82,7 +82,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
         }else{
             setContentView(R.layout.activity_home);
 
-            //user conterrà l'username dell'utente in sessione
+            //get the logged username
             user = SharedPrefManager.getInstance(getApplicationContext()).getUser().getUsername();
 
             drawerLayout = findViewById(R.id.home_layout);
@@ -100,16 +100,16 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                         public boolean onNavigationItemSelected(MenuItem menuItem) {
 
                             switch (menuItem.getItemId()) {
-                                case R.id.nav_camera:
+                                case R.id.rides_section:
                                     Intent openMyRides = new Intent(HomeActivity.this, PassaggiActivity.class);
                                     startActivity(openMyRides);
                                     break;
 
-                                case R.id.auto_section:
+                                case R.id.car_section:
                                     openCarListFragment();
                                     break;
 
-                                case R.id.my_profile:
+                                case R.id.my_profile_section:
                                     openMyProfileFragment();
                                     break;
 
@@ -129,7 +129,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                     });
 
             //Button createRide
-            FloatingActionButton createRide = findViewById(R.id.creaPassaggioButton);
+            FloatingActionButton createRide = findViewById(R.id.btnCreateRide);
             createRide.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -138,7 +138,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
             });
 
             //Button findRide
-            FloatingActionButton findRide = findViewById(R.id.cercapassaggioButton);
+            FloatingActionButton findRide = findViewById(R.id.btnFindRide);
             Animation searchRideAnimation=AnimationUtils.loadAnimation(this, R.anim.scale_animation);
             findRide.startAnimation(searchRideAnimation);
             findRide.setOnClickListener(new View.OnClickListener() {
@@ -267,7 +267,7 @@ public class HomeActivity extends AppCompatActivity implements CreaPassaggioFrag
                     }
                     //Se l'utente non ha auto aggiunte
                     if(cars.isEmpty()){
-                        Toast.makeText(HomeActivity.this, "Aggiungi prima una automobile.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HomeActivity.this, R.string.add_auto, Toast.LENGTH_SHORT).show();
                         openCarListFragment();
                     }
                     //Se l'utente possiede almeno una auto

@@ -103,7 +103,7 @@ public class RegistrationFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
-        inflater.inflate(R.menu.menu_avanti_registration_fragment, menu);
+        inflater.inflate(R.menu.registration_fragment_forward_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

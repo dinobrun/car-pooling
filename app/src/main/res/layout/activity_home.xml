@@ -34,7 +34,7 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/creaPassaggioButton"
+                android:id="@+id/btnCreateRide"
                 android:layout_width="75dp"
                 android:layout_height="73dp"
                 android:layout_marginStart="8dp"
@@ -49,12 +49,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.501"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cercapassaggioButton"
+                app:layout_constraintTop_toBottomOf="@+id/btnFindRide"
                 app:layout_constraintVertical_bias="0.382"
-                app:srcCompat="@drawable/add_passaggio_icon" />
+                app:srcCompat="@drawable/add_ride_icon" />
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/cercapassaggioButton"
+                android:id="@+id/btnFindRide"
                 android:layout_width="192dp"
                 android:layout_height="158dp"
                 android:layout_marginTop="20dp"
@@ -64,31 +64,10 @@
                 app:elevation="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
                 app:srcCompat="@drawable/search_ride_icon" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="336dp"
-                android:layout_height="62dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="80dp"
-                android:layout_marginEnd="8dp"
-                android:fontFamily="@font/archivo_black"
-                android:text="Tocca per cercare un passaggio"
-                android:textAlignment="center"
-                android:textColor="@android:color/holo_orange_dark"
-                android:textSize="18dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
-
         </android.support.constraint.ConstraintLayout>
-
-
-
-
-
 
 
     </android.support.constraint.ConstraintLayout>

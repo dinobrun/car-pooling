@@ -49,4 +49,5 @@
     <string name="enter_city">Please, enter your city</string>
     <string name="select_company">Select your company</string>
     <string name="successful_registration">" Account successfully registered"</string>
+    <string name="add_auto">You need to insert a car</string>
 </resources>

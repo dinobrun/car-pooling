@@ -12,6 +12,7 @@
     <string name="enter_birthdate">Per favore, inserisci la tua data di nascita</string>
     <string name="enter_telephone">Per favore, inserisci il tuo numero telefonico</string>
     <string name="successful_registration">Account registrato con successo</string>
+    <string name="add_auto">Devi prima inserire un\'auto</string>
     <string name="error">Errore</string>
     <string name="select_company">Seleziona la tua azienda</string>
     <string name="invalid">Username o password errate.</string>
