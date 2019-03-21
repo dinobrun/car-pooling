@@ -3,6 +3,8 @@ package it.uniba.di.sms.carpooling.Passaggio;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -24,13 +26,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import it.uniba.di.sms.carpooling.R;
+import it.uniba.di.sms.carpooling.RequestHandler;
+import it.uniba.di.sms.carpooling.SharedPrefManager;
+import it.uniba.di.sms.carpooling.URLs;
 import it.uniba.di.sms.carpooling.Utente;
 
 public class TrackingActivity extends AppCompatActivity {
 
-    private static final int PERMISSIONS_REQUEST = 100;
 
     private RecyclerView passengersRecycler;
     private PassengersAdapter adapterPassengers;
@@ -38,8 +43,10 @@ public class TrackingActivity extends AppCompatActivity {
     ArrayList<Utente> listPassengers = new ArrayList<>();
     Utente driver;
     TextView txtDriver;
+    int idPassaggio;
 
     boolean doubleBackToExitPressedOnce = false;
+    boolean isPassenger;
 
     @Override
     public void onBackPressed() {
@@ -48,8 +55,9 @@ public class TrackingActivity extends AppCompatActivity {
             return;
         }
         this.doubleBackToExitPressedOnce = true;
+
         Toast.makeText(this, "Premi di nuovo BACK per chiudere il tracking", Toast.LENGTH_SHORT).show();
-        stopTrackerService();
+        cancelTracking();
 
 
         new Handler().postDelayed(new Runnable() {
@@ -137,7 +145,8 @@ public class TrackingActivity extends AppCompatActivity {
             }
         });
 
-        int idPassaggio = getIntent().getExtras().getInt("id_passaggio");
+        idPassaggio = getIntent().getExtras().getInt("id_passaggio");
+        isPassenger = getIntent().getExtras().getBoolean("passenger");
 
        // adapterPassengers = new PassaggioOffertoAdapter(this, listaPassaggi);
 
@@ -175,6 +184,62 @@ public class TrackingActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this)
                 .registerReceiver(mMessageReceiver,
                         new IntentFilter("my-integer"));
+    }
+
+
+
+
+    private void cancelTracking() {
+
+        //if it passes all the validations
+        class CancelTracking extends AsyncTask<Void, Void, String> {
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                //creating request handler object
+                RequestHandler requestHandler = new RequestHandler();
+
+                //creating request parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("ID_Passaggio",Integer.toString(idPassaggio));
+                params.put("Username", SharedPrefManager.getInstance(TrackingActivity.this).getUser().getUsername());
+                params.put("Passenger",Boolean.toString(isPassenger));
+
+                //returning the response
+                return requestHandler.sendPostRequest(URLs.URL_CANCEL_TRACKING, params);
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                try {
+                    //converting response to json object
+                    JSONObject obj = new JSONObject(s);
+
+                    //Toast.makeText(TrackingService.this, s, Toast.LENGTH_SHORT).show();
+
+                    //if no error in response
+                    if (!obj.getBoolean("error")) {
+                        stopTrackerService();
+                        Toast.makeText(TrackingActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(TrackingActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        //executing the async task
+        CancelTracking cl = new CancelTracking();
+        cl.execute();
     }
 }
 

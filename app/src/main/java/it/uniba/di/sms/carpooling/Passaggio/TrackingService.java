@@ -55,8 +55,6 @@ public class TrackingService extends Service {
     boolean passenger;
 
 
-
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -178,6 +176,8 @@ public class TrackingService extends Service {
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
 
+                    Toast.makeText(TrackingService.this, s, Toast.LENGTH_SHORT).show();
+
                     //if no error in response
                     if (!obj.getBoolean("error")) {
                         Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -188,7 +188,7 @@ public class TrackingService extends Service {
 
                         Intent goToTracking = new Intent(TrackingService.this, TrackingActivity.class);
                         goToTracking.putExtra("id_passaggio",idPassaggio);
-                        //goToTracking.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        goToTracking.putExtra("passenger",passenger);
                         startActivity(goToTracking);
                     } else {
                         Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -300,7 +300,7 @@ public class TrackingService extends Service {
                     //if no error in response
                     if (!obj.getBoolean("error")) {
 
-                        //check if user is a passenger or driver
+                        //check if user is a passenger
                         if(passenger){
                             //if list is not empty
                             if(!obj.getBoolean("empty_list")){
@@ -310,11 +310,20 @@ public class TrackingService extends Service {
                                     stopSelf();
                                     Intent goToTrackingSummary = new Intent(TrackingService.this, TrackingSummaryActivity.class);
                                     goToTrackingSummary.putExtra("data_tracking",s);
+                                    goToTrackingSummary.putExtra("correct_end_key",true);
+                                    startActivity(goToTrackingSummary);
+                                }
+                                else if(obj.getBoolean("sudden_end")){
+                                    stopSelf();
+                                    Intent goToTrackingSummary = new Intent(TrackingService.this, TrackingSummaryActivity.class);
+                                    goToTrackingSummary.putExtra("data_tracking",s);
+                                    goToTrackingSummary.putExtra("correct_end_key",false);
                                     startActivity(goToTrackingSummary);
                                 }
                                 sendListUser(s);
                             }
                         }
+                        //check if user is a driver
                         else{
                             //if list is not empty
                             if(!obj.getBoolean("empty_list")){
