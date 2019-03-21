@@ -177,12 +177,17 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
                 break;
             case 1:
                 confermatoText.append(" Confermato");
-                buttonTracking.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 confermatoText.append(" Rifiutato");
                 break;
         }
+
+        //Show button if ride is started and not finished
+        if(passaggioParam.isIniziato() && !passaggioParam.isConcluso()){
+            buttonTracking.setVisibility(View.VISIBLE);
+        }
+
         dataText.append(" " + passaggioParam.getData());
         direzioneText.append(" " + passaggioParam.getDirezione());
 
