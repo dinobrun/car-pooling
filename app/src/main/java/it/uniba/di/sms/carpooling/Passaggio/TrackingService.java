@@ -295,7 +295,7 @@ public class TrackingService extends Service {
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
 
-                    //Toast.makeText(TrackingService.this, s, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TrackingService.this, s, Toast.LENGTH_SHORT).show();
 
                     //if no error in response
                     if (!obj.getBoolean("error")) {
