@@ -204,14 +204,14 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         TextView dataText = v.findViewById(R.id.data);
         TextView direzioneText = v.findViewById(R.id.direzione);
 
-        autistaText.append(" " + passaggioParam.getUsernameAutista());
-        autoText.append(" " + passaggioParam.getAutomobile());
-        dataText.append(" " + passaggioParam.getData());
-        direzioneText.append(" " + passaggioParam.getDirezione());
-
-
-
-
+        autistaText.append(": " + passaggioParam.getUsernameAutista());
+        autoText.append(": " + passaggioParam.getAutomobile());
+        dataText.append(": " + passaggioParam.getData());
+        if(passaggioParam.getDirezione()==0){
+            direzioneText.append(": " + getText(R.string.one_way));
+        }else{
+            direzioneText.append(": " + getText(R.string.backHome));
+        }
 
         return v;
     }
