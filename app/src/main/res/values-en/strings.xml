@@ -50,4 +50,5 @@
     <string name="select_company">Select your company</string>
     <string name="successful_registration">" Account successfully registered"</string>
     <string name="add_auto">You need to insert a car</string>
+    <string name="create_ride">Create ride</string>
 </resources>
