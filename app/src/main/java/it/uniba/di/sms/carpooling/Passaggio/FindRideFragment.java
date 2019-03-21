@@ -303,7 +303,7 @@ public class FindRideFragment extends Fragment implements Serializable {
                                         temp.getString("automobile"),
                                         Integer.parseInt(temp.getString("num_posti")),
                                         aziendaUtente,
-                                        Integer.parseInt(temp.getString("direction")),
+                                        Integer.parseInt(temp.getString("direzione")),
                                         temp.getString("foto")
                                 ));
                             }

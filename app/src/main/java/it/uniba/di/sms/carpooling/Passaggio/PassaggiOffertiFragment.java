@@ -116,6 +116,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
 
         // Fetching data from server
         getListPassages();
+        isMultiSelect=false;
     }
 
     private void multiSelect(int position) {
@@ -164,6 +165,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
 
     @Override
     public void onDestroyActionMode(ActionMode actionMode) {
+        actionMode=null;
         isMultiSelect = false;
         selectedIds = new ArrayList<>();
         adapter.setSelectedIds(new ArrayList<Integer>());
@@ -226,7 +228,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                                         temp.getString("data"),
                                         temp.getString("automobile"),
                                         aziendaParam,
-                                        Integer.parseInt(temp.getString("direction")),
+                                        Integer.parseInt(temp.getString("direzione")),
                                         Integer.parseInt(temp.getString("num_posti")),
                                         Integer.parseInt(temp.getString("concluso")),
                                         (1==Integer.parseInt(temp.getString("iniziato")))
@@ -276,8 +278,6 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                         }
                         else{
 
-
-
                             //stop refreshing animation
                             mSwipeRefreshLayout.setRefreshing(false);
                         }
@@ -297,10 +297,6 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
         ListPassages lp = new ListPassages();
         lp.execute();
     }
-
-
-
-
 
 
     public void showopup(){

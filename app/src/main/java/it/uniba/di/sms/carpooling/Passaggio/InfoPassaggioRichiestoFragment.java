@@ -167,29 +167,33 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
 
 
 
-        autistaText.append(" " + passaggioParam.getNomeAutista() + " " + passaggioParam.getCognomeAutista());
-        telefonoText.append(" " + passaggioParam.getTelefonoAutista());
-        autoText.append(" " + passaggioParam.getAutomobile());
-        postiAutoText.append(" " + passaggioParam.getNumPosti());
+        autistaText.append(": " + passaggioParam.getNomeAutista() + " " + passaggioParam.getCognomeAutista());
+        telefonoText.append(": " + passaggioParam.getTelefonoAutista());
+        autoText.append(": " + passaggioParam.getAutomobile());
+        postiAutoText.append(": " + passaggioParam.getNumPosti());
         switch (passaggioParam.getConfermato()) {
             case 0:
-                confermatoText.append(" In attesa di conferma");
+                confermatoText.append(": " + R.string.wait_conferm);
                 break;
             case 1:
-                confermatoText.append(" Confermato");
+                confermatoText.append(": " + R.string.confermed);
                 break;
             case 2:
-                confermatoText.append(" Rifiutato");
+                confermatoText.append(": " + R.string.rejected);
                 break;
+        }
+
+        dataText.append(": " + passaggioParam.getData());
+        if(passaggioParam.getDirezione()==0){
+            direzioneText.append(": " + R.string.one_way);
+        }else{
+            direzioneText.append(": " + R.string.backHome);
         }
 
         //Show button if ride is started and not finished
         if(passaggioParam.isIniziato() && passaggioParam.getConcluso()==0){
             buttonTracking.setVisibility(View.VISIBLE);
         }
-
-        dataText.append(" " + passaggioParam.getData());
-        direzioneText.append(" " + passaggioParam.getDirezione());
 
         return v;
     }

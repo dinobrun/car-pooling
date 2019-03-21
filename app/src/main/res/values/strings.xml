@@ -58,6 +58,10 @@
     <string name="direction">Direzione</string>
     <string name="status">Stato</string>
     <string name="trip">Viaggio</string>
+    <string name="wait_conferm">In attesa di conferma</string>
+    <string name="confermed">Confermato</string>
+    <string name="rejected">Rifiutato</string>
+
 
     <string-array name="postiAutoList">
         <item>1</item>
