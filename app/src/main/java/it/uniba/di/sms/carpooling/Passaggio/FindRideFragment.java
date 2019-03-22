@@ -112,7 +112,7 @@ public class FindRideFragment extends Fragment implements Serializable {
         final View v = inflater.inflate(R.layout.fragment_find_ride, container, false);
 
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
-        toolbar.setTitle("Cerca un passaggio");
+        toolbar.setTitle(R.string.find_ride);
        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
        toolbar.setNavigationIcon(R.drawable.back_icon);
        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -127,7 +127,7 @@ public class FindRideFragment extends Fragment implements Serializable {
        //Barra di ricerca
        sw = v.findViewById(R.id.search);
        //sw.onActionViewExpanded();
-       sw.setQueryHint("Inserisci un autista");
+       sw.setQueryHint(getText(R.string.add_driver));
        sw.setIconifiedByDefault(false);
        sw.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 

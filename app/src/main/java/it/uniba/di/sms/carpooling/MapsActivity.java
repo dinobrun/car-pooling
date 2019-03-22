@@ -158,11 +158,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if(passaggio.isRichiesto()){
             btnRequest.setClickable(false);
-            btnRequest.setText("Richiesto");
+            btnRequest.setText(R.string.requested);
             btnRequest.setBackgroundColor(R.color.cardview_light_background);
         }else{
             btnRequest.setClickable(true);
-            btnRequest.setText("Richiedi passaggio");
+            btnRequest.setText(R.string.ask_ride);
             btnRequest.setBackgroundColor(R.color.easyColor);
             btnRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -182,7 +182,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
         if(passaggio.isRichiesto()){
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-            btnRequest.setText("Richiesto");
+            btnRequest.setText(R.string.requested);
             btnRequest.setClickable(false);
             btnRequest.setBackgroundColor(R.color.cardview_light_background);
         }
@@ -199,7 +199,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Address address;
         address = geocoder.getFromLocationName(SharedPrefManager.getInstance(MapsActivity.this).getUser().getIndirizzoAzienda(), 1).get(0);
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
-        markerOptions.title("Azienda");
+        markerOptions.title(SharedPrefManager.getInstance(getApplicationContext()).getUser().getAzienda());
         markerOptions.icon(bitmapDescriptorFromVector(MapsActivity.this, R.drawable.marker_factory));
         mGoogleMap.addMarker(markerOptions);
     }
@@ -211,7 +211,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Address address;
         address = geocoder.getFromLocationName(SharedPrefManager.getInstance(MapsActivity.this).getUser().getIndirizzo(), 1).get(0);
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
-        markerOptions.title("Casa mia");
+        markerOptions.title(getString(R.string.home));
         markerOptions.icon(bitmapDescriptorFromVector(MapsActivity.this, R.drawable.marker_home));
         mGoogleMap.addMarker(markerOptions);
     }
@@ -255,7 +255,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if (!obj.getBoolean("error")) {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                             markerPassaggio.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                            btnRequest.setText("Richiesto");
+                            btnRequest.setText(R.string.requested);
                             btnRequest.setClickable(false);
                             btnRequest.setBackgroundColor(R.color.cardview_dark_background);
                         } else {

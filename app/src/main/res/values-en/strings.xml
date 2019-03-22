@@ -7,7 +7,7 @@
     <string name="company">Company</string>
     <string name="address">Address</string>
     <string name="telephone">Telephone</string>
-    <string name="forward">One way</string>
+    <string name="forward">Next</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="birthDate">Date of birth</string>
@@ -62,4 +62,12 @@
     <string name="requested">Requested</string>
     <string name="offered">Offered</string>
     <string name="home">Home</string>
+    <string name="add_car_name">Add a car</string>
+    <string name="car_name">Insert the car name</string>
+    <string name="add_seats">Seats number</string>
+    <string name="num_seats">Insert the number of the seats of your auto</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_driver">Insert a driver</string>
+    <string name="find_ride">Find a ride</string>
+    <string name="ask_ride">Ask for a ride</string>
 </resources>

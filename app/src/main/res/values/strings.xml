@@ -39,10 +39,14 @@
     <string name="insertDate">Inserisci data</string>
     <string name="icon">Icona</string>
     <string name="close">Chiudi</string>
+    <string name="cancel">Annulla</string>
     <string name="blank" translatable="false" />
     <string name="action_settings">Impostazioni</string>
     <string name="citta">Città</string>
     <string name="passage_request">Richiedi passaggio</string>
+    <string name="find_ride">Cerca un passaggio</string>
+    <string name="ask_ride">Richiedi passaggio</string>
+    <string name="add_driver">Inserisci un autista</string>
     <string name="car">Auto</string>
     <string name="places">Posti</string>
     <string name="date">Data</string>
@@ -70,6 +74,10 @@
     <string name="requested">Richiesti</string>
     <string name="offered">Offerti</string>
     <string name="home">Casa</string>
+    <string name="add_car_name">Aggiungi una auto</string>
+    <string name="car_name">Inserisci il nome dell\'auto da aggiungere</string>
+    <string name="add_seats">Numero di posti</string>
+    <string name="num_seats">Inserisci il numero di posti dell\'auto</string>
 
 
     <string-array name="postiAutoList">

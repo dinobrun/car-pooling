@@ -138,11 +138,9 @@ public class CarListFragment extends Fragment {
 
     public void showAddAutoPopup(){
 
-        final ArrayList<String> automobili = new ArrayList<>();
-
         AlertDialog.Builder builderNomeAuto = new AlertDialog.Builder(getActivity());
-        builderNomeAuto.setTitle("Aggiungi una auto");
-        builderNomeAuto.setMessage("Inserisci il nome dell'auto da aggiungere");
+        builderNomeAuto.setTitle(R.string.add_car_name);
+        builderNomeAuto.setMessage(R.string.car_name);
 
         // Set up the input
         final EditText input = new EditText(getActivity());
@@ -152,15 +150,15 @@ public class CarListFragment extends Fragment {
         builderNomeAuto.setView(input);
 
         // Set up the buttons
-        builderNomeAuto.setPositiveButton("Avanti", new DialogInterface.OnClickListener() {
+        builderNomeAuto.setPositiveButton(R.string.forward, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
                 autoNameInput = input.getText().toString();
 
                 AlertDialog.Builder builderPostiAuto = new AlertDialog.Builder(getActivity());
-                builderPostiAuto.setTitle("Numero di posti");
-                builderPostiAuto.setMessage("Inserisci il numero di posti dell'auto");
+                builderPostiAuto.setTitle(R.string.add_seats);
+                builderPostiAuto.setMessage(R.string.num_seats);
 
 
                 // Set up the input
@@ -169,7 +167,7 @@ public class CarListFragment extends Fragment {
                 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
                 builderPostiAuto.setView(input);
-                builderPostiAuto.setPositiveButton("Avanti", new DialogInterface.OnClickListener() {
+                builderPostiAuto.setPositiveButton(R.string.forward, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         numPostiInput = Integer.parseInt(input.getText().toString());
@@ -177,7 +175,7 @@ public class CarListFragment extends Fragment {
 
                     }
                 });
-                builderPostiAuto.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                builderPostiAuto.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -187,7 +185,7 @@ public class CarListFragment extends Fragment {
 
             }
         });
-        builderNomeAuto.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+        builderNomeAuto.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -364,7 +362,9 @@ public class CarListFragment extends Fragment {
                 super.onPostExecute(s);
 
                 try {
-                        //converting response to json object
+
+
+                    //converting response to json object
                         JSONObject obj = new JSONObject(s);
 
                         //if no error in response
