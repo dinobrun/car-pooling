@@ -126,7 +126,14 @@ public class TrackingService extends Service {
                     .build();
             startForeground(2, notification);
 
-
+       /* }else{
+            NotificationManager nMN = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            Notification n  = new Notification.Builder(this)
+                    .setContentTitle("Whip And Weep")
+                    .setContentText("Whip is On!")
+                    .setSmallIcon(R.drawable.trash_icon)
+                    .build();
+            nMN.notify(1, n);*/
         }
     }
 
