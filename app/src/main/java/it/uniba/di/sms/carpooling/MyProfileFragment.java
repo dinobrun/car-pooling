@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 public class MyProfileFragment extends Fragment {
@@ -84,7 +85,7 @@ public class MyProfileFragment extends Fragment {
         txtTelefono.setText(SharedPrefManager.getInstance(getActivity()).getUser().getTelefono());
 
         profileImage = v.findViewById(R.id.imageView);
-        if(SharedPrefManager.getInstance(getActivity()).getUser().getFoto()==null){
+        if(SharedPrefManager.getInstance(getActivity()).getUser().getFoto().equals("null")){
             profileImage.setBackgroundResource(R.drawable.no_profile);
         }
         else{

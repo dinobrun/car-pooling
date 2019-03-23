@@ -18,7 +18,7 @@
     <string name="close">Close</string>
     <string name="citta">City</string>
     <string name="car">Car</string>
-    <string name="places">Places</string>
+    <string name="places">Seats</string>
     <string name="date">Date</string>
     <string name="one_way">One way</string>
     <string name="backHome">Return</string>
@@ -70,4 +70,5 @@
     <string name="add_driver">Insert a driver</string>
     <string name="find_ride">Find a ride</string>
     <string name="ask_ride">Ask for a ride</string>
+    <string name="selected">selected</string>
 </resources>

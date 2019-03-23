@@ -160,7 +160,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                 else
                     selectedIds.add(data.getId());
                 if (selectedIds.size() > 0)
-                    actionMode.setTitle("selezionati: " + String.valueOf(selectedIds.size())); //show selected item count on action mode.
+                    actionMode.setTitle(R.string.selected+": " + String.valueOf(selectedIds.size())); //show selected item count on action mode.
                 else{
                     actionMode.setTitle(""); //remove item count from action mode.
                     actionMode.finish();

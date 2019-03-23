@@ -3,11 +3,10 @@ package it.uniba.di.sms.carpooling;
 import java.io.Serializable;
 
 public class Utente implements Serializable {
-    private String username, nome, cognome, sesso, dataNascita, indirizzo, email, telefono, indirizzoAzienda;
-    private String foto = null;
+    private String username, nome, cognome, dataNascita, indirizzo, email, telefono, indirizzoAzienda;
+    private String foto;
     private String azienda = null;
     private int confermato;
-
     private int autorizzato;
 
     public String getIndirizzoAzienda() {
@@ -64,7 +63,7 @@ public class Utente implements Serializable {
 
 
     //costruttore di utente nel login senza azienda
-    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, String dataNascita, int autorizzato) {
+    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, String dataNascita, int autorizzato, String foto) {
         this.username = username;
         this.nome = nome;
         this.cognome = cognome;
@@ -73,6 +72,7 @@ public class Utente implements Serializable {
         this.telefono = telefono;
         this.dataNascita = dataNascita;
         this.autorizzato = autorizzato;
+        this.foto=foto;
     }
 
     //costruttore utilizzato per il tracking di un passaggio in TrackingService
@@ -82,7 +82,7 @@ public class Utente implements Serializable {
     }
 
     //costruttore di utente nel login con l'azienda
-    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, String dataNascita, String azienda, String indirizzoAzienda, int autorizzato) {
+    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, String dataNascita, String azienda, String indirizzoAzienda, int autorizzato, String foto) {
         this.username = username;
         this.nome = nome;
         this.cognome = cognome;
@@ -93,6 +93,7 @@ public class Utente implements Serializable {
         this.azienda=azienda;
         this.indirizzoAzienda = indirizzoAzienda;
         this.autorizzato = autorizzato;
+        this.foto=foto;
     }
 
 
@@ -106,8 +107,6 @@ public class Utente implements Serializable {
         this.telefono = telefono;
         this.confermato = confermato;
     }
-
-
 
 
 
