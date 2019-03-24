@@ -79,7 +79,7 @@ public class AutoAdapter extends RecyclerView.Adapter<AutoAdapter.ProductViewHol
         public ProductViewHolder(View itemView) {
             super(itemView);
 
-            textViewTitle = itemView.findViewById(R.id.textViewTitle);
+            textViewTitle = itemView.findViewById(R.id.textViewUsername);
             textViewShortDesc = itemView.findViewById(R.id.textViewShortDesc);
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);

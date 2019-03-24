@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -111,8 +112,8 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         final View v = inflater.inflate(R.layout.fragment_info_passaggio_offerto, container, false);
 
 
-        Button buttonTracking = v.findViewById(R.id.tracking_button);
-        buttonTracking.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton startTracking = v.findViewById(R.id.floatStartTracking);
+        startTracking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -131,7 +132,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 
         //show start button if ride is not finished
         if(passaggioParam.getConcluso()==0){
-            buttonTracking.setVisibility(View.VISIBLE);
+            startTracking.setVisibility(View.VISIBLE);
         }
 
         txtNome = v.findViewById(R.id.txtNome);
@@ -202,16 +203,14 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 
                     }
                 }
-            }, 300);
+            }, 400);
         }
 
 
-        TextView autistaText = v.findViewById(R.id.autista);
         TextView autoText = v.findViewById(R.id.auto);
         TextView dataText = v.findViewById(R.id.data);
         TextView direzioneText = v.findViewById(R.id.direzione);
 
-        autistaText.append(": " + passaggioParam.getUsernameAutista());
         autoText.append(": " + passaggioParam.getAutomobile());
         dataText.append(": " + passaggioParam.getData());
         if(passaggioParam.getDirezione()==0){

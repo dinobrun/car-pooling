@@ -71,4 +71,6 @@
     <string name="find_ride">Find a ride</string>
     <string name="ask_ride">Ask for a ride</string>
     <string name="selected">selected</string>
+    <string name="pendingRequests">Pendind requests:</string>
+    <string name="stateRide">State:</string>
 </resources>

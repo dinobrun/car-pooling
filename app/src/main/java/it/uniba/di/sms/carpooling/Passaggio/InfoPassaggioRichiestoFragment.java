@@ -13,6 +13,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -96,7 +97,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
         toolbar.setTitle("Informazioni sul passaggio");
 
-        Button buttonTracking = v.findViewById(R.id.tracking_button);
+        FloatingActionButton buttonTracking = v.findViewById(R.id.floatStartTracking);
         buttonTracking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,7 +167,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
                         });
                     }
                 }
-            }, 300);
+            }, 400);
         }
 
 
