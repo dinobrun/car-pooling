@@ -73,4 +73,7 @@
     <string name="selected">selected</string>
     <string name="pendingRequests">Pendind requests:</string>
     <string name="stateRide">State:</string>
+    <string name="findRide">Find ride</string>
+    <string name="newRide">Create new ride</string>
+    <string name="next">Next</string>
 </resources>

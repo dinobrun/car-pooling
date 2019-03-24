@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -94,6 +95,9 @@ public class HomeActivity extends AppCompatActivity implements CreateRideFragmen
             actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
             NavigationView navigationView = findViewById(R.id.nav_view);
+            View hView =  navigationView.getHeaderView(0);
+            TextView headerTitle = hView.findViewById(R.id.nav_view_header);
+            headerTitle.setText(SharedPrefManager.getInstance(getApplicationContext()).getUser().getNome() + " " + SharedPrefManager.getInstance(getApplicationContext()).getUser().getCognome());
             navigationView.setNavigationItemSelectedListener(
                     new NavigationView.OnNavigationItemSelectedListener() {
                         @Override

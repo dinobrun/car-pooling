@@ -40,171 +40,161 @@
         tools:layout_editor_absoluteX="20dp"
         tools:layout_editor_absoluteY="20dp">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/close_card"
-            android:layout_width="wrap_content"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/close_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/close" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnRequest"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:text="@string/passage_request"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtData" />
+            <ImageView
+                android:id="@+id/close_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/close_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/close" />
 
-        <TextView
-            android:id="@+id/lblNome"
-            android:layout_width="wrap_content"
-            android:layout_height="23dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/name"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/profileImage"
-            app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/btnRequest"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:text="@string/passage_request"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtData" />
 
-        <TextView
-            android:id="@+id/txtNome"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="8dp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@id/lblNome"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/lblNome"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/name"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/lblTelefono"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/telephone"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/profileImage"
-            app:layout_constraintTop_toBottomOf="@+id/txtNome" />
+            <TextView
+                android:id="@+id/txtNome"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@id/lblNome"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txtTelefono"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@id/lblTelefono"
-            app:layout_constraintTop_toBottomOf="@+id/txtNome" />
+            <TextView
+                android:id="@+id/lblTelefono"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/telephone"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtNome" />
 
-        <TextView
-            android:id="@+id/lblAuto"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/car"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/profileImage"
-            app:layout_constraintTop_toBottomOf="@+id/txtTelefono" />
+            <TextView
+                android:id="@+id/txtTelefono"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@id/lblTelefono"
+                app:layout_constraintTop_toBottomOf="@+id/txtNome" />
 
-        <TextView
-            android:id="@+id/txtAuto"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@id/lblAuto"
-            app:layout_constraintTop_toBottomOf="@+id/txtTelefono" />
+            <TextView
+                android:id="@+id/lblAuto"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/car"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtTelefono" />
 
-        <TextView
-            android:id="@+id/lblPosti"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/places"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@id/txtAuto"
-            app:layout_constraintTop_toBottomOf="@+id/txtTelefono" />
+            <TextView
+                android:id="@+id/txtAuto"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@id/lblAuto"
+                app:layout_constraintTop_toBottomOf="@+id/txtTelefono" />
 
-        <TextView
-            android:id="@+id/txtPosti"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@id/lblPosti"
-            app:layout_constraintTop_toBottomOf="@+id/txtTelefono" />
+            <TextView
+                android:id="@+id/lblPosti"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/places"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@id/txtAuto"
+                app:layout_constraintTop_toBottomOf="@+id/txtTelefono" />
 
-        <TextView
-            android:id="@+id/lblData"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/date"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/profileImage"
-            app:layout_constraintTop_toBottomOf="@id/lblAuto" />
+            <TextView
+                android:id="@+id/txtPosti"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@id/lblPosti"
+                app:layout_constraintTop_toBottomOf="@+id/txtTelefono" />
 
-        <TextView
-            android:id="@+id/txtData"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@id/lblData"
-            app:layout_constraintTop_toBottomOf="@id/lblAuto" />
+            <TextView
+                android:id="@+id/lblData"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/date"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblAuto" />
 
-        <ImageView
-            android:id="@+id/call_icon"
-            android:layout_width="22dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/call_icon"
-            app:layout_constraintLeft_toRightOf="@id/txtTelefono"
-            app:layout_constraintTop_toBottomOf="@id/txtNome"
-            android:contentDescription="@string/icon" />
+            <TextView
+                android:id="@+id/txtData"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@id/lblData"
+                app:layout_constraintTop_toBottomOf="@id/lblAuto" />
 
-        <ImageView
-            android:id="@+id/profileImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/no_profile" />
+            <ImageView
+                android:id="@+id/call_icon"
+                android:layout_width="22dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/call_icon"
+                app:layout_constraintLeft_toRightOf="@id/txtTelefono"
+                app:layout_constraintTop_toBottomOf="@id/txtNome"
+                android:contentDescription="@string/icon" />
 
 
-    </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
 

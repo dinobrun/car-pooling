@@ -99,5 +99,8 @@
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="pendingRequests">Richieste in sospeso:</string>
     <string name="stateRide">Stato:</string>
+    <string name="findRide">Cerca un passaggio</string>
+    <string name="newRide">Crea un nuovo passaggio</string>
+    <string name="next">Avanti</string>
 
 </resources>

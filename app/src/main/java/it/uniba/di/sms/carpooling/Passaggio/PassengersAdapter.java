@@ -33,6 +33,7 @@ public class PassengersAdapter extends RecyclerView.Adapter<PassengersAdapter.Pr
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         View view = inflater.inflate(R.layout.list_layout_passeggero, null);
+        view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
         return new PassengersAdapter.ProductViewHolder(view);
     }
 

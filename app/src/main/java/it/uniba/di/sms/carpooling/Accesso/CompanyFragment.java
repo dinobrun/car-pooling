@@ -105,16 +105,6 @@ public class CompanyFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_company, container, false);
 
-        Toolbar toolbar = v.findViewById(R.id.my_toolbar_2);
-
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.home_icon);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().popBackStack();
-            }
-        });
 
         progressBar=v.findViewById(R.id.progressBarCompany);
         //get the list of the companies

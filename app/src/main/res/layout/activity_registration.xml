@@ -6,7 +6,6 @@
     android:id="@+id/registration_frag_layout"
     android:layout_height="match_parent"
     tools:context=".Accesso.RegistrationActivity"
-    android:background="@color/easyColor"
     tools:layout_editor_absoluteY="81dp"
     >
 
@@ -76,6 +75,25 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:text="@string/blank" />
+
+        <Button
+            android:id="@+id/secondRegPart"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"
+            android:layout_marginBottom="66dp"
+            android:background="@android:color/holo_orange_dark"
+            android:text="@string/next"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </RelativeLayout>
 
