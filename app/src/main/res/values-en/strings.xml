@@ -34,6 +34,8 @@
     <string name="status">Status</string>
     <string name="trip">Trip</string>
     <string name="back_again">Press BACK again to close tracking</string>
+    <string name="choose_company">Insert your company please</string>
+    <string name="select_photo">Select a photo</string>
     <string name="ride_tracking">Ride tracking</string>
     <string name="service_closed">Service closed</string>
     <string name="tracking_in_progress">Tracking in progress</string>

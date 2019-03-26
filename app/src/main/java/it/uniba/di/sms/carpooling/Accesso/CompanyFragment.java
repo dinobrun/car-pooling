@@ -12,10 +12,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -63,6 +65,7 @@ public class CompanyFragment extends Fragment {
     private String company = null;
     private String stringImage = "null";
     private ProgressBar progressBar;
+    Spinner companySpinner;
 
     //Costruttore
     public CompanyFragment() {
@@ -111,7 +114,7 @@ public class CompanyFragment extends Fragment {
         ArrayList<String> companies = getCompanies();
 
         //spinner
-        final Spinner spinner = v.findViewById(R.id.companySpinner);
+        companySpinner = v.findViewById(R.id.companySpinner);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, companies){
@@ -135,9 +138,9 @@ public class CompanyFragment extends Fragment {
         };
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        companySpinner.setAdapter(adapter);
         adapter.add(getString(R.string.select_company));
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        companySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i!=0){
@@ -159,7 +162,7 @@ public class CompanyFragment extends Fragment {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Seleziona una foto"), 1);
+                startActivityForResult(Intent.createChooser(intent, getText(R.string.select_photo)), 1);
             }
         });
 
@@ -248,8 +251,23 @@ public class CompanyFragment extends Fragment {
         return listCompanies;
     }
 
+    private void setSpinnerError(Spinner spinner, String error){
+        View selectedView = spinner.getSelectedView();
+        if (selectedView != null && selectedView instanceof TextView) {
+            spinner.requestFocus();
+            TextView selectedTextView = (TextView) selectedView;
+            selectedTextView.setError("error"); // any name of the error will do
+            selectedTextView.setTextColor(Color.RED); //text color in which you want your error message to be displayed
+            selectedTextView.setText(error); // actual error message
+            spinner.performClick(); // to open the spinner list if error is found.
+
+        }
+    }
 
     private void registerUser() {
+            if(companySpinner.getSelectedItem().toString().equals(getString(R.string.select_company))){
+                Toast.makeText(getActivity(), R.string.choose_company, Toast.LENGTH_SHORT).show();
+            }
 
         class RegisterUser extends AsyncTask<Void, Void, String> {
 
