@@ -55,6 +55,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         });
 
         toolbar = findViewById(R.id.my_toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

@@ -6,7 +6,7 @@
         android:id="@+id/addRide"
         android:orderInCategory="200"
         android:title="Search"
-        android:icon="@drawable/baseline_done_black_18dp"
+        android:icon="@drawable/confirm_ride"
         app:showAsAction="ifRoom"/>
 
 </menu>
