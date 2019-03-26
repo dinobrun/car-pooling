@@ -21,6 +21,8 @@
     <string name="tracking_in_progress">Tracciamento in corso</string>
     <string name="close_tracking">Tocca qui per chiudere il tracciamento.</string>
     <string name="are_you_sure">Sei sicuro?</string>
+    <string name="select_photo">Seleziona una foto</string>
+    <string name="choose_company">Devi inserire la tua azienda</string>
     <string name="changes_cant_return">Le modifiche apportate non potranno essere annullate</string>
     <string name="error">Errore</string>
     <string name="ride_info">Informazioni sul passaggio</string>
