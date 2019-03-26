@@ -171,10 +171,10 @@ public class FindRideFragment extends Fragment implements Serializable {
        year = cal.get(Calendar.YEAR);
        month = cal.get(Calendar.MONTH);
        day = cal.get(Calendar.DAY_OF_MONTH);
-       hour = cal.get(Calendar.HOUR);
+       hour = cal.get(Calendar.HOUR_OF_DAY);
        minute = cal.get(Calendar.MINUTE);
        dataText.setText(day + "/" + (month+1) + "/" + year);
-       orarioText.setText(cal.get(Calendar.HOUR) + " : " + cal.get(Calendar.MINUTE));
+       orarioText.setText(cal.get(Calendar.HOUR_OF_DAY) + " : " + cal.get(Calendar.MINUTE));
 
 
 
@@ -182,9 +182,6 @@ public class FindRideFragment extends Fragment implements Serializable {
        dataText.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               year = cal.get(Calendar.YEAR);
-               month = cal.get(Calendar.MONTH);
-               day = cal.get(Calendar.DAY_OF_MONTH);
                DatePickerDialog dialog = new DatePickerDialog(getActivity(),android.R.style.Theme_Holo_Dialog, mDateSetListener, year,month,day);
                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                dialog.show();
@@ -206,8 +203,6 @@ public class FindRideFragment extends Fragment implements Serializable {
        orarioText.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               hour=cal.get(Calendar.HOUR);
-               minute=cal.get(Calendar.MINUTE);
                TimePickerDialog dialog = new TimePickerDialog(getActivity(),android.R.style.Theme_Holo_Dialog,mTimeSetListener,hour,minute,true);
                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                dialog.show();

@@ -43,44 +43,93 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0">
 
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintBottom_toTopOf="@+id/lblCreateRideDirection"
+                app:layout_constraintTop_toBottomOf="@id/dataText" />
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintBottom_toTopOf="@+id/lblSearchUser"
+                app:layout_constraintTop_toBottomOf="@id/radioGroup" />
+
+            <TextView
+                android:id="@+id/lblFindRideDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/dateInRideCreate"
+                android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/my_toolbar" />
+
+            <TextView
+                android:id="@+id/lblCreateRideDirection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:text="@string/directionCreateRide"
+                android:textAppearance="@android:style/TextAppearance.Material.Widget.Toolbar.Subtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dataText" />
+
+            <TextView
+                android:id="@+id/lblSearchUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="80dp"
+                android:text="@string/searchUser"
+                android:textAppearance="@android:style/TextAppearance.Material.Widget.Toolbar.Subtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/radioGroup" />
+
 
             <SearchView
                 android:id="@+id/search"
                 android:layout_width="285dp"
                 android:layout_height="67dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="20dp"
                 android:defaultFocusHighlightEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.533"
+                app:layout_constraintHorizontal_bias="0.508"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
+                app:layout_constraintTop_toBottomOf="@+id/lblSearchUser" />
 
             <ImageView
                 android:id="@+id/dataPassaggio"
                 android:layout_width="40dp"
                 android:layout_height="34dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="172dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:contentDescription="@string/date"
                 android:src="@drawable/calendar"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/date" />
+                app:layout_constraintTop_toBottomOf="@id/lblFindRideDate" />
 
             <TextView
                 android:id="@+id/dataText"
                 android:layout_width="111dp"
                 android:layout_height="35dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="180dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="50dp"
                 android:text="@string/blank"
                 android:textAppearance="@android:style/TextAppearance.Holo.Medium"
-                app:layout_constraintStart_toEndOf="@+id/dataPassaggio"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintLeft_toRightOf="@id/dataPassaggio"
+                app:layout_constraintTop_toBottomOf="@+id/lblFindRideDate" />
 
             <TextView
                 android:id="@+id/orarioText"
@@ -89,13 +138,13 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="180dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
                 android:text="@string/blank"
                 android:textAppearance="@android:style/TextAppearance.Holo.Medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/dataText"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/lblFindRideDate" />
 
 
                 <android.support.v7.widget.Toolbar
@@ -127,17 +176,15 @@
 
             <RadioGroup
                 android:id="@+id/radioGroup"
-                android:layout_width="249dp"
-                android:layout_height="43dp"
+                android:layout_width="209dp"
+                android:layout_height="35dp"
                 android:layout_below="@+id/dataText"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="248dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="28dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/my_toolbar">
+                app:layout_constraintTop_toBottomOf="@+id/lblCreateRideDirection">
 
 
                 <RadioButton
@@ -148,8 +195,8 @@
 
                 <RadioButton
                     android:id="@+id/radioButtonRitorno"
-                    android:layout_width="123dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="117dp"
+                    android:layout_height="match_parent"
                     android:text="@string/backHome" />
 
 

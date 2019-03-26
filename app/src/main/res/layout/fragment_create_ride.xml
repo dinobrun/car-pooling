@@ -10,42 +10,70 @@
     android:focusable="true">
 
 
+    <TextView
+        android:id="@+id/lblCreateRideDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/dateInRideCreate"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/my_toolbar" />
+
+    <TextView
+        android:id="@+id/lblCreateRideAuto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="@string/addAutoCreateRide"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textDate" />
+
+    <TextView
+        android:id="@+id/lblCreateRideDirection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="@string/directionCreateRide"
+        android:textAppearance="@android:style/TextAppearance.Material.Widget.Toolbar.Subtitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCars" />
+
     <Spinner
         android:id="@+id/spinnerCars"
-        android:layout_width="170dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.392"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textDate" />
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="50dp"
+        app:layout_constraintLeft_toRightOf="@id/car_icon"
+        app:layout_constraintTop_toBottomOf="@+id/lblCreateRideAuto" />
 
     <Spinner
         android:id="@+id/spinnerCarPlaces"
-        android:layout_width="95dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="93dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.971"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textHour" />
+        app:layout_constraintStart_toEndOf="@+id/spinnerCars"
+        app:layout_constraintTop_toBottomOf="@+id/lblCreateRideAuto" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="213dp"
-        android:layout_height="33dp"
+        android:layout_width="184dp"
+        android:layout_height="32dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCarPlaces">
+        app:layout_constraintTop_toBottomOf="@+id/lblCreateRideDirection">
 
         <RadioButton
             android:id="@+id/radioButtonOneWay"
@@ -58,35 +86,46 @@
 
         <RadioButton
             android:id="@+id/radioButtonReturn"
-            android:layout_width="103dp"
-            android:layout_height="wrap_content"
+            android:layout_width="91dp"
+            android:layout_height="match_parent"
             android:text="@string/backHome"
             tools:layout_editor_absoluteX="28dp"
             tools:layout_editor_absoluteY="434dp" />
 
     </RadioGroup>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        app:layout_constraintTop_toBottomOf="@id/car_icon"
+        app:layout_constraintBottom_toTopOf="@id/lblCreateRideDirection"
+        android:id="@+id/line"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
     <TextView
         android:id="@+id/textDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/date"
         android:text="@string/date"
         android:textAppearance="@android:style/TextAppearance.Holo.Medium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintLeft_toRightOf="@id/date_icon"
+        app:layout_constraintTop_toBottomOf="@id/lblCreateRideDate" />
 
     <TextView
         android:id="@+id/textHour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
-        android:layout_marginEnd="92dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
         android:text="@string/hour"
         android:textAppearance="@android:style/TextAppearance.Holo.Medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintLeft_toRightOf="@id/textDate"
+        app:layout_constraintTop_toBottomOf="@+id/lblCreateRideDate" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -98,29 +137,40 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <ImageView
-        android:id="@+id/date_icon"
+        android:id="@+id/car_icon"
         android:layout_width="42dp"
         android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:contentDescription="@string/date"
         android:src="@drawable/car_icon"
-        app:layout_constraintEnd_toStartOf="@+id/spinnerCars"
-        app:layout_constraintHorizontal_bias="0.447"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/car_icon"
-        android:contentDescription="@string/date" />
+        app:layout_constraintTop_toBottomOf="@id/lblCreateRideAuto" />
 
     <ImageView
-        android:id="@+id/car_icon"
+        android:id="@+id/date_icon"
         android:layout_width="40dp"
         android:layout_height="34dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="20dp"
+        android:contentDescription="@string/car"
         android:src="@drawable/calendar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/car" />
+        app:layout_constraintTop_toBottomOf="@id/lblCreateRideDate"
+        tools:layout_editor_absoluteY="101dp" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintBottom_toTopOf="@+id/lblCreateRideAuto"
+        app:layout_constraintTop_toBottomOf="@id/date_icon" />
 
 
 </android.support.constraint.ConstraintLayout>

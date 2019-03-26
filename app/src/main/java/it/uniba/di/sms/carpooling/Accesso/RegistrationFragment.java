@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -140,9 +141,13 @@ public class RegistrationFragment extends Fragment {
         setHasOptionsMenu(true);
 
         txtName = view.findViewById(R.id.textName);
+        txtName.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         txtSurname = view.findViewById(R.id.textSurname);
+        txtSurname.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         txtCity =view.findViewById(R.id.textCity);
+        txtCity.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         txtAddress = view.findViewById(R.id.textAddress);
+        txtAddress.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         txtTelephone = view.findViewById(R.id.textTelephone);
         txtBirthDate = view.findViewById(R.id.textBirthDate);
         Button forwardButton = view.findViewById(R.id.thirdRegPart);
@@ -165,9 +170,6 @@ public class RegistrationFragment extends Fragment {
         txtBirthDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                year = cal.get(Calendar.YEAR);
-                month = cal.get(Calendar.MONTH);
-                day = cal.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog dialog = new DatePickerDialog(getActivity(),android.R.style.Theme_Holo_Dialog, mDateSetListener, year,month,day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();

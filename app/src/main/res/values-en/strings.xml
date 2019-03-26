@@ -93,4 +93,8 @@
     <string name="requested_ride">Requested</string>
     <string name="startTracking">Start tracking</string>
     <string name="view_rides">View rides</string>
+    <string name="dateInRideCreate">Enter date and time</string>
+    <string name="addAutoCreateRide">Enter car and number of available seats</string>
+    <string name="directionCreateRide">Choose the direction</string>
+    <string name="searchUser">Filter the search</string>
 </resources>
