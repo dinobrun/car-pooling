@@ -14,6 +14,8 @@
     <string name="newStep">Create new passage</string>
     <string name="findStep">Find passages</string>
     <string name="insertDate">Insert date</string>
+    <string name="rejected_request">Request refused</string>
+    <string name="accepted_request">Request accepted</string>
     <string name="icon">Icon</string>
     <string name="close">Close</string>
     <string name="citta">City</string>

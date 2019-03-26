@@ -399,13 +399,15 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                             utenteRichiedente.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                             btnAccept.setEnabled(false);
                             btnDecline.setEnabled(true);
+                            Toast.makeText(getActivity(), R.string.accepted_request, Toast.LENGTH_SHORT).show();
                         }else{
                             utente.setConfermato(2);
                             utenteRichiedente.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
                             btnDecline.setEnabled(false);
                             btnAccept.setEnabled(true);
+                            Toast.makeText(getActivity(), R.string.rejected_request, Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
 
 
                     } else {

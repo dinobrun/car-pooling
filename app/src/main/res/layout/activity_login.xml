@@ -28,11 +28,9 @@
         android:layout_marginStart="80dp"
         android:layout_marginTop="60dp"
         android:layout_marginEnd="80dp"
-        android:autofillHints="username"
         android:ems="10"
         android:hint="@string/username"
         android:inputType="textPersonName"
-        android:text="@string/username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -54,8 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
-            android:inputType="textPassword"
-            android:text="@string/password" />
+            android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
