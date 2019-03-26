@@ -15,6 +15,8 @@
     <string name="add_car">Devi prima inserire un\'auto</string>
     <string name="create_ride">Crea passaggio</string>
     <string name="yes">Si</string>
+    <string name="rejected_request">Richiesta rifiutata</string>
+    <string name="accepted_request">Richiesta accetta</string>
     <string name="back_again">Premi di nuovo BACK per chiudere il tracking</string>
     <string name="ride_tracking">Tracciamento del percorso</string>
     <string name="service_closed">Servizio chiuso</string>
