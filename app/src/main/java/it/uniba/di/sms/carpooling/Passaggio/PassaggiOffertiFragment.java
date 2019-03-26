@@ -414,7 +414,6 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                 }
             }
         }
-
         //executing the async task
         DeletePassaggi dp = new DeletePassaggi();
         dp.execute();
