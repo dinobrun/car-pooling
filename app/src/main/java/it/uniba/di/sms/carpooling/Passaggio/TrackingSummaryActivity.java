@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,6 +49,7 @@ public class TrackingSummaryActivity extends AppCompatActivity {
     Utente driver;
     TextView txtDriver;
     TextView txtScore;
+    Toolbar myToolbar;
 
     boolean isCorrectEnd;
 
@@ -63,6 +66,11 @@ public class TrackingSummaryActivity extends AppCompatActivity {
 
         isCorrectEnd = getIntent().getExtras().getBoolean("correct_end_key");
         idPassaggio = getIntent().getExtras().getInt("id_passaggio");
+        txtDriver = findViewById(R.id.txtDriver);
+
+
+
+
 
         //view of correct completed tracking
         if(isCorrectEnd){
@@ -70,11 +78,14 @@ public class TrackingSummaryActivity extends AppCompatActivity {
 
             getScore();
             setContentView(R.layout.activity_tracking_summary);
+            myToolbar = findViewById(R.id.my_toolbar);
+            myToolbar.setTitle("Risultati");
+            setSupportActionBar(myToolbar);
 
             Toast.makeText(TrackingSummaryActivity.this, Integer.toString(idPassaggio),Toast.LENGTH_SHORT).show();
 
-            txtDriver = findViewById(R.id.txtDriver);
-            txtScore = findViewById(R.id.score);
+
+            txtScore.setText("miaaaaaaaaao");
 
             finishButton = findViewById(R.id.finish_button);
             finishButton.setOnClickListener(new View.OnClickListener() {
@@ -134,10 +145,13 @@ public class TrackingSummaryActivity extends AppCompatActivity {
         //view of stopped tracking before complete
         else{
             setContentView(R.layout.activity_stopped_tracking_summary);
+            txtScore = findViewById(R.id.score);
+            myToolbar = findViewById(R.id.my_toolbar);
+            myToolbar.setTitle("Risultati");
+            setSupportActionBar(myToolbar);
 
             getScore();
 
-            Toast.makeText(TrackingSummaryActivity.this, Integer.toString(idPassaggio), Toast.LENGTH_SHORT).show();
 
             finishButton = findViewById(R.id.finish_button);
 
@@ -157,6 +171,7 @@ public class TrackingSummaryActivity extends AppCompatActivity {
 
         //if it passes all the validations
         class Score extends AsyncTask<Void, Void, String> {
+
 
             @Override
             protected String doInBackground(Void... voids) {
@@ -185,7 +200,7 @@ public class TrackingSummaryActivity extends AppCompatActivity {
                     //converting response to json object
                     JSONObject obj = new JSONObject(s);
 
-                    Toast.makeText(TrackingSummaryActivity.this, s, Toast.LENGTH_SHORT).show();
+
 
 
                     //if no error in response
@@ -193,6 +208,7 @@ public class TrackingSummaryActivity extends AppCompatActivity {
 
                         score = obj.getString("score");
                         txtScore.setText(score);
+                        txtScore.setTextColor(Color.rgb(255,0,0));
 
 
                     } else {

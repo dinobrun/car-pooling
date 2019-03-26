@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 public class MyProfileFragment extends Fragment {
@@ -41,23 +42,6 @@ public class MyProfileFragment extends Fragment {
 
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        getActivity().getMenuInflater().inflate(R.menu.edit_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.edit_icon:
-                //txtNome.setEnabled(true);
-
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,7 +68,7 @@ public class MyProfileFragment extends Fragment {
         txtTelefono.setText(SharedPrefManager.getInstance(getActivity()).getUser().getTelefono());
 
         profileImage = v.findViewById(R.id.imageView);
-        if(SharedPrefManager.getInstance(getActivity()).getUser().getFoto()==null){
+        if(SharedPrefManager.getInstance(getActivity()).getUser().getFoto().equals("null")){
             profileImage.setBackgroundResource(R.drawable.no_profile);
         }
         else{

@@ -145,7 +145,7 @@ public class RegistrationFragment extends Fragment {
         txtAddress = view.findViewById(R.id.textAddress);
         txtTelephone = view.findViewById(R.id.textTelephone);
         txtBirthDate = view.findViewById(R.id.textBirthDate);
-        Button forwardButton = view.findViewById(R.id.btnForward);
+        Button forwardButton = view.findViewById(R.id.thirdRegPart);
 
         forwardButton.setOnClickListener(new View.OnClickListener() {
             @Override

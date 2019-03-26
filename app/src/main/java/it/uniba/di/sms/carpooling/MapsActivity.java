@@ -1,35 +1,27 @@
 package it.uniba.di.sms.carpooling;
 
-import android.Manifest;
-import android.app.AlertDialog;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Looper;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -40,7 +32,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -55,21 +46,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     GoogleMap mGoogleMap;
     SupportMapFragment mapFrag;
     LocationRequest mLocationRequest;
-    Location mLastLocation;
-    Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
-    private ArrayList<Passaggio> passaggi;
-    private ArrayList<String> passaggi_utente;
+    private ArrayList<Passaggio> rides;
+    private ArrayList<String> user_rides;
     CardView card;
     ImageView close;
-    TextView txtNome;
-    TextView txtTelefono;
-    TextView txtAuto;
-    TextView txtPosti;
-    TextView txtData;
+    TextView txtName;
+    TextView txtTelephone;
+    TextView txtCar;
+    TextView txtSeats;
+    TextView txtDate;
     Button btnRequest;
+    ImageView callIcon;
+    ImageView imageProfile;
 
-    private boolean clicked=false;
+
+
 
 
     @Override
@@ -77,14 +69,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        txtNome = findViewById(R.id.txtNome);
-        txtTelefono = findViewById(R.id.txtTelefono);
-        txtAuto =  findViewById(R.id.txtAuto);
-        txtPosti = findViewById(R.id.txtPosti);
-        txtData = findViewById(R.id.txtData);
+        txtName = findViewById(R.id.txtNome);
+        txtTelephone = findViewById(R.id.txtTelefono);
+        txtCar =  findViewById(R.id.txtAuto);
+        txtSeats = findViewById(R.id.txtPosti);
+        txtDate = findViewById(R.id.txtData);
         btnRequest =  findViewById(R.id.btnRequest);
         card = findViewById(R.id.info);
         close = findViewById(R.id.close_card);
+        imageProfile=findViewById(R.id.imageProfile);
+
 
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);
@@ -92,6 +86,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 MapsActivity.this.onBackPressed();
+            }
+        });
+
+        callIcon = findViewById(R.id.call_icon);
+        callIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + txtTelephone.getText().toString()));
+                startActivity(callIntent);
             }
         });
 
@@ -106,11 +109,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFrag.getMapAsync(this);
 
         //lista di passaggi completa
-        passaggi = (ArrayList<Passaggio>) getIntent().getSerializableExtra("Passaggi");
+        rides = (ArrayList<Passaggio>) getIntent().getSerializableExtra("Passaggi");
         //Toast.makeText(MapsActivity.this, passaggi.get(0).getAutista(),Toast.LENGTH_SHORT).show();
 
         //lista di ID di passaggi già richiesti
-        passaggi_utente = (ArrayList<String>) getIntent().getSerializableExtra("Passaggi_utente");
+        user_rides = (ArrayList<String>) getIntent().getSerializableExtra("Passaggi_utente");
 
     }
 
@@ -130,8 +133,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             setCompanyMarker();
             //crea marker sulla casa dell'utente richiedente
             setUserMarker();
-            for(Passaggio p : passaggi)
-                if(passaggi_utente.contains(Integer.toString(p.getId()))){
+            for(Passaggio p : rides)
+                if(user_rides.contains(Integer.toString(p.getId()))){
                     p.setRichiesto(true);
                     setMarker(mGoogleMap, p);
                 }else{
@@ -156,138 +159,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-
-
-
-        //PERMISSIONS
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                //Location Permission already granted
-                mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-                mGoogleMap.setMyLocationEnabled(true);
-            } else {
-                //Request Location Permission
-                checkLocationPermission();
-            }
-        }
-        else {
-            mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-            mGoogleMap.setMyLocationEnabled(true);
-        }
-
-
     }
 
 
-    LocationCallback mLocationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            if (locationResult.getLastLocation() != null) {
-                Location location = locationResult.getLastLocation();
-                Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
-                mLastLocation = location;
-
-                if (mCurrLocationMarker != null) {
-                    mCurrLocationMarker.remove();
-                }
-            }
-        }
-    };
-
-
-
-
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    private void checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                new AlertDialog.Builder(this)
-                        .setTitle("Location Permission Needed")
-                        .setMessage("This app needs the Location permission, please accept to use location functionality")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(MapsActivity.this,
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                        MY_PERMISSIONS_REQUEST_LOCATION );
-                            }
-                        })
-                        .create()
-                        .show();
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION );
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // location-related task you need to do.
-                    if (ContextCompat.checkSelfPermission(this,
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
-
-                        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-                        mGoogleMap.setMyLocationEnabled(true);
-
-
-                    }
-
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-    }
 
     //crea un riquadro in cui inserisce le info del marker
+    @SuppressLint("ResourceAsColor")
     public void displayInfo(final Marker marker) {
         //visualizza la card con le informazioni sul passaggio
         card.setVisibility(View.VISIBLE);
 
         final Passaggio passaggio = (Passaggio) marker.getTag();
-        txtNome.setText(passaggio.getNomeAutista() + " " + passaggio.getCognomeAutista());
-        txtTelefono.setText(passaggio.getTelefonoAutista());
-        txtAuto.setText(passaggio.getAutomobile());
-        txtPosti.setText(Integer.toString(passaggio.getNumPosti()));
-        txtData.setText(passaggio.getData());
+        txtName.setText(passaggio.getNomeAutista() + " " + passaggio.getCognomeAutista());
+        txtTelephone.setText(passaggio.getTelefonoAutista());
+        txtCar.setText(passaggio.getAutomobile());
+        txtSeats.setText(Integer.toString(passaggio.getNumPosti()));
+        txtDate.setText(passaggio.getData());
 
         if(passaggio.isRichiesto()){
-            btnRequest.setClickable(false);
-            btnRequest.setText("Richiesto");
-            btnRequest.setBackgroundColor(R.color.cardview_light_background);
+            btnRequest.setEnabled(false);
+            btnRequest.setText(R.string.requested_rides);
         }else{
             btnRequest.setClickable(true);
-            btnRequest.setText("Richiedi passaggio");
-            btnRequest.setBackgroundColor(R.color.easyColor);
+            btnRequest.setText(R.string.ask_ride);
+           // btnRequest.setBackgroundColor(R.color.cardview_dark_background);
             btnRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -298,6 +193,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     //funzione che come parametri ha una mappa e un utente e gli assegna un marker con le informazioni
+    @SuppressLint("ResourceAsColor")
     private void setMarker(GoogleMap map, Passaggio passaggio) throws IOException {
         MarkerOptions markerOptions = new MarkerOptions();
         Marker marker;
@@ -306,9 +202,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
         if(passaggio.isRichiesto()){
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-            btnRequest.setText("Richiesto");
+            btnRequest.setText(R.string.requested_rides);
             btnRequest.setClickable(false);
-            btnRequest.setBackgroundColor(R.color.cardview_light_background);
+            //btnRequest.setBackgroundColor(R.color.cardview_light_background);
         }
         markerOptions.title(passaggio.getUsernameAutista());
         marker = map.addMarker(markerOptions);
@@ -323,7 +219,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Address address;
         address = geocoder.getFromLocationName(SharedPrefManager.getInstance(MapsActivity.this).getUser().getIndirizzoAzienda(), 1).get(0);
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
-        markerOptions.title("Azienda");
+        markerOptions.title(SharedPrefManager.getInstance(getApplicationContext()).getUser().getAzienda());
         markerOptions.icon(bitmapDescriptorFromVector(MapsActivity.this, R.drawable.marker_factory));
         mGoogleMap.addMarker(markerOptions);
     }
@@ -335,7 +231,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Address address;
         address = geocoder.getFromLocationName(SharedPrefManager.getInstance(MapsActivity.this).getUser().getIndirizzo(), 1).get(0);
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
-        markerOptions.title("Casa mia");
+        markerOptions.title(getString(R.string.home));
         markerOptions.icon(bitmapDescriptorFromVector(MapsActivity.this, R.drawable.marker_home));
         mGoogleMap.addMarker(markerOptions);
     }
@@ -379,9 +275,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if (!obj.getBoolean("error")) {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                             markerPassaggio.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                            btnRequest.setText("Richiesto");
-                            btnRequest.setClickable(false);
-                            btnRequest.setBackgroundColor(R.color.cardview_dark_background);
+                            btnRequest.setText(R.string.requested_ride);
+                            btnRequest.setEnabled(false);
                         } else {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         }

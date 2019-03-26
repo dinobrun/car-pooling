@@ -11,8 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import it.uniba.di.sms.carpooling.R;
 
@@ -36,6 +40,7 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         View view = inflater.inflate(R.layout.list_passaggio_offerto, null);
+        view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
         return new PassaggioOffertoAdapter.ProductViewHolder(view);
     }
 
@@ -66,8 +71,27 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
 
         holder.textViewTitle.setText(passaggio.getUsernameAutista());
         holder.textViewShortDesc.setText(passaggio.getAutomobile());
+
+        //if there are pending requests
+        if(passaggio.getRichiesteInSospeso() > 0){
+            holder.textViewRating.setTextColor(Color.rgb(255,0,0));
+        }
         holder.textViewRating.setText(Integer.toString(passaggio.getRichiesteInSospeso()));
-        holder.textViewPrice.setText(passaggio.getData());
+
+
+        // First convert the String to a Date
+        SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.ITALIAN);
+        Date date = null;
+        try {
+            date = dateParser.parse(passaggio.getData());
+            // Then convert the Date to a String, formatted as you dd/MM/yyyy
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("E d MMM yyyy HH:mm", Locale.ITALY);
+            holder.textViewPrice.setText(dateFormatter.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
 
 
     }
@@ -95,7 +119,7 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
 
         public ProductViewHolder(View itemView) {
             super(itemView);
-            textViewTitle = itemView.findViewById(R.id.textViewTitle);
+            textViewTitle = itemView.findViewById(R.id.textViewUsername);
             textViewShortDesc = itemView.findViewById(R.id.textViewShortDesc);
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);

@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -33,23 +34,9 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     private TextInputEditText txtPassword;
     private EditText txtEmail;
     private Toolbar toolbar;
+    Button nextButton;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.registration_activity_forward_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.forwardItem:
-                firstRegistrationPart();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +46,13 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         txtUserName = findViewById(R.id.textUsernameRegistration);
         txtPassword = findViewById(R.id.textPasswordRegistration);
         txtEmail = findViewById(R.id.textEmailRegistration);
+        nextButton = findViewById(R.id.secondRegPart);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firstRegistrationPart();
+            }
+        });
 
         toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);

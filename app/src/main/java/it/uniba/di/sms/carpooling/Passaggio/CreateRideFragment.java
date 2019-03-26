@@ -61,9 +61,6 @@ public class CreateRideFragment extends Fragment {
     Spinner spinnerCarPlaces;
     int carID = 3;
     Calendar calendar = new GregorianCalendar();
-    CheckBox chkCyclic;
-    public static final String YES_CYCLIC = "1";
-    public static final String NO_CYCLIC = "0";
 
     DatePickerDialog.OnDateSetListener mDateSetListener = null;
     TimePickerDialog.OnTimeSetListener mTimeSetListener = null;
@@ -202,8 +199,6 @@ public class CreateRideFragment extends Fragment {
             }
         };
 
-        //Assegno la checkbox ciclica
-        chkCyclic =v.findViewById(R.id.checkBoxCycle);
 
         //Contiene i nomi delle auto
         ArrayList<String> carNames = new ArrayList<>();
@@ -314,7 +309,7 @@ public class CreateRideFragment extends Fragment {
                     JSONObject obj = new JSONObject(s);
 
                     if (!obj.getBoolean("error")) {
-                        Toast.makeText(getActivity(),obj.getString("message"),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),R.string.new_ride_created,Toast.LENGTH_SHORT).show();
                         getActivity().onBackPressed();
                     } else {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -337,23 +332,12 @@ public class CreateRideFragment extends Fragment {
 
                 //creating request parameters
                 HashMap<String, String> params = new HashMap<>();
-                if(chkCyclic.isChecked()){
                     params.put("Autista", user.getUsername());
                     params.put("Data", new java.sql.Timestamp(time.getTime()).toString());
                     params.put("Automobile",Integer.toString(carID));
                     params.put("Azienda",user.getAzienda());
                     params.put("Num_Posti", selectionCarPlaces.toString());
                     params.put("Direzione",Integer.toString(direction));
-                    params.put("Ciclico", YES_CYCLIC);
-                }else{
-                    params.put("Autista", user.getUsername());
-                    params.put("Data", new java.sql.Timestamp(time.getTime()).toString());
-                    params.put("Automobile",Integer.toString(carID));
-                    params.put("Azienda",user.getAzienda());
-                    params.put("Num_Posti", selectionCarPlaces.toString());
-                    params.put("Direzione",Integer.toString(direction));
-                    params.put("Ciclico", NO_CYCLIC);
-                }
 
                 //returing the response
                 return requestHandler.sendPostRequest(URLs.URL_ADD_RIDE, params);

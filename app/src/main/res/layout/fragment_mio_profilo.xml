@@ -11,14 +11,15 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="102dp"
-        android:layout_height="99dp"
-        android:layout_marginTop="84dp"
+        android:layout_width="154dp"
+        android:layout_height="129dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/image_profile"
+        android:src="@drawable/no_profile"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/image_profile" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -33,17 +34,15 @@
         android:id="@+id/nome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
+        android:enabled="false"
         android:inputType="textPersonName"
         android:text="Nome"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:enabled="false"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="253dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView"/>
+        app:layout_constraintTop_toBottomOf="@id/imageView" />
 
     <EditText
         android:id="@+id/cognome"

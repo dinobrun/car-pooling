@@ -9,14 +9,17 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import it.uniba.di.sms.carpooling.R;
 
@@ -42,6 +45,7 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         View view = inflater.inflate(R.layout.list_passaggio_richiesto, null);
+        view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
         return new ProductViewHolder(view);
     }
 
@@ -73,12 +77,35 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
         holder.textViewTitle.setText(passaggio.getNomeAutista() + " " + passaggio.getCognomeAutista());
         holder.textViewShortDesc.setText(passaggio.getAutomobile());
 
-        if(passaggio.getConcluso()==1)
-            holder.textViewRating.setText(R.string.concluded);
-        else
-            holder.textViewRating.setText(R.string.ongoing);
+        switch (passaggio.getConfermato()){
+            case 0:
+                holder.textViewRating.setText(R.string.wait_conferm);
+                holder.textViewRating.setTextColor(Color.rgb(255,165,0));
+                break;
+            case 1:
+                holder.textViewRating.setText(R.string.confermed);
+                holder.textViewRating.setTextColor(Color.rgb(0,255,0));
+                break;
+            case 2:
+                holder.textViewRating.setText(R.string.rejected);
+                holder.textViewRating.setTextColor(Color.rgb(255,0,0));
+                break;
+            default:
+                holder.textViewRating.setText(R.string.wait_conferm);
+        }
 
-        holder.textViewPrice.setText(passaggio.getData());
+
+        // First convert the String to a Date
+        SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.ITALIAN);
+        Date date = null;
+        try {
+            date = dateParser.parse(passaggio.getData());
+            // Then convert the Date to a String, formatted as you dd/MM/yyyy
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("E d MMM yyyy HH:mm", Locale.ITALY);
+            holder.textViewPrice.setText(dateFormatter.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -103,7 +130,7 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
 
         public ProductViewHolder(View itemView) {
             super(itemView);
-            textViewTitle = itemView.findViewById(R.id.textViewTitle);
+            textViewTitle = itemView.findViewById(R.id.textViewUsername);
             textViewShortDesc = itemView.findViewById(R.id.textViewShortDesc);
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);

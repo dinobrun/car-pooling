@@ -15,9 +15,12 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,16 +113,30 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         // Inflate the layout for this fragment
         final View v = inflater.inflate(R.layout.fragment_info_passaggio_offerto, container, false);
 
+        //toolbar
+        Toolbar toolbar = v.findViewById(R.id.my_toolbar);
+        toolbar.setTitle("Informazioni sul passaggio");
 
-        Button buttonTracking = v.findViewById(R.id.tracking_button);
-        buttonTracking.setOnClickListener(new View.OnClickListener() {
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        setHasOptionsMenu(true);
+
+        Button startTracking = v.findViewById(R.id.btnStartTracking);
+        startTracking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 //Check whether GPS tracking is enabled//
                 LocationManager lm = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
                 if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    Toast.makeText(getActivity(), "GPS disattivato. Non puoi utilizzare questa funzione.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.gps_disabled, Toast.LENGTH_SHORT).show();
                     //getActivity().finish();
                 }
                 else if (ContextCompat.checkSelfPermission(getActivity(),
@@ -131,7 +148,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 
         //show start button if ride is not finished
         if(passaggioParam.getConcluso()==0){
-            buttonTracking.setVisibility(View.VISIBLE);
+            startTracking.setEnabled(true);
         }
 
         txtNome = v.findViewById(R.id.txtNome);
@@ -202,16 +219,14 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 
                     }
                 }
-            }, 300);
+            }, 400);
         }
 
 
-        TextView autistaText = v.findViewById(R.id.autista);
         TextView autoText = v.findViewById(R.id.auto);
         TextView dataText = v.findViewById(R.id.data);
         TextView direzioneText = v.findViewById(R.id.direzione);
 
-        autistaText.append(": " + passaggioParam.getUsernameAutista());
         autoText.append(": " + passaggioParam.getAutomobile());
         dataText.append(": " + passaggioParam.getData());
         if(passaggioParam.getDirezione()==0){
@@ -233,6 +248,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
         markerOptions.title(getString(R.string.home));
         markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.marker_home));
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(markerOptions.getPosition(), (float) 14));
         mGoogleMap.addMarker(markerOptions);
     }
 
@@ -295,11 +311,9 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         txtTelefono.setText(utente.getTelefono());
 
         if(((Utente) marker.getTag()).getConfermato()==1){
-            btnAccept.setBackgroundColor(Color.DKGRAY);
-            btnAccept.setClickable(false);
+            btnAccept.setEnabled(false);
         }else if(((Utente) marker.getTag()).getConfermato()==2){
-            btnDecline.setBackgroundColor(Color.DKGRAY);
-            btnDecline.setClickable(false);
+            btnDecline.setEnabled(false);
         }
 
         //accetta il passaggio
@@ -368,18 +382,13 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                         if(conferma){
                             utente.setConfermato(1);
                             utenteRichiedente.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                            btnAccept.setBackgroundColor(Color.DKGRAY);
-                            btnAccept.setClickable(false);
-                            btnDecline.setBackgroundColor(Color.GRAY);
-                            btnDecline.setClickable(true);
-
+                            btnAccept.setEnabled(false);
+                            btnDecline.setEnabled(true);
                         }else{
                             utente.setConfermato(2);
                             utenteRichiedente.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-                            btnDecline.setBackgroundColor(Color.DKGRAY);
-                            btnDecline.setClickable(false);
-                            btnAccept.setBackgroundColor(Color.GRAY);
-                            btnAccept.setClickable(true);
+                            btnDecline.setEnabled(false);
+                            btnAccept.setEnabled(true);
                         }
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
@@ -464,7 +473,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                             }
                         }
                         else{
-                            Toast.makeText(getActivity(), "Nessuno ha ancora richiesto questo passaggio", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), R.string.nobody_request, Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -499,7 +508,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         } else {
 
             //If the user denies the permission request, then display a toast with some more information//
-            Toast.makeText(getActivity(), "Please enable location services to allow GPS tracking", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.gps_enabled, Toast.LENGTH_SHORT).show();
         }
     }
 

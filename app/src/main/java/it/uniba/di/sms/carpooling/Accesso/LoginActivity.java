@@ -146,10 +146,9 @@ public class LoginActivity extends Activity {
                                     userJson.getString("dataNascita"),
                                     userJson.getString("azienda"),
                                     userJson.getString("indirizzoAzienda"),
-                                    Integer.parseInt(userJson.getString("autorizzato"))
-
+                                    Integer.parseInt(userJson.getString("autorizzato")),
+                                    userJson.getString("foto")
                             );
-
                         }
                         else{
                             //creating a new user object without company
@@ -161,7 +160,8 @@ public class LoginActivity extends Activity {
                                     userJson.getString("email"),
                                     userJson.getString("telefono"),
                                     userJson.getString("dataNascita"),
-                                    Integer.parseInt(userJson.getString("autorizzato"))
+                                    Integer.parseInt(userJson.getString("autorizzato")),
+                                    userJson.getString("foto")
                             );
                         }
                         //storing the user in shared preferences

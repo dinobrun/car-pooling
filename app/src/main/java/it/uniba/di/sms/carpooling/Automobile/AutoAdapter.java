@@ -44,7 +44,7 @@ public class AutoAdapter extends RecyclerView.Adapter<AutoAdapter.ProductViewHol
 
         //binding the data with the viewholder views
         holder.textViewTitle.setText(automobile.getNome());
-        holder.textViewShortDesc.setText(Integer.toString(automobile.getNumPosti()));
+        holder.textViewShortDesc.setText("Posti: " + Integer.toString(automobile.getNumPosti()));
 
     }
 
@@ -79,7 +79,7 @@ public class AutoAdapter extends RecyclerView.Adapter<AutoAdapter.ProductViewHol
         public ProductViewHolder(View itemView) {
             super(itemView);
 
-            textViewTitle = itemView.findViewById(R.id.textViewTitle);
+            textViewTitle = itemView.findViewById(R.id.textViewUsername);
             textViewShortDesc = itemView.findViewById(R.id.textViewShortDesc);
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);

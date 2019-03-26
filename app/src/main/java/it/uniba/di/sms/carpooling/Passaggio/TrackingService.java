@@ -71,7 +71,7 @@ public class TrackingService extends Service {
     @Override
     public void onDestroy() {
         client.removeLocationUpdates(locationCallbackTracking);
-        Toast.makeText(TrackingService.this, "Servizio chiuso",Toast.LENGTH_SHORT).show();
+        Toast.makeText(TrackingService.this, R.string.service_closed,Toast.LENGTH_SHORT).show();
         super.onDestroy();
     }
 
@@ -118,15 +118,13 @@ public class TrackingService extends Service {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
             Notification notification = notificationBuilder.setOngoing(true)
                     .setSmallIcon(R.drawable.close_icon)
-                    .setContentTitle("Tracciamento in corso.")
-                    .setContentText("Tocca qui per chiudere il tracciamento.")
+                    .setContentTitle(getString(R.string.tracking_in_progress))
+                    .setContentText(getString(R.string.close_tracking))
                     .setContentIntent(broadcastIntent)
                     .setPriority(NotificationManager.IMPORTANCE_MIN)
                     .setCategory(Notification.CATEGORY_TRANSPORT)
                     .build();
             startForeground(2, notification);
-
-
         }
     }
 

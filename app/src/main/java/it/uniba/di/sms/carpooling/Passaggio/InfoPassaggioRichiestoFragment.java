@@ -13,6 +13,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -94,9 +95,9 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
 
 
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
-        toolbar.setTitle("Informazioni sul passaggio");
+        toolbar.setTitle(R.string.ride_info);
 
-        Button buttonTracking = v.findViewById(R.id.tracking_button);
+        FloatingActionButton buttonTracking = v.findViewById(R.id.floatStartTracking);
         buttonTracking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +105,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
                 //Check whether GPS tracking is enabled//
                 LocationManager lm = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
                 if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    Toast.makeText(getActivity(), "GPS disattivato. Non puoi utilizzare questa funzione.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.gps_disabled, Toast.LENGTH_SHORT).show();
                     //getActivity().finish();
                 }
                 else if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -167,7 +168,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
                         });
                     }
                 }
-            }, 300);
+            }, 400);
         }
 
 
