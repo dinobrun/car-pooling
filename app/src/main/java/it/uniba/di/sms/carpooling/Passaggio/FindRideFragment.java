@@ -319,6 +319,9 @@ public class FindRideFragment extends Fragment implements Serializable {
                             }
 
 
+
+
+
                             //passa all'activity mappa inserendo due liste
                             Intent mapIntent = new Intent(getActivity(), MapsActivity.class);
                             //Toast.makeText(getActivity(), Integer.toString(listaPassaggi.get(0).getId()), Toast.LENGTH_SHORT).show();

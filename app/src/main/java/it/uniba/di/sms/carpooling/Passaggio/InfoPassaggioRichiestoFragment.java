@@ -107,8 +107,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
                     Toast.makeText(getActivity(), "GPS disattivato. Non puoi utilizzare questa funzione.", Toast.LENGTH_SHORT).show();
                     //getActivity().finish();
                 }
-                else if (ContextCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                else if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     startTrackerService();
                 }
             }
@@ -129,6 +128,8 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();
+
+                
             }
         });
 
