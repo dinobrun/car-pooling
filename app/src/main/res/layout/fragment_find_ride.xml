@@ -111,12 +111,12 @@
 
             <ImageView
                 android:id="@+id/dataPassaggio"
-                android:layout_width="40dp"
-                android:layout_height="34dp"
+                android:layout_width="42dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="13dp"
                 android:contentDescription="@string/date"
-                android:src="@drawable/calendar"
+                android:src="@drawable/ic_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblFindRideDate" />
 

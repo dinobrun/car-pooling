@@ -101,6 +101,7 @@ public class CarListFragment extends Fragment {
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);
         toolbar.setTitle(R.string.my_cars);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,7 +122,7 @@ public class CarListFragment extends Fragment {
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
                         "Delete",
-                        R.drawable.add_car_icon,
+                        R.drawable.add_ride_icon,
                         Color.parseColor("#FF3C30"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override

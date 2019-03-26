@@ -92,6 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);
         toolbar.setTitle(R.string.view_rides);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -50,6 +50,7 @@ public class HomeActivity extends AppCompatActivity implements CreateRideFragmen
             drawerLayout = findViewById(R.id.home_layout);
 
             myToolbar = findViewById(R.id.my_toolbar);
+            myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
             setSupportActionBar(myToolbar);
             ActionBar actionbar = getSupportActionBar();
             actionbar.setDisplayHomeAsUpEnabled(true);
@@ -89,6 +90,7 @@ public class HomeActivity extends AppCompatActivity implements CreateRideFragmen
             drawerLayout = findViewById(R.id.home_layout);
 
             myToolbar = findViewById(R.id.my_toolbar);
+            myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
             setSupportActionBar(myToolbar);
             ActionBar actionbar = getSupportActionBar();
             actionbar.setDisplayHomeAsUpEnabled(true);

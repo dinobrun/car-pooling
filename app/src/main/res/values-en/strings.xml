@@ -103,4 +103,5 @@
     <string name="searchUser">Filter the search</string>
     <string name="empty_list_requested">No requested ride</string>
     <string name="empty_list_offered">No offered ride</string>
+    <string name="summary">Summary</string>
 </resources>

@@ -29,6 +29,7 @@ public class PassaggiActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);
         toolbar.setTitle(R.string.my_rides);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
 
         (PassaggiActivity.this).setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
