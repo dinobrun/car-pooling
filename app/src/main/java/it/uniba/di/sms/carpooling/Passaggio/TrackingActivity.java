@@ -56,7 +56,7 @@ public class TrackingActivity extends AppCompatActivity {
         }
         this.doubleBackToExitPressedOnce = true;
 
-        Toast.makeText(this, R.string.back_again, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.back_again), Toast.LENGTH_SHORT).show();
         cancelTracking();
 
 

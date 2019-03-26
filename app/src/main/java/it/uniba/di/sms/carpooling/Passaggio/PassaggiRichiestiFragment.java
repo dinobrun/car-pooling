@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -53,6 +54,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
     private List<Integer> selectedIds = new ArrayList<>();
     SwipeRefreshLayout mSwipeRefreshLayout;
     ArrayList<Passaggio> listaPassaggi = new ArrayList<>();
+    TextView emptyText;
 
 
 
@@ -71,6 +73,8 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View v = inflater.inflate(R.layout.fragment_passaggi_richiesti, container, false);
+
+        emptyText = v.findViewById(R.id.empty_view);
 
         // SwipeRefreshLayout
         mSwipeRefreshLayout = v.findViewById(R.id.swipe_container);
@@ -303,6 +307,8 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                         }
                         else{
 
+                            emptyText.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
                             //stop refresh animation
                             mSwipeRefreshLayout.setRefreshing(false);
                         }

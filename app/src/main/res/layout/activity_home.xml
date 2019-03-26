@@ -38,23 +38,25 @@
                 android:layout_width="75dp"
                 android:layout_height="73dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="124dp"
                 android:clickable="true"
                 app:backgroundTint="@android:color/holo_orange_dark"
                 app:borderWidth="0dp"
                 app:elevation="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.515"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblNewRide"
                 app:srcCompat="@drawable/add_ride_icon" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/btnFindRide"
                 android:layout_width="192dp"
                 android:layout_height="158dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
                 android:clickable="true"
                 app:backgroundTint="@android:color/holo_orange_dark"
                 app:borderWidth="0dp"
@@ -62,29 +64,32 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblFindRide"
-                app:srcCompat="@drawable/search_ride_icon" />
+                app:srcCompat="@drawable/car_icon" />
 
             <TextView
                 android:id="@+id/lblFindRide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="40dp"
                 android:text="@string/findRide"
-                app:layout_constraintTop_toBottomOf="@id/my_toolbar"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="20dp"
-                android:textSize="25dp"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/my_toolbar" />
 
             <TextView
                 android:id="@+id/lblNewRide"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
+                android:layout_height="29dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="@string/newRide"
                 android:textSize="15dp"
+                app:layout_constraintBottom_toTopOf="@id/btnCreateRide"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnFindRide" />
+                app:layout_constraintStart_toStartOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
 

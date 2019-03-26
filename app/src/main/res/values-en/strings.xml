@@ -14,6 +14,8 @@
     <string name="newStep">Create new passage</string>
     <string name="findStep">Find passages</string>
     <string name="insertDate">Insert date</string>
+    <string name="rejected_request">Request refused</string>
+    <string name="accepted_request">Request accepted</string>
     <string name="icon">Icon</string>
     <string name="close">Close</string>
     <string name="citta">City</string>
@@ -34,6 +36,8 @@
     <string name="status">Status</string>
     <string name="trip">Trip</string>
     <string name="back_again">Press BACK again to close tracking</string>
+    <string name="choose_company">Insert your company please</string>
+    <string name="select_photo">Select a photo</string>
     <string name="ride_tracking">Ride tracking</string>
     <string name="service_closed">Service closed</string>
     <string name="tracking_in_progress">Tracking in progress</string>
@@ -97,4 +101,6 @@
     <string name="addAutoCreateRide">Enter car and number of available seats</string>
     <string name="directionCreateRide">Choose the direction</string>
     <string name="searchUser">Filter the search</string>
+    <string name="empty_list_requested">No requested ride</string>
+    <string name="empty_list_offered">No offered ride</string>
 </resources>

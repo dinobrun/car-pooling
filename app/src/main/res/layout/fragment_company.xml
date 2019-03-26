@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF"
@@ -24,21 +25,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
 
     <Button
         android:id="@+id/registerButton"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="144dp"
         android:background="@android:color/holo_orange_dark"
         android:text="@string/signup"
         android:textColor="#fff"
         android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/companySpinner"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/companySpinner" />
 
     <Button
         android:id="@+id/takePhotoButton"
@@ -62,6 +64,7 @@
         android:layout_width="142dp"
         android:layout_height="122dp"
         android:src="@drawable/no_profile"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="30dp"
@@ -71,10 +74,15 @@
     <ProgressBar
         android:id="@+id/progressBarCompany"
         style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar_2"
+        app:layout_constraintVertical_bias="0.543" />
 
 </android.support.constraint.ConstraintLayout>

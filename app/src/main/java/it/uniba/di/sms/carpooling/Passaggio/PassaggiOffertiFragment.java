@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -49,6 +50,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
     private List<Integer> selectedIds = new ArrayList<>();
     SwipeRefreshLayout mSwipeRefreshLayout;
     ArrayList<Passaggio> listaPassaggi = new ArrayList<>();
+    TextView emptyText;
 
 
     String user = SharedPrefManager.getInstance(getActivity()).getUser().getUsername();
@@ -71,6 +73,8 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
         
         // Inflate the layout for this fragment
         final View v = inflater.inflate(R.layout.fragment_passaggi_offerti, container, false);
+
+        emptyText = v.findViewById(R.id.empty_view);
 
         // SwipeRefreshLayout
         mSwipeRefreshLayout = v.findViewById(R.id.swipe_container_offerti);
@@ -285,7 +289,8 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
 
                         }
                         else{
-
+                            emptyText.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
                             //stop refreshing animation
                             mSwipeRefreshLayout.setRefreshing(false);
                         }
