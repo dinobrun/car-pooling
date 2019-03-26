@@ -108,4 +108,7 @@
     <string name="dialog_permission_desc">If you want to use this service, go to Settings and grant permission.</string>
     <string name="request_auto_num_seats">Please enter the number of seats in your car</string>
     <string name="request_auto_name">"Please enter the name of your car "</string>
+    <string name="end">End</string>
+    <string name="punti_guadagnati">Score</string>
+    <string name="error_tracking">An error occurred during tracking</string>
 </resources>

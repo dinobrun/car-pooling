@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@id/imageTracking"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Autista" />
+        android:text="@string/driver" />
 
     <TextView
         android:id="@+id/txtDriver"
@@ -58,7 +58,7 @@
         android:id="@+id/lblscore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Punti guadagnati:"
+        android:text="@string/punti_guadagnati"
         app:layout_constraintStart_toEndOf="@id/imageTracking"
         app:layout_constraintBottom_toBottomOf="@id/imageTracking"
         app:layout_constraintTop_toTopOf="@id/imageTracking"/>
@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:text="FINE"
+        android:text="@string/end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

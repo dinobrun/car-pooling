@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -44,6 +46,9 @@ public class CarListFragment extends Fragment {
     RecyclerView recyclerView;
     AutoAdapter adapter;
     ArrayList<Automobile> listaAutomobiliUltima = new ArrayList<>();
+
+    RelativeLayout overlayLayout;
+    ProgressBar progressBar;
 
     public CarListFragment() {
         // Required empty public constructor
@@ -88,6 +93,9 @@ public class CarListFragment extends Fragment {
 
 
         View v = inflater.inflate(R.layout.fragment_lista_auto, container, false);
+
+        overlayLayout = v.findViewById(R.id.overlayLayout);
+        progressBar = v.findViewById(R.id.progressBar);
 
 
 
@@ -233,8 +241,8 @@ public class CarListFragment extends Fragment {
             protected void onPreExecute() {
                 super.onPreExecute();
                 //displaying the progress bar while user registers on the server
-                // progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                // progressBar.setVisibility(View.VISIBLE);
+                overlayLayout.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             }
 
 
@@ -243,7 +251,8 @@ public class CarListFragment extends Fragment {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 //hiding the progressbar after completion
-                // progressBar.setVisibility(View.GONE);
+                overlayLayout.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 
                 try {
                     //converting response to json object
@@ -298,11 +307,16 @@ public class CarListFragment extends Fragment {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                overlayLayout.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+                //hiding the progressbar after completion
+                overlayLayout.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 
                 try {
                     //converting response to json object

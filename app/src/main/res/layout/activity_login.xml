@@ -43,7 +43,6 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="80dp"
         android:layout_marginTop="30dp"
-        android:layout_above="@id/signInButton"
         android:layout_marginEnd="80dp"
         app:passwordToggleEnabled="true">
 

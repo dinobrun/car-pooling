@@ -17,6 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.json.JSONArray;
@@ -39,6 +41,9 @@ public class HomeActivity extends AppCompatActivity implements CreateRideFragmen
     private DrawerLayout drawerLayout;
     Toolbar myToolbar;
 
+    RelativeLayout overlayLayout;
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +53,9 @@ public class HomeActivity extends AppCompatActivity implements CreateRideFragmen
             setContentView(R.layout.fragment_not_accepted);
             user = SharedPrefManager.getInstance(getApplicationContext()).getUser().getUsername();
             drawerLayout = findViewById(R.id.home_layout);
+
+            overlayLayout = findViewById(R.id.overlayLayout);
+            progressBar = findViewById(R.id.progressBar);
 
             myToolbar = findViewById(R.id.my_toolbar);
             myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
@@ -83,6 +91,9 @@ public class HomeActivity extends AppCompatActivity implements CreateRideFragmen
         //if user is authorized
         }else{
             setContentView(R.layout.activity_home);
+
+            overlayLayout = findViewById(R.id.overlayLayout);
+            progressBar = findViewById(R.id.progressBar);
 
             //get the logged username
             user = SharedPrefManager.getInstance(getApplicationContext()).getUser().getUsername();
@@ -305,11 +316,17 @@ public class HomeActivity extends AppCompatActivity implements CreateRideFragmen
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                overlayLayout.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+
+                //hiding the progressbar after completion
+                overlayLayout.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 
                 try {
                     //converting response to json object

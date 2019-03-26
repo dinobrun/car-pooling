@@ -18,7 +18,7 @@
     <string name="add_car">Devi prima inserire un\'auto</string>
     <string name="create_ride">Crea passaggio</string>
     <string name="yes">Si</string>
-    <string name="back_again">Premi di nuovo BACK per chiudere il tracking</string>
+    <string name="back_again">Premi di nuovo per chiudere il tracking</string>
     <string name="ride_tracking">Tracciamento del percorso</string>
     <string name="service_closed">Servizio chiuso</string>
     <string name="tracking_in_progress">Tracciamento in corso</string>
@@ -135,5 +135,8 @@
     <string name="accepted_request">Richiesta accettata</string>
     <string name="choose_company">Inserisci la tua azienda</string>
     <string name="select_photo">Seleziona una foto</string>
+    <string name="end">Fine</string>
+    <string name="punti_guadagnati">Punti guadagnati:</string>
+    <string name="error_tracking">Si è verificato un errore durante il tracking</string>
 
 </resources>
