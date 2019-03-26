@@ -145,7 +145,8 @@ public class TrackingSummaryActivity extends AppCompatActivity {
             txtScore = findViewById(R.id.score);
             txtScore.setTextColor(Color.rgb(255,0,0));
             myToolbar = findViewById(R.id.my_toolbar);
-            myToolbar.setTitle("Risultati");
+            myToolbar.setTitle(R.string.summary);
+            myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
             setSupportActionBar(myToolbar);
 
             getScore();

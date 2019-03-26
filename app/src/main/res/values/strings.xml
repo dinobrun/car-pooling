@@ -1,6 +1,9 @@
 <resources>
     <string name="tracking_enabled_notif">Tracking in corso. Clicca per chiudere.</string>
+    <string name="ok" translatable="false">Ok</string>
     <string name="firebase_path" translatable="false">location/</string>
+    <string name="request_auto_name">Per favore, inserisci il nome della tua auto</string>
+    <string name="request_auto_num_seats">Per favore, inserisci il numero di posti della tua auto/</string>
     <string name="enter_username">Per favore, inserisci username</string>
     <string name="enter_password">Per favore, inserisci password</string>
     <string name="enter_email">Per favore, inserisci email</string>
@@ -15,7 +18,7 @@
     <string name="add_car">Devi prima inserire un\'auto</string>
     <string name="create_ride">Crea passaggio</string>
     <string name="yes">Si</string>
-    <string name="back_again">Premi di nuovo BACK per chiudere il tracking</string>
+    <string name="back_again">Premi di nuovo per chiudere il tracking</string>
     <string name="ride_tracking">Tracciamento del percorso</string>
     <string name="service_closed">Servizio chiuso</string>
     <string name="tracking_in_progress">Tracciamento in corso</string>
@@ -94,6 +97,8 @@
     <string name="car_name">Inserisci il nome dell\'auto da aggiungere</string>
     <string name="add_seats">Numero di posti</string>
     <string name="num_seats">Inserisci il numero di posti dell\'auto</string>
+    <string name="dialog_permission_title">La localizzazione è necessaria per avviare questo servizio. </string>
+    <string name="dialog_permission_desc">Se vuoi utilizzare questo servizio, vai nelle Impostazioni e concedi il permesso. </string>
 
 
     <string-array name="postiAutoList">
@@ -130,6 +135,9 @@
     <string name="accepted_request">Richiesta accettata</string>
     <string name="choose_company">Inserisci la tua azienda</string>
     <string name="select_photo">Seleziona una foto</string>
+    <string name="end">Fine</string>
+    <string name="punti_guadagnati">Punti guadagnati:</string>
+    <string name="error_tracking">Si è verificato un errore durante il tracking</string>
     <string name="seats_available">Posti disponibili</string>
 
 </resources>

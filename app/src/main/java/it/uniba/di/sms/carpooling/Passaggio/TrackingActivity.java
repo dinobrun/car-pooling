@@ -52,12 +52,13 @@ public class TrackingActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
+            cancelTracking();
             return;
         }
         this.doubleBackToExitPressedOnce = true;
 
         Toast.makeText(this, getString(R.string.back_again), Toast.LENGTH_SHORT).show();
-        cancelTracking();
+
 
 
         new Handler().postDelayed(new Runnable() {
@@ -136,12 +137,12 @@ public class TrackingActivity extends AppCompatActivity {
 
         toolbar.setTitle(R.string.ride_tracking);
         (TrackingActivity.this).setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.close_icon);
+        toolbar.setNavigationIcon(R.drawable.close_icon_white);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                cancelTracking();
             }
         });
 
@@ -230,7 +231,6 @@ public class TrackingActivity extends AppCompatActivity {
                     //if no error in response
                     if (!obj.getBoolean("error")) {
                         stopTrackerService();
-                        Toast.makeText(TrackingActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(TrackingActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                     }

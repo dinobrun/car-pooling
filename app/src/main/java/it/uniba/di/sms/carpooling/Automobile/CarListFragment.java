@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -44,6 +46,9 @@ public class CarListFragment extends Fragment {
     RecyclerView recyclerView;
     AutoAdapter adapter;
     ArrayList<Automobile> listaAutomobiliUltima = new ArrayList<>();
+
+    RelativeLayout overlayLayout;
+    ProgressBar progressBar;
 
     public CarListFragment() {
         // Required empty public constructor
@@ -89,6 +94,9 @@ public class CarListFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_lista_auto, container, false);
 
+        overlayLayout = v.findViewById(R.id.overlayLayout);
+        progressBar = v.findViewById(R.id.progressBar);
+
 
 
         //getting the recyclerview from xml
@@ -121,7 +129,7 @@ public class CarListFragment extends Fragment {
             @Override
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
-                        "Delete",
+                        "-",
                         R.drawable.add_ride_icon,
                         Color.parseColor("#FF3C30"),
                         new SwipeHelper.UnderlayButtonClickListener() {
@@ -139,7 +147,7 @@ public class CarListFragment extends Fragment {
 
     public void showAddAutoPopup(){
 
-        AlertDialog.Builder builderNomeAuto = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder builderNomeAuto = new AlertDialog.Builder(getActivity());
         builderNomeAuto.setTitle(R.string.add_car_name);
         builderNomeAuto.setMessage(R.string.car_name);
 
@@ -155,34 +163,47 @@ public class CarListFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                autoNameInput = input.getText().toString();
+                if(input.getText().toString().equals("")){
+                    input.setError(getText(R.string.request_auto_name));
+                    input.requestFocus();
+                }
+                else{
+                    autoNameInput = input.getText().toString();
 
-                AlertDialog.Builder builderPostiAuto = new AlertDialog.Builder(getActivity());
-                builderPostiAuto.setTitle(R.string.add_seats);
-                builderPostiAuto.setMessage(R.string.num_seats);
+                    AlertDialog.Builder builderPostiAuto = new AlertDialog.Builder(getActivity());
+                    builderPostiAuto.setTitle(R.string.add_seats);
+                    builderPostiAuto.setMessage(R.string.num_seats);
 
 
-                // Set up the input
-                final EditText input = new EditText(getActivity());
+                    // Set up the input
+                    final EditText inputNumPosti = new EditText(getActivity());
 
-                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                builderPostiAuto.setView(input);
-                builderPostiAuto.setPositiveButton(R.string.forward, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        numPostiInput = Integer.parseInt(input.getText().toString());
-                        addAuto(autoNameInput,numPostiInput);
+                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                    inputNumPosti.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    builderPostiAuto.setView(inputNumPosti);
+                    builderPostiAuto.setPositiveButton(R.string.forward, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                });
-                builderPostiAuto.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builderPostiAuto.show();
+                            if(inputNumPosti.getText().toString().equals("")){
+                                inputNumPosti.setError(getText(R.string.request_auto_num_seats));
+                                inputNumPosti.requestFocus();
+                            } else{
+                                numPostiInput = Integer.parseInt(inputNumPosti.getText().toString());
+                                addAuto(autoNameInput,numPostiInput);
+                            }
+                        }
+                    });
+                    builderPostiAuto.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builderPostiAuto.show();
+                }
+
+
 
             }
         });
@@ -220,8 +241,8 @@ public class CarListFragment extends Fragment {
             protected void onPreExecute() {
                 super.onPreExecute();
                 //displaying the progress bar while user registers on the server
-                // progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                // progressBar.setVisibility(View.VISIBLE);
+                overlayLayout.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             }
 
 
@@ -230,7 +251,8 @@ public class CarListFragment extends Fragment {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 //hiding the progressbar after completion
-                // progressBar.setVisibility(View.GONE);
+                overlayLayout.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 
                 try {
                     //converting response to json object
@@ -285,11 +307,16 @@ public class CarListFragment extends Fragment {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                overlayLayout.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+                //hiding the progressbar after completion
+                overlayLayout.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 
                 try {
                     //converting response to json object
