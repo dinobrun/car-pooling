@@ -104,4 +104,5 @@
     <string name="empty_list_requested">No requested ride</string>
     <string name="empty_list_offered">No offered ride</string>
     <string name="summary">Summary</string>
+    <string name="seats_available">Available seats</string>
 </resources>

@@ -130,5 +130,6 @@
     <string name="accepted_request">Richiesta accettata</string>
     <string name="choose_company">Inserisci la tua azienda</string>
     <string name="select_photo">Seleziona una foto</string>
+    <string name="seats_available">Posti disponibili</string>
 
 </resources>

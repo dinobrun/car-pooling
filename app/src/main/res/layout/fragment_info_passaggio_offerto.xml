@@ -59,33 +59,46 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/car"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/autista" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/data"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="5dp"
                     android:text="@string/date"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/auto" />
+                    app:layout_constraintTop_toBottomOf="@id/auto" />
 
                 <TextView
                     android:id="@+id/direzione"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="5dp"
                     android:text="@string/direction"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/data" />
+                    app:layout_constraintTop_toBottomOf="@id/data" />
+
+                <TextView
+                    android:id="@+id/posti_auto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/seats_available"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/direzione"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="8dp"/>
 
                 <Button
                     android:id="@+id/btnStartTracking"

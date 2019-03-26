@@ -230,8 +230,10 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         TextView autoText = v.findViewById(R.id.auto);
         TextView dataText = v.findViewById(R.id.data);
         TextView direzioneText = v.findViewById(R.id.direzione);
+        TextView numPostiText = v.findViewById(R.id.posti_auto);
 
         autoText.append(": " + passaggioParam.getAutomobile());
+        numPostiText.append(": " + passaggioParam.getNumPosti());
 
         //set data in correct format
         // First convert the String to a Date
