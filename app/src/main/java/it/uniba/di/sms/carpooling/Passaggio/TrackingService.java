@@ -71,7 +71,7 @@ public class TrackingService extends Service {
     @Override
     public void onDestroy() {
         client.removeLocationUpdates(locationCallbackTracking);
-        Toast.makeText(TrackingService.this, R.string.service_closed,Toast.LENGTH_SHORT).show();
+        Toast.makeText(TrackingService.this, getString(R.string.service_closed),Toast.LENGTH_SHORT).show();
         super.onDestroy();
     }
 

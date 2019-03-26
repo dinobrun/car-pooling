@@ -93,4 +93,6 @@
     <string name="requested_ride">Requested</string>
     <string name="startTracking">Start tracking</string>
     <string name="view_rides">View rides</string>
+    <string name="empty_list_requested">No requested ride</string>
+    <string name="empty_list_offered">No offered ride</string>
 </resources>
