@@ -56,7 +56,7 @@ public class TrackingActivity extends AppCompatActivity {
         }
         this.doubleBackToExitPressedOnce = true;
 
-        Toast.makeText(this, "Premi di nuovo BACK per chiudere il tracking", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.back_again, Toast.LENGTH_SHORT).show();
         cancelTracking();
 
 
@@ -134,7 +134,7 @@ public class TrackingActivity extends AppCompatActivity {
         passengersRecycler.setAdapter(adapterPassengers);
 
 
-        toolbar.setTitle("Tracciamento del percorso");
+        toolbar.setTitle(R.string.ride_tracking);
         (TrackingActivity.this).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.close_icon);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

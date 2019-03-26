@@ -325,11 +325,11 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
 
     public void showopup(){
         AlertDialog.Builder builderNomeAuto = new AlertDialog.Builder(getActivity());
-        builderNomeAuto.setTitle("Sei sicuro?");
-        builderNomeAuto.setMessage("Le modifiche apportate non potranno essere annullate");
+        builderNomeAuto.setTitle(R.string.are_you_sure);
+        builderNomeAuto.setMessage(R.string.changes_cant_return);
 
         // Set up the buttons
-        builderNomeAuto.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+        builderNomeAuto.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 detelePassaggi(selectedIds);
@@ -337,7 +337,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
 
             }
         });
-        builderNomeAuto.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+        builderNomeAuto.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

@@ -336,7 +336,7 @@ public class FindRideFragment extends Fragment implements Serializable {
 
                         }
                         else{
-                            Toast.makeText(getActivity(), "Nessun passaggio disponibile", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), R.string.no_rides, Toast.LENGTH_SHORT).show();
                         }
 
                     } else {

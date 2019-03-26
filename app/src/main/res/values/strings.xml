@@ -14,7 +14,21 @@
     <string name="successful_registration">Account registrato con successo</string>
     <string name="add_car">Devi prima inserire un\'auto</string>
     <string name="create_ride">Crea passaggio</string>
+    <string name="yes">Si</string>
+    <string name="back_again">Premi di nuovo BACK per chiudere il tracking</string>
+    <string name="ride_tracking">Tracciamento del percorso</string>
+    <string name="service_closed">Servizio chiuso</string>
+    <string name="tracking_in_progress">Tracciamento in corso</string>
+    <string name="close_tracking">Tocca qui per chiudere il tracciamento.</string>
+    <string name="are_you_sure">Sei sicuro?</string>
+    <string name="changes_cant_return">Le modifiche apportate non potranno essere annullate</string>
     <string name="error">Errore</string>
+    <string name="ride_info">Informazioni sul passaggio</string>
+    <string name="gps_disabled">GPS disattivato. Non puoi utilizzare questa funzione</string>
+    <string name="gps_enabled">Per favore attiva la localizzazione per abilitare il tracking GPS</string>
+    <string name="nobody_request">Nessuno ha ancora richiesto questo passaggio</string>
+    <string name="no_rides">Nessun passaggio disponibile</string>
+    <string name="new_ride_created">Passaggio creato correttamente</string>
     <string name="select_company">Seleziona la tua azienda</string>
     <string name="invalid">Username o password errate.</string>
     <string name="app_name" translatable="false">Carpooling</string>
