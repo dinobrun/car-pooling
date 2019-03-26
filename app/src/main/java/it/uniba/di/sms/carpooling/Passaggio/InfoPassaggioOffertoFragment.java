@@ -1,7 +1,10 @@
 package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -16,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -69,6 +73,8 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private Passaggio passaggioParam;
+
+    int requestCode = 1;
 
 
     //MAP
@@ -146,6 +152,21 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                 else if (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     startTrackerService();
+                }
+                else if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)){
+                    AlertDialog.Builder builderNomeAuto = new AlertDialog.Builder(getActivity());
+                    builderNomeAuto.setTitle(R.string.dialog_permission_title);
+                    builderNomeAuto.setMessage(R.string.dialog_permission_desc);
+                    builderNomeAuto.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builderNomeAuto.show();
+                } else{
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, requestCode);
                 }
             }
         });
@@ -520,9 +541,8 @@ public class InfoPassaggioOffertoFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[]
             grantResults) {
 
-        if (requestCode == PERMISSIONS_REQUEST && grantResults.length == 1
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            //startTrackerService();
+        if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startTrackerService();
         } else {
 
             //If the user denies the permission request, then display a toast with some more information//

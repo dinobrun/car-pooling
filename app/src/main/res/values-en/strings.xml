@@ -104,4 +104,8 @@
     <string name="empty_list_requested">No requested ride</string>
     <string name="empty_list_offered">No offered ride</string>
     <string name="summary">Summary</string>
+    <string name="dialog_permission_title">Localization is required to start this service.</string>
+    <string name="dialog_permission_desc">If you want to use this service, go to Settings and grant permission.</string>
+    <string name="request_auto_num_seats">Please enter the number of seats in your car</string>
+    <string name="request_auto_name">"Please enter the name of your car "</string>
 </resources>

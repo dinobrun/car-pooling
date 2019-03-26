@@ -63,9 +63,6 @@ public class TrackingService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
-
-
     }
 
     @Override
@@ -86,7 +83,6 @@ public class TrackingService extends Service {
 
         return START_STICKY;
     }
-
 
 
     private void createNotification() {
@@ -202,11 +198,13 @@ public class TrackingService extends Service {
 
     //first check if location is available
     private void requestLocationCheckPassaggio() {
+
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         client = LocationServices.getFusedLocationProviderClient(this);
 
-        int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        int permission = ContextCompat.checkSelfPermission(TrackingService.this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
 
         if (permission == PackageManager.PERMISSION_GRANTED) {
 
@@ -230,10 +228,10 @@ public class TrackingService extends Service {
         requestTracking.setInterval(5000);
         requestTracking.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         clienTracking = LocationServices.getFusedLocationProviderClient(this);
-        int permission = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION);
 
-        if (permission == PackageManager.PERMISSION_GRANTED) {
+
+        if (ContextCompat.checkSelfPermission(TrackingService.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             locationCallbackTracking = new LocationCallback() {
                 @Override
@@ -242,9 +240,6 @@ public class TrackingService extends Service {
                     Location location = locationResult.getLastLocation();
 
                     if (location != null) {
-                        /*metodo per controllare gli utenti vicini
-                        sendLocationForTracking(location);*/
-                        //request list passengers in the car
                         startTrackingService(location);
                     }
                 }
@@ -252,6 +247,7 @@ public class TrackingService extends Service {
 
             clienTracking.requestLocationUpdates(requestTracking,locationCallbackTracking , null);
         }
+
     }
 
     private void startTrackingService(final Location location) {
@@ -341,10 +337,6 @@ public class TrackingService extends Service {
                                 sendListUser(s);
                             }
                         }
-
-
-
-
 
                     } else {
                         Toast.makeText(TrackingService.this, obj.getString("message"), Toast.LENGTH_SHORT).show();

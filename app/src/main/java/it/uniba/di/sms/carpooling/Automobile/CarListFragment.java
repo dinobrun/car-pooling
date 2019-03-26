@@ -121,7 +121,7 @@ public class CarListFragment extends Fragment {
             @Override
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
-                        "Delete",
+                        "-",
                         R.drawable.add_ride_icon,
                         Color.parseColor("#FF3C30"),
                         new SwipeHelper.UnderlayButtonClickListener() {
@@ -139,7 +139,7 @@ public class CarListFragment extends Fragment {
 
     public void showAddAutoPopup(){
 
-        AlertDialog.Builder builderNomeAuto = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder builderNomeAuto = new AlertDialog.Builder(getActivity());
         builderNomeAuto.setTitle(R.string.add_car_name);
         builderNomeAuto.setMessage(R.string.car_name);
 
@@ -155,34 +155,47 @@ public class CarListFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                autoNameInput = input.getText().toString();
+                if(input.getText().toString().equals("")){
+                    input.setError(getText(R.string.request_auto_name));
+                    input.requestFocus();
+                }
+                else{
+                    autoNameInput = input.getText().toString();
 
-                AlertDialog.Builder builderPostiAuto = new AlertDialog.Builder(getActivity());
-                builderPostiAuto.setTitle(R.string.add_seats);
-                builderPostiAuto.setMessage(R.string.num_seats);
+                    AlertDialog.Builder builderPostiAuto = new AlertDialog.Builder(getActivity());
+                    builderPostiAuto.setTitle(R.string.add_seats);
+                    builderPostiAuto.setMessage(R.string.num_seats);
 
 
-                // Set up the input
-                final EditText input = new EditText(getActivity());
+                    // Set up the input
+                    final EditText inputNumPosti = new EditText(getActivity());
 
-                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                builderPostiAuto.setView(input);
-                builderPostiAuto.setPositiveButton(R.string.forward, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        numPostiInput = Integer.parseInt(input.getText().toString());
-                        addAuto(autoNameInput,numPostiInput);
+                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                    inputNumPosti.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    builderPostiAuto.setView(inputNumPosti);
+                    builderPostiAuto.setPositiveButton(R.string.forward, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                });
-                builderPostiAuto.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builderPostiAuto.show();
+                            if(inputNumPosti.getText().toString().equals("")){
+                                inputNumPosti.setError(getText(R.string.request_auto_num_seats));
+                                inputNumPosti.requestFocus();
+                            } else{
+                                numPostiInput = Integer.parseInt(inputNumPosti.getText().toString());
+                                addAuto(autoNameInput,numPostiInput);
+                            }
+                        }
+                    });
+                    builderPostiAuto.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builderPostiAuto.show();
+                }
+
+
 
             }
         });
