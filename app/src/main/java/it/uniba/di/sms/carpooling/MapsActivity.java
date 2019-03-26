@@ -187,10 +187,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         card.setVisibility(View.VISIBLE);
 
         final Passaggio passaggio = (Passaggio) marker.getTag();
-        txtName.append(": " + passaggio.getNomeAutista() + " " + passaggio.getCognomeAutista());
-        txtTelephone.append(": " + passaggio.getTelefonoAutista());
-        txtCar.append(": " + passaggio.getAutomobile());
-        txtSeats.append(": " + Integer.toString(passaggio.getNumPosti()));
+        txtName.setText(": " + passaggio.getNomeAutista() + " " + passaggio.getCognomeAutista());
+        txtTelephone.setText(": " + passaggio.getTelefonoAutista());
+        txtCar.setText(": " + passaggio.getAutomobile());
+        txtSeats.setText(": " + Integer.toString(passaggio.getNumPosti()));
         //set date with correct format
         // First convert the String to a Date
         SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.ITALIAN);
@@ -199,7 +199,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             date = dateParser.parse(passaggio.getData());
             // Then convert the Date to a String, formatted as you dd/MM/yyyy
             SimpleDateFormat dateFormatter = new SimpleDateFormat("E d MMM yyyy HH:mm", Locale.ITALY);
-            txtDate.append(": " + dateFormatter.format(date));
+            txtDate.setText(": " + dateFormatter.format(date));
         } catch (ParseException e) {
             e.printStackTrace();
         }

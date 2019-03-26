@@ -95,7 +95,7 @@
     <string name="newRide">Create new ride</string>
     <string name="next">Next</string>
     <string name="requested_ride">Requested</string>
-    <string name="startTracking">Start tracking</string>
+    <string name="startTracking">Start</string>
     <string name="view_rides">View rides</string>
     <string name="dateInRideCreate">Enter date and time</string>
     <string name="addAutoCreateRide">Enter car and number of available seats</string>

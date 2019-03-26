@@ -84,7 +84,7 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
                 break;
             case 1:
                 holder.textViewRating.setText(R.string.confermed);
-                holder.textViewRating.setTextColor(Color.rgb(0,255,0));
+                holder.textViewRating.setTextColor(Color.rgb(255,139,195));
                 break;
             case 2:
                 holder.textViewRating.setText(R.string.rejected);
