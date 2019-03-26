@@ -45,7 +45,6 @@ public class TrackingSummaryActivity extends AppCompatActivity {
     private RecyclerView passengersRecycler;
     private PassengersAdapter adapterPassengers;
     String jsonListPassengers;
-    ArrayList<Utente> listPassengers = new ArrayList<>();
     Utente driver;
     TextView txtDriver;
     TextView txtScore;
@@ -76,16 +75,18 @@ public class TrackingSummaryActivity extends AppCompatActivity {
         if(isCorrectEnd){
 
 
-            getScore();
+
             setContentView(R.layout.activity_tracking_summary);
+            txtScore = findViewById(R.id.score);
+            txtDriver = findViewById(R.id.txtDriver);
             myToolbar = findViewById(R.id.my_toolbar);
+            getScore();
             myToolbar.setTitle("Risultati");
             setSupportActionBar(myToolbar);
 
             Toast.makeText(TrackingSummaryActivity.this, Integer.toString(idPassaggio),Toast.LENGTH_SHORT).show();
 
 
-            txtScore.setText("miaaaaaaaaao");
 
             finishButton = findViewById(R.id.finish_button);
             finishButton.setOnClickListener(new View.OnClickListener() {
@@ -101,15 +102,13 @@ public class TrackingSummaryActivity extends AppCompatActivity {
             passengersRecycler.setHasFixedSize(true);
             passengersRecycler.setLayoutManager(new LinearLayoutManager(this));
 
-            adapterPassengers = new PassengersAdapter(TrackingSummaryActivity.this, listPassengers);
-
-            //setting adapter to recyclerview
-            passengersRecycler.setAdapter(adapterPassengers);
 
 
-            ArrayList<Utente> tempListPassengers = new ArrayList<>();
+            ArrayList<Utente> ListPassengers = new ArrayList<>();
             // Extract data included in the Intent
             jsonListPassengers = getIntent().getStringExtra("data_tracking");
+
+            Toast.makeText(TrackingSummaryActivity.this, jsonListPassengers, Toast.LENGTH_SHORT).show();
 
             try {
 
@@ -122,30 +121,28 @@ public class TrackingSummaryActivity extends AppCompatActivity {
                 JSONArray passeggeriJson = obj.getJSONArray("passengers");
                 for(int i=0; i<passeggeriJson.length(); i++){
                     JSONObject temp = passeggeriJson.getJSONObject(i);
-                    tempListPassengers.add(new Utente(
+                    ListPassengers.add(new Utente(
                             temp.getString("nome"),
                             temp.getString("cognome")
                     ));
                 }
-                //check if there is a new user to insert
-                for(Utente user: tempListPassengers){
-                    if(!listPassengers.contains(user)){
-                        listPassengers.add(user);
-                        adapterPassengers.notifyDataSetChanged();
-                    }
-                }
 
-                tempListPassengers.clear();
+                adapterPassengers = new PassengersAdapter(TrackingSummaryActivity.this, ListPassengers);
+
+                //setting adapter to recyclerview
+                passengersRecycler.setAdapter(adapterPassengers);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         }
 
         //view of stopped tracking before complete
         else{
             setContentView(R.layout.activity_stopped_tracking_summary);
             txtScore = findViewById(R.id.score);
+            txtScore.setTextColor(Color.rgb(255,0,0));
             myToolbar = findViewById(R.id.my_toolbar);
             myToolbar.setTitle("Risultati");
             setSupportActionBar(myToolbar);
@@ -208,7 +205,6 @@ public class TrackingSummaryActivity extends AppCompatActivity {
 
                         score = obj.getString("score");
                         txtScore.setText(score);
-                        txtScore.setTextColor(Color.rgb(255,0,0));
 
 
                     } else {
