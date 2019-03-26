@@ -294,11 +294,9 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         txtTelefono.setText(utente.getTelefono());
 
         if(((Utente) marker.getTag()).getConfermato()==1){
-            btnAccept.setBackgroundColor(Color.DKGRAY);
-            btnAccept.setClickable(false);
+            btnAccept.setEnabled(false);
         }else if(((Utente) marker.getTag()).getConfermato()==2){
-            btnDecline.setBackgroundColor(Color.DKGRAY);
-            btnDecline.setClickable(false);
+            btnDecline.setEnabled(false);
         }
 
         //accetta il passaggio
@@ -367,18 +365,13 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                         if(conferma){
                             utente.setConfermato(1);
                             utenteRichiedente.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                            btnAccept.setBackgroundColor(Color.DKGRAY);
-                            btnAccept.setClickable(false);
-                            btnDecline.setBackgroundColor(Color.GRAY);
-                            btnDecline.setClickable(true);
-
+                            btnAccept.setEnabled(false);
+                            btnDecline.setEnabled(true);
                         }else{
                             utente.setConfermato(2);
                             utenteRichiedente.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-                            btnDecline.setBackgroundColor(Color.DKGRAY);
-                            btnDecline.setClickable(false);
-                            btnAccept.setBackgroundColor(Color.GRAY);
-                            btnAccept.setClickable(true);
+                            btnDecline.setEnabled(false);
+                            btnAccept.setEnabled(true);
                         }
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 

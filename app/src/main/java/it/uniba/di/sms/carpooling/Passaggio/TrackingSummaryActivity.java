@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,6 +49,7 @@ public class TrackingSummaryActivity extends AppCompatActivity {
     Utente driver;
     TextView txtDriver;
     TextView txtScore;
+    Toolbar myToolbar;
 
     boolean isCorrectEnd;
 
@@ -67,12 +69,18 @@ public class TrackingSummaryActivity extends AppCompatActivity {
         txtDriver = findViewById(R.id.txtDriver);
 
 
+
+
+
         //view of correct completed tracking
         if(isCorrectEnd){
 
 
             getScore();
             setContentView(R.layout.activity_tracking_summary);
+            myToolbar = findViewById(R.id.my_toolbar);
+            myToolbar.setTitle("Risultati");
+            setSupportActionBar(myToolbar);
 
             Toast.makeText(TrackingSummaryActivity.this, Integer.toString(idPassaggio),Toast.LENGTH_SHORT).show();
 
@@ -138,11 +146,13 @@ public class TrackingSummaryActivity extends AppCompatActivity {
         else{
             setContentView(R.layout.activity_stopped_tracking_summary);
             txtScore = findViewById(R.id.score);
+            myToolbar = findViewById(R.id.my_toolbar);
+            myToolbar.setTitle("Risultati");
+            setSupportActionBar(myToolbar);
 
             getScore();
 
-            Toast.makeText(TrackingSummaryActivity.this, Integer.toString(idPassaggio), Toast.LENGTH_SHORT).show();
-
+            
             finishButton = findViewById(R.id.finish_button);
 
             finishButton.setOnClickListener(new View.OnClickListener() {
@@ -197,7 +207,6 @@ public class TrackingSummaryActivity extends AppCompatActivity {
                     if (!obj.getBoolean("error")) {
 
                         score = obj.getString("score");
-                        Toast.makeText(TrackingSummaryActivity.this, score, Toast.LENGTH_SHORT).show();
                         txtScore.setText(score);
                         txtScore.setTextColor(Color.rgb(255,0,0));
 

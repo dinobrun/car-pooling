@@ -102,7 +102,8 @@
             android:focusable="true"
             android:src="@android:drawable/ic_media_play"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/info" />
+            app:layout_constraintTop_toTopOf="@id/my_toolbar"
+            android:layout_marginTop="60dp"/>
 
 
 
@@ -205,6 +206,7 @@
 
             <Button
                 android:id="@+id/btnAccept"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="60dp"
@@ -215,6 +217,7 @@
 
             <Button
                 android:id="@+id/btnDecline"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"

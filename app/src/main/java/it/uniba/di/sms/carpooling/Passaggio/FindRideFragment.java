@@ -20,8 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -55,6 +57,8 @@ public class FindRideFragment extends Fragment implements Serializable {
     private RadioButton rr;
     private String autistaSearch = "";
     SearchView sw;
+    RelativeLayout overlayLayout;
+    ProgressBar progressBar;
 
     //Inizializzazione variabili Inserimento data
     int year, month, day, hour, minute;
@@ -110,6 +114,9 @@ public class FindRideFragment extends Fragment implements Serializable {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_find_ride, container, false);
+
+        overlayLayout = v.findViewById(R.id.overlayLayout);
+        progressBar = v.findViewById(R.id.progressBar);
 
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
         toolbar.setTitle(R.string.find_ride);
@@ -272,15 +279,16 @@ public class FindRideFragment extends Fragment implements Serializable {
             protected void onPreExecute() {
                 super.onPreExecute();
                 //displaying the progress bar while user registers on the server
-                // progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                // progressBar.setVisibility(View.VISIBLE);
+                overlayLayout.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 //hiding the progressbar after completion
-                // progressBar.setVisibility(View.GONE);
+                overlayLayout.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 
                 try{
                     //converting response to json object

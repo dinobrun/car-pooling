@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -16,7 +15,6 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -65,6 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         card = findViewById(R.id.info);
         close = findViewById(R.id.close_card);
         imageProfile=findViewById(R.id.imageProfile);
+
 
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);
@@ -177,13 +177,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         txtDate.setText(passaggio.getData());
 
         if(passaggio.isRichiesto()){
-            btnRequest.setClickable(false);
-            btnRequest.setText(R.string.requested);
-            btnRequest.setBackgroundColor(R.color.cardview_light_background);
+            btnRequest.setEnabled(false);
+            btnRequest.setText(R.string.requested_rides);
         }else{
             btnRequest.setClickable(true);
             btnRequest.setText(R.string.ask_ride);
-            btnRequest.setBackgroundColor(R.color.cardview_dark_background);
+           // btnRequest.setBackgroundColor(R.color.cardview_dark_background);
             btnRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -203,9 +202,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
         if(passaggio.isRichiesto()){
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-            btnRequest.setText(R.string.requested);
+            btnRequest.setText(R.string.requested_rides);
             btnRequest.setClickable(false);
-            btnRequest.setBackgroundColor(R.color.cardview_light_background);
+            //btnRequest.setBackgroundColor(R.color.cardview_light_background);
         }
         markerOptions.title(passaggio.getUsernameAutista());
         marker = map.addMarker(markerOptions);
@@ -276,9 +275,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if (!obj.getBoolean("error")) {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                             markerPassaggio.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                            btnRequest.setText(R.string.requested);
-                            btnRequest.setClickable(false);
-                            btnRequest.setBackgroundColor(R.color.easyColor);
+                            btnRequest.setText(R.string.requested_ride);
+                            btnRequest.setEnabled(false);
                         } else {
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         }
