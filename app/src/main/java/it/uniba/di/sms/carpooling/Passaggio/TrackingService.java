@@ -84,8 +84,6 @@ public class TrackingService extends Service {
 
         requestLocationCheckPassaggio();
 
-
-        //loginToFirebase();
         return START_STICKY;
     }
 

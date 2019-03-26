@@ -39,6 +39,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import it.uniba.di.sms.carpooling.R;
@@ -97,7 +100,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
         toolbar.setTitle(R.string.ride_info);
 
-        FloatingActionButton buttonTracking = v.findViewById(R.id.floatStartTracking);
+        Button buttonTracking = v.findViewById(R.id.btnStartTracking);
         buttonTracking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -199,7 +202,20 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
                 break;
         }
 
-        dataText.append(": " + passaggioParam.getData());
+        //set data in correct format
+        // First convert the String to a Date
+        SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.ITALIAN);
+        Date date = null;
+        try {
+            date = dateParser.parse(passaggioParam.getData());
+            // Then convert the Date to a String, formatted as you dd/MM/yyyy
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("E d MMM yyyy HH:mm", Locale.ITALY);
+            dataText.append(": " + dateFormatter.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
         if(passaggioParam.getDirezione()==0){
             direzioneText.append(": " + getText(R.string.one_way));
         }else{
@@ -208,7 +224,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
 
         //Show button if ride is started and not finished
         if(passaggioParam.isIniziato() && passaggioParam.getConcluso()==0){
-            buttonTracking.setVisibility(View.VISIBLE);
+            buttonTracking.setEnabled(true);
         }
 
         return v;
