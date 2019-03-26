@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.os.IBinder;
 import android.content.Intent;
@@ -90,28 +91,26 @@ public class TrackingService extends Service {
 
 
     private void createNotification() {
+        String NOTIFICATION_CHANNEL_ID = "com.example.simpleapp";
+        String channelName = "My Background Service";
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            String NOTIFICATION_CHANNEL_ID = "com.example.simpleapp";
-            String channelName = "My Background Service";
             NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
             chan.setLightColor(Color.BLUE);
             chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
             NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             assert manager != null;
             manager.createNotificationChannel(chan);
+        }
 
             Intent goToTracking = new Intent(TrackingService.this, TrackingActivity.class);
-            goToTracking.putExtra("id_passaggio",idPassaggio);
+            goToTracking.putExtra("id_passaggio", idPassaggio);
 
             String stop = "stop";
             registerReceiver(stopReceiver, new IntentFilter(stop));
             PendingIntent broadcastIntent = PendingIntent.getBroadcast(
                     this, 0, goToTracking, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
             Notification notification = notificationBuilder.setOngoing(true)
@@ -123,7 +122,6 @@ public class TrackingService extends Service {
                     .setCategory(Notification.CATEGORY_TRANSPORT)
                     .build();
             startForeground(2, notification);
-        }
     }
 
 

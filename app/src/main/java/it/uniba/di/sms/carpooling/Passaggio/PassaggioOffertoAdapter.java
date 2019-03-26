@@ -69,7 +69,6 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
             holder.profileImage.setImageResource(R.drawable.ritorno_icon);
         }
 
-        holder.textViewTitle.setText(passaggio.getUsernameAutista());
         holder.textViewShortDesc.setText(passaggio.getAutomobile());
 
         //if there are pending requests
@@ -119,7 +118,6 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
 
         public ProductViewHolder(View itemView) {
             super(itemView);
-            textViewTitle = itemView.findViewById(R.id.textViewUsername);
             textViewShortDesc = itemView.findViewById(R.id.textViewShortDesc);
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
