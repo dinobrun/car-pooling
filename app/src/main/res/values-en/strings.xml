@@ -93,7 +93,7 @@
     <string name="newRide">Create new ride</string>
     <string name="next">Next</string>
     <string name="requested_ride">Requested</string>
-    <string name="startTracking">Start tracking</string>
+    <string name="startTracking">Start</string>
     <string name="view_rides">View rides</string>
     <string name="empty_list_requested">No requested ride</string>
     <string name="empty_list_offered">No offered ride</string>
