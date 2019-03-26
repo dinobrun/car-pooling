@@ -98,7 +98,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
 
 
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
-        toolbar.setTitle("Informazioni sul passaggio");
+        toolbar.setTitle(R.string.ride_info);
 
         Button buttonTracking = v.findViewById(R.id.btnStartTracking);
         buttonTracking.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +108,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
                 //Check whether GPS tracking is enabled//
                 LocationManager lm = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
                 if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    Toast.makeText(getActivity(), "GPS disattivato. Non puoi utilizzare questa funzione.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.gps_disabled, Toast.LENGTH_SHORT).show();
                     //getActivity().finish();
                 }
                 else if (ContextCompat.checkSelfPermission(getActivity(),

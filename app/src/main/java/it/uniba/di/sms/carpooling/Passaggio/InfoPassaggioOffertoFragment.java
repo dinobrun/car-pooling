@@ -139,7 +139,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                 //Check whether GPS tracking is enabled//
                 LocationManager lm = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
                 if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    Toast.makeText(getActivity(), "GPS disattivato. Non puoi utilizzare questa funzione.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.gps_disabled, Toast.LENGTH_SHORT).show();
                     //getActivity().finish();
                 }
                 else if (ContextCompat.checkSelfPermission(getActivity(),
@@ -488,7 +488,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
                             }
                         }
                         else{
-                            Toast.makeText(getActivity(), "Nessuno ha ancora richiesto questo passaggio", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), R.string.nobody_request, Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -523,7 +523,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         } else {
 
             //If the user denies the permission request, then display a toast with some more information//
-            Toast.makeText(getActivity(), "Please enable location services to allow GPS tracking", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.gps_enabled, Toast.LENGTH_SHORT).show();
         }
     }
 

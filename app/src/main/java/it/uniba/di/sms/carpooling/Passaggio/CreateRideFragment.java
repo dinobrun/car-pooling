@@ -309,7 +309,7 @@ public class CreateRideFragment extends Fragment {
                     JSONObject obj = new JSONObject(s);
 
                     if (!obj.getBoolean("error")) {
-                        Toast.makeText(getActivity(),obj.getString("message"),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),R.string.new_ride_created,Toast.LENGTH_SHORT).show();
                         getActivity().onBackPressed();
                     } else {
                         Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
