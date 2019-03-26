@@ -129,6 +129,7 @@ public class CreateRideFragment extends Fragment {
 
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
         toolbar.setTitle(R.string.create_ride);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);

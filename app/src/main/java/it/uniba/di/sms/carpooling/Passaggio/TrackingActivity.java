@@ -137,6 +137,7 @@ public class TrackingActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.ride_tracking);
         (TrackingActivity.this).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.close_icon);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

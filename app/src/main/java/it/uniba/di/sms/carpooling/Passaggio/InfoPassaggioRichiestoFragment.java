@@ -99,6 +99,7 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
 
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
         toolbar.setTitle(R.string.ride_info);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
 
         Button buttonTracking = v.findViewById(R.id.btnStartTracking);
         buttonTracking.setOnClickListener(new View.OnClickListener() {

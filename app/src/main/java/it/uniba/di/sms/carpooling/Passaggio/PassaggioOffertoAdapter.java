@@ -63,10 +63,10 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
 
 
         if(passaggio.getDirezione()==0){
-            holder.profileImage.setImageResource(R.drawable.andata_icon);
+            holder.profileImage.setImageResource(R.drawable.one_way_icon);
         }
         else if(passaggio.getDirezione()==1){
-            holder.profileImage.setImageResource(R.drawable.ritorno_icon);
+            holder.profileImage.setImageResource(R.drawable.return_icon);
         }
 
         holder.textViewShortDesc.setText(passaggio.getAutomobile());

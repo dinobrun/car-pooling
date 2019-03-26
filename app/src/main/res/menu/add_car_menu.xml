@@ -6,7 +6,7 @@
         android:id="@+id/add_car"
         android:orderInCategory="200"
         android:title="Search"
-        android:icon="@drawable/add_car_icon"
+        android:icon="@drawable/add_ride_icon"
         app:showAsAction="ifRoom"/>
 
 </menu>

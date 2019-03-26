@@ -39,6 +39,7 @@
     <string name="password" translatable="false">Password</string>
     <string name="email" translatable="false">Email@email.com</string>
     <string name="username" translatable="false">Username</string>
+    <string name="summary">Risultati</string>
     <string name="company">Azienda</string>
     <string name="address">Indirizzo</string>
     <string name="telephone">Telefono</string>
@@ -125,5 +126,9 @@
     <string name="addAutoCreateRide">inserisci auto e numero di posti disponibili</string>
     <string name="directionCreateRide">Scegli la direzione</string>
     <string name="searchUser">Filtra la ricerca</string>
+    <string name="rejected_request">Richiesta rifiutata</string>
+    <string name="accepted_request">Richiesta accettata</string>
+    <string name="choose_company">Inserisci la tua azienda</string>
+    <string name="select_photo">Seleziona una foto</string>
 
 </resources>
