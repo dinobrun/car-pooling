@@ -160,7 +160,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                 else
                     selectedIds.add(data.getId());
                 if (selectedIds.size() > 0)
-                    actionMode.setTitle(R.string.selected+": " + String.valueOf(selectedIds.size())); //show selected item count on action mode.
+                    actionMode.setTitle(getString(R.string.selected)+": " + String.valueOf(selectedIds.size())); //show selected item count on action mode.
                 else{
                     actionMode.setTitle(""); //remove item count from action mode.
                     actionMode.finish();
@@ -175,7 +175,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
         MenuInflater inflater = actionMode.getMenuInflater();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+       // ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
         inflater.inflate(R.menu.remove_item, menu);
         return true;
     }
@@ -201,7 +201,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
         isMultiSelect = false;
         selectedIds = new ArrayList<>();
         adapter.setSelectedIds(new ArrayList<Integer>());
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+      //  ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 
 

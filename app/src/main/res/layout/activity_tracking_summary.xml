@@ -19,12 +19,13 @@
 
     <ImageView
         android:id="@+id/imageTracking"
-        android:layout_width="177dp"
+        android:layout_width="150dp"
         android:layout_height="126dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/ic_smile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintTop_toBottomOf="@id/my_toolbar" />
 
     <android.support.v7.widget.RecyclerView
@@ -53,16 +54,22 @@
         app:layout_constraintTop_toBottomOf="@id/lblDriver"/>
 
     <TextView
+        android:id="@+id/lblscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Punti guadagnati:"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@id/imageTracking"
+        app:layout_constraintBottom_toBottomOf="@id/imageTracking"
+        app:layout_constraintTop_toTopOf="@id/imageTracking"/>
+
+    <TextView
         android:id="@+id/score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="8dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/imageTracking"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@id/lblscore"
+        app:layout_constraintTop_toBottomOf="@+id/lblAlert" />
 
     <Button
         android:id="@+id/finish_button"

@@ -167,7 +167,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                 else
                     selectedIds.add(data.getId());
                 if (selectedIds.size() > 0)
-                    actionMode.setTitle("selezionati: " + String.valueOf(selectedIds.size())); //show selected item count on action mode.
+                    actionMode.setTitle(getString(R.string.selected)+": " + String.valueOf(selectedIds.size())); //show selected item count on action mode.
                 else{
                     actionMode.setTitle(""); //remove item count from action mode.
                     actionMode.finish();
@@ -182,7 +182,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
         MenuInflater inflater = actionMode.getMenuInflater();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+       // ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
         inflater.inflate(R.menu.remove_item, menu);
         return true;
     }
@@ -209,7 +209,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
         selectedIds = new ArrayList<>();
         actionMode = null;
         adapter.setSelectedIds(new ArrayList<Integer>());
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+       // ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 
 
@@ -414,7 +414,5 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
         DeletePassaggi dp = new DeletePassaggi();
         dp.execute();
     }
-
-
 
 }

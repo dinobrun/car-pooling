@@ -45,7 +45,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -228,7 +231,19 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         TextView direzioneText = v.findViewById(R.id.direzione);
 
         autoText.append(": " + passaggioParam.getAutomobile());
-        dataText.append(": " + passaggioParam.getData());
+
+        //set data in correct format
+        // First convert the String to a Date
+        SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.ITALIAN);
+        Date date = null;
+        try {
+            date = dateParser.parse(passaggioParam.getData());
+            // Then convert the Date to a String, formatted as you dd/MM/yyyy
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("E d MMM yyyy HH:mm", Locale.ITALY);
+            dataText.append(": " + dateFormatter.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if(passaggioParam.getDirezione()==0){
             direzioneText.append(": " + getText(R.string.one_way));
         }else{
