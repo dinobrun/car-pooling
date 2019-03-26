@@ -104,5 +104,6 @@
     <string name="next">Avanti</string>
     <string name="requested_ride">Richiesto</string>
     <string name="startTracking">Avvia tracking</string>
+    <string name="view_rides">Visualizza passaggi</string>
 
 </resources>

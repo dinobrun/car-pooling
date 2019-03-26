@@ -10,6 +10,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +19,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -35,7 +38,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -59,7 +65,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Button btnRequest;
     ImageView callIcon;
     ImageView imageProfile;
-
+    RelativeLayout overlayLayout;
+    ProgressBar progressBar;
 
 
 
@@ -78,10 +85,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         card = findViewById(R.id.info);
         close = findViewById(R.id.close_card);
         imageProfile=findViewById(R.id.imageProfile);
+        overlayLayout = findViewById(R.id.overlayLayout);
+        progressBar = findViewById(R.id.progressBar);
 
 
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setTitle(R.string.view_rides);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,8 +115,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFrag.getMapAsync(this);
+        mapFrag.getMapAsync(MapsActivity.this);
+            }
+        }, 400);
 
         //lista di passaggi completa
         rides = (ArrayList<Passaggio>) getIntent().getSerializableExtra("Passaggi");
@@ -174,7 +191,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         txtTelephone.setText(passaggio.getTelefonoAutista());
         txtCar.setText(passaggio.getAutomobile());
         txtSeats.setText(Integer.toString(passaggio.getNumPosti()));
-        txtDate.setText(passaggio.getData());
+        //set date with correct format
+        // First convert the String to a Date
+        SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.ITALIAN);
+        Date date = null;
+        try {
+            date = dateParser.parse(passaggio.getData());
+            // Then convert the Date to a String, formatted as you dd/MM/yyyy
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("E d MMM yyyy HH:mm", Locale.ITALY);
+            txtDate.setText(dateFormatter.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
 
         if(passaggio.isRichiesto()){
             btnRequest.setEnabled(false);
@@ -261,11 +290,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 @Override
                 protected void onPreExecute() {
                     super.onPreExecute();
+                    //displaying the progress bar while user registers on the server
+                    overlayLayout.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
                     }
 
                 @Override
                 protected void onPostExecute(String s) {
                     super.onPostExecute(s);
+                    //hiding the progressbar after completion
+                    overlayLayout.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
 
                     try {
                         //converting response to json object
