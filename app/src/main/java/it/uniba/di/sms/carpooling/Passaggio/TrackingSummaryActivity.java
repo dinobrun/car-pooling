@@ -152,7 +152,7 @@ public class TrackingSummaryActivity extends AppCompatActivity {
 
             getScore();
 
-            
+
             finishButton = findViewById(R.id.finish_button);
 
             finishButton.setOnClickListener(new View.OnClickListener() {

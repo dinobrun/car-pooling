@@ -103,5 +103,6 @@
     <string name="newRide">Crea un nuovo passaggio</string>
     <string name="next">Avanti</string>
     <string name="requested_ride">Richiesto</string>
+    <string name="startTracking">Avvia tracking</string>
 
 </resources>

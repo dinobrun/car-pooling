@@ -18,7 +18,9 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,8 +113,22 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         // Inflate the layout for this fragment
         final View v = inflater.inflate(R.layout.fragment_info_passaggio_offerto, container, false);
 
+        //toolbar
+        Toolbar toolbar = v.findViewById(R.id.my_toolbar);
+        toolbar.setTitle("Informazioni sul passaggio");
 
-        FloatingActionButton startTracking = v.findViewById(R.id.floatStartTracking);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        setHasOptionsMenu(true);
+
+        Button startTracking = v.findViewById(R.id.btnStartTracking);
         startTracking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,7 +148,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 
         //show start button if ride is not finished
         if(passaggioParam.getConcluso()==0){
-            startTracking.setVisibility(View.VISIBLE);
+            startTracking.setEnabled(true);
         }
 
         txtNome = v.findViewById(R.id.txtNome);
@@ -232,6 +248,7 @@ public class InfoPassaggioOffertoFragment extends Fragment {
         markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
         markerOptions.title(getString(R.string.home));
         markerOptions.icon(bitmapDescriptorFromVector(getActivity(), R.drawable.marker_home));
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(markerOptions.getPosition(), (float) 14));
         mGoogleMap.addMarker(markerOptions);
     }
 

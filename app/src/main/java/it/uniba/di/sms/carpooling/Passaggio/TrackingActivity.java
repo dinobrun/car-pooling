@@ -134,10 +134,9 @@ public class TrackingActivity extends AppCompatActivity {
         passengersRecycler.setAdapter(adapterPassengers);
 
 
-
+        toolbar.setTitle("Tracciamento del percorso");
         (TrackingActivity.this).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.close_icon);
-        toolbar.setTitle("Tracciamento del percorso");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
