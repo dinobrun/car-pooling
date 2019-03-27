@@ -94,6 +94,11 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
                 holder.textViewRating.setText(R.string.wait_conferm);
         }
 
+        if(passaggio.getConcluso() != 0){
+            holder.textViewConcluded.setVisibility(View.VISIBLE);
+            holder.textViewConcluded.setTextColor(Color.rgb(255,0,0));
+        }
+
 
         // First convert the String to a Date
         SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.ITALIAN);
@@ -125,7 +130,7 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewTitle, textViewShortDesc, textViewRating, textViewPrice;
+        TextView textViewTitle, textViewShortDesc, textViewRating, textViewPrice, textViewConcluded;
         ImageView profileImage;
 
         public ProductViewHolder(View itemView) {
@@ -135,7 +140,7 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             profileImage = itemView.findViewById(R.id.tripImage);
-
+            textViewConcluded = itemView.findViewById(R.id.lblConcluded);
         }
     }
 }

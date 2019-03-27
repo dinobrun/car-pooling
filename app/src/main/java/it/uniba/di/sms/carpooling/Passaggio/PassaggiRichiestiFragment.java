@@ -407,7 +407,6 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                     //if no error in response
                     if (!obj.getBoolean("error")) {
 
-                        Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
                         actionMode.finish();
                         actionMode = null; //hide action mode.
 

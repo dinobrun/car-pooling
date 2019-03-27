@@ -399,7 +399,6 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                     //if no error in response
                     if (!obj.getBoolean("error")) {
 
-                        Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
                         actionMode.finish();
                         actionMode = null; //hide action mode.
 
