@@ -109,11 +109,11 @@ public class TrackingService extends Service {
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
             Notification notification = notificationBuilder.setOngoing(true)
-                    .setSmallIcon(R.drawable.close_icon)
+                    .setSmallIcon(R.mipmap.ic_icon_start)
                     .setContentTitle(getString(R.string.tracking_in_progress))
                     .setContentText(getString(R.string.close_tracking))
                     .setContentIntent(broadcastIntent)
-                    .setPriority(NotificationManager.IMPORTANCE_MIN)
+                    .setPriority(NotificationManager.IMPORTANCE_DEFAULT)
                     .setCategory(Notification.CATEGORY_TRANSPORT)
                     .build();
             startForeground(2, notification);

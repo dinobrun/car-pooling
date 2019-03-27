@@ -30,15 +30,15 @@
 
     <Button
         android:id="@+id/registerButton"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="144dp"
-        android:background="@android:color/holo_orange_dark"
         android:text="@string/signup"
         android:textColor="#fff"
         android:textSize="18sp"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/companySpinner" />
 
