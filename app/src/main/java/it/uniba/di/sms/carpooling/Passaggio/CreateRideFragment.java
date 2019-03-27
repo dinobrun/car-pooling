@@ -21,8 +21,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -61,6 +63,8 @@ public class CreateRideFragment extends Fragment {
     Spinner spinnerCarPlaces;
     int carID = 3;
     Calendar calendar = new GregorianCalendar();
+    RelativeLayout overlayLayout;
+    ProgressBar progressBar;
 
     DatePickerDialog.OnDateSetListener mDateSetListener = null;
     TimePickerDialog.OnTimeSetListener mTimeSetListener = null;
@@ -130,6 +134,9 @@ public class CreateRideFragment extends Fragment {
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);
         toolbar.setTitle(R.string.create_ride);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+
+        overlayLayout = v.findViewById(R.id.overlayLayout);
+        progressBar = v.findViewById(R.id.progressBar);
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.back_icon);
@@ -293,12 +300,16 @@ public class CreateRideFragment extends Fragment {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                //displaying the progress bar while user registers on the server
+                overlayLayout.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                //progressBar.setVisibility(View.GONE);
+                overlayLayout.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 
                 try {
                     //converting response to json object
