@@ -157,6 +157,7 @@ public class RegistrationFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 DatePickerDialog dialog = new DatePickerDialog(getActivity(),android.R.style.Theme_Holo_Dialog, mDateSetListener, year,month,day);
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
