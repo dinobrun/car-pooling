@@ -171,9 +171,11 @@ public class InfoPassaggioOffertoFragment extends Fragment {
             }
         });
 
-        //show start button if ride is not finished
+        //enable start button if ride is not finished
         if(passaggioParam.getConcluso()==0){
             startTracking.setEnabled(true);
+        }else{
+            startTracking.setText(R.string.concluded);
         }
 
         txtNome = v.findViewById(R.id.txtNome);

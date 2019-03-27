@@ -64,9 +64,13 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
 
         if(passaggio.getDirezione()==0){
             holder.profileImage.setImageResource(R.drawable.one_way_icon);
+            holder.lblDirection.setText(R.string.one_way);
+            holder.lblDirection.setTextColor(Color.rgb(16,163,23));
         }
         else if(passaggio.getDirezione()==1){
             holder.profileImage.setImageResource(R.drawable.return_icon);
+            holder.lblDirection.setText(R.string.backHome);
+            holder.lblDirection.setTextColor(Color.rgb(204,0,0));
         }
 
         holder.textViewShortDesc.setText(passaggio.getAutomobile());
@@ -113,7 +117,7 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewTitle, textViewShortDesc, textViewRating, textViewPrice;
+        TextView lblDirection, textViewShortDesc, textViewRating, textViewPrice;
         ImageView profileImage;
 
         public ProductViewHolder(View itemView) {
@@ -122,7 +126,7 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             profileImage = itemView.findViewById(R.id.tripImage);
-
+            lblDirection = itemView.findViewById(R.id.lblDirection);
         }
 
     }
