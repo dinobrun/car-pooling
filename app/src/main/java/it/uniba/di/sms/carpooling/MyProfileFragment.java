@@ -50,11 +50,8 @@ public class MyProfileFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_mio_profilo, container, false);
 
         txtNome = v.findViewById(R.id.nome);
-        txtNome.setText(SharedPrefManager.getInstance(getActivity()).getUser().getNome());
-
-        txtCognome = v.findViewById(R.id.cognome);
-        txtCognome.setText(SharedPrefManager.getInstance(getActivity()).getUser().getCognome());
-
+        txtNome.setText(SharedPrefManager.getInstance(getActivity()).getUser().getNome() + " " +
+                SharedPrefManager.getInstance(getActivity()).getUser().getCognome());
         txtDataNascita = v.findViewById(R.id.data_nascita);
         txtDataNascita.setText(SharedPrefManager.getInstance(getActivity()).getUser().getDataNascita());
 

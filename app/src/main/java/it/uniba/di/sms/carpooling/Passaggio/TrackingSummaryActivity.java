@@ -109,8 +109,6 @@ public class TrackingSummaryActivity extends AppCompatActivity {
             // Extract data included in the Intent
             jsonListPassengers = getIntent().getStringExtra("data_tracking");
 
-            Toast.makeText(TrackingSummaryActivity.this, jsonListPassengers, Toast.LENGTH_SHORT).show();
-
             try {
 
                 JSONObject obj = new JSONObject(jsonListPassengers);

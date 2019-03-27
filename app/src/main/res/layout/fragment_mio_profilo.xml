@@ -39,42 +39,25 @@
         android:ems="10"
         android:enabled="false"
         android:inputType="textPersonName"
-        android:text="Nome"
+        android:text="@string/name"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView" />
-
-    <EditText
-        android:id="@+id/cognome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="8dp"
-        android:inputType="textPersonName"
-        android:text="Cognome"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:enabled="false"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="253dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nome"/>
+        app:layout_constraintStart_toEndOf="@id/name_icon"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
+        />
 
     <EditText
         android:id="@+id/data_nascita"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="8dp"
-        android:inputType="datetime"
-        android:text="Data di nascita"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:ems="10"
         android:enabled="false"
-        tools:layout_editor_absoluteX="42dp"
+        android:inputType="datetime"
+        android:text="@string/birthDate"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
         tools:layout_editor_absoluteY="253dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cognome"/>
+        app:layout_constraintStart_toEndOf="@id/date_icon_profile"
+        app:layout_constraintTop_toBottomOf="@id/name_icon"/>
 
     <EditText
         android:id="@+id/indirizzo"
@@ -84,13 +67,13 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="8dp"
         android:inputType="textPersonName"
-        android:text="Indirizzo"
+        android:text="@string/address"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:enabled="false"
         tools:layout_editor_absoluteX="42dp"
         tools:layout_editor_absoluteY="253dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/data_nascita"/>
+        app:layout_constraintStart_toEndOf="@id/address_icon_profile"
+        app:layout_constraintTop_toBottomOf="@id/date_icon_profile"/>
 
     <EditText
         android:id="@+id/email"
@@ -99,31 +82,78 @@
         android:ems="10"
         android:layout_marginStart="30dp"
         android:layout_marginTop="8dp"
-        android:inputType="textPersonName"
-        android:text="Email"
+        android:inputType="textEmailAddress"
+        android:text="@string/email"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:enabled="false"
         tools:layout_editor_absoluteX="42dp"
         tools:layout_editor_absoluteY="253dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/indirizzo"/>
+        app:layout_constraintStart_toEndOf="@id/email_icon_profile"
+        app:layout_constraintTop_toBottomOf="@id/address_icon_profile"/>
 
     <EditText
         android:id="@+id/telefono"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
+        android:layout_height="46dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="8dp"
-        android:inputType="numberDecimal"
-        android:text="Telefono"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:ems="10"
         android:enabled="false"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="253dp"
+        android:inputType="numberDecimal"
+        android:text="@string/telephone"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        app:layout_constraintStart_toEndOf="@id/telephone_icon_profile"
+        app:layout_constraintTop_toBottomOf="@id/email_icon_profile" />
+
+    <ImageView
+        android:id="@+id/name_icon"
+        android:layout_width="42dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:contentDescription="@string/car"
+        android:src="@drawable/profile_icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/email"/>
+        app:layout_constraintTop_toBottomOf="@id/imageView"/>
 
+    <ImageView
+        android:id="@+id/date_icon_profile"
+        android:layout_width="42dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:contentDescription="@string/car"
+        android:src="@drawable/ic_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name_icon" />
 
+    <ImageView
+        android:id="@+id/address_icon_profile"
+        android:layout_width="42dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:contentDescription="@string/car"
+        android:src="@drawable/ic_city"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/date_icon_profile" />
+
+    <ImageView
+        android:id="@+id/email_icon_profile"
+        android:layout_width="42dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:contentDescription="@string/car"
+        android:src="@drawable/ic_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/address_icon_profile" />
+
+    <ImageView
+        android:id="@+id/telephone_icon_profile"
+        android:layout_width="42dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:contentDescription="@string/car"
+        android:src="@drawable/call_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email_icon_profile" />
 
 </android.support.constraint.ConstraintLayout>
