@@ -178,6 +178,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lblCreateRideDate" />
 
+    <ImageView
+        android:id="@+id/arrow_icon"
+        android:layout_width="50dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/car"
+        android:src="@drawable/ic_arrows"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblCreateRideDirection" />
+
     <View
         android:id="@+id/line2"
         android:layout_width="match_parent"
