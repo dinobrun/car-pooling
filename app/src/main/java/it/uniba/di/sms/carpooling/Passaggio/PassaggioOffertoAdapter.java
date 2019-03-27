@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -53,12 +54,11 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
 
         if (selectedIds.contains(id)){
             //if item is selected then,set foreground color of FrameLayout.
-            holder.itemView.setBackgroundColor(Color.GRAY);
+            holder.overlayLayout.setVisibility(View.VISIBLE);
         }
         else {
             //else remove selected item color.
-            holder.itemView.setForeground(new ColorDrawable(ContextCompat.getColor(mCtx,android.R.color.transparent)));
-            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+            holder.overlayLayout.setVisibility(View.INVISIBLE);
         }
 
 
@@ -119,6 +119,7 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
 
         TextView lblDirection, textViewShortDesc, textViewRating, textViewPrice;
         ImageView profileImage;
+        RelativeLayout overlayLayout;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
@@ -127,6 +128,7 @@ public class PassaggioOffertoAdapter extends RecyclerView.Adapter<PassaggioOffer
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             profileImage = itemView.findViewById(R.id.tripImage);
             lblDirection = itemView.findViewById(R.id.lblDirection);
+            overlayLayout = itemView.findViewById(R.id.overlayLayout);
         }
 
     }
