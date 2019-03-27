@@ -5,6 +5,6 @@
         android:id="@+id/forwardItem"
         android:orderInCategory="200"
         android:title="Search"
-        android:icon="@drawable/ic_baseline_keyboard_arrow_right_24px"
+        android:icon="@drawable/next_icon"
         app:showAsAction="ifRoom"/>
 </menu>

@@ -15,6 +15,15 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="actionMenuTextColor">@android:color/white</item>
         <item name="android:actionModeBackground">@color/colorPrimary</item>
+        <item name="android:actionModeCloseDrawable">@drawable/back_icon</item>
+        <item name="android:actionModeStyle">@color/blank</item>
+        <item name="android:actionBarStyle">@style/LiveoActionBar</item>
+    </style>
+
+    <style name="LiveoActionBar" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:textColor">@color/blank</item>
+        <item name="android:colorBackground">@color/colorPrimaryDark</item>
+
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

@@ -2,6 +2,7 @@ package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -170,9 +173,9 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                     selectedIds.remove(Integer.valueOf(data.getId()));
                 else
                     selectedIds.add(data.getId());
-                if (selectedIds.size() > 0)
-                    actionMode.setTitle(getString(R.string.selected)+": " + String.valueOf(selectedIds.size())); //show selected item count on action mode.
-                else{
+                if (selectedIds.size() > 0) {
+                    actionMode.setTitle(getString(R.string.selected) + ": " + String.valueOf(selectedIds.size())); //show selected item count on action mode.
+                }else{
                     actionMode.setTitle(""); //remove item count from action mode.
                     actionMode.finish();
                     actionMode = null; //hide action mode.
