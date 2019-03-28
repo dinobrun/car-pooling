@@ -92,7 +92,7 @@ public class CarListFragment extends Fragment {
         username = SharedPrefManager.getInstance(getActivity()).getUser().getUsername();
 
 
-        View v = inflater.inflate(R.layout.fragment_lista_auto, container, false);
+        View v = inflater.inflate(R.layout.fragment_car_list, container, false);
 
         overlayLayout = v.findViewById(R.id.overlayLayout);
         progressBar = v.findViewById(R.id.progressBar);

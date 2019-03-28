@@ -23,7 +23,7 @@ public class RidesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_passaggi);
+        setContentView(R.layout.activity_rides);
         Log.d(TAG, "onCreate: Starting.");
 
         Toolbar toolbar = findViewById(R.id.my_toolbar);

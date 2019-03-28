@@ -71,7 +71,7 @@ public class RequestedRidesFragment extends Fragment implements ActionMode.Callb
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View v = inflater.inflate(R.layout.fragment_passaggi_richiesti, container, false);
+        final View v = inflater.inflate(R.layout.fragment_requested_rides, container, false);
 
         emptyText = v.findViewById(R.id.empty_view);
 

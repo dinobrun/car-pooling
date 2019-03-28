@@ -93,7 +93,7 @@ public class InfoRequestedRideFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View v = inflater.inflate(R.layout.fragment_info_passaggio_richiesto, container, false);
+        final View v = inflater.inflate(R.layout.fragment_info_requested_ride, container, false);
 
 
         Toolbar toolbar = v.findViewById(R.id.my_toolbar);

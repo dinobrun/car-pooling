@@ -38,7 +38,7 @@ public class OfferedRideAdapter extends RecyclerView.Adapter<OfferedRideAdapter.
     public OfferedRideAdapter.ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.list_passaggio_offerto, null);
+        View view = inflater.inflate(R.layout.list_offered_ride, null);
         view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
         return new OfferedRideAdapter.ProductViewHolder(view);
     }

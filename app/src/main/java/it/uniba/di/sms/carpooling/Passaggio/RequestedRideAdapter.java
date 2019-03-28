@@ -43,7 +43,7 @@ public class RequestedRideAdapter extends RecyclerView.Adapter<RequestedRideAdap
     public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.list_passaggio_richiesto, null);
+        View view = inflater.inflate(R.layout.list_requested_ride, null);
         view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
         return new ProductViewHolder(view);
     }

@@ -33,7 +33,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ProductViewHolde
     public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.list_layout_auto, null);
+        View view = inflater.inflate(R.layout.list_car_layout, null);
         return new ProductViewHolder(view);
     }
 

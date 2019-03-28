@@ -70,7 +70,7 @@ public class OfferedRidesFragment extends Fragment implements ActionMode.Callbac
                              Bundle savedInstanceState) {
         
         // Inflate the layout for this fragment
-        final View v = inflater.inflate(R.layout.fragment_passaggi_offerti, container, false);
+        final View v = inflater.inflate(R.layout.fragment_offered_rides, container, false);
 
         emptyText = v.findViewById(R.id.empty_view);
 

@@ -8,14 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 
 public class MyProfileFragment extends Fragment {
@@ -47,7 +43,7 @@ public class MyProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_mio_profilo, container, false);
+        View v = inflater.inflate(R.layout.fragment_my_profile, container, false);
 
         txtNome = v.findViewById(R.id.nome);
         txtNome.setText(SharedPrefManager.getInstance(getActivity()).getUser().getNome() + " " +
