@@ -180,7 +180,6 @@ public class InfoOfferedRideFragment extends Fragment {
 
 
         txtNome = v.findViewById(R.id.txtNome);
-        txtTelefono =  v.findViewById(R.id.txtTelefono);
         btnAccept =  v.findViewById(R.id.btnAccept);
         btnDecline =  v.findViewById(R.id.btnDecline);
         card = v.findViewById(R.id.info);
@@ -359,7 +358,6 @@ public class InfoOfferedRideFragment extends Fragment {
 
         final Utente utente = (Utente) marker.getTag();
         txtNome.setText(utente.getNome().concat(" " + utente.getCognome()));
-        txtTelefono.setText(utente.getTelefono());
 
         if(((Utente) marker.getTag()).getConfermato()==1){
             btnAccept.setEnabled(false);

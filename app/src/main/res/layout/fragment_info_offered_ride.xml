@@ -170,53 +170,40 @@
                 tools:layout_editor_absoluteX="152dp" />
 
 
-            <TextView
-                android:id="@+id/txtTelefono"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="20dp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/imageRequester"
-                app:layout_constraintTop_toBottomOf="@id/txtNome"
-                tools:layout_editor_absoluteY="72dp" />
-
             <Button
                 android:id="@+id/btnAccept"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginStart="104dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/accept"
                 app:layout_constraintEnd_toStartOf="@+id/btnDecline"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageRequester" />
+                app:layout_constraintStart_toEndOf="@+id/imageRequester"
+                app:layout_constraintTop_toBottomOf="@+id/call_icon" />
 
             <Button
                 android:id="@+id/btnDecline"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="48dp"
                 android:text="@string/reject"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageRequester" />
+                app:layout_constraintTop_toBottomOf="@+id/call_icon" />
 
             <ImageView
                 android:id="@+id/call_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="8dp"
                 android:contentDescription="@string/telephone"
                 android:src="@drawable/call_icon"
-                app:layout_constraintStart_toEndOf="@+id/txtTelefono"
-                app:layout_constraintTop_toBottomOf="@+id/txtNome" />
+                app:layout_constraintStart_toEndOf="@+id/txtNome"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/imageRequester"
