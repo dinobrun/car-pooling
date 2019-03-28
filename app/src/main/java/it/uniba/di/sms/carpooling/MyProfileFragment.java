@@ -2,6 +2,13 @@ package it.uniba.di.sms.carpooling;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -12,11 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 public class MyProfileFragment extends Fragment {
 
-    EditText txtNome, txtCognome, txtDataNascita, txtIndirizzo, txtEmail, txtTelefono;
+    EditText txtName, txtSurname, txtBirthDate, txtAddress, txtEmail, txtTelephone, txtCompany;
     ImageView profileImage;
 
 
@@ -25,7 +33,7 @@ public class MyProfileFragment extends Fragment {
     }
 
 
-    public static MyProfileFragment newInstance(String param1, String param2) {
+    public static MyProfileFragment newInstance() {
         MyProfileFragment fragment = new MyProfileFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -45,29 +53,33 @@ public class MyProfileFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_my_profile, container, false);
 
-        txtNome = v.findViewById(R.id.nome);
-        txtNome.setText(SharedPrefManager.getInstance(getActivity()).getUser().getNome() + " " +
-                SharedPrefManager.getInstance(getActivity()).getUser().getCognome());
-        txtDataNascita = v.findViewById(R.id.data_nascita);
-        txtDataNascita.setText(SharedPrefManager.getInstance(getActivity()).getUser().getDataNascita());
+        txtName = v.findViewById(R.id.nameMyProfile);
+        txtName.setText(SharedPrefManager.getInstance(getActivity()).getUser().getNome()
+                        .concat(" "+SharedPrefManager.getInstance(getActivity()).getUser().getCognome()));
+        txtBirthDate = v.findViewById(R.id.birthDateMyProfile);
+        txtBirthDate.setText(SharedPrefManager.getInstance(getActivity()).getUser().getDataNascita());
 
-        txtIndirizzo = v.findViewById(R.id.indirizzo);
-        txtIndirizzo.setText(SharedPrefManager.getInstance(getActivity()).getUser().getIndirizzo());
+        txtAddress = v.findViewById(R.id.addressMyProfile);
+        txtAddress.setText(SharedPrefManager.getInstance(getActivity()).getUser().getIndirizzo());
 
-        txtEmail = v.findViewById(R.id.email);
+        txtEmail = v.findViewById(R.id.emailMyProfile);
         txtEmail.setText(SharedPrefManager.getInstance(getActivity()).getUser().getEmail());
 
-        txtTelefono = v.findViewById(R.id.telefono);
-        txtTelefono.setText(SharedPrefManager.getInstance(getActivity()).getUser().getTelefono());
+        txtTelephone = v.findViewById(R.id.telephoneMyProfile);
+        txtTelephone.setText(SharedPrefManager.getInstance(getActivity()).getUser().getTelefono());
 
-        profileImage = v.findViewById(R.id.imageView);
+        txtCompany = v.findViewById(R.id.companyMyProfile);
+        txtCompany.setText(SharedPrefManager.getInstance(getActivity()).getUser().getAzienda());
+
+        profileImage = v.findViewById(R.id.imageMyProfile);
         if(SharedPrefManager.getInstance(getActivity()).getUser().getFoto().equals("null")){
             profileImage.setBackgroundResource(R.drawable.no_profile);
         }
         else{
             byte[] decodedString = Base64.decode(SharedPrefManager.getInstance(getActivity()).getUser().getFoto(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            profileImage.setImageBitmap(decodedByte);
+            Bitmap imageMyProfile=roundCorner(decodedByte, 400);
+            profileImage.setImageBitmap(imageMyProfile);
         }
 
 
@@ -94,6 +106,40 @@ public class MyProfileFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return v;
+    }
+
+    public static Bitmap roundCorner(Bitmap src, float round)
+    {
+        // image size
+        int width = src.getWidth();
+        int height = src.getHeight();
+
+        // create bitmap output
+        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        // set canvas for painting
+        Canvas canvas = new Canvas(result);
+        canvas.drawARGB(0, 0, 0, 0);
+
+        // config paint
+        final Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLACK);
+
+        // config rectangle for embedding
+        final Rect rect = new Rect(0, 0, width, height);
+        final RectF rectF = new RectF(rect);
+
+        // draw rect to canvas
+        canvas.drawRoundRect(rectF, round, round, paint);
+
+        // create Xfer mode
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        // draw source image to canvas
+        canvas.drawBitmap(src, rect, rect, paint);
+
+        // return final image
+        return result;
     }
 
 

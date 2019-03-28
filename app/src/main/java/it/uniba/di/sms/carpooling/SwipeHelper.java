@@ -67,7 +67,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
         }
     };
 
-    public SwipeHelper(Context context, RecyclerView recyclerView) {
+    protected SwipeHelper(Context context, RecyclerView recyclerView) {
         super(0, ItemTouchHelper.LEFT);
         this.recyclerView = recyclerView;
         this.buttons = new ArrayList<>();

@@ -10,7 +10,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageMyProfile"
         android:layout_width="154dp"
         android:layout_height="154dp"
         android:layout_marginTop="72dp"
@@ -31,7 +31,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <EditText
-        android:id="@+id/nome"
+        android:id="@+id/nameMyProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -42,11 +42,11 @@
         android:text="@string/name"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         app:layout_constraintStart_toEndOf="@id/name_icon"
-        app:layout_constraintTop_toBottomOf="@id/imageView"
+        app:layout_constraintTop_toBottomOf="@id/imageMyProfile"
         />
 
     <EditText
-        android:id="@+id/data_nascita"
+        android:id="@+id/birthDateMyProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -60,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@id/name_icon"/>
 
     <EditText
-        android:id="@+id/indirizzo"
+        android:id="@+id/addressMyProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -76,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@id/date_icon_profile"/>
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/emailMyProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -92,7 +92,7 @@
         app:layout_constraintTop_toBottomOf="@id/address_icon_profile"/>
 
     <EditText
-        android:id="@+id/telefono"
+        android:id="@+id/telephoneMyProfile"
         android:layout_width="wrap_content"
         android:layout_height="46dp"
         android:layout_marginStart="30dp"
@@ -105,6 +105,21 @@
         app:layout_constraintStart_toEndOf="@id/telephone_icon_profile"
         app:layout_constraintTop_toBottomOf="@id/email_icon_profile" />
 
+    <EditText
+        android:id="@+id/companyMyProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="numberDecimal"
+        android:text="@string/company"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        app:layout_constraintStart_toEndOf="@id/telephone_icon_profile"
+        app:layout_constraintTop_toBottomOf="@id/telephone_icon_profile" />
+
+
     <ImageView
         android:id="@+id/name_icon"
         android:layout_width="42dp"
@@ -114,7 +129,7 @@
         android:contentDescription="@string/car"
         android:src="@drawable/profile_icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView"/>
+        app:layout_constraintTop_toBottomOf="@id/imageMyProfile"/>
 
     <ImageView
         android:id="@+id/date_icon_profile"
@@ -155,5 +170,15 @@
         android:src="@drawable/call_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/email_icon_profile" />
+
+    <ImageView
+        android:id="@+id/azienda_icon"
+        android:layout_width="42dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:contentDescription="@string/car"
+        android:src="@drawable/work_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/telephone_icon_profile"/>
 
 </android.support.constraint.ConstraintLayout>

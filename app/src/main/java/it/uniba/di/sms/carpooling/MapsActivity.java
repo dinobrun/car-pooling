@@ -4,7 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -16,6 +23,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -187,15 +195,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //visualizza la card con le informazioni sul passaggio
         card.setVisibility(View.VISIBLE);
 
+
+
+
         final Passaggio passaggio = (Passaggio) marker.getTag();
-        txtName.setText(": " + passaggio.getNomeAutista() + " " + passaggio.getCognomeAutista());
+        txtName.setText(passaggio.getNomeAutista().concat(" " + passaggio.getCognomeAutista()));
         txtTelephone.setText(": " + passaggio.getTelefonoAutista());
         txtCar.setText(": " + passaggio.getAutomobile());
         txtSeats.setText(": " + Integer.toString(passaggio.getNumPosti()));
         //set date with correct format
         // First convert the String to a Date
         SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.ITALIAN);
-        Date date = null;
+        Date date;
         try {
             date = dateParser.parse(passaggio.getData());
             // Then convert the Date to a String, formatted as you dd/MM/yyyy
@@ -220,6 +231,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             });
         }
+
+
+        ImageView profileImage = findViewById(R.id.imageDriver);
+        profileImage.setImageResource(R.drawable.no_profile);
+        if(!passaggio.getFoto().isEmpty()){
+            byte[] decodedString = Base64.decode(passaggio.getFoto(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            Bitmap driverImage=roundCorner(decodedByte, 400);
+            profileImage.setImageResource(0);
+            profileImage.setImageBitmap(driverImage);
+        }
+
     }
 
     //funzione che come parametri ha una mappa e un utente e gli assegna un marker con le informazioni
@@ -333,6 +356,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    public static Bitmap roundCorner(Bitmap src, float round)
+    {
+        // image size
+        int width = src.getWidth();
+        int height = src.getHeight();
+
+        // create bitmap output
+        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        // set canvas for painting
+        Canvas canvas = new Canvas(result);
+        canvas.drawARGB(0, 0, 0, 0);
+
+        // config paint
+        final Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLACK);
+
+        // config rectangle for embedding
+        final Rect rect = new Rect(0, 0, width, height);
+        final RectF rectF = new RectF(rect);
+
+        // draw rect to canvas
+        canvas.drawRoundRect(rectF, round, round, paint);
+
+        // create Xfer mode
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        // draw source image to canvas
+        canvas.drawBitmap(src, rect, rect, paint);
+
+        // return final image
+        return result;
     }
 
 }
