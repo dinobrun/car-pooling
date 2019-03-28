@@ -332,7 +332,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         //if no error in response
                         if (!obj.getBoolean("error")) {
-                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                             markerPassaggio.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                             btnRequest.setText(R.string.requested_ride);
                             btnRequest.setEnabled(false);

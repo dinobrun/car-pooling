@@ -7,7 +7,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -23,6 +30,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -172,7 +180,6 @@ public class InfoOfferedRideFragment extends Fragment {
 
 
         txtNome = v.findViewById(R.id.txtNome);
-        txtCognome = v.findViewById(R.id.txtCognome);
         txtTelefono =  v.findViewById(R.id.txtTelefono);
         btnAccept =  v.findViewById(R.id.btnAccept);
         btnDecline =  v.findViewById(R.id.btnDecline);
@@ -241,6 +248,7 @@ public class InfoOfferedRideFragment extends Fragment {
                 }
             }, 400);
         }
+
 
 
         TextView autoText = v.findViewById(R.id.auto);
@@ -350,14 +358,23 @@ public class InfoOfferedRideFragment extends Fragment {
         card.setVisibility(View.VISIBLE);
 
         final Utente utente = (Utente) marker.getTag();
-        txtNome.setText(utente.getNome());
-        txtCognome.setText(utente.getCognome());
+        txtNome.setText(utente.getNome().concat(" " + utente.getCognome()));
         txtTelefono.setText(utente.getTelefono());
 
         if(((Utente) marker.getTag()).getConfermato()==1){
             btnAccept.setEnabled(false);
         }else if(((Utente) marker.getTag()).getConfermato()==2){
             btnDecline.setEnabled(false);
+        }
+
+        ImageView imageRequester = getActivity().findViewById(R.id.imageRequester);
+        imageRequester.setImageResource(R.drawable.no_profile);
+        if(!utente.getFoto().isEmpty()){
+            byte[] decodedString = Base64.decode(utente.getFoto(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            Bitmap reqImage=roundCorner(decodedByte, 400);
+            imageRequester.setImageResource(0);
+            imageRequester.setImageBitmap(reqImage);
         }
 
         //accetta il passaggio
@@ -504,7 +521,8 @@ public class InfoOfferedRideFragment extends Fragment {
                                         temp.getString("indirizzo"),
                                         temp.getString("email"),
                                         temp.getString("telefono"),
-                                        Integer.parseInt(temp.getString("confermato"))
+                                        Integer.parseInt(temp.getString("confermato")),
+                                        temp.getString("foto")
                                 ));
                             }
                             //Aggiunge i marker degli utenti che hanno richiesto il passaggio
@@ -562,6 +580,40 @@ public class InfoOfferedRideFragment extends Fragment {
         serviceIntent.putExtra("id_passaggio",passaggioParam.getId());
         serviceIntent.putExtra("passenger",false);
         getActivity().startService(serviceIntent);
+    }
+
+    public static Bitmap roundCorner(Bitmap src, float round)
+    {
+        // image size
+        int width = src.getWidth();
+        int height = src.getHeight();
+
+        // create bitmap output
+        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        // set canvas for painting
+        Canvas canvas = new Canvas(result);
+        canvas.drawARGB(0, 0, 0, 0);
+
+        // config paint
+        final Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLACK);
+
+        // config rectangle for embedding
+        final Rect rect = new Rect(0, 0, width, height);
+        final RectF rectF = new RectF(rect);
+
+        // draw rect to canvas
+        canvas.drawRoundRect(rectF, round, round, paint);
+
+        // create Xfer mode
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        // draw source image to canvas
+        canvas.drawBitmap(src, rect, rect, paint);
+
+        // return final image
+        return result;
     }
 
 

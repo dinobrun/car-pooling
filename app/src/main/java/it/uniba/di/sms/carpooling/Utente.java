@@ -98,7 +98,7 @@ public class Utente implements Serializable {
 
 
     //costruttore di utenti per la creazione dei marker
-    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, int confermato) {
+    public Utente(String username, String nome, String cognome, String indirizzo, String email, String telefono, int confermato, String foto) {
         this.username = username;
         this.nome = nome;
         this.cognome = cognome;
@@ -106,6 +106,7 @@ public class Utente implements Serializable {
         this.email = email;
         this.telefono = telefono;
         this.confermato = confermato;
+        this.foto=foto;
     }
 
 
