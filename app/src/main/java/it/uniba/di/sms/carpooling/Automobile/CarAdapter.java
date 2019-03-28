@@ -14,7 +14,7 @@ import java.util.List;
 import it.uniba.di.sms.carpooling.R;
 
 
-public class AutoAdapter extends RecyclerView.Adapter<AutoAdapter.ProductViewHolder> implements RecyclerView.OnItemTouchListener {
+public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ProductViewHolder> implements RecyclerView.OnItemTouchListener {
 
 
     //this context we will use to inflate the layout
@@ -24,7 +24,7 @@ public class AutoAdapter extends RecyclerView.Adapter<AutoAdapter.ProductViewHol
     private List<Automobile> autoList;
 
     //getting the context and product list with constructor
-    public AutoAdapter(Context mCtx, List<Automobile> autoListParam) {
+    public CarAdapter(Context mCtx, List<Automobile> autoListParam) {
         this.mCtx = mCtx;
         this.autoList = autoListParam;
     }

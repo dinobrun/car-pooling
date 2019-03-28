@@ -13,7 +13,6 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -51,7 +50,7 @@ import it.uniba.di.sms.carpooling.Utente;
 import static android.content.Context.LOCATION_SERVICE;
 
 
-public class InfoPassaggioRichiestoFragment extends Fragment {
+public class InfoRequestedRideFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PASSAGGIO = "passaggio";
@@ -68,14 +67,14 @@ public class InfoPassaggioRichiestoFragment extends Fragment {
     private Utente utente = SharedPrefManager.getInstance(getActivity()).getUser();
 
 
-    public InfoPassaggioRichiestoFragment() {
+    public InfoRequestedRideFragment() {
         // Required empty public constructor
     }
 
 
     // TODO: Rename and change types and number of parameters
-    public static InfoPassaggioRichiestoFragment newInstance(Passaggio passaggioParam) {
-        InfoPassaggioRichiestoFragment fragment = new InfoPassaggioRichiestoFragment();
+    public static InfoRequestedRideFragment newInstance(Passaggio passaggioParam) {
+        InfoRequestedRideFragment fragment = new InfoRequestedRideFragment();
         Bundle args = new Bundle();
         args.putSerializable(PASSAGGIO, passaggioParam);
         fragment.setArguments(args);

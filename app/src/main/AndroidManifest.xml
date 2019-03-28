@@ -36,7 +36,7 @@
         <activity android:name=".Passaggio.TrackingSummaryActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
-        <activity android:name=".Passaggio.PassaggiActivity"
+        <activity android:name=".Passaggio.RidesActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
         <!--

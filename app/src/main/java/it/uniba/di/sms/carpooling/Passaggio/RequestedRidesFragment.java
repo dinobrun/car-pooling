@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ActionMode;
@@ -36,7 +35,7 @@ import it.uniba.di.sms.carpooling.SharedPrefManager;
 import it.uniba.di.sms.carpooling.URLs;
 
 
-public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Callback, SwipeRefreshLayout.OnRefreshListener {
+public class RequestedRidesFragment extends Fragment implements ActionMode.Callback, SwipeRefreshLayout.OnRefreshListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -46,7 +45,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
     private String usernameParam = SharedPrefManager.getInstance(getActivity()).getUser().getUsername();
     //the recyclerview
     RecyclerView recyclerView;
-    private PassaggioRichiestoAdapter adapter;
+    private RequestedRideAdapter adapter;
 
     private ActionMode actionMode;
     private boolean isMultiSelect = false;
@@ -58,7 +57,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
 
 
 
-    public PassaggiRichiestiFragment() {
+    public RequestedRidesFragment() {
         // Required empty public constructor
     }
 
@@ -78,7 +77,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
 
         // SwipeRefreshLayout
         mSwipeRefreshLayout = v.findViewById(R.id.swipe_container);
-        mSwipeRefreshLayout.setOnRefreshListener(PassaggiRichiestiFragment.this);
+        mSwipeRefreshLayout.setOnRefreshListener(RequestedRidesFragment.this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 android.R.color.holo_green_dark,
                 android.R.color.holo_orange_dark,
@@ -91,7 +90,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
 
 
         //creating recyclerview adapter
-        adapter = new PassaggioRichiestoAdapter(getActivity(), listaPassaggi);
+        adapter = new RequestedRideAdapter(getActivity(), listaPassaggi);
 
         //setting adapter to recyclerview
         recyclerView.setAdapter(adapter);
@@ -104,7 +103,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                     multiSelect(position);
                 }
                 else{
-                    InfoPassaggioRichiestoFragment fragment = InfoPassaggioRichiestoFragment.newInstance(listaPassaggi.get(position));
+                    InfoRequestedRideFragment fragment = InfoRequestedRideFragment.newInstance(listaPassaggi.get(position));
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
@@ -118,7 +117,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
                 if (!isMultiSelect) {
                     isMultiSelect = true;
                     if (actionMode == null) {
-                        actionMode = view.startActionMode(PassaggiRichiestiFragment.this); //show ActionMode.
+                        actionMode = view.startActionMode(RequestedRidesFragment.this); //show ActionMode.
                     }
                 }
                 multiSelect(position);
@@ -412,7 +411,7 @@ public class PassaggiRichiestiFragment extends Fragment implements ActionMode.Ca
 
                         //Riavvia il fragment
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        ft.detach(PassaggiRichiestiFragment.this).attach(PassaggiRichiestiFragment.this).commit();
+                        ft.detach(RequestedRidesFragment.this).attach(RequestedRidesFragment.this).commit();
 
 
                     } else {

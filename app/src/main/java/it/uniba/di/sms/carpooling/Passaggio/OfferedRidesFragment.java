@@ -2,18 +2,14 @@ package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,7 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,11 +36,11 @@ import it.uniba.di.sms.carpooling.SharedPrefManager;
 import it.uniba.di.sms.carpooling.URLs;
 
 
-public class PassaggiOffertiFragment extends Fragment implements ActionMode.Callback, SwipeRefreshLayout.OnRefreshListener {
+public class OfferedRidesFragment extends Fragment implements ActionMode.Callback, SwipeRefreshLayout.OnRefreshListener {
 
     //the recyclerview
     private RecyclerView recyclerView;
-    private PassaggioOffertoAdapter adapter;
+    private OfferedRideAdapter adapter;
 
     private ActionMode actionMode;
     private boolean isMultiSelect = false;
@@ -58,7 +53,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
 
     String user = SharedPrefManager.getInstance(getActivity()).getUser().getUsername();
 
-    public PassaggiOffertiFragment() {
+    public OfferedRidesFragment() {
         // Required empty public constructor
     }
 
@@ -81,7 +76,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
 
         // SwipeRefreshLayout
         mSwipeRefreshLayout = v.findViewById(R.id.swipe_container_offerti);
-        mSwipeRefreshLayout.setOnRefreshListener(PassaggiOffertiFragment.this);
+        mSwipeRefreshLayout.setOnRefreshListener(OfferedRidesFragment.this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 android.R.color.holo_green_dark,
                 android.R.color.holo_orange_dark,
@@ -93,7 +88,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         //creating recyclerview adapter
-        adapter = new PassaggioOffertoAdapter(getActivity(), listaPassaggi);
+        adapter = new OfferedRideAdapter(getActivity(), listaPassaggi);
 
         //setting adapter to recyclerview
         recyclerView.setAdapter(adapter);
@@ -130,7 +125,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                     multiSelect(position);
                 }
                 else{
-                    InfoPassaggioOffertoFragment fragment = InfoPassaggioOffertoFragment.newInstance(listaPassaggi.get(position));
+                    InfoOfferedRideFragment fragment = InfoOfferedRideFragment.newInstance(listaPassaggi.get(position));
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
@@ -145,7 +140,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
                     selectedIds = new ArrayList<>();
                     isMultiSelect = true;
                     if (actionMode == null) {
-                        actionMode = view.startActionMode(PassaggiOffertiFragment.this); //show ActionMode.
+                        actionMode = view.startActionMode(OfferedRidesFragment.this); //show ActionMode.
                     }
                 }
                 multiSelect(position);
@@ -404,7 +399,7 @@ public class PassaggiOffertiFragment extends Fragment implements ActionMode.Call
 
                         //Riavvia il fragment
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        ft.detach(PassaggiOffertiFragment.this).attach(PassaggiOffertiFragment.this).commit();
+                        ft.detach(OfferedRidesFragment.this).attach(OfferedRidesFragment.this).commit();
 
 
                     } else {

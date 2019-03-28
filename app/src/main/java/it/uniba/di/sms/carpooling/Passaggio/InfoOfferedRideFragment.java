@@ -2,14 +2,12 @@ package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -18,7 +16,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -65,7 +62,7 @@ import it.uniba.di.sms.carpooling.Utente;
 import static android.content.Context.LOCATION_SERVICE;
 
 
-public class InfoPassaggioOffertoFragment extends Fragment {
+public class InfoOfferedRideFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PASSAGGIO = "passaggio";
@@ -93,14 +90,14 @@ public class InfoPassaggioOffertoFragment extends Fragment {
 
     private static final int PERMISSIONS_REQUEST = 100;
 
-    public InfoPassaggioOffertoFragment() {
+    public InfoOfferedRideFragment() {
         // Required empty public constructor
     }
 
 
     // TODO: Rename and change types and number of parameters
-    public static InfoPassaggioOffertoFragment newInstance(Passaggio passaggioParam) {
-        InfoPassaggioOffertoFragment fragment = new InfoPassaggioOffertoFragment();
+    public static InfoOfferedRideFragment newInstance(Passaggio passaggioParam) {
+        InfoOfferedRideFragment fragment = new InfoOfferedRideFragment();
         Bundle args = new Bundle();
         args.putSerializable(PASSAGGIO, passaggioParam);
         fragment.setArguments(args);

@@ -32,7 +32,7 @@ import it.uniba.di.sms.carpooling.Automobile.Automobile;
 import it.uniba.di.sms.carpooling.Automobile.CarListFragment;
 import it.uniba.di.sms.carpooling.Passaggio.CreateRideFragment;
 import it.uniba.di.sms.carpooling.Passaggio.FindRideFragment;
-import it.uniba.di.sms.carpooling.Passaggio.PassaggiActivity;
+import it.uniba.di.sms.carpooling.Passaggio.RidesActivity;
 
 public class HomeActivity extends AppCompatActivity implements CreateRideFragment.OnFragmentInteractionListener{
 
@@ -118,7 +118,7 @@ public class HomeActivity extends AppCompatActivity implements CreateRideFragmen
 
                             switch (menuItem.getItemId()) {
                                 case R.id.rides_section:
-                                    Intent openMyRides = new Intent(HomeActivity.this, PassaggiActivity.class);
+                                    Intent openMyRides = new Intent(HomeActivity.this, RidesActivity.class);
                                     startActivity(openMyRides);
                                     break;
 

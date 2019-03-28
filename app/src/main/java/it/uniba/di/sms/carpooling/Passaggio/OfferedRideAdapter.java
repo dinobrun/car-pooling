@@ -1,13 +1,8 @@
 package it.uniba.di.sms.carpooling.Passaggio;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +19,7 @@ import java.util.Locale;
 
 import it.uniba.di.sms.carpooling.R;
 
-
-public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRichiestoAdapter.ProductViewHolder> {
-
-
+public class OfferedRideAdapter extends RecyclerView.Adapter<OfferedRideAdapter.ProductViewHolder>  {
     //this context we will use to inflate the layout
     private Context mCtx;
 
@@ -35,23 +27,24 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
     private List<Passaggio> passaggioList;
     private List<Integer> selectedIds = new ArrayList<>();
 
+
     //getting the context and product list with constructor
-    public PassaggioRichiestoAdapter(Context mCtx, List<Passaggio> passaggioList) {
+    public OfferedRideAdapter(Context mCtx, List<Passaggio> passaggioList) {
         this.mCtx = mCtx;
         this.passaggioList = passaggioList;
     }
 
     @Override
-    public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public OfferedRideAdapter.ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.list_passaggio_richiesto, null);
+        View view = inflater.inflate(R.layout.list_passaggio_offerto, null);
         view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
-        return new ProductViewHolder(view);
+        return new OfferedRideAdapter.ProductViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ProductViewHolder holder, int position) {
+    public void onBindViewHolder(OfferedRideAdapter.ProductViewHolder holder, int position) {
         //getting the product of the specified position
         Passaggio passaggio = passaggioList.get(position);
 
@@ -66,38 +59,25 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
             holder.overlayLayout.setVisibility(View.INVISIBLE);
         }
 
-        if(passaggio.getFoto() != null){
-            byte[] decodedString = Base64.decode(passaggio.getFoto(), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            holder.profileImage.setImageBitmap(decodedByte);
-        }else{
-            holder.profileImage.setBackgroundResource(R.drawable.no_profile);
+
+        if(passaggio.getDirezione()==0){
+            holder.profileImage.setImageResource(R.drawable.one_way_icon);
+            holder.lblDirection.setText(R.string.one_way);
+            holder.lblDirection.setTextColor(Color.rgb(16,163,23));
+        }
+        else if(passaggio.getDirezione()==1){
+            holder.profileImage.setImageResource(R.drawable.return_icon);
+            holder.lblDirection.setText(R.string.backHome);
+            holder.lblDirection.setTextColor(Color.rgb(204,0,0));
         }
 
-        holder.textViewTitle.setText(passaggio.getNomeAutista() + " " + passaggio.getCognomeAutista());
         holder.textViewShortDesc.setText(passaggio.getAutomobile());
 
-        switch (passaggio.getConfermato()){
-            case 0:
-                holder.textViewRating.setText(R.string.wait_conferm);
-                holder.textViewRating.setTextColor(Color.rgb(255,165,0));
-                break;
-            case 1:
-                holder.textViewRating.setText(R.string.confermed);
-                holder.textViewRating.setTextColor(Color.rgb(139,195,74));
-                break;
-            case 2:
-                holder.textViewRating.setText(R.string.rejected);
-                holder.textViewRating.setTextColor(Color.rgb(255,0,0));
-                break;
-            default:
-                holder.textViewRating.setText(R.string.wait_conferm);
+        //if there are pending requests
+        if(passaggio.getRichiesteInSospeso() > 0){
+            holder.textViewRating.setTextColor(Color.rgb(255,0,0));
         }
-
-        if(passaggio.getConcluso() != 0){
-            holder.textViewConcluded.setVisibility(View.VISIBLE);
-            holder.textViewConcluded.setTextColor(Color.rgb(255,0,0));
-        }
+        holder.textViewRating.setText(Integer.toString(passaggio.getRichiesteInSospeso()));
 
 
         // First convert the String to a Date
@@ -111,6 +91,10 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+
+
+
     }
 
     @Override
@@ -128,21 +112,26 @@ public class PassaggioRichiestoAdapter extends RecyclerView.Adapter<PassaggioRic
     }
 
 
+
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewTitle, textViewShortDesc, textViewRating, textViewPrice, textViewConcluded;
+        TextView lblDirection, textViewShortDesc, textViewRating, textViewPrice;
         ImageView profileImage;
         RelativeLayout overlayLayout;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
-            textViewTitle = itemView.findViewById(R.id.textViewUsername);
             textViewShortDesc = itemView.findViewById(R.id.textViewShortDesc);
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             profileImage = itemView.findViewById(R.id.tripImage);
-            textViewConcluded = itemView.findViewById(R.id.lblConcluded);
+            lblDirection = itemView.findViewById(R.id.lblDirection);
             overlayLayout = itemView.findViewById(R.id.overlayLayout);
         }
+
     }
+
+
+
+
 }

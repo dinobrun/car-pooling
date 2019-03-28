@@ -11,7 +11,7 @@ import android.view.View;
 import it.uniba.di.sms.carpooling.R;
 import it.uniba.di.sms.carpooling.SectionsPageAdapter;
 
-public class PassaggiActivity extends AppCompatActivity {
+public class RidesActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
@@ -31,11 +31,11 @@ public class PassaggiActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.my_rides);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
 
-        (PassaggiActivity.this).setSupportActionBar(toolbar);
+        (RidesActivity.this).setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PassaggiActivity.this.onBackPressed();
+                RidesActivity.this.onBackPressed();
             }
         });
 
@@ -54,8 +54,8 @@ public class PassaggiActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(new PassaggiRichiestiFragment(), getString(R.string.requested_rides));
-        adapter.addFragment(new PassaggiOffertiFragment(),getString(R.string.offered_rides));
+        adapter.addFragment(new RequestedRidesFragment(), getString(R.string.requested_rides));
+        adapter.addFragment(new OfferedRidesFragment(),getString(R.string.offered_rides));
 
         viewPager.setAdapter(adapter);
     }

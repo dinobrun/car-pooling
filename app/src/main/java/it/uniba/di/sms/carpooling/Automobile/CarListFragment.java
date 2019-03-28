@@ -44,7 +44,7 @@ public class CarListFragment extends Fragment {
     int numPostiInput;
     String username;
     RecyclerView recyclerView;
-    AutoAdapter adapter;
+    CarAdapter adapter;
     ArrayList<Automobile> listaAutomobiliUltima = new ArrayList<>();
 
     RelativeLayout overlayLayout;
@@ -260,8 +260,6 @@ public class CarListFragment extends Fragment {
 
                     //if no error in response
                     if (!obj.getBoolean("error")) {
-                        Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
                         //Riavvia il fragment
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.detach(CarListFragment.this).attach(CarListFragment.this).commit();
@@ -339,7 +337,7 @@ public class CarListFragment extends Fragment {
                         }
 
                         //creating recyclerview adapter
-                        adapter = new AutoAdapter(getActivity(), automobili);
+                        adapter = new CarAdapter(getActivity(), automobili);
 
                         //setting adapter to recyclerview
                         recyclerView.setAdapter(adapter);
@@ -399,9 +397,9 @@ public class CarListFragment extends Fragment {
                         if (!obj.getBoolean("error")) {
                             listaAutomobiliUltima.remove(auto);
                             adapter.notifyDataSetChanged();
-                            Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(getActivity(), R.string.deleted_car_impossible, Toast.LENGTH_SHORT).show();
                         }
 
 

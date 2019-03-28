@@ -149,7 +149,7 @@ public class TrackingActivity extends AppCompatActivity {
         idPassaggio = getIntent().getExtras().getInt("id_passaggio");
         isPassenger = getIntent().getExtras().getBoolean("passenger");
 
-       // adapterPassengers = new PassaggioOffertoAdapter(this, listaPassaggi);
+       // adapterPassengers = new OfferedRideAdapter(this, listaPassaggi);
 
 
 //Check whether GPS tracking is enabled//

@@ -66,7 +66,7 @@ public class Passaggio implements Serializable {
         return foto;
     }
 
-    //costruttore PassaggiOffertiFragment
+    //costruttore OfferedRidesFragment
     public Passaggio(int id, String usernameAutista, String indirizzo, String data, String automobile, String azienda, int direzione, int numPosti, int concluso, boolean iniziato) {
         this.id = id;
         this.usernameAutista = usernameAutista;
@@ -82,7 +82,7 @@ public class Passaggio implements Serializable {
 
 
 
-    //costruttore PassaggiRichiestiFragment
+    //costruttore RequestedRidesFragment
     public Passaggio(int id, String indirizzo, String nomeAutista, String cognomeAutista, String telefonoAutista, String data, String automobile, String azienda, int direzione, int numPosti, int confermato, String foto, int concluso, boolean iniziato) {
         this.id=id;
         this.indirizzo = indirizzo;
