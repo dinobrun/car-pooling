@@ -22,6 +22,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -168,12 +169,7 @@ public class InfoOfferedRideFragment extends Fragment {
             }
         });
 
-        //enable start button if ride is not finished
-        if(passaggioParam.getConcluso()==0){
-            startTracking.setEnabled(true);
-        }else{
-            startTracking.setText(R.string.concluded);
-        }
+
 
         txtNome = v.findViewById(R.id.txtNome);
         txtCognome = v.findViewById(R.id.txtCognome);
@@ -261,6 +257,16 @@ public class InfoOfferedRideFragment extends Fragment {
         Date date = null;
         try {
             date = dateParser.parse(passaggioParam.getData());
+
+                //enable start button if ride is not finished
+            if(passaggioParam.getConcluso()==0){
+                //check if date is today
+                if(DateUtils.isToday(date.getTime())) {
+                    startTracking.setEnabled(true);
+                }
+            }else{
+                startTracking.setText(R.string.concluded);
+            }
             // Then convert the Date to a String, formatted as you dd/MM/yyyy
             SimpleDateFormat dateFormatter = new SimpleDateFormat("E d MMM yyyy HH:mm", Locale.ITALY);
             dataText.append(": " + dateFormatter.format(date));

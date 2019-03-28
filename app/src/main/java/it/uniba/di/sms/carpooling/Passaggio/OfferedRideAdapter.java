@@ -79,6 +79,11 @@ public class OfferedRideAdapter extends RecyclerView.Adapter<OfferedRideAdapter.
         }
         holder.textViewRating.setText(Integer.toString(passaggio.getRichiesteInSospeso()));
 
+        if(passaggio.getConcluso() != 0){
+            holder.textViewConcluded.setTextColor(Color.rgb(255,0,0));
+            holder.textViewConcluded.setVisibility(View.VISIBLE);
+        }
+
 
         // First convert the String to a Date
         SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.ITALIAN);
@@ -115,7 +120,7 @@ public class OfferedRideAdapter extends RecyclerView.Adapter<OfferedRideAdapter.
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView lblDirection, textViewShortDesc, textViewRating, textViewPrice;
+        TextView lblDirection, textViewShortDesc, textViewRating, textViewPrice, textViewConcluded;;
         ImageView profileImage;
         RelativeLayout overlayLayout;
 
@@ -126,6 +131,7 @@ public class OfferedRideAdapter extends RecyclerView.Adapter<OfferedRideAdapter.
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             profileImage = itemView.findViewById(R.id.tripImage);
             lblDirection = itemView.findViewById(R.id.lblDirection);
+            textViewConcluded = itemView.findViewById(R.id.lblConcluded);
             overlayLayout = itemView.findViewById(R.id.overlayLayout);
         }
 
