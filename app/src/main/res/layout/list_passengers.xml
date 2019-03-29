@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -20,19 +21,27 @@
 
             <TextView
                 android:id="@+id/textViewNome"
-                android:layout_width="match_parent"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iconPassenger"/>
 
-            <TextView
-                android:id="@+id/textViewCognome"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/iconPassenger"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:srcCompat="@drawable/profile_icon"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="5dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewNome"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
 
         </android.support.constraint.ConstraintLayout>

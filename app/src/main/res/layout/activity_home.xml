@@ -68,7 +68,6 @@
                 app:elevation="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.515"
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/add_ride_icon" />
 
@@ -94,8 +93,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="40dp"
+                android:layout_marginEnd="8dp"
                 android:text="@string/findRide"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="25dp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/my_toolbar" />
@@ -108,7 +110,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/newRide"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="15dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/btnCreateRide"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

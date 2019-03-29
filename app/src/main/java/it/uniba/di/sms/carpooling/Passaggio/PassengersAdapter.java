@@ -43,8 +43,7 @@ public class PassengersAdapter extends RecyclerView.Adapter<PassengersAdapter.Pr
         Utente utente = passeggeriList.get(position);
 
         //binding the data with the viewholder views
-        holder.textViewNome.setText(utente.getNome());
-        holder.textViewCognome.setText(utente.getCognome());
+        holder.textViewNome.setText(utente.getNome().concat(" " + utente.getCognome()));
     }
 
 
@@ -78,7 +77,6 @@ public class PassengersAdapter extends RecyclerView.Adapter<PassengersAdapter.Pr
             super(itemView);
 
             textViewNome = itemView.findViewById(R.id.textViewNome);
-            textViewCognome = itemView.findViewById(R.id.textViewCognome);
         }
     }
 }
