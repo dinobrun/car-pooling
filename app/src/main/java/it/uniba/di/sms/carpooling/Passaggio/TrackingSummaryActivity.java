@@ -85,8 +85,6 @@ public class TrackingSummaryActivity extends AppCompatActivity {
             myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
             setSupportActionBar(myToolbar);
 
-            Toast.makeText(TrackingSummaryActivity.this, Integer.toString(idPassaggio),Toast.LENGTH_SHORT).show();
-
 
 
             finishButton = findViewById(R.id.finish_button);

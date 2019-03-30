@@ -226,7 +226,7 @@ public class InfoRequestedRideFragment extends Fragment {
         //Show button if ride is started and not finished
         if(passaggioParam.isIniziato() && passaggioParam.getConcluso()==0){
             buttonTracking.setEnabled(true);
-        }else{
+        }else if(passaggioParam.getConcluso()!=0){
             buttonTracking.setText(R.string.concluded);
         }
 
