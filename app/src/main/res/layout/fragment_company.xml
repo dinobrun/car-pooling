@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFF"
     android:clickable="true"
-    android:focusable="true">
+    >
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -36,29 +36,27 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="144dp"
             android:text="@string/signup"
             android:textColor="#fff"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/companySpinner" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="20dp"/>
 
         <Button
             android:id="@+id/takePhotoButton"
-            android:layout_width="26dp"
-            android:layout_height="25dp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="40dp"
+            android:layout_height="43dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="132dp"
             android:layout_marginEnd="8dp"
-            android:background="@android:color/holo_orange_dark"
             android:text="+"
             android:textColor="#fff"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/my_toolbar_2" />
+            app:layout_constraintBottom_toBottomOf="@+id/imageProfile"
+            android:layout_marginBottom="1dp"
+            app:layout_constraintEnd_toEndOf="@+id/imageProfile" />
 
         <ImageView
             android:id="@+id/imageProfile"

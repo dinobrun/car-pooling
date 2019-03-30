@@ -93,7 +93,7 @@ public class HomeActivity extends AppCompatActivity implements CreateRideFragmen
             setContentView(R.layout.activity_home);
 
             overlayLayout = findViewById(R.id.overlayLayout);
-            progressBar = findViewById(R.id.progressBar);
+            progressBar = findViewById(R.id.progressBarHome);
 
             //get the logged username
             user = SharedPrefManager.getInstance(getApplicationContext()).getUser().getUsername();
