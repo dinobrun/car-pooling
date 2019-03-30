@@ -49,7 +49,8 @@ public class HomeActivity extends AppCompatActivity implements CreateRideFragmen
         super.onCreate(savedInstanceState);
 
         //if user is not authorized
-        if(SharedPrefManager.getInstance(HomeActivity.this).getUser().getAutorizzato()==0){
+        if(SharedPrefManager.getInstance(HomeActivity.this).getUser().getAutorizzato()==0 ||
+                SharedPrefManager.getInstance(HomeActivity.this).getUser().getAutorizzato()==2){
             setContentView(R.layout.fragment_not_accepted);
             user = SharedPrefManager.getInstance(getApplicationContext()).getUser().getUsername();
             drawerLayout = findViewById(R.id.home_layout);
