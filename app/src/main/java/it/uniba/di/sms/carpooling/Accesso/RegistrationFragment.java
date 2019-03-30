@@ -186,7 +186,7 @@ public class RegistrationFragment extends Fragment {
         FragmentManager manager=getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
-        transaction.add(R.id.company_fragment, companyFrag, companyFrag.getTag()).commit();
+        transaction.add(R.id.company_fragment, companyFrag, "BLANK_FRAGMENT").commit();
     }
 
 
