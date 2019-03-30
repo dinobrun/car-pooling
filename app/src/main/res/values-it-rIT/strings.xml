@@ -36,7 +36,7 @@
     <string name="invalid">Username o password errate.</string>
 
     <string name="title_activity_maps">Mappe</string>
-    <string name="google_maps_key" translatable="false">AIzaSyBGfK-jnFMa247Bm80UM5quqL15i-0hnjI</string>
+
     <string name="login">Accedi</string>
     <string name="signup">Registrati</string>
     <string name="summary">Risultati</string>
@@ -119,5 +119,6 @@
     <string name="punti_guadagnati">Punti guadagnati:</string>
     <string name="error_tracking">Si è verificato un errore durante il tracking</string>
     <string name="seats_available">Posti disponibili</string>
+    <string name="user_exist">Username già esistente</string>
 
 </resources>

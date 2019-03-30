@@ -55,7 +55,7 @@ public class HomeActivity extends AppCompatActivity implements CreateRideFragmen
             drawerLayout = findViewById(R.id.home_layout);
 
             overlayLayout = findViewById(R.id.overlayLayout);
-            progressBar = findViewById(R.id.progressBar);
+            progressBar = findViewById(R.id.progressBarHome);
 
             myToolbar = findViewById(R.id.my_toolbar);
             myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));

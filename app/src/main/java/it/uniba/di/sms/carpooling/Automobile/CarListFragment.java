@@ -95,7 +95,7 @@ public class CarListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_car_list, container, false);
 
         overlayLayout = v.findViewById(R.id.overlayLayout);
-        progressBar = v.findViewById(R.id.progressBar);
+        progressBar = v.findViewById(R.id.progressBarAuto);
 
 
 
@@ -241,7 +241,6 @@ public class CarListFragment extends Fragment {
             protected void onPreExecute() {
                 super.onPreExecute();
                 //displaying the progress bar while user registers on the server
-                overlayLayout.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.VISIBLE);
             }
 
@@ -251,7 +250,6 @@ public class CarListFragment extends Fragment {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 //hiding the progressbar after completion
-                overlayLayout.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
 
                 try {
@@ -305,7 +303,6 @@ public class CarListFragment extends Fragment {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                overlayLayout.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.VISIBLE);
             }
 
@@ -313,7 +310,6 @@ public class CarListFragment extends Fragment {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 //hiding the progressbar after completion
-                overlayLayout.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
 
                 try {

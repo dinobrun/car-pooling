@@ -124,6 +124,8 @@
     <string name="error_tracking">An error occurred during tracking</string>
     <string name="seats_available">Available seats</string>
     <string name="deleted_car_impossible">You cannot delete a car used to give rides</string>
+    <string name="user_exist">Username already exists</string>
+    <string name="google_maps_key" translatable="false">AIzaSyBGfK-jnFMa247Bm80UM5quqL15i-0hnjI</string>
 
     <string-array name="postiAutoList">
         <item>1</item>
