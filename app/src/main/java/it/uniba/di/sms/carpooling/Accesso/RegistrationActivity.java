@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
@@ -35,6 +36,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     private EditText txtEmail;
     private Toolbar toolbar;
     Button nextButton;
+    ProgressBar progressBar;
 
 
 
@@ -130,12 +132,15 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                progressBar =findViewById(R.id.progressBarRegistration);
+                progressBar.setVisibility(View.VISIBLE);
 
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+                progressBar.setVisibility(View.GONE);
 
                 try {
                     //converting response to json object
@@ -146,7 +151,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
                         //open RegistrationFragment
                         openRegistrationFragment(username,password,email);
                     } else {
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.user_exist, Toast.LENGTH_SHORT).show();
                     }
                 }catch (JSONException e){
                     e.printStackTrace();
